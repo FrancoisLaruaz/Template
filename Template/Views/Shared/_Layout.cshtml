@@ -1,0 +1,28 @@
+﻿@using System.Web.Optimization;
+<!DOCTYPE html>
+
+<html>
+<head>
+    @Html.Partial("~/Views/Shared/Layout/_MetaTags.cshtml")
+    <title>@Commons.Const.WebsiteTitle</title>
+	<link rel="shortcut icon" href="@Url.Content("~/Ressources/Files/Images/icone.ico")" type="image/x-icon">
+    <link rel="icon" href="@Url.Content("~/Ressources/Files/Images/icone.ico")" type="image/x-icon">
+    
+    @Styles.Render("~/bundles/Bootstrap")
+    @Styles.Render("~/bundles/Style")
+    @Html.Partial("~/Views/Shared/Layout/_Scripts.cshtml")
+
+
+</head>
+<body>
+    @Html.Action("_Header", "Home")
+    <div style="min-height:70vh;">
+        @RenderBody()
+    </div>
+    @Html.Partial("~/Views/Shared/Layout/_Footer.cshtml")
+
+    @Html.Partial("~/Views/Shared/Layout/_PartialBackToTop.cshtml")
+    @Html.Partial("~/Views/Shared/Layout/_Spinner.cshtml")
+    @Html.Partial("~/Views/Shared/Layout/_GoogleAnalytics.cshtml")
+</body>
+</html>

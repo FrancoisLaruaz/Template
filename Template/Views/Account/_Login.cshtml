@@ -1,0 +1,48 @@
+﻿@model Models.ViewModels.LoginViewModel
+
+
+
+<div>
+    <div class="container-fluid">
+        <div class="main-content" id="LoginDiv">
+            @using (Ajax.BeginForm("Login", new { }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "LoginSuccess", OnFailure = "LoginFailure",UpdateTargetId= "LoginDiv",InsertionMode=InsertionMode.Replace }, new { @id = "LoginForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.URLRedirect)
+                <div class="row">
+                    
+                    <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-4">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="form-group websiteFormGroup">
+                                <div class="col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Email" })         
+                                </div>
+                                @Html.ValidationMessageFor(m => m.Email)
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-12">
+                            <div class="form-group websiteFormGroup">
+                                <div class="col-sm-12 col-xs-12">
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Password" })
+                                    
+                                </div>
+                                @Html.ValidationMessageFor(m => m.Password)
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-md-12">
+                            <div class="form-group websiteFormGroup">
+                                <div class="col-sm-12 col-xs-12">
+                                    <input type="submit" value="Login" class="btn register-btn" id="SubmitButton" style="display:none"  />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/Views/Account/Login.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>

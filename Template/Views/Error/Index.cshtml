@@ -1,0 +1,18 @@
+﻿
+
+@Html.Partial("_PageTitle")
+<div>
+    <div class="container-fluid">
+        <div class="main-content">
+            <h2>Oups...An error has occured :(</h2>
+            @{
+                if (!String.IsNullOrEmpty(ViewBag.ErrorType))
+                {
+                    <h5>@ViewBag.ErrorType</h5>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/General/StopSpinner.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>

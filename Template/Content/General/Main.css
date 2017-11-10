@@ -1,0 +1,78 @@
+.titre
+{
+    color:red;
+}
+
+.brand-logo {
+    display: block;
+    height:40px;
+}
+
+#homeNavDefault.navbar-default {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.main-content {
+    margin: 30px 0 0px 0 !important;
+}
+
+.nav-tabs > li > a {
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    line-height: 1.42857;
+    margin-right: 2px;
+    BACKGROUND: #EEE;
+    COLOR: #555;
+}
+
+.form-group.required .control-label:after {
+    content: "*";
+    color: red;
+}
+
+.websiteFormGroup
+{
+    margin-top:20px;
+}
+
+.bgColorWebsite {
+    background-color: #6699ff !important;
+}
+
+.ColorWebsite {
+    color: #6699ff !important;
+}
+
+.register-btn {
+    background: none repeat scroll 0 0 #6699ff;
+    color: #ffffff;
+    margin: 20px 0 10px 0;
+    text-align: center;
+    padding: 10px;
+    opacity: 1;
+    border: 0px;
+    text-decoration: none;
+    display: block;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    transform: translate(0, 0);
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+    line-height: 24px;
+    cursor: pointer;
+    box-shadow: 0 2px 0 #6699ff;
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 2.4rem;
+    padding: 15px 40px;
+}

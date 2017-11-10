@@ -1,0 +1,55 @@
+﻿
+
+<header class="sub-nav">
+    @Html.Hidden("CentralGoToUrl")
+    <nav class="navbar navbar-default navigation" id="homeNavDefault">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                    <img class="brand-logo" src="~/Ressources/Files/Images/Logo.png" />
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right" id="ulForHomeControl">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="">Sous Menu 1</a></li>
+                            <li><a href="">Sous Menu 2</a></li>
+                            <li><a href="">Sous Menu 3</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Admin/Logs">Logs</a></li>
+                            <li><a href="/Admin/EmailAudits">Email Audits</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="/Login" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<script>
+    function recordGoToUrl(shouldGoTo=null) {
+        console.log("In recordGoToUrl func.");
+        if (shouldGoTo == null) {
+            $('#CentralGoToUrl').val('@HttpContext.Current.Request.Url.AbsolutePath'); // optional param not passed in, so use current page url
+        } else {
+            $('#CentralGoToUrl').val(shouldGoTo);
+        }
+    }
+</script>
+
+<script src="~/Scripts/Views/Shared/_Header.js"></script>

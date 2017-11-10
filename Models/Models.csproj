@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A4F9419F-48B6-42F0-AB2E-38409733E1D4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Models</RootNamespace>
+    <AssemblyName>Models</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BDDObject\UserRole.cs" />
+    <Compile Include="BDDObject\Province.cs" />
+    <Compile Include="BDDObject\Extensions\Category.cs" />
+    <Compile Include="BDDObject\Extensions\EMailAudit.cs" />
+    <Compile Include="BDDObject\Extensions\User.cs" />
+    <Compile Include="BDDObject\Log4Net.cs" />
+    <Compile Include="BDDObject\EMailAudit.cs" />
+    <Compile Include="BDDObject\Category.cs" />
+    <Compile Include="BDDObject\Country.cs" />
+    <Compile Include="BDDObject\User.cs" />
+    <Compile Include="Class\FileUpload.cs" />
+    <Compile Include="Class\Email.cs" />
+    <Compile Include="Class\BaseModelPager.cs" />
+    <Compile Include="Class\SelectionListItem.cs" />
+    <Compile Include="BDDObject\Extensions\UserRole.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Account\LoginViewModel.cs" />
+    <Compile Include="ViewModel\Admin\DisplayEmailAuditViewModel.cs" />
+    <Compile Include="ViewModel\Admin\IAdminViewModel.cs" />
+    <Compile Include="ViewModel\Admin\DisplayLogsViewModel.cs" />
+    <Compile Include="ViewModel\Admin\LogsViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

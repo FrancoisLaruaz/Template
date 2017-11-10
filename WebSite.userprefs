@@ -1,0 +1,27 @@
+﻿<Properties StartupConfiguration="{CBC6664F-AE79-4DB7-8507-C005FFF0C3A6}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../Template/Template/Views/Home/Index.cshtml">
+    <Files>
+      <File FileName="../../../Template/Template/Controllers/BaseController.cs" Line="7" Column="1" />
+      <File FileName="../../../Template/Template/Controllers/HomeController.cs" Line="1" Column="1" />
+      <File FileName="../../../Template/Template/Views/Shared/_Layout.cshtml" Line="10" Column="41" />
+      <File FileName="../../../Template/Template/Views/Home/Index.cshtml" Line="2" Column="1" />
+      <File FileName="../../../Template/Template/Scripts/General/Toastr.js" Line="307" Column="1" />
+      <File FileName="../../../Template/Template/Scripts/General/ToastrHelper.js" Line="21" Column="31" />
+      <File FileName="../../../Template/Template/Scripts/General/Utils.js" Line="10" Column="2" />
+      <File FileName="../../../Template/Template/Scripts/General/Main.js" Line="3" Column="5" />
+      <File FileName="../../../Template/Template/Scripts/General/SweetAlertHelper.js" Line="19" Column="7" />
+      <File FileName="../../../Template/Template/Scripts/General/SweetAlert.js" Line="1" Column="79" />
+      <File FileName="../../../Template/Commons/Class/FormaterHelper.cs" Line="1" Column="1" />
+      <File FileName="../../../Template/Commons/Class/FileHelper.cs" Line="1" Column="1" />
+      <File FileName="../../../Template/Commons/Class/Const.cs" Line="18" Column="99" />
+      <File FileName="../../../Template/Template/Scripts/General/Error.js" Line="117" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.WebSite PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
