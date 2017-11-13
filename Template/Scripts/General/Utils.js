@@ -83,3 +83,13 @@ function SetEnterKey(IdElement) {
         }
     });
 }
+
+
+function SetValidationForm(IdForm) {
+    var Form = $("#" + IdForm);
+    if (Form) {
+        $(Form).removeData("validator");
+        $(Form).removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse("#" + IdForm);
+    }
+}

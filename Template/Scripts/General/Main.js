@@ -5,7 +5,7 @@ $(document).ready(function () {
             ShowSpinner();
         });
     });
-
+   
 
     $(document)
         .ajaxStart(function () {

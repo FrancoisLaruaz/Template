@@ -26,6 +26,9 @@ namespace Commons
         static string CompanyFooter = "Zaural Website is a registered trademark";
         static string ColorElement = "#6699ff";
         static string ColorText = "black";
+        static string SizeText = "1rem";
+        static string SizeTextButton = "1.1rem";
+        static string SizeTextFooter = "0.9rem";
 
 
         public static List<Tuple<string, string>> GetGenericEmailContent()
@@ -41,6 +44,10 @@ namespace Commons
                 GenericEmailContent.Add(new Tuple<string, string>("#CompanyFooter#", CompanyFooter));
                 GenericEmailContent.Add(new Tuple<string, string>("#ColorElement#", ColorElement));
                 GenericEmailContent.Add(new Tuple<string, string>("#ColorText#", ColorText));
+                GenericEmailContent.Add(new Tuple<string, string>("#WebsiteTitle#", Const.WebsiteTitle));
+                GenericEmailContent.Add(new Tuple<string, string>("#SizeText#", SizeText));
+                GenericEmailContent.Add(new Tuple<string, string>("#SizeTextButton#", SizeTextButton));
+                GenericEmailContent.Add(new Tuple<string, string>("#SizeTextFooter#", SizeTextFooter));
             }
             catch (Exception e)
             {
@@ -73,7 +80,7 @@ namespace Commons
                 if (!String.IsNullOrWhiteSpace(Email.EMailTemplate) && !String.IsNullOrWhiteSpace(Email.ToEmail))
                 {
                     string TemplateName = Email.EMailTemplate;
-
+                    Email.Subject = "#WebsiteTitle# - " + Email.Subject;
 
                     var smtp = new SmtpClient
                     {
@@ -140,7 +147,6 @@ namespace Commons
                         smtp.Send(message);
                     }
                     result = true;
-
                 }
             }
             catch (Exception e)

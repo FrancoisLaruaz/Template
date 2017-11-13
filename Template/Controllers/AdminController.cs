@@ -59,6 +59,7 @@ namespace Website.Controllers
         public ActionResult Logs()
         {
             LogsViewModel Model = new LogsViewModel();
+
             try
             {
                 ViewBag.Title = "Logs";

@@ -1,0 +1,41 @@
+.navigation li a {
+    padding: 10px 20px 10px 20px;
+    line-height: 40px;
+}
+
+
+.brand-logoNav {
+    height: 40px;
+    display: block;
+}
+
+
+
+.sub-nav .navbar {
+    margin: 0;
+}
+
+#homeNavDefault.navbar-default {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+
+
+.nav-tabs > li > a {
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    line-height: 1.42857;
+    margin-right: 2px;
+    BACKGROUND: #EEE;
+    COLOR: #555;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+}
+
+.navigationLink {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+}

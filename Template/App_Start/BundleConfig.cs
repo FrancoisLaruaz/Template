@@ -9,14 +9,30 @@ namespace Template
     {
         public static void RegisterJSBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/Scripts/Scripts").Include(
+
+             bundles.Add(new ScriptBundle("~/Scripts/JQuery").Include(
+            "~/Scripts/jquery-2.2.3.min.js",
             "~/Scripts/jquery-ui.min.js",
+            "~/Scripts/jquery.unobtrusive-ajax.min.js",
+            "~/Scripts/jquery.validate.min.js",
+            "~/Scripts/jquery.validate.unobtrusive.min.js"
+            ));
+
+            bundles.Add(new ScriptBundle("~/Scripts/ScriptsErrors").Include(
+            "~/Scripts/General/Toastr.js",
+            "~/Scripts/General/ToastrHelper.js",
+            "~/Scripts/General/Error.js"
+            ));
+
+          
+            bundles.Add(new ScriptBundle("~/Scripts/Scripts").Include(
+            "~/Scripts/General/Responsive.js",
+             "~/Scripts/moment.min.js",
              "~/Scripts/bootstrap-datetimepicker.min.js",
-            "~/Scripts/moment.min.js",
              "~/Scripts/General/daterangepicker.js",
-             "~/Scripts/jquery.unobtrusive-ajax.min.js",
-             "~/Scripts/jquery.validate.min.js",
-            "~/Scripts/jquery.validate.unobtrusive.min.js",
+             "~/Scripts/General/Cookie.js",
+             "~/Scripts/General/BackToTop.js",
+            "~/Scripts/General/Utils.js",
             "~/Scripts/bootstrap.min.js",
             "~/Scripts/General/bootstrap-datepicker.js",
             "~/Scripts/General/bootstrap-slider.js",
@@ -29,8 +45,10 @@ namespace Template
             "~/Scripts/General/FileDropHelper.js",
             "~/Scripts/General/Highcharts.js",
             "~/Scripts/General/HighchartsExporting.js",
-            "~/Scripts/General/HighchartsHelper.js"
+            "~/Scripts/General/HighchartsHelper.js",
+            "~/Scripts/General/Main.js"
             ));
+           
         }
 
         public static void RegisterCSSBundles(BundleCollection bundles)
@@ -46,7 +64,7 @@ namespace Template
                 "~/Content/General/animate.css",
                 "~/Content/General/_Spinner.css",
                 "~/Content/General/DragAndDrop.css",
-                "~/Content/General/font-awesome.css",
+                "~/Content/font-awesome.min.css",
                 "~/Content/General/Main.css",
                 "~/Content/General/sweetalert.css",
                 "~/Content/General/toastr.csss",
@@ -57,7 +75,7 @@ namespace Template
         public static void RegisterBundles(BundleCollection bundles)
         {
             RegisterCSSBundles(bundles);
-         //   RegisterJSBundles(bundles);
+            RegisterJSBundles(bundles);
         }
     }
 }

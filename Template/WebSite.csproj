@@ -140,9 +140,10 @@
     <Compile Include="Controllers\BaseController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\General\DragAndDrop.css" />
-    <Content Include="Content\General\font-awesome.css" />
     <Content Include="Content\General\sweetalert.css" />
     <Content Include="Content\General\animate.css" />
     <Content Include="Content\General\bootstrap-slider.css" />
@@ -150,6 +151,8 @@
     <Content Include="Content\General\toastr.css" />
     <Content Include="Content\General\jtsage-datebox.min.css" />
     <Content Include="Content\General\_Spinner.css" />
+    <Content Include="Content\Views\Shared\_LoginModal.css" />
+    <Content Include="Content\Views\Shared\_Header.css" />
     <Content Include="Content\Views\Shared\_PageTitle.css" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
@@ -162,6 +165,7 @@
     <Content Include="docs\MySqlParameter.xml" />
     <Content Include="docs\MySqlParameterCollection.xml" />
     <Content Include="docs\MySqlTransaction.xml" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="readme.txt" />
     <Content Include="Ressources\EMails\forgotpassword.html" />
     <Content Include="Ressources\EMails\_FooterMail.html" />
@@ -263,6 +267,11 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -317,9 +326,10 @@
     <Content Include="Views\Admin\_DisplayLogs.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_PageTitle.cshtml" />
-    <Content Include="Views\Account\_Login.cshtml" />
     <Content Include="Views\Admin\EmailAudits.cshtml" />
     <Content Include="Views\Admin\_DisplayEmailAudits.cshtml" />
+    <Content Include="Views\Account\_LoginOrSignInModal.cshtml" />
+    <Content Include="Views\Account\_LoginForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">
@@ -337,7 +347,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\jquery-2.2.3.min.map" />
-    <None Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Content\bootstrap.css.map" />
     <None Include="Content\bootstrap-theme.css.map" />
     <None Include="Ressources\Files\Images\icone.ico" />

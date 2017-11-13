@@ -97,14 +97,14 @@ namespace Commons
                 {
                     logger = log4net.LogManager.GetLogger(type);
                 }
-                string URL = "Unknown";
+                Url = "Unknown";
                 try                   
                 {
-                    URL = HttpContext.Current?.Request?.Url?.AbsoluteUri;
+                    Url = HttpContext.Current?.Request?.Url?.AbsoluteUri;
                 }
                 catch
                 {
-                    URL = "Unknown";
+                    Url = "Unknown";
                 }
                 string Message = "";
                 if (Ex != null)

@@ -76,7 +76,7 @@ namespace Service
             User result = null;
             try
             {
-                List<User> ListResult = UserDAL.GetUsersList(null,EMail);
+                List<User> ListResult = UserDAL.GetUsersList(null, EMail);
                 if (ListResult != null && ListResult.Count > 0)
                 {
                     result = ListResult[0];
@@ -110,13 +110,33 @@ namespace Service
         /// </summary>
         /// <param name="UserId"></param>
         /// <returns></returns>
+        public static User GetUserById(string UserId)
+        {
+            User result = null;
+            try
+            {
+                result = GetUserById(Convert.ToInt32(UserId));
+            }
+            catch (Exception e)
+            {
+                result = null;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Return the specified user
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public static User GetUserById(int UserId)
         {
             User result = null;
             try
             {
                 List<User> ListResult = UserDAL.GetUsersList(UserId);
-                if(ListResult!=null && ListResult.Count>0)
+                if (ListResult != null && ListResult.Count > 0)
                 {
                     result = ListResult[0];
                 }

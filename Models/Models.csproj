@@ -54,6 +54,7 @@
     <Compile Include="ViewModel\Admin\IAdminViewModel.cs" />
     <Compile Include="ViewModel\Admin\DisplayLogsViewModel.cs" />
     <Compile Include="ViewModel\Admin\LogsViewModel.cs" />
+    <Compile Include="ViewModel\Shared\HeaderViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

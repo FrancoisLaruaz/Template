@@ -124,7 +124,7 @@ namespace DataAccess
                 db = new DBConnect();
                 string Query = "select U.Id, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification ";
                 Query = Query + ",U.Adress1,U.Adress2,U.Adress3,U.Description, U.Password, U.Email, U.CountryId ";
-                Query = Query + ", C.Name as CountryName";
+                Query = Query + ", C.Name as CountryName ";
                 Query = Query + "from user U ";
                 Query = Query + "left join country C on C.Id=U.CountryId ";
                 Query = Query + " where 1=1 ";

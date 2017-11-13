@@ -9,6 +9,8 @@ namespace Commons
         public static string DefaultCulture = "en";
         public static string WebsiteTitle = "Website Title";
         public static string GoogleAnalyticsID = "";
+        // Define if the application need  login/logout features
+        public static bool UserManagement = true;
 
 
         public static string BasePathRessources = "~/Ressources";

@@ -1,4 +1,4 @@
-﻿
+﻿@model Models.ViewModels.HeaderViewModel
 
 <header class="sub-nav">
     @Html.Hidden("CentralGoToUrl")
@@ -12,10 +12,10 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="/">
-                    <img class="brand-logo" src="~/Ressources/Files/Images/Logo.png" />
+                    <img class="brand-logoNav"  src="~/Ressources/Files/Images/Logo.png" />
                 </a>
             </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse navigationLink" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right" id="ulForHomeControl">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu</a>
@@ -35,21 +35,43 @@
                     <li class="dropdown">
                         <a href="/Login" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
                     </li>
+                    @if (Commons.Const.UserManagement)
+                    {
+                        if (Request.IsAuthenticated)
+                        {
+                            <li class="dropdown">
+                                <a href="/User/Index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Model.UserFirstName<span class="glyphicon glyphicon-user user-icon-span"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/Account">[[[Edit Profile]]]</a></li>
+
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li><a href="/Admin">[[[Admin Panel]]]</a></li>
+                                    }
+                                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                    }
+                                    <li><a href="/Account/Manage">[[[Change Password]]]</a></li>
+                                    <li><a onclick="document.getElementById('logoutForm').submit();">[[[Log Off]]]</a></li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
+                            {
+                                @Html.Partial("~/Views/Account/_LoginOrSignInModal.cshtml")
+                            }
+                            //reason: only when the page is NOT the old login/sign up pages, then we render v2 login modal. Otherwise, the login page and the login modal partial will use AccountController and AccountV2Controller, BOTH  of which depend on UserManager. The AccountController disposes of the UserManager object before AccountV2Controller could use it. Error msg is like `...use of a disposed object...`
+                        }
+                    }
                 </ul>
             </div>
         </div>
     </nav>
 </header>
 
-<script>
-    function recordGoToUrl(shouldGoTo=null) {
-        console.log("In recordGoToUrl func.");
-        if (shouldGoTo == null) {
-            $('#CentralGoToUrl').val('@HttpContext.Current.Request.Url.AbsolutePath'); // optional param not passed in, so use current page url
-        } else {
-            $('#CentralGoToUrl').val(shouldGoTo);
-        }
-    }
-</script>
 
+<link href="~/Content/Views/Shared/_Header.css" rel="stylesheet" />
 <script src="~/Scripts/Views/Shared/_Header.js"></script>

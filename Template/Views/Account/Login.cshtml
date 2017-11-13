@@ -1,7 +1,18 @@
 ﻿@model Models.ViewModels.LoginViewModel
 
 @Html.Partial("_PageTitle")
-<div id="LoginDiv2">
-    @Html.Partial("_Login", Model)
+<div id="LoginDiv2" class="col-xs-12 col-md-4 col-md-offset-4" style="margin-top:40px;">
+
+    <div class="col-xs-12 col-md-12">
+        @Html.Partial("_LoginForm", Model)
+    </div>
 </div>
+
+
+@section scripts {
+    <script src="~/Scripts/General/StopSpinner.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>
+}
+
+
+
 

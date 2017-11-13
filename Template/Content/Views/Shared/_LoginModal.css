@@ -1,0 +1,55 @@
+
+
+
+.already-txt {
+    font-size: 17px;
+}
+
+@media (min-width: 768px) {
+    .already-txt {
+        padding-top: 0.4em;
+    }
+}
+
+
+.already-cols {
+    text-align: center;
+    padding: 1em 0;
+}
+
+.subscribe-txt {
+    display: inline;
+    /*color: grey;*/
+    padding: 0;
+    font-weight: normal;
+}
+
+
+select:invalid {
+    color: grey;
+}
+
+
+
+.iAgreeTxt {
+    font-size: 12px;
+    font-style: italic;
+    padding-bottom: 8px;
+    text-align: center;
+}
+
+    .iAgreeTxt .anti-old-a {
+        color: #f36f23;
+    }
+
+
+#loginOrSignInModalBody {
+    padding: 0;
+}
+
+#modalTabs {
+    padding: 2em;
+}
+
+
+
