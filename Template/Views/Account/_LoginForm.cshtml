@@ -3,7 +3,7 @@
 
 @if (HttpContext.Current.User.Identity.IsAuthenticated)
 {
-    <h1>Already signed in</h1>
+    <h1>[[You are already signed in]]]</h1>
 }
 else
 {
@@ -31,7 +31,7 @@ else
                             @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Password" })
                             <i class="fa fa-lock includeFAIcon" aria-hidden="true"></i>
                             @Html.ValidationMessageFor(m => m.Password)
-                            <div id="ErrorForm" class="text-danger"></div>
+                            <div id="ErrorLoginForm" class="text-danger"></div>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,15 @@ else
                 
 
                 <div class="col-md-8 col-md-offset-2 col-xs-12">
-                    <input type="submit" value="Log In" class="btn website-btn" id="SubmitButton"  />
+                    <input type="submit" value="[[[Log In]]]" class="btn website-btn" id="SubmitButtonLogin"   />
+                </div>
+
+                <div class="col-xs-12 col-md-12">
+                    <div style="margin-top:12px">
+                        <div class="col-sm-12 col-xs-12">
+                               @Html.Partial("_SignUpLinks")
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

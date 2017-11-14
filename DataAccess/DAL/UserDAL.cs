@@ -17,6 +17,39 @@ namespace DataAccess
         }
 
 
+
+        /// <summary>
+        /// Modification of the language preference of the user
+        /// </summary>
+        /// <param name="Language"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public static bool SetLanguageUser(string Language, int UserId)
+        {
+            bool result = false;
+            DBConnect db = null;
+            try
+            {
+                db = new DBConnect();
+                string Query = "update User";
+                Query = Query + " set LanguageId=IFNULL(( ";
+                Query = Query + " select top 1 id  from category where CategoryTypeId="+Commons.CategoryTypes.Language.ToString()+" and code='"+Language+ "'),LanguageId) ";
+                Query = Query + "where Id =  "+UserId;
+                result = db.ExecuteQuery(Query);
+
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Language = " + Language+" and UserId="+ UserId);
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return result;
+        }
+
         /// <summary>
         /// Check if the user is registered
         /// </summary>
@@ -123,10 +156,14 @@ namespace DataAccess
             {
                 db = new DBConnect();
                 string Query = "select U.Id, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification ";
-                Query = Query + ",U.Adress1,U.Adress2,U.Adress3,U.Description, U.Password, U.Email, U.CountryId ";
+                Query = Query + ",U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, U.Password, U.Email, U.CountryId ";
                 Query = Query + ", C.Name as CountryName ";
+                Query = Query + ",P.Id as ProvinceId, P.Name as ProvinceName ";
+                Query = Query + ",L.Id as LanguageId, L.Name as LanguageName, L.Code as LanguageCode ";
                 Query = Query + "from user U ";
+                Query = Query + "inner join category L on L.Id=U.LanguageId ";
                 Query = Query + "left join country C on C.Id=U.CountryId ";
+                Query = Query + "left join province P on P.Id=U.ProvinceId ";
                 Query = Query + " where 1=1 ";
                 if (Id!=null && Id.Value>0)
                 {
@@ -156,8 +193,13 @@ namespace DataAccess
                     User.ResetPasswordToken = Convert.ToString(dr["ResetPasswordToken"]);
                     User.Description = Convert.ToString(dr["Description"]);
                     User.CountryId= MySQLHelper.GetIntFromMySQL(dr["CountryId"]);
-
                     User.CountryName = Convert.ToString(dr["CountryName"]);
+                    User.ProvinceId= MySQLHelper.GetIntFromMySQL(dr["ProvinceId"]);
+                    User.ProvinceName = Convert.ToString(dr["ProvinceName"]);
+                    User.LanguageId = MySQLHelper.GetIntFromMySQL(dr["LanguageId"]).Value;
+                    User.LanguageCode = Convert.ToString(dr["LanguageCode"]);
+                    User.LanguageName = Convert.ToString(dr["LanguageName"]);
+                    User.IsMasculine = MySQLHelper.GetBoolFromMySQL(dr["IsMasculine"]);
                     User.EmailDecrypt = Commons.EncryptHelper.DecryptString(Convert.ToString(dr["Email"]));
                     User.PasswordDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["Password"]));
                     User.FirstNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["FirstName"]));

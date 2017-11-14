@@ -38,7 +38,7 @@
     <Compile Include="DAL\BaseDAL.cs" />
     <Compile Include="DAL\UserRoleDAL.cs" />
     <Compile Include="DAL\ProvinceDAL.cs" />
-    <Compile Include="DAL\EMailAuditDAL.cs" />
+    <Compile Include="DAL\EMailDAL.cs" />
     <Compile Include="DAL\GenericDAL.cs" />
     <Compile Include="DAL\CategoryDAL.cs" />
     <Compile Include="DAL\CountryDAL.cs" />

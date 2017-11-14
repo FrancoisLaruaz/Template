@@ -28,5 +28,11 @@ namespace Models.BDDObject
         public string Adress3 { get; set; }
 
         public int? CountryId { get; set; }
+
+        public int? ProvinceId { get; set; }
+
+        public int LanguageId { get; set; }
+
+        public bool? IsMasculine { get; set; }
     }
 }

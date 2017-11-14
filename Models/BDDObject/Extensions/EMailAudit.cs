@@ -9,6 +9,11 @@ namespace Models.BDDObject
 {
     public partial class EMailAudit
     {
+        public int LanguageId { get; set; }
+
+        public int EMailTypeId { get; set; }
+
+        public string LanguageName { get; set; }
 
         public string UserFirstNameDecrypt { get; set; }
         public string UserLastNameDecrypt { get; set; }

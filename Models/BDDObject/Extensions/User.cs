@@ -12,6 +12,12 @@ namespace Models.BDDObject
     {
         public string CountryName { get; set; }
 
+        public string ProvinceName { get; set; }
+
+        public string LanguageName { get; set; }
+
+        public string LanguageCode { get; set; }
+
         public string FirstNameDecrypt { get; set; }
 
         public string LastNameDecrypt { get; set; }
@@ -19,5 +25,7 @@ namespace Models.BDDObject
         public string EmailDecrypt { get; set; }
 
         public string PasswordDecrypt { get; set; }
+
+        public string UserFullNameDecrypt { get { return (FirstNameDecrypt + " " + LastNameDecrypt).Trim(); } }
     }
 }

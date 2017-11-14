@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
 
+
 namespace Commons
 {
     public static class Utils
@@ -23,7 +24,7 @@ namespace Commons
             return result;
         }
 
-        public static string GetURLWebsite()
+        public static string GetURLWebsite(string Langtag=null)
         {
             string result = "";
             try
@@ -31,6 +32,11 @@ namespace Commons
                 string authority = HttpContext.Current.Request.Url.Authority;
                 string scheme= HttpContext.Current.Request.Url.Scheme;
                 result = scheme +"://"+ authority;
+
+                if(Langtag!=null)
+                {
+                    result = result + "/" + Langtag;
+                }
             }
             catch (Exception e)
             {

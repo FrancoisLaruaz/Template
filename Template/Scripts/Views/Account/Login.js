@@ -1,46 +1,86 @@
 $(document).ready(function () {
     SetLoginForm();
+    SetLinks();
 });
 
+function SetLinks() {
+    $("#PasswordForgotLink").unbind("click");
+    $("#PasswordForgotLink").on("click", function (e) {
+        e.preventDefault();
+        if ($('#loginOrSignInModal').length > 0) {
+            $('#loginOrSignInModal').click();
+        }
+        var newUrl = GetHomePageUrl() + "/ResetPassword";
+        window.location.href = newUrl;
+    });
 
-function LoginFailure()
-{
+
+    $("#SignUpLink").unbind("click");
+    $("#SignUpLink").on("click", function (e) {
+        e.preventDefault();
+        $("#loginOrSignInModal").modal('show');
+        if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
+            $("#loginOrSignInModalBody #LoginForm").fadeOut(500, function () {
+                $("#SignUpForm").fadeIn(500);
+            });
+        }
+
+    });
+}
+
+
+function LoginFailure() {
     SetLoginSubmitForm();
     ErrorActions();
 }
 
-function handleLoginBegin()
-{
-    $('#SubmitButton').val("Logging In ...");
-    $("#SubmitButton").toggleClass("disabled", true);
+function handleLoginBegin() {
+    $('#SubmitButtonLogin').val("Logging In ...");
+    $("#SubmitButtonLogin").toggleClass("disabled", true);
 }
 
-function LoginSuccess(Data)
-{
+function LoginSuccess(Data) {
     SetLoginSubmitForm();
     if (Data) {
-        $('#ErrorForm').html(Data.Error);
+        $('#ErrorLoginForm').html(Data.Error);
         if (Data.Result) {
-            if (Data.URLRedirect != null && model.URLRedirect != "")
-            {
+            if ($('#loginOrSignInModal').length > 0) {
+                $('#loginOrSignInModal').click();
+            }
+            if (Data.URLRedirect != null && model.URLRedirect != "") {
                 window.location.href = Data.URLRedirect;
             }
 
-            NotificationOK(Data.UserFirstName+", you are now connected :)");
+            NotificationOK(Data.UserFirstName + ", you are now connected :)");
         }
     }
 }
 
-function SetLoginForm()
-{
-    SetLoginSubmitForm();
-    SetValidationForm('LoginModalForm');
+function SetLoginForm() {
+    if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
+        $("#loginOrSignInModalBody #LoginForm").fadeOut(500, function () {
+
+            $("#loginOrSignInModalBody #LoginForm").fadeIn(500);
+        });
+        $("#SignUpForm").hide();
+        SetEnterKey('SubmitButtonLogin');
+        SetLoginSubmitForm();
+        SetValidationForm('LoginModalForm');
+    }
+    else {
+        $("#SignUpForm").fadeOut(500, function () {
+
+            $("#SignUpForm").fadeIn(500);
+        });
+        $("#loginOrSignInModalBody #LoginForm").hide();
+    }
+
 }
 
-function SetLoginSubmitForm()
-{
-    $('#SubmitButton').show();
-    $('#SubmitButton').val("Log In");
-    $('#SubmitButton').removeAttr('disabled');
-    $("#SubmitButton").toggleClass("disabled", false);
+function SetLoginSubmitForm() {
+    $('#SubmitButtonLogin').show();
+    $('#SubmitButtonLogin').val("Log In");
+    $('#SubmitButtonLogin').removeAttr('disabled');
+    $("#SubmitButtonLogin").toggleClass("disabled", false);
+
 }

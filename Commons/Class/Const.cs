@@ -19,7 +19,10 @@ namespace Commons
         public static string BasePathTemplateEMails = BasePathRessources + "/EMails";
         public static string BasePathImages = BasePathFiles + "/Images";
 
-		public static List<string> ListeExtensionsVideos = new List<string> { "MP4", "M4V", "MOV", "MKV", "AVI" };
+        public static string i18nlangtag = "i18n.langtag";
+
+
+        public static List<string> ListeExtensionsVideos = new List<string> { "MP4", "M4V", "MOV", "MKV", "AVI" };
 		public static List<string> ListeExtensionsImage = new List<string> { "JPG", "JPEG", "PNG", "GIF" };
     }
 
@@ -32,6 +35,33 @@ namespace Commons
     {
         public static string Admin = "Admin";
     }
+
+    public static class CategoryTypes
+    {
+        public static int EmailType = 1;
+        public static int UserRole = 2;
+        public static int Language = 3;
+    }
+
+    public static class Languages
+    {
+        public const  int English = 3001;
+        public const  int French = 3002;
+
+        public static string ToString(int value)
+        {
+            switch (value)
+            {
+                case English:
+                    return "en";
+                case French:
+                    return "fr";
+                default:
+                    return "";
+            }
+        }
+    }
+
 
     public static class StaticFileVersion
     {

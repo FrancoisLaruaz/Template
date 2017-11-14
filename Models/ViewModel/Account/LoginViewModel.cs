@@ -10,12 +10,12 @@ namespace Models.ViewModels
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "A valid email is required")]
+        [Required(ErrorMessage = "[[[A valid email is required.]]]")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "The Password field is required.")]
+        [Required(ErrorMessage = "[[[The Password field is required.]]]")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }

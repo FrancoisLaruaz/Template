@@ -23,6 +23,8 @@ namespace Service
             bool result = false;
             try
             {
+                int LanguageId = Commons.Languages.English;
+                string LangTag = Commons.Languages.ToString(LanguageId);
                 if (Email.EmailContent == null)
                 {
                     Email.EmailContent = new List<Tuple<string, string>>();
@@ -35,27 +37,36 @@ namespace Service
 
                 if (User != null && User.Id > 0)
                 {
+                    LangTag = User.LanguageCode;
+                    LanguageId = User.LanguageId;
                     if (String.IsNullOrWhiteSpace(Email.ToEmail))
                     {
                         Email.ToEmail = User.EmailDecrypt;
                     }
                     Email.EmailContent.Add(new Tuple<string, string>("#UserFirstName#", User.FirstNameDecrypt));
-                    Email.EmailContent.Add(new Tuple<string, string>("#UserFullName#", User.FirstNameDecrypt + " " + User.LastNameDecrypt));
+                    Email.EmailContent.Add(new Tuple<string, string>("#UserFullName#", User.UserFullNameDecrypt));
                 }
                 else
                 {
                     Email.EmailContent.Add(new Tuple<string, string>("#UserFirstName#", "user"));
                     Email.EmailContent.Add(new Tuple<string, string>("#UserFullName#", "user"));
                 }
-                Email.EmailContent.Add(new Tuple<string, string>("#WebSiteURL#", Utils.GetURLWebsite()));
+                Email.EmailContent.Add(new Tuple<string, string>("#WebSiteURL#", Utils.GetURLWebsite(LangTag)));
+                Email.LanguageId = LanguageId;
 
-                Category MailType = CategoryService.GetCategoryById(Email.EMailTypeId);
-                if (MailType != null && !String.IsNullOrWhiteSpace(Email.ToEmail))
+                EMailTypeLanguage EMailTypeLanguage = GetEMailTypeLanguage(Email.EMailTypeId,Email.LanguageId);
+                if (EMailTypeLanguage == null && Email.LanguageId != Languages.English)
                 {
-                    Email.EMailTemplate = MailType.Name;
+                    EMailTypeLanguage = GetEMailTypeLanguage(Email.EMailTypeId, Languages.English);
+                }
+                
+                if (EMailTypeLanguage != null && !String.IsNullOrWhiteSpace(Email.ToEmail))
+                {
+                    Email.EMailTypeLanguageId = EMailTypeLanguage.Id;
+                    Email.EMailTemplate = EMailTypeLanguage.TemplateName;
                     Email.BasePathFile = FileHelper.GetStorageRoot(Const.BasePathTemplateEMails);
                     if (String.IsNullOrWhiteSpace(Email.Subject))
-                        Email.Subject = MailType.Description;
+                        Email.Subject = EMailTypeLanguage.Subject;
                     if (String.IsNullOrWhiteSpace(Email.FromEmail))
                         Email.FromEmail = EMailHelper.MailAdress;
                     Email.AttachmentsMails = new List<System.Net.Mail.Attachment>();
@@ -68,6 +79,11 @@ namespace Service
                     }
                     Task.Factory.StartNew(() => SendMailAsync(Email));
                     result = true;
+                }
+                else
+                {
+                    result = false;
+                    Commons.Logger.GenerateError(new Exception("No emailtypelanguage found"), System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserMail = " + Email.ToEmail + " and Language = " + Email.LanguageId + " and EMailTypeId = " + Email.EMailTypeId);
                 }
 
             }
@@ -87,12 +103,12 @@ namespace Service
         {
             try
             {
-                Tuple<bool, int> ResultMail = EMailHelper.SendMail(EMail);
+                Tuple<bool, int,int> ResultMail = EMailHelper.SendMail(EMail);
                 if (ResultMail != null)
                 {
                     if (ResultMail.Item1)
                     {
-                        EMailService.InsertEMailAudit(EMail, ResultMail.Item2);
+                        EMailService.InsertEMailAudit(EMail, ResultMail.Item2, ResultMail.Item3);
                     }
                 }
             }
@@ -103,24 +119,46 @@ namespace Service
         }
 
         /// <summary>
+        /// Get the email type with the good language
+        /// </summary>
+        /// <param name="EMailTypeId"></param>
+        /// <param name="LanguageId"></param>
+        /// <returns></returns>
+        public static EMailTypeLanguage GetEMailTypeLanguage(int EMailTypeId, int LanguageId)
+        {
+            EMailTypeLanguage retour = new EMailTypeLanguage();
+            try
+            {
+                retour = EMailDAL.GetEMailTypeLanguage(EMailTypeId, LanguageId);
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMailTypeId = " + EMailTypeId.ToString()+" and LanguageId="+LanguageId.ToString());
+            }
+            return retour;
+        }
+
+        /// <summary>
         /// Insert a lign in the database with the result of the mail
         /// </summary>
         /// <param name="EMail"></param>
         /// <param name="AttachmentNumber"></param>
+        /// <param name="CCUsersNumber"></param>
         /// <returns></returns>
-        public static bool InsertEMailAudit(Email EMail, int AttachmentNumber)
+        public static bool InsertEMailAudit(Email EMail, int AttachmentNumber,int CCUsersNumber)
         {
             bool result = false;
             try
             {
                 EMailAudit Audit = new EMailAudit();
                 Audit.UserId = EMail.UserId;
-                Audit.EMailTypeId = EMail.EMailTypeId;
+                Audit.EMailTypeLanguageId = EMail.EMailTypeLanguageId;
                 Audit.EMailFrom = EncryptHelper.EncryptToString(EMail.FromEmail);
                 Audit.EMailTo = EncryptHelper.EncryptToString(EMail.ToEmail);
                 Audit.Date = DateTime.UtcNow;
                 Audit.AttachmentNumber = AttachmentNumber;
-                result = EMailAuditDAL.InsertAudit(Audit);
+                Audit.CCUsersNumber = CCUsersNumber;
+                result = EMailDAL.InsertAudit(Audit);
             }
             catch (Exception e)
             {
@@ -135,7 +173,7 @@ namespace Service
             DisplayEmailAuditViewModel model = new DisplayEmailAuditViewModel();
             try
             {
-                model = EMailAuditDAL.GetEMailsAuditList(Pattern, StartAt, PageSize);
+                model = EMailDAL.GetEMailsAuditList(Pattern, StartAt, PageSize);
             }
             catch (Exception e)
             {

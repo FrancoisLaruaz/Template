@@ -13,7 +13,11 @@ namespace Models.Class
 
         public string FromEmail { get; set; }
 
+        public int EMailTypeLanguageId { get; set; }
+
         public int EMailTypeId { get; set; }
+
+        public int LanguageId { get; set; }
 
         public string EMailTemplate { get; set; }
 

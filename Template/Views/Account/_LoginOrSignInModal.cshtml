@@ -1,4 +1,8 @@
-﻿<li><a href="" data-toggle="modal" data-target="#loginOrSignInModal" onclick="recordGoToUrl(null)">Log In</a></li>
+﻿
+@if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
+{
+    <li><a href="" data-toggle="modal" data-target="#loginOrSignInModal" onclick="recordGoToUrl(null)">Log In</a></li>
+}
 <link href="~/Content/Views/Shared/_LoginModal.css" rel="stylesheet" type="text/css">
 
 
@@ -10,8 +14,14 @@
                     <div class="divCloseModal">
                         <button id="closeLoginModal" type="button" class="close closeLoginModal" data-dismiss="modal">&times;</button>
                     </div>
-                    <div id="LoginForm">
-                        @Html.Action("_LoginForm", "Account")
+                    @if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
+                    {
+                        <div id="LoginForm" style="display:none">
+                            @Html.Action("_LoginForm", "Account")
+                        </div>
+                    }
+                    <div id="SignUpForm" style="display:none">
+                        @Html.Action("_SignUpForm", "Account")
                     </div>
                 </div>
             </div>

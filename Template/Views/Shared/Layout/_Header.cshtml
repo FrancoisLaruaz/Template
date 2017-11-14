@@ -16,24 +16,25 @@
                 </a>
             </div>
             <div class="collapse navbar-collapse navigationLink" id="bs-example-navbar-collapse-1">
+                
                 <ul class="nav navbar-nav navbar-right" id="ulForHomeControl">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu</a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[[[Menu]]]</a>
                         <ul class="dropdown-menu">
-                            <li><a href="">Sous Menu 1</a></li>
-                            <li><a href="">Sous Menu 2</a></li>
-                            <li><a href="">Sous Menu 3</a></li>
+                            <li><a href="">[[[Lion]]]</a></li>
+                            <li><a href="">[[[Grenouille]]]</a></li>
+                            <li><a href="">[[[La fille est verte]]]</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[[[Admin]]]</a>
                         <ul class="dropdown-menu">
-                            <li><a href="/Admin/Logs">Logs</a></li>
-                            <li><a href="/Admin/EmailAudits">Email Audits</a></li>
+                            <li><a href="/Admin/Logs">[[[Logs]]]</a></li>
+                            <li><a href="/Admin/EmailAudits">[[[Email Audits]]]</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="/Login" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
+                        <a href="/Login" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[[[Login]]]</a>
                     </li>
                     @if (Commons.Const.UserManagement)
                     {
@@ -59,10 +60,8 @@
                         }
                         else
                         {
-                            if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
-                            {
+
                                 @Html.Partial("~/Views/Account/_LoginOrSignInModal.cshtml")
-                            }
                             //reason: only when the page is NOT the old login/sign up pages, then we render v2 login modal. Otherwise, the login page and the login modal partial will use AccountController and AccountV2Controller, BOTH  of which depend on UserManager. The AccountController disposes of the UserManager object before AccountV2Controller could use it. Error msg is like `...use of a disposed object...`
                         }
                     }

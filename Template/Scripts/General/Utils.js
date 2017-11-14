@@ -38,6 +38,7 @@ function GetHomePageUrl() {
             newURL = newURL.split('?')[0];
         }
         result = newURL;
+
     }
     catch (err)
     {
@@ -68,16 +69,18 @@ function ErrorActions()
 }
 
 function SetEnterKey(IdElement) {
+
     if (IdElement === undefined) {
         IdElement = null;
     }
-
     $(document).keypress(function (e) {
         if (e.which == 13) {
             if (IdElement != null) {
                 var Element = $("#" + IdElement);
-                if (Element && $(Element).css("display") != "none" && !$(Element).is(':disabled')) {
+                if ($("#" + IdElement).length > 0 && $(Element).css("display") != "none" && !$(Element).is(':disabled') && $(Element).is(":visible")) {
                     $(Element).click();
+                    e.preventDefault();
+                    return false;
                 }
             }
         }
@@ -87,7 +90,7 @@ function SetEnterKey(IdElement) {
 
 function SetValidationForm(IdForm) {
     var Form = $("#" + IdForm);
-    if (Form) {
+    if ($(Form).length>0) {
         $(Form).removeData("validator");
         $(Form).removeData("unobtrusiveValidation");
         $.validator.unobtrusive.parse("#" + IdForm);

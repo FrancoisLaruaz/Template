@@ -243,3 +243,14 @@ body {
 .greyBG {
     background-color: #F2F2F2 !important;
 }
+
+a{
+    cursor:pointer;
+}
+
+.noMarginNoPaddingHorizontal {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}

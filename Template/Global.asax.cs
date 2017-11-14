@@ -5,6 +5,8 @@ using System;
 using System.Web.Optimization;
 using i18n;
 using System.Threading;
+using Models.BDDObject;
+using Service;
 
 namespace Template
 {
@@ -12,21 +14,28 @@ namespace Template
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
             log4net.Config.XmlConfigurator.Configure();
-            HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
-        //    SetGlobalization();
+            try
+            {
+                AreaRegistration.RegisterAllAreas();
+                RouteConfig.RegisterRoutes(RouteTable.Routes);
+                BundleConfig.RegisterBundles(BundleTable.Bundles);
+                HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
+                SetGlobalization();
+            }
+            catch(Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
         }
 
         public void SetGlobalization()
         {
             // Change from the default of 'en'.
-            i18n.LocalizedApplication.Current.DefaultLanguage = "fr";
+            i18n.LocalizedApplication.Current.DefaultLanguage = Commons.Const.DefaultCulture;
 
             // Change from the default of 'i18n.langtag'.
-            i18n.LocalizedApplication.Current.CookieName = "i18n_langtag";
+            i18n.LocalizedApplication.Current.CookieName = Commons.Const.i18nlangtag;
 
             // Change from the of temporary redirects during URL localization
             i18n.LocalizedApplication.Current.PermanentRedirects = true;
@@ -80,20 +89,6 @@ namespace Template
                 }
             };
 
-            // Blacklist certain URLs from being translated using a regex pattern. The default setting is:
-            //i18n.LocalizedApplication.Current.UrlsToExcludeFromProcessing = new Regex(@"(?:\.(?:less|css)(?:\?|$))|(?i:i18nSkip|glimpse|trace|elmah)");
-
-            // Whitelist content types to translate. The default setting is:
-            //i18n.LocalizedApplication.Current.ContentTypesToLocalize = new Regex(@"^(?:(?:(?:text|application)/(?:plain|html|xml|javascript|x-javascript|json|x-json))(?:\s*;.*)?)$");
-
-            // Change the types of async postback blocks that are localized
-            //i18n.LocalizedApplication.Current.AsyncPostbackTypesToTranslate = "updatePanel,scriptStartupBlock,pageTitle";
-
-            // Change which languages are parsed from the request, like skipping  the "Accept-Language"-header value. The default setting is:
-            //i18n.HttpContextExtensions.GetRequestUserLanguagesImplementation = (context) => LanguageItem.ParseHttpLanguageHeader(context.Request.Headers["Accept-Language"]);
-
-            // Override the i18n service injection. See source code for more details!
-            //i18n.LocalizedApplication.Current.RootServices = new Myi18nRootServices();
         }
 
         /// <summary>
@@ -103,8 +98,60 @@ namespace Template
         /// <param name="e">E.</param>
         private void Session_Start(object sender, EventArgs e)
 		{
+            string languageBrowser = null;
+            try
+            {
+                if (Request.IsAuthenticated)
+                {
+                    User ConnectedUser = UserService.GetUserById(User.Identity.Name);
+                    if (ConnectedUser != null)
+                        languageBrowser = ConnectedUser.LanguageCode;
 
-		}
+                }
+                if (String.IsNullOrEmpty(languageBrowser))
+                {
+
+                    string[] languages = Request?.UserLanguages;
+                    if (languages != null && languages.Length > 0)
+                    {
+                        string Favoritelanguage = languages[0];
+                        languageBrowser = Commons.Const.DefaultCulture;
+                        var ListLanguages = CategoryService.GetSelectionList(Commons.CategoryTypes.Language);
+                        if (ListLanguages!=null && ListLanguages.Count>0)
+                        {
+                            foreach(var Language in ListLanguages)
+                            {
+                                if(Language.Code== Favoritelanguage || Favoritelanguage.IndexOf(Language.Code+"-") > -1)
+                                {
+                                    languageBrowser = Language.Code;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+
+                if (!String.IsNullOrEmpty(languageBrowser))
+                {
+                    i18n.LanguageTag lt = i18n.LanguageTag.GetCachedInstance(languageBrowser);
+                    Response.Cookies.Add(new HttpCookie(Commons.Const.i18nlangtag)
+                    {
+                        Value = lt.ToString(),
+                        HttpOnly = true,
+                        Expires = DateTime.UtcNow.AddYears(1)
+                    });
+
+
+                    System.Web.HttpContext.Current.SetPrincipalAppLanguageForRequest(lt);
+                }
+            }
+            catch (Exception ex)
+            {
+                Commons.Logger.GenerateError(ex, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+        }
 
 		/// <summary>
 		/// Applications the end.
@@ -114,7 +161,7 @@ namespace Template
 		private void Application_End(object sender, EventArgs e)
 		{
 
-		}
+        }
 
 
         /// <summary>

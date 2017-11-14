@@ -63,11 +63,12 @@ namespace Commons
         /// </summary>
         /// <param name="Email"></param>
         /// <returns></returns>
-        public static Tuple<bool,int> SendMail(Email Email)
+        public static Tuple<bool,int,int> SendMail(Email Email)
         {
             bool result = false;
             int NbSentAttachments = 0;
-            Tuple<bool, int> EMailResult = null;
+            int CCUsersNumber = 0;
+            Tuple<bool, int,int> EMailResult = null;
             try
             {
                 MailAddress fromAddress = new MailAddress(Email.FromEmail, MailName);
@@ -142,6 +143,7 @@ namespace Commons
                             foreach (string CC in Email.CCList)
                             {
                                 message.CC.Add(CC);
+                                CCUsersNumber++;
                             }
                         }
                         smtp.Send(message);
@@ -154,7 +156,7 @@ namespace Commons
                 result = false;
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserMail = " + Email.ToEmail + " and subject = " + Email.Subject + " and EMailTypeId = " + Email.EMailTypeId);
             }
-            EMailResult = new Tuple<bool, int>(result, NbSentAttachments);
+            EMailResult = new Tuple<bool, int,int>(result, NbSentAttachments, CCUsersNumber);
             return EMailResult;
         }
 

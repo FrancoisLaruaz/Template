@@ -16,7 +16,8 @@ namespace Models.BDDObject
         public int? UserId { get; set; }
 
         public int AttachmentNumber { get; set; }
-        public int EMailTypeId { get; set; }
+        public int CCUsersNumber { get; set; }
+        public int EMailTypeLanguageId { get; set; }
 
     }
 }

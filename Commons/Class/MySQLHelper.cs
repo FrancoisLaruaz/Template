@@ -30,6 +30,23 @@ namespace Commons
             return result;
         }
 
+        public static bool? GetBoolFromMySQL(Object Ob)
+        {
+            bool? result = null;
+            try
+            {
+                if (Ob != DBNull.Value && Ob != null)
+                {
+                    result = Convert.ToBoolean(Ob);
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Ob = " + Ob.ToString());
+            }
+            return result;
+        }
+
         public static int? GetIntFromMySQL(Object Ob)
         {
             int? result = null;

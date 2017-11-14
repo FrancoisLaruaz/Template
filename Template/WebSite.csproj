@@ -124,7 +124,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Ressources\Upload\" />
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +282,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\Views\Account\SignUp.js" />
     <Content Include="Scripts\Views\Admin\EmailAudits.js" />
     <Content Include="Scripts\Views\Admin\Logs.js" />
     <Content Include="Scripts\Views\Account\Login.js" />
@@ -330,6 +330,9 @@
     <Content Include="Views\Admin\_DisplayEmailAudits.cshtml" />
     <Content Include="Views\Account\_LoginOrSignInModal.cshtml" />
     <Content Include="Views\Account\_LoginForm.cshtml" />
+    <Content Include="Views\Shared\Layout\_LanguageSelector.cshtml" />
+    <Content Include="Views\Account\_SignUpLinks.cshtml" />
+    <Content Include="Views\Account\_SignUpForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

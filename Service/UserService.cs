@@ -55,6 +55,21 @@ namespace Service
             return result;
         }
 
+        public static bool SetLanguageUser(string Language, string UserId)
+        {
+            bool result = false;
+            try
+            {
+
+                result = UserDAL.SetLanguageUser(Language, Convert.ToInt32(UserId));
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Language = " + Language+ " and UserId = "+ UserId);
+            }
+            return result;
+        }
 
         public static List<User> GeListUsers()
         {

@@ -10,10 +10,52 @@ using Models.Class;
 
 namespace DataAccess
 {
-    public class EMailAuditDAL
+    public class EMailDAL
     {
-        public EMailAuditDAL()
+        public EMailDAL()
         {
+
+        }
+
+        /// <summary>
+        /// Get the mail by type and language
+        /// </summary>
+        /// <param name="EMailTypeId"></param>
+        /// <param name="LanguageId"></param>
+        /// <returns></returns>
+        public static EMailTypeLanguage GetEMailTypeLanguage(int EMailTypeId, int LanguageId)
+        {
+            EMailTypeLanguage model = null;
+            DBConnect db = null;
+            try
+            {
+                db = new DBConnect();
+                string Query = "select * ";
+                Query = Query + "from emailtypelanguage ";
+                Query = Query + " where EMailTypeId= "+ EMailTypeId;
+                Query = Query + " and LanguageId= " + LanguageId;
+
+                DataRow dr = db.GetUniqueDataRow(Query);
+                if(dr!=null)
+                {
+                    model = new EMailTypeLanguage();
+                    model.Id = MySQLHelper.GetIntFromMySQL(dr["Id"]).Value;
+                    model.LanguageId = MySQLHelper.GetIntFromMySQL(dr["LanguageId"]).Value;
+                    model.Subject = Convert.ToString(dr["Subject"]);
+                    model.EMailTypeId = MySQLHelper.GetIntFromMySQL(dr["EMailTypeId"]).Value;
+                    model.TemplateName = Convert.ToString(dr["TemplateName"]);
+                }
+            }
+            catch (Exception e)
+            {
+                model = null;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMailTypeId = " + EMailTypeId.ToString() + " and LanguageId=" + LanguageId.ToString());
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return model;
 
         }
 
@@ -39,10 +81,13 @@ namespace DataAccess
                 Pattern = Pattern.ToLower();
                 db = new DBConnect();
                 string Query = "select a.Id, a.UserId, a.EMailFrom, a.EMailTo ,a.Date ";
-                Query = Query + ",a.AttachmentNumber,a.EMailTypeId,u.FirstName, u.LastName,c.Name ";
+                Query = Query + ",a.AttachmentNumber,a.EMailTypeLanguageId,u.FirstName, u.LastName,c.Name ";
+                Query = Query + ",l.EMailTypeId, l.LanguageId,cl.Name as 'LanguageName'  ";
                 Query = Query + "from emailaudit a ";
+                Query = Query + " inner join emailtypelanguage l on l.id=a.EMailTypeLanguageId ";
                 Query = Query + " left join user u on u.Id=a.UserId  ";
-                Query = Query + " left join category c on c.Id=a.EMailTypeId ";
+                Query = Query + " left join category c on c.Id=l.EMailTypeId ";
+                Query = Query + " left join category cl on cl.Id=l.LanguageId ";
                 Query = Query + "where 1=1 ";
                 Query = Query + "order by a.Id desc";
                 if (String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
@@ -58,7 +103,10 @@ namespace DataAccess
                     EMailAudit Audit = new EMailAudit();
                     Audit.Id = MySQLHelper.GetIntFromMySQL(dr["Id"]).Value;
                     Audit.UserId = MySQLHelper.GetIntFromMySQL(dr["UserId"]);
+                    Audit.LanguageName = Convert.ToString(dr["LanguageName"]);
+                    Audit.LanguageId = MySQLHelper.GetIntFromMySQL(dr["LanguageId"]).Value;
                     Audit.EMailTypeId = MySQLHelper.GetIntFromMySQL(dr["EMailTypeId"]).Value;
+                    Audit.EMailTypeLanguageId = MySQLHelper.GetIntFromMySQL(dr["EMailTypeLanguageId"]).Value;
                     Audit.EMailFrom = Convert.ToString(dr["EMailFrom"]);
                     Audit.UserFirstName = Convert.ToString(dr["FirstName"]);
                     Audit.EMailTo = Convert.ToString(dr["EMailTo"]);
@@ -108,14 +156,15 @@ namespace DataAccess
             {
                 db = new DBConnect();
                 string Query = "insert into emailaudit (";
-                Query +="UserId, EMailFrom, EMailTo, AttachmentNumber, Date, EMailTypeId ) ";
+                Query += "UserId, EMailFrom, EMailTo, AttachmentNumber, Date, EMailTypeLanguageId, CCUsersNumber ) ";
                 Query += " values (";
                 Query += MySQLHelper.GetIntToInsert(EMail.UserId);
                 Query += ","+ MySQLHelper.GetStringToInsert(EMail.EMailFrom);
                 Query += "," + MySQLHelper.GetStringToInsert(EMail.EMailTo);
                 Query += "," + MySQLHelper.GetIntToInsert(EMail.AttachmentNumber);
                 Query += "," + MySQLHelper.GetDateTimeToInsert(EMail.Date);
-                Query += "," + MySQLHelper.GetIntToInsert(EMail.EMailTypeId);
+                Query += "," + MySQLHelper.GetIntToInsert(EMail.EMailTypeLanguageId);
+                Query += "," + MySQLHelper.GetIntToInsert(EMail.CCUsersNumber);
                 Query += " )";
 
                 result = db.ExecuteQuery(Query);

@@ -10,8 +10,8 @@ namespace Template
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "OnlyActionAccount",
-                "{action}",
+                "Login",
+                "Login",
                 new { controller = "Account", action = "Login" },
                 namespaces: new[] { "Website.Controllers" }
             );

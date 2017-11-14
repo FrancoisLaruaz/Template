@@ -15,6 +15,63 @@ namespace Website.Controllers
 {
     public class AccountController : BaseController
     {
+
+        #region SignUp
+        public ActionResult _SignUpForm()
+        {
+            SignUpViewModel model = new SignUpViewModel();
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult _SignUpForm(SignUpViewModel model)
+        {
+            bool _Result = false;
+            string _Error = "";
+            string _UserFirstName = "";
+
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+                    string Email = Commons.EncryptHelper.EncryptToString(model.Password.Replace("'", "''"));
+
+                    bool IsUserRegistered = UserService.IsUserRegistered(Email);
+
+                    if (!IsUserRegistered)
+                    {
+                        _Result = true;
+                    }
+                    else
+                    {
+                        _Error = "[[[This email address is already registered.]]]";
+                        _Result = false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                _Result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Email = " + model.Email);
+            }
+
+            return Json(new { Result = _Result, Error = _Error, UserFirstName = _UserFirstName });
+        }
+        #endregion
+
+
         #region LoginModal
         public ActionResult _LoginForm(string returnUrl = null)
         {
@@ -58,12 +115,12 @@ namespace Website.Controllers
                         }
                         else
                         {
-                            _Error = "Invalid password for this user";
+                            _Error = "[[[Invalid password for this user]]]";
                         }
                     }
                     else
                     {
-                        _Error = "Invalid username";
+                        _Error = "[[[Invalid username]]]";
                     }
                 }
             }
@@ -92,7 +149,7 @@ namespace Website.Controllers
                 Email.ToEmail = "francois.laruaz@gmail.com";
                 Email.EMailTypeId = EmailTemplate.Forgotpassword;
                 Email.Attachments = Attachments;
-             //   bool result =EMailService.SendMail(Email);
+               // bool result =EMailService.SendMail(Email);
                
             }
             catch (Exception e)

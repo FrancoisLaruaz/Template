@@ -5,7 +5,7 @@ $(document).ready(function () {
             ShowSpinner();
         });
     });
-   
+
 
     $(document)
         .ajaxStart(function () {
@@ -15,4 +15,14 @@ $(document).ready(function () {
             HideSpinner();
         });
 
+    if ($("#loginOrSignInModal").length > 0) {
+        if (typeof (SetLoginForm) === "function") {
+            SetLoginForm();
+        }
+        if ($("#SignUpForm").length > 0) {
+            if (typeof (SetSignUpForm) === "function") {
+                SetSignUpForm();
+            }
+        }
+    }
 });
