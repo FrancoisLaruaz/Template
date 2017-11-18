@@ -12,13 +12,13 @@ function SweetConfirmation(text, title, ConfirmFunction, ConfirmFunctionParams ,
     }
 
     if (text == null)
-        text = "Are you sure you want to perform this action ?";
+        text = "[[[Are you sure you want to perform this action ?]]]";
     if (title == null)
-        title = "Confirmation needed";
+        title = "[[[Confirmation needed]]]";
 
     swal({
-        title: "[[[" + title+"]]]",
-        text: "[[["+text+"]]]",
+        title: title,
+        text: text,
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#f36f23",

@@ -17,7 +17,7 @@ function DrawChart(idDiv, Title, Data) {
                 type: 'pie'
             },
             title: {
-                text: '[[[' + Title + ']]]'
+                text: Title 
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

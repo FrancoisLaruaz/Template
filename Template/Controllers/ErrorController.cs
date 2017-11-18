@@ -13,14 +13,14 @@ namespace Website.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Title = "Error";
+            ViewBag.Title = "[[[Error]]]";
             return View();
         }
 
         public ActionResult DisplayError(string Message)
         {
             ViewBag.ErrorType = Message;
-            ViewBag.Title = "Error";
+            ViewBag.Title = "[[[Error]]]";
             return View("~/Views/Error/Index.cshtml");
         }
 

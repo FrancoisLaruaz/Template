@@ -1,6 +1,5 @@
 ﻿@model Models.ViewModels.SignUpViewModel
 
-
 @if (HttpContext.Current.User.Identity.IsAuthenticated)
 {
     <h1>[[[To create a new account, please log out first.]]]</h1>
@@ -14,12 +13,14 @@ else
         <div class="row">
 
             <div class="col-xs-12 col-md-12">
+
                 <div class="col-xs-12 col-md-12">
                     <div class="websiteFormGroup">
                         <div class="col-sm-12 col-xs-12">
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Email" })
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "[[[Email]]]" })
                             <i class="fa fa-envelope includeFAIcon" aria-hidden="true"></i>
                             @Html.ValidationMessageFor(m => m.Email)
+                            <div id="ErrorSignUpForm" class="text-danger"></div>
                         </div>
 
                     </div>
@@ -27,25 +28,53 @@ else
                 <div class="col-xs-12 col-md-12">
                     <div class="websiteFormGroup">
                         <div class="col-sm-12 col-xs-12">
-                            @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Password" })
-                            <i class="fa fa-lock includeFAIcon" aria-hidden="true"></i>
-                            @Html.ValidationMessageFor(m => m.Password)
-                            <div id="ErrorSignUpForm" class="text-danger"></div>
+                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @placeholder = "[[[First Name]]]" })
+                            @Html.ValidationMessageFor(m => m.FirstName)
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-12">
+                    <div class="websiteFormGroup">
+                        <div class="col-sm-12 col-xs-12">
+                            @Html.PasswordFor(model => model.LastName, new { @class = "form-control", @placeholder = "[[[Last Name]]]" })
+                            @Html.ValidationMessageFor(m => m.LastName)
                         </div>
                     </div>
                 </div>
 
-                
-
+                <div class="col-xs-12 col-md-12">
+                    <div class="websiteFormGroup">
+                        <div class="col-sm-12 col-xs-12">
+                            @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "[[[Password]]]", @id= "PasswordToCheck" })
+                            <i class="fa fa-lock includeFAIcon" aria-hidden="true"></i>
+                            @Html.ValidationMessageFor(m => m.Password)
+                            
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-8 col-md-offset-2 col-xs-12">
-                    <input type="submit" value="[[[Create]]]" class="btn website-btn" id="SubmitButtonSignUp"  />
+                    @Html.Partial("_PasswordPolicy")
                 </div>
 
 
+                <div class="col-md-8 col-md-offset-2 col-xs-12">
+                    <input type="submit" value="[[[Create]]]" class="btn website-btn PasswordButton" disabled id="SubmitButtonSignUp" />
+                </div>
+
+                <div class="col-xs-12 col-md-12">
+                    <div style="margin-top:12px">
+                        <div class="col-sm-12 col-xs-12">
+                            @Html.Partial("_SignUpFormLinks")
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
         </div>
     }
 
 }
 
-<script src="~/Scripts/Views/Account/SignUp.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>
+<script src="~/Scripts/Views/Account/_SignUp.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>

@@ -57,7 +57,8 @@ namespace Template
             bundles.Add(new StyleBundle("~/bundles/Bootstrap").Include(
                 "~/Content/bootstrap.min.css",
                 "~/Content/General/bootstrap-slider.css",
-                "~/Content/General/bootstrap-datepicker.css"
+                "~/Content/General/bootstrap-datepicker.css",
+                "~/Content/General/bootstrap-social.css"
             ));
 
             bundles.Add(new StyleBundle("~/bundles/Style").Include(

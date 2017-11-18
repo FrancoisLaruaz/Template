@@ -5,11 +5,11 @@ function NotificationOK(message) {
     try {
 
         if (message === undefined || message == null || message.trim() == "") {
-            message = "The action has been successfully performed."
+            message = "[[[The action has been successfully performed.]]]"
         }
 
         SetUpToastrOK();
-        message = "[[[" + message + "]]]";
+
         toastr.success(message);
     }
     catch (err) {
@@ -21,10 +21,10 @@ function NotificationOK(message) {
 function NotificationKO(message) {
     try {
         if (message === undefined || message == null || message.trim() == "") {
-            message = "An unexpected error occurs."
+            message = "[[[An unexpected error occured.]]]"
         }
         SetUpToastr();
-        message = "[[[" + message + "]]]";
+
         toastr.error(message);
     }
     catch (err) {
@@ -35,7 +35,7 @@ function NotificationKO(message) {
 function NotificationKOErrorDev(message) {
     try {
         SetUpToastrErrorDev();
-        message = "[[[" + message + "]]]";
+
         toastr.error(message);
     }
     catch (err) {
@@ -46,7 +46,7 @@ function NotificationKOErrorDev(message) {
 function NotificationWarning(message) {
     try {
         SetUpToastr();
-        message = "[[[" + message + "]]]";
+
         toastr.warning(message);
     }
     catch (err) {
@@ -57,7 +57,7 @@ function NotificationWarning(message) {
 function NotificationInfo(message) {
     try {
         SetUpToastr();
-        message = "[[[" + message + "]]]";
+
         toastr.info(message);
     }
     catch (err) {

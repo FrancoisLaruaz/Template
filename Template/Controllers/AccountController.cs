@@ -10,6 +10,7 @@ using System.Web.Mvc.Ajax;
 using Models.BDDObject;
 using Models.ViewModels;
 using Models.Class;
+using i18n;
 
 namespace Website.Controllers
 {
@@ -43,28 +44,36 @@ namespace Website.Controllers
 
             try
             {
-
-                if (ModelState.IsValid)
+                if (!User.Identity.IsAuthenticated)
                 {
-                    string Email = Commons.EncryptHelper.EncryptToString(model.Password.Replace("'", "''"));
-
-                    bool IsUserRegistered = UserService.IsUserRegistered(Email);
-
-                    if (!IsUserRegistered)
+                    if (ModelState.IsValid)
                     {
-                        _Result = true;
+                        string Email = Commons.EncryptHelper.EncryptToString(model.Password.Replace("'", "''"));
+
+                        bool IsUserRegistered = UserService.IsUserRegistered(Email);
+
+                        if (!IsUserRegistered)
+                        {
+                            model.LangTagPreference = CurrentLangTag;
+                            _Result = true;
+                        }
+                        else
+                        {
+                            _Error = "[[[This email address is already registered.]]]";
+                            _Result = false;
+                        }
                     }
-                    else
-                    {
-                        _Error = "[[[This email address is already registered.]]]";
-                        _Result = false;
-                    }
+                }
+                else
+                {
+                    _Error = "[[[You are already logged in.]]]";
+                    _Result = false;
                 }
             }
             catch (Exception e)
             {
                 _Result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Email = " + model.Email);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Email = " + model.Email+" and FirstName = "+model.FirstName + " and LastName = " + model.LastName);
             }
 
             return Json(new { Result = _Result, Error = _Error, UserFirstName = _UserFirstName });
@@ -140,7 +149,7 @@ namespace Website.Controllers
             try
             {
                 model.URLRedirect = returnUrl;
-                ViewBag.Title = "Login";
+                ViewBag.Title = "[[[Login]]]";
                 
                  List<string> Attachments = new List<string>();
                 Attachments.Add(Const.BasePathImages+ "/Logo.png");
@@ -149,8 +158,9 @@ namespace Website.Controllers
                 Email.ToEmail = "francois.laruaz@gmail.com";
                 Email.EMailTypeId = EmailTemplate.Forgotpassword;
                 Email.Attachments = Attachments;
-               // bool result =EMailService.SendMail(Email);
-               
+                bool result =EMailService.SendMail(Email);
+
+
             }
             catch (Exception e)
             {

@@ -25,6 +25,10 @@ namespace Service
             {
                 int LanguageId = Commons.Languages.English;
                 string LangTag = Commons.Languages.ToString(LanguageId);
+
+
+
+
                 if (Email.EmailContent == null)
                 {
                     Email.EmailContent = new List<Tuple<string, string>>();
@@ -62,6 +66,16 @@ namespace Service
                 
                 if (EMailTypeLanguage != null && !String.IsNullOrWhiteSpace(Email.ToEmail))
                 {
+                    if (!Utils.IsProductionWebsite())
+                    {
+                        Email.EmailContent.Add(new Tuple<string, string>("#RealUserEMail#","Real mail :"+ Email.ToEmail));
+                        Email.ToEmail = Const.EMailDev;
+                    }
+                    else
+                    {
+                        Email.EmailContent.Add(new Tuple<string, string>("#RealUserEMail#", "&nbsp;"));
+                    }
+
                     Email.EMailTypeLanguageId = EMailTypeLanguage.Id;
                     Email.EMailTemplate = EMailTypeLanguage.TemplateName;
                     Email.BasePathFile = FileHelper.GetStorageRoot(Const.BasePathTemplateEMails);

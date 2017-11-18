@@ -12,21 +12,17 @@ namespace Models.Class
     {
         public FileUpload()
         {
-            ConvertPdf = false;
             CreateThumbnail = false;
             EncryptFile = false;
+            IsImage = false;
         }
         public string UploadName { get; set; }
-        public string SavedName { get; set; }
-        public string Location { get; set; }
 
-        public string UrlPath { get; set; }
-        public string DiskPath { get; set; }
+        public bool IsImage { get; set; }
 
         public HttpPostedFileBase File { get; set; }
         public byte[] FileBytes { get; set; }
         public byte[] ThumbBytes { get; set; }
-        public bool ConvertPdf { get; set; }
         public bool CreateThumbnail { get; set; }
         public bool EncryptFile { get; set; }
     }

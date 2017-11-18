@@ -6,41 +6,45 @@ namespace Commons
 {
     public static class Const
     {
-        public static string DefaultCulture = "en";
-        public static string WebsiteTitle = "Website Title";
-        public static string GoogleAnalyticsID = "";
+        public const string DefaultCulture = "en";
+        public const string WebsiteTitle = "Website Title";
+        public const  string GoogleAnalyticsID = "";
+        public const  string FacebookPixelID = "110600362985483";
+        public const  string EMailDev = "francois.laruaz@gmail.com";
+        public const string DefaultPassword = "r4NHU$sNG(f'+:e!";
         // Define if the application need  login/logout features
-        public static bool UserManagement = true;
+        public const bool UserManagement = true;
 
+        public const int MaxImageLength = 1000000;
 
-        public static string BasePathRessources = "~/Ressources";
-        public static string BasePathUpload = BasePathRessources +"/Upload";
-        public static string BasePathFiles = BasePathRessources + "/Files";
-        public static string BasePathTemplateEMails = BasePathRessources + "/EMails";
-        public static string BasePathImages = BasePathFiles + "/Images";
+        public const string BasePathRessources = "~/Ressources";
+        public const string BasePathUpload = BasePathRessources +"/Upload";
+        public const string BasePathFiles = BasePathRessources + "/Files";
+        public const string BasePathTemplateEMails = BasePathRessources + "/EMails";
+        public const string BasePathImages = BasePathFiles + "/Images";
 
-        public static string i18nlangtag = "i18n.langtag";
+        public const string DefaultImage = BasePathImages + "/Images/DefaultImage.jpg";
+        public const string DefaultImageUser = BasePathImages + "/Images/DefaultUser.jpg";
 
+        public const string i18nlangtag = "i18n.langtag";
 
-        public static List<string> ListeExtensionsVideos = new List<string> { "MP4", "M4V", "MOV", "MKV", "AVI" };
-		public static List<string> ListeExtensionsImage = new List<string> { "JPG", "JPEG", "PNG", "GIF" };
     }
 
     public static class EmailTemplate
     {
-        public static int Forgotpassword = 1001;
+        public const int Forgotpassword = 1001;
     }
 
     public static class UserRoles
     {
-        public static string Admin = "Admin";
+        public const string Admin = "Admin";
     }
 
     public static class CategoryTypes
     {
-        public static int EmailType = 1;
-        public static int UserRole = 2;
-        public static int Language = 3;
+        public const int EmailType = 1;
+        public const int UserRole = 2;
+        public const int Language = 3;
     }
 
     public static class Languages
@@ -65,7 +69,7 @@ namespace Commons
 
     public static class StaticFileVersion
     {
-        public static string StaticFileVersionString = "20171006";
+        public const string StaticFileVersionString = "20171006";
     }
 
 }

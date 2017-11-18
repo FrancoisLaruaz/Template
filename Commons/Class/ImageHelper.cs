@@ -131,7 +131,7 @@ namespace Commons
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UrlPath = " + upload.UrlPath);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UrlPath = " + upload.UploadName);
             }
 
             return fileBytes;

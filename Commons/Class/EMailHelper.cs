@@ -18,7 +18,7 @@ namespace Commons
         static string MailName = "Zaural Website Ltd";
         public static string MailAdress = "zaural.website@gmail.com";
         static string PasswordMailAdress = "071185004154171035122139135090006102148063065162163134156047062127032176181228062101123048131167";
-        static string Banner = "https://preview.ibb.co/misKLw/banner.jpg";
+        static string Banner = "http://mjcloreillecassee.com/home/wp-content/uploads/2017/03/Banniere-Soiree-Latino-site-OKC.jpg";
         static string Signature = "Zaural Website Team";
         static string CompanyDescription = "EMails and Website made by Zaural Website Ltd.";
         static string AdressFooter1 = "304-2385 West 5th Avenue";
@@ -26,7 +26,7 @@ namespace Commons
         static string CompanyFooter = "Zaural Website is a registered trademark";
         static string ColorElement = "#6699ff";
         static string ColorText = "black";
-        static string SizeText = "1rem";
+        static string SizeText = "1.05rem";
         static string SizeTextButton = "1.1rem";
         static string SizeTextFooter = "0.9rem";
 

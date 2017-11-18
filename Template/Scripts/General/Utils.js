@@ -96,3 +96,15 @@ function SetValidationForm(IdForm) {
         $.validator.unobtrusive.parse("#" + IdForm);
     }
 }
+
+function ContainSpecialCharacter(str) {
+    return /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+}
+
+function PopupWindow(url, title, w, h) {
+    // ex :  onclick="popupwindow('https://www.linkedin.com/shareArticle?mini=true&url=@HttpUtility.UrlEncode(ViewBag.OgUrl)&title=@HttpUtility.UrlEncode(ViewBag.OgTitle)&summary=@HttpUtility.UrlEncode(ViewBag.OgDescription)', '@ViewBag.OgTitle', 520, 570);">
+
+    var y = window.outerHeight / 2 + window.screenY - (h / 2);
+    var x = window.outerWidth / 2 + window.screenX - (w / 2);
+    return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + y + ', left=' + x);
+}

@@ -18,7 +18,7 @@ else
                 <div class="col-xs-12 col-md-12">
                     <div class="websiteFormGroup">
                         <div class="col-sm-12 col-xs-12">
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Email" })
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "[[[Email]]]" })
                             <i class="fa fa-envelope includeFAIcon" aria-hidden="true"></i>
                             @Html.ValidationMessageFor(m => m.Email)
                         </div>
@@ -28,7 +28,7 @@ else
                 <div class="col-xs-12 col-md-12">
                     <div class="websiteFormGroup">
                         <div class="col-sm-12 col-xs-12">
-                            @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Password" })
+                            @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "[[[Password]]]" })
                             <i class="fa fa-lock includeFAIcon" aria-hidden="true"></i>
                             @Html.ValidationMessageFor(m => m.Password)
                             <div id="ErrorLoginForm" class="text-danger"></div>
@@ -45,7 +45,7 @@ else
                 <div class="col-xs-12 col-md-12">
                     <div style="margin-top:12px">
                         <div class="col-sm-12 col-xs-12">
-                               @Html.Partial("_SignUpLinks")
+                               @Html.Partial("_LoginFormLinks")
                         </div>
                     </div>
                 </div>
@@ -55,4 +55,4 @@ else
 
 }
 
-<script src="~/Scripts/Views/Account/Login.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>
+<script src="~/Scripts/Views/Account/_Login.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>

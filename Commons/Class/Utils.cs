@@ -44,6 +44,20 @@ namespace Commons
             }
             return result;
         }
- 
+
+        /// <summary>
+        /// Remove the unsafe characters
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string RemoveUnsafeCharacters(string value)
+        {
+            if (value == null)
+                return null;
+            else
+                return value.Replace("<", "").Replace(">", "").Replace(":", "").Replace("\"", "").Replace("/", "").Replace("\\", "").Replace("|", "").Replace("?", "").Replace("*", "");
+        }
+
+
     }
 }
