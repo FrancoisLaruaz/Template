@@ -3,3 +3,8 @@
 /Users/francoislaruaz/Projects/Template/Models/obj/Debug/Models.csproj.CoreCompileInputs.cache
 /Users/francoislaruaz/Projects/Template/Models/obj/Debug/Models.dll
 /Users/francoislaruaz/Projects/Template/Models/obj/Debug/Models.pdb
+D:\DEV\Template\Models\bin\Debug\Models.dll
+D:\DEV\Template\Models\bin\Debug\Models.pdb
+D:\DEV\Template\Models\obj\Debug\Models.csprojResolveAssemblyReference.cache
+D:\DEV\Template\Models\obj\Debug\Models.dll
+D:\DEV\Template\Models\obj\Debug\Models.pdb

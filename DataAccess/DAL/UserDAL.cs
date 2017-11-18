@@ -148,6 +148,12 @@ namespace DataAccess
             return result;
         }
 
+        /// <summary>
+        /// Get the list of the users
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="EMail"></param>
+        /// <returns></returns>
         public static List<User> GetUsersList(int? Id=null,string EMail=null)
         {
             List<User> result = new List<User>();
@@ -156,7 +162,7 @@ namespace DataAccess
             {
                 db = new DBConnect();
                 string Query = "select U.Id, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification ";
-                Query = Query + ",U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, U.Password, U.Email, U.CountryId ";
+                Query = Query + ",U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, U.Password, U.Email, U.CountryId, U.FacebookId ";
                 Query = Query + ", C.Name as CountryName ";
                 Query = Query + ",P.Id as ProvinceId, P.Name as ProvinceName ";
                 Query = Query + ",L.Id as LanguageId, L.Name as LanguageName, L.Code as LanguageCode ";
@@ -186,19 +192,20 @@ namespace DataAccess
                     User.DateOfBirth = Commons.MySQLHelper.GetDateFromMySQL(dr["DateOfBirth"]);
                     User.DateModification = Commons.MySQLHelper.GetDateFromMySQL(dr["DateModification"]).Value;
                     User.DateCreation = Commons.MySQLHelper.GetDateFromMySQL(dr["DateCreation"]).Value;
-                    User.Adress1 = Convert.ToString(dr["Adress1"]);
-                    User.Adress2 = Convert.ToString(dr["Adress2"]);
-                    User.Adress3 = Convert.ToString(dr["Adress3"]);
+                    User.Adress1 = MySQLHelper.GetStringFromMySQL(dr["Adress1"]);
+                    User.Adress2 = MySQLHelper.GetStringFromMySQL(dr["Adress2"]);
+                    User.Adress3 = MySQLHelper.GetStringFromMySQL(dr["Adress3"]);
                     User.Password = Convert.ToString(dr["Password"]);
+                    User.FacebookId = MySQLHelper.GetStringFromMySQL(dr["FacebookId"]);
                     User.ResetPasswordToken = Convert.ToString(dr["ResetPasswordToken"]);
                     User.Description = Convert.ToString(dr["Description"]);
                     User.CountryId= MySQLHelper.GetIntFromMySQL(dr["CountryId"]);
                     User.CountryName = Convert.ToString(dr["CountryName"]);
                     User.ProvinceId= MySQLHelper.GetIntFromMySQL(dr["ProvinceId"]);
-                    User.ProvinceName = Convert.ToString(dr["ProvinceName"]);
+                    User.ProvinceName = MySQLHelper.GetStringFromMySQL(dr["ProvinceName"]);
                     User.LanguageId = MySQLHelper.GetIntFromMySQL(dr["LanguageId"]).Value;
-                    User.LanguageCode = Convert.ToString(dr["LanguageCode"]);
-                    User.LanguageName = Convert.ToString(dr["LanguageName"]);
+                    User.LanguageCode = MySQLHelper.GetStringFromMySQL(dr["LanguageCode"]);
+                    User.LanguageName = MySQLHelper.GetStringFromMySQL(dr["LanguageName"]);
                     User.IsMasculine = MySQLHelper.GetBoolFromMySQL(dr["IsMasculine"]);
                     User.EmailDecrypt = Commons.EncryptHelper.DecryptString(Convert.ToString(dr["Email"]));
                     User.PasswordDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["Password"]));

@@ -1,0 +1,859 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Revalee.Client.Mvc</name>
+    </assembly>
+    <members>
+        <member name="T:Revalee.Client.Mvc.CallbackActionAttribute">
+            <summary>
+            Represents an attribute that will restrict access to previously requested callbacks.
+            </summary>
+        </member>
+        <member name="M:Revalee.Client.Mvc.CallbackActionAttribute.OnAuthorization(System.Web.Mvc.AuthorizationContext)">
+            <summary>
+            Called when a process requests authorization for the marked callback action.
+            </summary>
+            <param name="filterContext">The filter context, which encapsulates information for using <see cref="T:Revalee.Client.Mvc.CallbackActionAttribute" />.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="filterContext" /> parameter is null.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.CallbackActionAttribute.OnActionExecuting(System.Web.Mvc.ActionExecutingContext)">
+            <summary>
+            Called before the action executes to supply cached state information if present.
+            </summary>
+            <param name="filterContext">The filter context, which encapsulates information for using <see cref="T:Revalee.Client.Mvc.CallbackActionAttribute" />.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="filterContext" /> parameter is null.</exception>
+        </member>
+        <member name="T:Revalee.Client.Mvc.RevaleeClientSettingsAttribute">
+            <summary>Represents an attribute that is used to configure callback requests made during this request.</summary>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeClientSettingsAttribute.OnActionExecuted(System.Web.Mvc.ActionExecutedContext)">
+            <summary>Called by the ASP.NET MVC framework after the action method executes.</summary>
+            <param name="filterContext">The filter context.</param>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeClientSettingsAttribute.OnActionExecuting(System.Web.Mvc.ActionExecutingContext)">
+            <summary>Called by the ASP.NET MVC framework before the action method executes.</summary>
+            <param name="filterContext">The filter context.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="filterContext" /> parameter is null.</exception>
+        </member>
+        <member name="P:Revalee.Client.Mvc.RevaleeClientSettingsAttribute.ServiceBaseUri">
+            <summary>Gets or sets the service base URL used to make callback requests.</summary>
+            <returns>The service base URL used to make callback requests.</returns>
+        </member>
+        <member name="P:Revalee.Client.Mvc.RevaleeClientSettingsAttribute.RequestTimeout">
+            <summary>Gets or sets the timeout of callback requests in milliseconds, a value of 0 indicates a default timeout period, a value of -1 indicates an infinite timeout period.</summary>
+            <returns>The timeout of callback requests in milliseconds, a value of 0 indicates a default timeout period, a value of -1 indicates an infinite timeout period.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="value" /> cannot be a negative value unless -1 for an infinite period.</exception>
+        </member>
+        <member name="P:Revalee.Client.Mvc.RevaleeClientSettingsAttribute.TypeId">
+            <summary>Gets the unique identifier for this attribute.</summary>
+            <returns>The unique identifier for this attribute.</returns>
+        </member>
+        <member name="T:Revalee.Client.Mvc.RevaleeControllerExtensions">
+            <summary>
+            Extends <see cref="T:System.Web.Mvc.Controller" /> to add callback request methods.
+            </summary>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackAtAsync(System.Web.Mvc.Controller,System.Uri,System.DateTimeOffset)">
+            <summary>
+            Schedules a callback at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackUri">An absolute <see cref="T:System.Uri" /> that will be requested on the callback.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackUri" /> is null.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="callbackUri" /> is not an absolute <see cref="T:System.Uri" />.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.DateTimeOffset)">
+            <summary>
+            Schedules a callback to an action on this controller at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.String,System.DateTimeOffset)">
+            <summary>
+            Schedules a callback to a controller action at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.Web.Routing.RouteValueDictionary,System.DateTimeOffset)">
+            <summary>
+            Schedules a callback to an action on this controller at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.Object,System.DateTimeOffset)">
+            <summary>
+            Schedules a callback to an action on this controller at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.DateTimeOffset)">
+            <summary>
+            Schedules a callback to a controller action at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.String,System.Object,System.DateTimeOffset)">
+            <summary>
+            Schedules a callback to a controller action at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackAtAsync(System.Web.Mvc.Controller,System.Uri,System.DateTimeOffset,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackUri">An absolute <see cref="T:System.Uri" /> that will be requested on the callback.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackUri" /> is null.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="callbackUri" /> is not an absolute <see cref="T:System.Uri" />.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.DateTimeOffset,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to an action on this controller at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.String,System.DateTimeOffset,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to a controller action at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.Web.Routing.RouteValueDictionary,System.DateTimeOffset,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to an action on this controller at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.Object,System.DateTimeOffset,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to an action on this controller at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.DateTimeOffset,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to a controller action at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAtAsync(System.Web.Mvc.Controller,System.String,System.String,System.Object,System.DateTimeOffset,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to a controller action at a specified time.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackTime">A <see cref="T:System.DateTimeOffset" /> that represents the date and time to issue the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackAfterAsync(System.Web.Mvc.Controller,System.Uri,System.TimeSpan)">
+            <summary>
+            Schedules a callback after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackUri">An absolute <see cref="T:System.Uri" /> that will be requested on the callback.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackUri" /> is null.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="callbackUri" /> is not an absolute <see cref="T:System.Uri" />.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.TimeSpan)">
+            <summary>
+            Schedules a callback to an action on this controller after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.String,System.TimeSpan)">
+            <summary>
+            Schedules a callback to a controller action after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.Web.Routing.RouteValueDictionary,System.TimeSpan)">
+            <summary>
+            Schedules a callback to an action on this controller after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.Object,System.TimeSpan)">
+            <summary>
+            Schedules a callback to an action on this controller after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.TimeSpan)">
+            <summary>
+            Schedules a callback to a controller action after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.String,System.Object,System.TimeSpan)">
+            <summary>
+            Schedules a callback to a controller action after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackAfterAsync(System.Web.Mvc.Controller,System.Uri,System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackUri">An absolute <see cref="T:System.Uri" /> that will be requested on the callback.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackUri" /> is null.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="callbackUri" /> is not an absolute <see cref="T:System.Uri" />.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to an action on this controller after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.String,System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to a controller action after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.Web.Routing.RouteValueDictionary,System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to an action on this controller after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.Object,System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to an action on this controller after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to a controller action after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionAfterAsync(System.Web.Mvc.Controller,System.String,System.String,System.Object,System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to a controller action after a specified delay.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="callbackDelay">A <see cref="T:System.TimeSpan" /> that represents a time interval to delay the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackNowAsync(System.Web.Mvc.Controller,System.Uri,System.Object)">
+            <summary>
+            Schedules an immediate callback.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackUri">An absolute <see cref="T:System.Uri" /> that will be requested on the callback.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackUri" /> is null.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="callbackUri" /> is not an absolute <see cref="T:System.Uri" />.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.Object)">
+            <summary>
+            Schedules a callback to an action on this controller immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.String,System.Object)">
+            <summary>
+            Schedules a callback to a controller action immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.Web.Routing.RouteValueDictionary,System.Object)">
+            <summary>
+            Schedules a callback to an action on this controller immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.Object,System.Object)">
+            <summary>
+            Schedules a callback to an action on this controller immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Object)">
+            <summary>
+            Schedules a callback to a controller action immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.String,System.Object,System.Object)">
+            <summary>
+            Schedules a callback to a controller action immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackNowAsync(System.Web.Mvc.Controller,System.Uri,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Schedules an immediate callback.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackUri">An absolute <see cref="T:System.Uri" /> that will be requested on the callback.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackUri" /> is null.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="callbackUri" /> is not an absolute <see cref="T:System.Uri" />.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to an action on this controller immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.String,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to a controller action immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.Web.Routing.RouteValueDictionary,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to an action on this controller immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.Object,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to an action on this controller immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to a controller action immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CallbackToActionNowAsync(System.Web.Mvc.Controller,System.String,System.String,System.Object,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Schedules a callback to a controller action immediately.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="state">An <see cref="T:System.Object" /> containing the data to be used upon receiving the callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Guid" /> that serves as the identifier for the successfully scheduled callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The callback request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.Uri)">
+            <summary>
+            Cancels a previously scheduled callback.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="callbackUri">The requested absolute <see cref="T:System.Uri" /> of the previously scheduled callback.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackUri" /> is null.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="callbackUri" /> is not an absolute <see cref="T:System.Uri" />.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String)">
+            <summary>
+            Cancels a previously scheduled callback to an action on this controller.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String,System.String)">
+            <summary>
+            Cancels a previously scheduled callback to a controller action.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String,System.Web.Routing.RouteValueDictionary)">
+            <summary>
+            Cancels a previously scheduled callback to an action on this controller.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String,System.Object)">
+            <summary>
+            Cancels a previously scheduled callback to an action on this controller.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String,System.String,System.Web.Routing.RouteValueDictionary)">
+            <summary>
+            Cancels a previously scheduled callback to a controller action.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String,System.String,System.Object)">
+            <summary>
+            Cancels a previously scheduled callback to a controller action.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a previously scheduled callback.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="callbackUri">The requested absolute <see cref="T:System.Uri" /> of the previously scheduled callback.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackUri" /> is null.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="callbackUri" /> is not an absolute <see cref="T:System.Uri" />.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a previously scheduled callback to an action on this controller.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a previously scheduled callback to a controller action.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String,System.Web.Routing.RouteValueDictionary,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a previously scheduled callback to an action on this controller.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a previously scheduled callback to an action on this controller.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a previously scheduled callback to a controller action.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+        <member name="M:Revalee.Client.Mvc.RevaleeControllerExtensions.CancelCallbackAsync(System.Web.Mvc.Controller,System.Guid,System.String,System.String,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a previously scheduled callback to a controller action.
+            </summary>
+            <param name="controller">The <see cref="T:System.Web.Mvc.Controller" /> instance that this method extends.</param>
+            <param name="callbackId">The <see cref="T:System.Guid" /> that identifies the previously scheduled callback.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">The parameters for a route.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that controls the cancellation of the operation.</param>
+            <returns>A task that represents the asynchronous operation.
+            The task result contains the <see cref="T:System.Boolean" /> that will indicate true if the cancellation was processed normally.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callbackId" /> is an empty <see cref="T:System.Guid" />.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="actionName" /> is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="controllerName" /> is null or empty.</exception>
+            <exception cref="T:Revalee.Client.RevaleeRequestException">The cancellation request failed during communication with the Revalee service.</exception>
+        </member>
+    </members>
+</doc>

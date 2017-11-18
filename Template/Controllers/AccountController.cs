@@ -158,7 +158,7 @@ namespace Website.Controllers
                 Email.ToEmail = "francois.laruaz@gmail.com";
                 Email.EMailTypeId = EmailTemplate.Forgotpassword;
                 Email.Attachments = Attachments;
-                bool result =EMailService.SendMail(Email);
+            //    bool result =EMailService.SendMail(Email);
 
 
             }

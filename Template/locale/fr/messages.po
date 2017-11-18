@@ -1,15 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-11-16 11:53-08:00\n"
-"PO-Revision-Date: 2017-11-16 15:45-0800\n"
+"POT-Creation-Date: 2017-11-18 08:53-08:00\n"
+"PO-Revision-Date: 2017-11-18 08:53-08:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: fr\n"
+"X-Generator: i18n.POTGenerator\n"
 
 #: Scripts\General\HighchartsHelper.js:55
 msgid "' + element[0] + '"
@@ -86,7 +83,8 @@ msgstr "Modifier le profil"
 
 #: ..\Models\ViewModel\Account\LoginViewModel.cs:15
 #: ..\Models\ViewModel\Account\SignUpViewModel.cs:25
-#: Views\Account\_LoginForm.cshtml:21 Views\Account\_SignUpForm.cshtml:20
+#: Views\Account\_LoginForm.cshtml:21
+#: Views\Account\_SignUpForm.cshtml:20
 msgid "Email"
 msgstr "Courriel"
 
@@ -94,11 +92,13 @@ msgstr "Courriel"
 msgid "Email Audits"
 msgstr "Email Audits"
 
-#: Controllers\ErrorController.cs:16 Controllers\ErrorController.cs:23
+#: Controllers\ErrorController.cs:16
+#: Controllers\ErrorController.cs:23
 msgid "Error"
 msgstr "Erreur"
 
-#: Scripts\General\FileDropHelper.js:75 Scripts\General\FileDropHelper.js:80
+#: Scripts\General\FileDropHelper.js:75
+#: Scripts\General\FileDropHelper.js:80
 msgid "Error while uploading the picture."
 msgstr "Une erreur est survenue lors du chargement de l'image."
 
@@ -119,11 +119,11 @@ msgstr "De"
 msgid "Id"
 msgstr "Id"
 
-#: Controllers\AccountController.cs:120
+#: Controllers\AccountController.cs:127
 msgid "Invalid password for this user"
 msgstr "Le mot de passe renseigné est incorrect pour cet utilisateur"
 
-#: Controllers\AccountController.cs:125
+#: Controllers\AccountController.cs:132
 msgid "Invalid username"
 msgstr "Utilisateur incconu"
 
@@ -136,7 +136,8 @@ msgstr "Langue"
 msgid "Last Name"
 msgstr "Nom de famille"
 
-#: Views\Account\_LoginForm.cshtml:42 Views\Account\_SignUpFormLinks.cshtml:2
+#: Views\Account\_LoginForm.cshtml:42
+#: Views\Account\_SignUpFormLinks.cshtml:2
 msgid "Log In"
 msgstr "Se connecter"
 
@@ -144,7 +145,8 @@ msgstr "Se connecter"
 msgid "Log Off"
 msgstr "Se déconnecter"
 
-#: Controllers\AccountController.cs:145 Views\Shared\Layout\_Header.cshtml:37
+#: Controllers\AccountController.cs:152
+#: Views\Shared\Layout\_Header.cshtml:37
 msgid "Login"
 msgstr "S'identifier"
 
@@ -166,7 +168,8 @@ msgstr "Oups... Une erreur est survenue"
 
 #: ..\Models\ViewModel\Account\LoginViewModel.cs:20
 #: ..\Models\ViewModel\Account\SignUpViewModel.cs:30
-#: Views\Account\_LoginForm.cshtml:31 Views\Account\_SignUpForm.cshtml:49
+#: Views\Account\_LoginForm.cshtml:31
+#: Views\Account\_SignUpForm.cshtml:49
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -174,7 +177,8 @@ msgstr "Mot de passe"
 msgid "Password Strength :"
 msgstr "Longueur du mot de passe :"
 
-#: Views\Admin\_DisplayEmailAudits.cshtml:8 Views\Admin\_DisplayLogs.cshtml:8
+#: Views\Admin\_DisplayEmailAudits.cshtml:8
+#: Views\Admin\_DisplayLogs.cshtml:8
 msgid "row(s) found"
 msgstr "ligne(s) trouvées"
 
@@ -207,7 +211,7 @@ msgstr "Le nom de famille est requis."
 msgid "The Password field is required."
 msgstr "Le champ Mot de passe est requis."
 
-#: Controllers\AccountController.cs:61
+#: Controllers\AccountController.cs:62
 msgid "This email address is already registered."
 msgstr "Cette adresse mail est déjà utilisée."
 
@@ -231,6 +235,11 @@ msgstr "Utilisateur"
 msgid "Yes"
 msgstr "Oui"
 
+#: Controllers\AccountController.cs:69
+msgid "You are already logged in."
+msgstr ""
+
 #: Scripts\Views\Account\_Login.js:55
 msgid "you are now connected"
 msgstr "vous êtes desormais connecté"
+

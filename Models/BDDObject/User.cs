@@ -34,5 +34,7 @@ namespace Models.BDDObject
         public int LanguageId { get; set; }
 
         public bool? IsMasculine { get; set; }
+
+        public string FacebookId { get; set; }
     }
 }

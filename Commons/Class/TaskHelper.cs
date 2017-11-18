@@ -6,7 +6,8 @@ using System.Web;
 using Revalee;
 using Revalee.Client;
 using System.Configuration;
-
+using Models;
+using Models.BDDObject;
 
 namespace Commons
 {
@@ -16,7 +17,12 @@ namespace Commons
         private static string WebsiteURL = ConfigurationManager.AppSettings["Website"];
 
 
-        public static bool CancelTask(Task Task)
+        /// <summary>
+        /// Cancellation of a task
+        /// </summary>
+        /// <param name="Task"></param>
+        /// <returns></returns>
+        public static bool CancelTask(ScheduledTask Task)
         {
             Guid? TaskGuid = null;
             bool result = true;
@@ -26,17 +32,13 @@ namespace Commons
                 {
                     TaskGuid = new Guid(Task.CallbackId);
                     Uri TaskUri = new Uri(Task.CallbackUrl);
-                    if (RevaleeRegistrar.CancelCallback(TaskGuid.Value, TaskUri))
-                    {
-                        Task.CancellationDate = DateTime.UtcNow;
-                        result = _RevaleeTaskService.UpdateRevaleeTask(Task);
-                    }
+                    result=RevaleeRegistrar.CancelCallback(TaskGuid.Value, TaskUri);
                 }
             }
             catch (Exception e)
             {
                 result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Email = " + model.Email + " and FirstName = " + model.FirstName + " and LastName = " + model.LastName);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "TaskId = " + Task.Id);
             }
             return result;
         }
