@@ -10,6 +10,14 @@ namespace Template
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                  "Tasks",
+                  "Tasks/{controller}/{action}/{id}",
+                   new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                   new string[] { "Tasks.Controllers" } // Namespace
+               );
+
+
+            routes.MapRoute(
                 "Login",
                 "Login",
                 new { controller = "Account", action = "Login" },

@@ -9,13 +9,43 @@ using System.Linq;
 
 namespace DataAccess
 {
-    public class Log4NetDAL 
+    public class LogDAL 
     {
-        public Log4NetDAL()
+        public LogDAL()
         {
 
         }
 
+
+        /// <summary>
+        /// Delete old logs
+        /// </summary>
+        /// <returns></returns>
+        public static bool DeleteLogs()
+        {
+            bool result = false;
+            DBConnect db = null;
+            try
+            {
+                db = new DBConnect();
+                DateTime DateToCompare = DateTime.UtcNow.AddMonths(-1);
+                string Query = "delete from log4net";
+                Query = Query + " where Date < "+MySQLHelper.GetDateTimeToInsert(DateToCompare);
+
+                result = db.ExecuteQuery(Query);
+
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return result;
+        }
 
         /// <summary>
         /// Get the number of errors matching the pattern

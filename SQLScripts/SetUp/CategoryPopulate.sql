@@ -129,6 +129,29 @@ VALUES
 'forgotpassword_fr');
 
 
+INSERT INTO `categorytype`
+(`Id`,
+`Name`)
+VALUES
+(4,
+'TaskLogType');
+
+
+INSERT INTO `template`.`category`
+(`Id`,
+`Name`,
+`Code`,
+`Description`,
+`CategoryTypeId`,
+`DateModification`)
+VALUES
+(4001,
+'ErrorCleanUp',
+'ErrorCleanUp',
+null,
+1,
+NOW());
+
 
 update category
 set `Order`=Id

@@ -36,6 +36,8 @@
   <ItemGroup>
     <Compile Include="BDDConnect\DBConnect.cs" />
     <Compile Include="DAL\BaseDAL.cs" />
+    <Compile Include="DAL\ScheduledTaskDAL.cs" />
+    <Compile Include="DAL\TaskLogDAL.cs" />
     <Compile Include="DAL\UserRoleDAL.cs" />
     <Compile Include="DAL\ProvinceDAL.cs" />
     <Compile Include="DAL\EMailDAL.cs" />
@@ -43,7 +45,7 @@
     <Compile Include="DAL\CategoryDAL.cs" />
     <Compile Include="DAL\CountryDAL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
-    <Compile Include="DAL\Log4NetDAL.cs" />
+    <Compile Include="DAL\LogDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

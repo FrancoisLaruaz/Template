@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ScheduledTaskService.cs" />
+    <Compile Include="TaskLogService.cs" />
     <Compile Include="ProvinceService.cs" />
     <Compile Include="CountryService.cs" />
     <Compile Include="EMailService.cs" />

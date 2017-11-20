@@ -24,7 +24,7 @@ namespace DataAccess
         /// <param name="Language"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public static bool SetLanguageUser(string Language, int UserId)
+        public static bool UpdateLanguageUser(string Language, int UserId)
         {
             bool result = false;
             DBConnect db = null;
@@ -125,14 +125,13 @@ namespace DataAccess
             {
                 db = new DBConnect();
                 db.BeginTransaction();
-                string Query = "delete from userrole where UserId=" + UserId;
-                result= result && db.ExecuteQuery(Query);
-
-                Query = "delete from user where Id=" + UserId;
-                result = result && db.ExecuteQuery(Query);
+                string Query = "delete from userrole where UserId=" + UserId + ";";
+                Query = Query + "delete from scheduledtask where UserId=" + UserId+";";
+                Query = Query+"delete from user where Id=" + UserId + ";";
+                result = db.ExecuteQuery(Query);
 
                 if (result)
-                    db.CommitTransaction();
+                    result=db.CommitTransaction();
                 else
                     db.RollbackTransaction();
             }
@@ -161,7 +160,7 @@ namespace DataAccess
             try
             {
                 db = new DBConnect();
-                string Query = "select U.Id, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification ";
+                string Query = "select U.Id, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, U.DateLastConnection, ";
                 Query = Query + ",U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, U.Password, U.Email, U.CountryId, U.FacebookId ";
                 Query = Query + ", C.Name as CountryName ";
                 Query = Query + ",P.Id as ProvinceId, P.Name as ProvinceName ";
@@ -192,6 +191,7 @@ namespace DataAccess
                     User.DateOfBirth = Commons.MySQLHelper.GetDateFromMySQL(dr["DateOfBirth"]);
                     User.DateModification = Commons.MySQLHelper.GetDateFromMySQL(dr["DateModification"]).Value;
                     User.DateCreation = Commons.MySQLHelper.GetDateFromMySQL(dr["DateCreation"]).Value;
+                    User.DateLastConnection = Commons.MySQLHelper.GetDateFromMySQL(dr["DateLastConnection"]).Value;
                     User.Adress1 = MySQLHelper.GetStringFromMySQL(dr["Adress1"]);
                     User.Adress2 = MySQLHelper.GetStringFromMySQL(dr["Adress2"]);
                     User.Adress3 = MySQLHelper.GetStringFromMySQL(dr["Adress3"]);

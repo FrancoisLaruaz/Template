@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Data;
 
 namespace Commons
-{ 
+{
     public static class MySQLHelper
     {
         // '2017-01-20 23:00:00'
@@ -86,7 +86,7 @@ namespace Commons
             DateTime? result = null;
             try
             {
-                if (Ob!= DBNull.Value && Ob != null)
+                if (Ob != DBNull.Value && Ob != null)
                 {
                     result = Convert.ToDateTime(Ob);
                 }
@@ -94,6 +94,53 @@ namespace Commons
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Ob = " + Ob.ToString());
+            }
+            return result;
+        }
+
+
+        /// <summary>
+        /// Function used to update/insert any object with mysql
+        /// </summary>
+        /// <param name="Value"></param>
+        /// <returns></returns>
+        public static string GetValueToInsert(Object Value)
+        {
+            string result = "NULL";
+            try
+            {
+                if (Value != null)
+                {
+
+                    Type ValueType = Value.GetType();
+
+                    if (ValueType == typeof(DateTime))
+                    {
+                        result = MySQLHelper.GetDateTimeToInsert(Convert.ToDateTime(Value));
+                    }
+                    else if (ValueType == typeof(Int32) || ValueType == typeof(Int16) || ValueType == typeof(Int64))
+                    {
+                        result = MySQLHelper.GetIntToInsert(Convert.ToInt32(Value));
+                    }
+                    else if (ValueType == typeof(Boolean))
+                    {
+                        result = MySQLHelper.GetBoolToInsert(Convert.ToBoolean(Value));
+                    }
+                    else if (ValueType == typeof(Decimal))
+                    {
+                        result = MySQLHelper.GetDecimalToInsert(Convert.ToDecimal(Value));
+                    }
+                    else
+                    {
+                        result = MySQLHelper.GetStringToInsert(Convert.ToString(Value));
+                    }
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Value = " + Value);
             }
             return result;
         }
@@ -122,7 +169,7 @@ namespace Commons
         }
 
         /// <summary>
-        /// Function used to update/insert am integer with mysql
+        /// Function used to update/insert an integer with mysql
         /// </summary>
         /// <param name="Value"></param>
         /// <returns></returns>
@@ -133,7 +180,60 @@ namespace Commons
             {
                 if (Value != null)
                 {
-                    result =Value.ToString() ;
+                    result = Value.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Value = " + Value);
+            }
+            return result;
+        }
+
+
+        /// <summary>
+        /// Function used to update/insert a decimal with mysql
+        /// </summary>
+        /// <param name="Value"></param>
+        /// <returns></returns>
+        public static string GetDecimalToInsert(decimal? Value)
+        {
+            string result = "NULL";
+            try
+            {
+                if (Value != null)
+                {
+                    result = Value.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Value = " + Value);
+            }
+            return result;
+        }
+
+
+        /// <summary>
+        /// Function used to update/insert a aboolean with mysql
+        /// </summary>
+        /// <param name="Value"></param>
+        /// <returns></returns>
+        public static string GetBoolToInsert(bool? Value)
+        {
+            string result = "NULL";
+            try
+            {
+                if (Value != null)
+                {
+                    if (Value.Value)
+                    {
+                        result = "1";
+                    }
+                    else
+                    {
+                        result = "0";
+                    }
                 }
             }
             catch (Exception e)
@@ -155,7 +255,7 @@ namespace Commons
             {
                 if (Value != null)
                 {
-                    result = "'"+ GetFormatStringForDate(Value) + "'";
+                    result = "'" + GetFormatStringForDate(Value) + "'";
                 }
             }
             catch (Exception e)

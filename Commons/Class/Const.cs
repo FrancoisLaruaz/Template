@@ -67,6 +67,12 @@ namespace Commons
     }
 
 
+    public static class TaskLogTypes
+    {
+        public const int ErrorCleanUp = 4001;
+    }
+
+
     public static class StaticFileVersion
     {
         public const string StaticFileVersionString = "20171006";

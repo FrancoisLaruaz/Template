@@ -55,13 +55,37 @@ namespace Service
             return result;
         }
 
-        public static bool SetLanguageUser(string Language, string UserId)
+        /// <summary>
+        /// Modification of DateLastConnection
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public static bool UpdateDateLastConnection(int UserId)
+        {
+            bool result = false;
+            try
+            {
+                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                Columns.Add("DateLastConnection", DateTime.UtcNow);
+
+                Task.Factory.StartNew(() => GenericDAL.UpdateById("user", UserId, Columns));
+                result = true;
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId );
+            }
+            return result;
+        }
+
+        public static bool UpdateLanguageUser(string Language, string UserId)
         {
             bool result = false;
             try
             {
 
-                result = UserDAL.SetLanguageUser(Language, Convert.ToInt32(UserId));
+                result = UserDAL.UpdateLanguageUser(Language, Convert.ToInt32(UserId));
             }
             catch (Exception e)
             {
@@ -105,11 +129,17 @@ namespace Service
             return result;
         }
 
+        /// <summary>
+        /// Delete a user
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public static bool DeleteUserById(int UserId)
         {
             bool result = false;
             try
             {
+                ScheduledTaskService.CancelTaskByUserId(UserId);
                 result = UserDAL.DeleteUserById(UserId);
             }
             catch (Exception e)

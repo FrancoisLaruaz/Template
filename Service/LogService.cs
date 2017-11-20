@@ -31,14 +31,34 @@ namespace Service
         }
 
 
+        /// <summary>
+        /// Delete old logs
+        /// </summary>
+        /// <returns></returns>
+        public static bool DeleteLogs()
+        {
+            bool result = false;
+            try
+            {
+                result = LogDAL.DeleteLogs();
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return result;
+        }
+
+       
         public static DisplayLogsViewModel GetDisplayLogsViewModel(string Pattern,int StartAt,int  PageSize)
         {
             DisplayLogsViewModel model = new DisplayLogsViewModel();
             try
             {
-                model.LogsList = Log4NetDAL.GetLogsList(Pattern, StartAt, PageSize);
+                model.LogsList = LogDAL.GetLogsList(Pattern, StartAt, PageSize);
                 model.Pattern = Pattern;
-                model.Count = Log4NetDAL.GetLogsCount(Pattern);
+                model.Count = LogDAL.GetLogsCount(Pattern);
                 model.StartAt = StartAt;
                 model.PageSize = PageSize;
             }

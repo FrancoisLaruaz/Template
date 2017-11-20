@@ -36,7 +36,7 @@
     <Compile Include="BDDObject\Extensions\ScheduledTask.cs" />
     <Compile Include="BDDObject\Extensions\TaskLog.cs" />
     <Compile Include="BDDObject\TaskLog.cs" />
-    <Compile Include="BDDObject\scheduledtask.cs" />
+    <Compile Include="BDDObject\ScheduledTask.cs" />
     <Compile Include="BDDObject\EMailTypeLanguage.cs" />
     <Compile Include="BDDObject\UserRole.cs" />
     <Compile Include="BDDObject\Province.cs" />

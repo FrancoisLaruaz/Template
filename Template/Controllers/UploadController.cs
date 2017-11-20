@@ -46,7 +46,9 @@ namespace Website.Controllers
                         if (FileHelper.IsValidImage(file))
                         {
                             string ext = Path.GetExtension(fileName);
-                            fileName = DateTime.UtcNow.ToString("yyyyMMddhhmmssffffff") + "_" + Purpose + ext;
+                            Random rnd = new Random();
+                            string strRandom = rnd.Next(1, 100).ToString(); 
+                            fileName = DateTime.UtcNow.ToString("yyyyMMddhhmmssffffff")+ strRandom + "_" + Purpose + ext;
 
                             FileUpload newFile = new FileUpload()
                             {

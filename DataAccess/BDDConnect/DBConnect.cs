@@ -111,6 +111,8 @@ namespace DataAccess
                     result = Convert.ToInt32(dr[0]);
                 }
 
+
+
             }
             catch (Exception e)
             {
@@ -201,6 +203,29 @@ namespace DataAccess
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Query = " + Query);
             }
             return result;
+        }
+
+        /// <summary>
+        /// Execute an insert query and return the inserted id
+        /// </summary>
+        /// <param name="Query"></param>
+        /// <returns></returns>
+        public int ExecuteInsertQuery(string Query)
+        {
+            int InsertedId = -1;
+            try
+            {
+                MySqlCommand myCommand = new MySqlCommand(Query);
+                myCommand.Connection = mySqlConnection;
+                myCommand.ExecuteNonQuery();
+                InsertedId = Convert.ToInt32(myCommand.LastInsertedId);
+            }
+            catch (Exception e)
+            {
+                InsertedId = -1;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Query = " + Query);
+            }
+            return InsertedId;
         }
 
         /// <summary>

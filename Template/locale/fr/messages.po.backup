@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-11-18 08:53-08:00\n"
-"PO-Revision-Date: 2017-11-18 08:53-08:00\n"
+"POT-Creation-Date: 2017-11-20 00:10-08:00\n"
+"PO-Revision-Date: 2017-11-20 00:10-08:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -190,7 +190,7 @@ msgstr "Creer un compte"
 msgid "The action has been successfully performed."
 msgstr "L'action a été exécutée avec succès."
 
-#: Controllers\UploadController.cs:87
+#: Controllers\UploadController.cs:89
 msgid "The document must be a picture or a pdf."
 msgstr "Le document doit être une image ou in pdf."
 
@@ -198,7 +198,7 @@ msgstr "Le document doit être une image ou in pdf."
 msgid "The First Name is required."
 msgstr "Le prénom est requis."
 
-#: Controllers\UploadController.cs:82
+#: Controllers\UploadController.cs:84
 msgid "The image must be smaller than 1 MB."
 msgstr "L'image ne doit pas dépasser 1MB."
 

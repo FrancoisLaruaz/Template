@@ -15,6 +15,8 @@ namespace Models.BDDObject
         public DateTime DateCreation { get; set; }
 
         public DateTime DateModification { get; set; }
+
+        public DateTime DateLastConnection { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

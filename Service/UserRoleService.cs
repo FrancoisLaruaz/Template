@@ -66,7 +66,7 @@ namespace Service
                 UserRole.DateModification = DateTime.UtcNow;
                 result=DeleteUserRoleByUserIdAndRoleId(UserId, RoleId);
                 if(result)
-                    result = UserRoleDAL.AddUserRole(UserRole);
+                    result = UserRoleDAL.AddUserRole(UserRole) > 0?true:false;
             }
             catch (Exception e)
             {

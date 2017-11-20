@@ -21,29 +21,29 @@ namespace DataAccess
         /// </summary>
         /// <param name="UserRole"></param>
         /// <returns></returns>
-        public static bool  AddUserRole(UserRole UserRole)
+        public static int  AddUserRole(UserRole UserRole)
         {
-            bool result = false;
+            int insertedId = -1;
             DBConnect db = null;
             try
             {
                 db = new DBConnect();
                 string Query = "insert into userrole (UserId,RoleId,DateModification) values ( ";
-                Query = Query +MySQLHelper.GetIntToInsert(UserRole.UserId);
-                Query = Query +","+ MySQLHelper.GetIntToInsert(UserRole.RoleId);
-                Query = Query + "," + MySQLHelper.GetDateTimeToInsert(UserRole.DateModification)+")";
-                result = db.ExecuteQuery(Query);
+                Query = Query +MySQLHelper.GetValueToInsert(UserRole.UserId);
+                Query = Query +","+ MySQLHelper.GetValueToInsert(UserRole.RoleId);
+                Query = Query + "," + MySQLHelper.GetValueToInsert(UserRole.DateModification)+")";
+                insertedId = db.ExecuteInsertQuery(Query);
             }
             catch (Exception e)
             {
-                result = false;
+                insertedId = -1;
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserRole.UserId+" and RoleId = "+UserRole.RoleId);
             }
             finally
             {
                 db.Dispose();
             }
-            return result;
+            return insertedId;
         }
 
 

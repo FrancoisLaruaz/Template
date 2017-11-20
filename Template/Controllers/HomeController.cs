@@ -73,7 +73,7 @@ namespace Website.Controllers
 
                     if (User.Identity.IsAuthenticated)
                     {
-                        UserService.SetLanguageUser(langtag, User.Identity.Name);
+                        UserService.UpdateLanguageUser(langtag, User.Identity.Name);
                     }
                 }
                 // Owise...delete any 'language' cookie in the client.

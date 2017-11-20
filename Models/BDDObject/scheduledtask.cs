@@ -21,6 +21,8 @@ namespace Models.BDDObject
 
         public string CallbackId { get; set; }
 
+        public int? EmailTypeId { get; set; }
+
 
     }
 }
