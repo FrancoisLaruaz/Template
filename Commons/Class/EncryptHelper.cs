@@ -169,11 +169,13 @@ namespace Commons
         /// <returns></returns>
         private static byte[] StrToByteArray(string str)
         {
+            if (str==null)
+                return null;
+
+
             byte[] byteArr = new byte[str.Length / 3];
             try
             {
-                if (String.IsNullOrEmpty(str))
-                    return null;
 
                 byte val;
                 byteArr = new byte[str.Length / 3];
@@ -190,7 +192,7 @@ namespace Commons
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "str = "+ str);
-                byteArr = new byte[str.Length / 3];
+                byteArr = null;
             }
             return byteArr;
         }
@@ -220,11 +222,15 @@ namespace Commons
                             tempStr += val.ToString();
                     }
                 }
+                else
+                {
+                    tempStr = null;
+                }
             }
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-                tempStr = "";
+                tempStr = null;
             }
 
             return tempStr;

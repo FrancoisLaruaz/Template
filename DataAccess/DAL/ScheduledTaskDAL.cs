@@ -33,8 +33,8 @@ namespace DataAccess
                 Query = Query + ", t.ExpectedExecutionDate, t.EmailTypeId, t.CreationDate ";
                 Query = Query + ", c.Name as 'EMailTypeName', u.FirstName, u.LastName, u.EMail ";
                 Query = Query + "from scheduledtask t ";
-                Query = Query + "inner join category c on c.Id=l.TypeId ";
-                Query = Query + "inner join user u on u.Id=t.UserId ";
+                Query = Query + "inner join category c on c.Id=t.EmailTypeId ";
+                Query = Query + "left join user u on u.Id=t.UserId ";
                 Query = Query + " where 1=1 ";
                 if (UserId != null && UserId.Value>0)
                 {
@@ -53,8 +53,7 @@ namespace DataAccess
                     ScheduledTask element = new ScheduledTask();
                     element.Id = Convert.ToInt32(dr["Id"]);
                     element.CallbackId = MySQLHelper.GetStringFromMySQL(dr["CallbackId"]);
-                    element.CallbackId = MySQLHelper.GetStringFromMySQL(dr["CallbackUrl"]);
-                    element.CallbackId = MySQLHelper.GetStringFromMySQL(dr["CallbackUrl"]);
+                    element.CallbackUrl = MySQLHelper.GetStringFromMySQL(dr["CallbackUrl"]);
                     element.UserId = MySQLHelper.GetIntFromMySQL(dr["UserId"]);
                     element.CancellationDate = Commons.MySQLHelper.GetDateFromMySQL(dr["CancellationDate"]);
                     element.ExecutionDate = Commons.MySQLHelper.GetDateFromMySQL(dr["ExecutionDate"]);

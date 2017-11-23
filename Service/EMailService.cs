@@ -3,15 +3,19 @@ using DataAccess;
 using Models.BDDObject;
 using Models.Class;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace Service
 {
     public static class EMailService
     {
+
+        private static string WebsiteURL = ConfigurationManager.AppSettings["Website"];
 
         /// <summary>
         /// Methode used to send an email
@@ -79,6 +83,7 @@ namespace Service
                     Email.EMailTypeLanguageId = EMailTypeLanguage.Id;
                     Email.EMailTemplate = EMailTypeLanguage.TemplateName;
                     Email.BasePathFile = FileHelper.GetStorageRoot(Const.BasePathTemplateEMails);
+                    Email.EndMailTemplate = EMailTypeLanguage.EndEMailTemplateName;
                     if (String.IsNullOrWhiteSpace(Email.Subject))
                         Email.Subject = EMailTypeLanguage.Subject;
                     if (String.IsNullOrWhiteSpace(Email.FromEmail))
@@ -130,6 +135,45 @@ namespace Service
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMailTypeId = " + EMail.EMailTypeId + " and emailto =" + EMail.ToEmail);
             }
+        }
+
+        /// <summary>
+        /// Send a mail to a user
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="EMailTypeId"></param>
+        /// <returns></returns>
+        public static bool SendEMailToUser(int UserId,int EMailTypeId)
+        {
+            bool result = false;
+            try
+            {
+                User UserMail = UserService.GetUserById(UserId);
+                if (UserMail != null)
+                {
+                    Email Email = new Email();
+                    Email.UserId = UserId;
+                    Email.EMailTypeId = EMailTypeId;
+                    List<Tuple<string, string>> EmailContent = new List<Tuple<string, string>>();
+                    switch (EMailTypeId)
+                    {
+                        case Commons.EmailType.Forgotpassword:
+                            string ResetPasswordUrl = WebsiteURL + "/ResetPassword?UserId="+ UserMail.Id+"&Token=" + Commons.HashHelpers.HashEncode(UserMail.ResetPasswordToken);
+                            EmailContent.Add(new Tuple<string, string>("#ResetPasswordUrl#", ResetPasswordUrl));
+                            break;
+                    }
+                    Email.EmailContent = EmailContent;
+
+
+                    result = EMailService.SendMail(Email);
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMailTypeId = " + EMailTypeId + " and UserId =" + UserId);
+            }
+            return result;
         }
 
         /// <summary>

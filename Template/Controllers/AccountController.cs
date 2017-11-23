@@ -11,11 +11,25 @@ using Models.BDDObject;
 using Models.ViewModels;
 using Models.Class;
 using i18n;
+using Microsoft.Owin.Security;
+using System.Threading.Tasks;
+using Microsoft.Owin.Security.Facebook;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Website.Controllers
 {
     public class AccountController : BaseController
     {
+        protected IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+  
 
         #region SignUp
         public ActionResult _SignUpForm()
@@ -100,7 +114,7 @@ namespace Website.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult _LoginForm(LoginViewModel model)
+        public async Task<ActionResult> _LoginForm(LoginViewModel model)
         {
             bool _Result = false;
             string _Error = "";
@@ -121,6 +135,9 @@ namespace Website.Controllers
                         {
                             _Result = true;
                             _UserFirstName = User.FirstNameDecrypt;
+                            // https://insidemysql.com/how-to-use-mysql-for-your-asp-net-identity-provider-with-a-custom-primary-key/
+                     //       var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                        //    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
                         }
                         else
                         {
@@ -151,17 +168,15 @@ namespace Website.Controllers
                 model.URLRedirect = returnUrl;
                 ViewBag.Title = "[[[Login]]]";
                 
-                 List<string> Attachments = new List<string>();
-                Attachments.Add(Const.BasePathImages+ "/Logo.png");
+  
                
                 Email Email = new Email();
-                Email.ToEmail = "francois.laruaz@gmail.com";
-                Email.EMailTypeId = EmailTemplate.Forgotpassword;
-                Email.Attachments = Attachments;
-                //    bool result =EMailService.SendMail(Email);
+                Email.ToEmail = "francois.laruaz2@gmail.com";
+                Email.EMailTypeId = Commons.EmailType.Forgotpassword;
+                //   bool result =EMailService.SendMail(Email);
 
-                UserService.UpdateDateLastConnection(5);
-
+                // UserService.UpdateDateLastConnection(5);
+              //  EMailService.SendEMailToUser(5, Commons.EmailType.Forgotpassword);
             }
             catch (Exception e)
             {

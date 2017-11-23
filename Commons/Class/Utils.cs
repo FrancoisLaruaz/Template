@@ -65,7 +65,7 @@ namespace Commons
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static string CreatePassword(int length=10)
+        public static string CreateRandomPassword(int length=10)
         {
             const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
             StringBuilder res = new StringBuilder();

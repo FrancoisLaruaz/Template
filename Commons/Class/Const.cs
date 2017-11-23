@@ -30,7 +30,7 @@ namespace Commons
 
     }
 
-    public static class EmailTemplate
+    public static class EmailType
     {
         public const int Forgotpassword = 1001;
     }

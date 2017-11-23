@@ -23,6 +23,8 @@ namespace Models.Class
 
         public string Subject { get; set; }
 
+        public string EndMailTemplate { get; set; }
+
         public List<string> Attachments { get; set; }
 
         public List<string> CCList { get; set; }

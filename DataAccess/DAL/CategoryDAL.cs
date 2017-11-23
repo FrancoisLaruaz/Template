@@ -30,7 +30,7 @@ namespace DataAccess
             try
             {
                 db = new DBConnect();
-                string Query = "select C.Id, C.Name, C.Code ,C.Description, C.DateModification ";
+                string Query = "select C.Id, C.Name, C.Code , C.DateModification, C.Field1, C.Field2 ";
                 Query = Query + ", C.Order, CT.Name as CategoryTypeName, C.Active, C.CategoryTypeId ";
                 Query = Query + "from category C ";
                 Query = Query + "inner  join categorytype CT on CT.Id=C.CategoryTypeId ";
@@ -54,7 +54,8 @@ namespace DataAccess
                     Category.Code = Convert.ToString(dr["Code"]);
                     Category.Name = Convert.ToString(dr["Name"]);
                     Category.DateModification = Commons.MySQLHelper.GetDateFromMySQL(dr["DateModification"]).Value;
-                    Category.Description = Convert.ToString(dr["Description"]);
+                    Category.Field1 =MySQLHelper.GetStringFromMySQL(dr["Field1"]);
+                    Category.Field2 = MySQLHelper.GetStringFromMySQL(dr["Field2"]);
                     Category.Order = Convert.ToInt32(dr["Order"]);
                     Category.CategoryTypeName = Convert.ToString(dr["CategoryTypeName"]);
                     Category.Active = Convert.ToBoolean(dr["Active"]);

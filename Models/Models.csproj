@@ -27,12 +27,42 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Revalee.Client, Version=2.0.0.0, Culture=neutral, PublicKeyToken=27d8bac0398ab8be, processorArchitecture=MSIL">
+      <HintPath>..\packages\Revalee.Client.2.3.1\lib\net40\Revalee.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Revalee.Client.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=27d8bac0398ab8be, processorArchitecture=MSIL">
+      <HintPath>..\packages\Revalee.Client.Mvc.2.3.1\lib\net45\Revalee.Client.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.1\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.1\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.1\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BDDObject\Extensions\EMailTypeLanguage.cs" />
     <Compile Include="BDDObject\Extensions\ScheduledTask.cs" />
     <Compile Include="BDDObject\Extensions\TaskLog.cs" />
     <Compile Include="BDDObject\TaskLog.cs" />
@@ -57,11 +87,15 @@
     <Compile Include="ViewModel\Account\SignUpViewModel.cs" />
     <Compile Include="ViewModel\Account\LoginViewModel.cs" />
     <Compile Include="ViewModel\Admin\DisplayEmailAuditViewModel.cs" />
+    <Compile Include="ViewModel\Admin\DisplayTasksViewModel.cs" />
     <Compile Include="ViewModel\Admin\IAdminViewModel.cs" />
     <Compile Include="ViewModel\Admin\DisplayLogsViewModel.cs" />
+    <Compile Include="ViewModel\Admin\SchedulerStatusViewModel.cs" />
     <Compile Include="ViewModel\Admin\LogsViewModel.cs" />
     <Compile Include="ViewModel\Shared\HeaderViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

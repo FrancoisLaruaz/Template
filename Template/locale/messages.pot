@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-11-20 00:14-08:00\n"
+"POT-Creation-Date: 2017-11-22 16:22-08:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: Views\Shared\Layout\_Header.cshtml:50
+#: Views\Shared\Layout\_Header.cshtml:51
 msgid "Admin Panel"
 msgstr ""
 
@@ -60,8 +60,12 @@ msgstr ""
 msgid "CC"
 msgstr ""
 
-#: Views\Shared\Layout\_Header.cshtml:56
+#: Views\Shared\Layout\_Header.cshtml:57
 msgid "Change Password"
+msgstr ""
+
+#: Views\Admin\_DisplayTasks.cshtml:18
+msgid "Comment"
 msgstr ""
 
 #: Scripts\General\SweetAlertHelper.js:17
@@ -76,7 +80,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: Views\Shared\Layout\_Header.cshtml:46
+#: Views\Shared\Layout\_Header.cshtml:47
 msgid "Edit Profile"
 msgstr ""
 
@@ -89,6 +93,10 @@ msgstr ""
 
 #: Views\Shared\Layout\_Header.cshtml:33
 msgid "Email Audits"
+msgstr ""
+
+#: Views\Admin\_DisplayTasks.cshtml:15
+msgid "End Date"
 msgstr ""
 
 #: Controllers\ErrorController.cs:16
@@ -115,14 +123,15 @@ msgid "From"
 msgstr ""
 
 #: Views\Admin\_DisplayEmailAudits.cshtml:13
+#: Views\Admin\_DisplayTasks.cshtml:13
 msgid "Id"
 msgstr ""
 
-#: Controllers\AccountController.cs:127
+#: Controllers\AccountController.cs:144
 msgid "Invalid password for this user"
 msgstr ""
 
-#: Controllers\AccountController.cs:132
+#: Controllers\AccountController.cs:149
 msgid "Invalid username"
 msgstr ""
 
@@ -140,12 +149,12 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
-#: Views\Shared\Layout\_Header.cshtml:57
+#: Views\Shared\Layout\_Header.cshtml:58
 msgid "Log Off"
 msgstr ""
 
-#: Controllers\AccountController.cs:152
-#: Views\Shared\Layout\_Header.cshtml:37
+#: Controllers\AccountController.cs:169
+#: Views\Shared\Layout\_Header.cshtml:38
 msgid "Login"
 msgstr ""
 
@@ -176,13 +185,39 @@ msgstr ""
 msgid "Password Strength :"
 msgstr ""
 
+#: Views\Admin\Tasks.cshtml:30
+msgid "Periodicity"
+msgstr ""
+
+#: Views\Admin\Tasks.cshtml:25
+msgid "Recurring Scheduled Tasks"
+msgstr ""
+
+#: Views\Admin\_DisplayTasks.cshtml:17
+msgid "Result"
+msgstr ""
+
 #: Views\Admin\_DisplayEmailAudits.cshtml:8
 #: Views\Admin\_DisplayLogs.cshtml:8
+#: Views\Admin\_DisplayTasks.cshtml:8
 msgid "row(s) found"
+msgstr ""
+
+#: Views\Admin\Tasks.cshtml:31
+msgid "Schedule Time"
 msgstr ""
 
 #: Views\Account\_LoginFormLinks.cshtml:3
 msgid "Sign Up now"
+msgstr ""
+
+#: Views\Admin\_DisplayTasks.cshtml:14
+msgid "Start Date"
+msgstr ""
+
+#: Controllers\AdminController.cs:100
+#: Views\Shared\Layout\_Header.cshtml:34
+msgid "Tasks"
 msgstr ""
 
 #: Scripts\General\ToastrHelper.js:8
@@ -210,7 +245,7 @@ msgstr ""
 msgid "The Password field is required."
 msgstr ""
 
-#: Controllers\AccountController.cs:62
+#: Controllers\AccountController.cs:76
 msgid "This email address is already registered."
 msgstr ""
 
@@ -223,6 +258,7 @@ msgid "To create a new account, please log out first."
 msgstr ""
 
 #: Views\Admin\_DisplayEmailAudits.cshtml:15
+#: Views\Admin\_DisplayTasks.cshtml:16
 msgid "Type"
 msgstr ""
 
@@ -230,11 +266,15 @@ msgstr ""
 msgid "User"
 msgstr ""
 
+#: Views\Admin\_DisplayTasks.cshtml:33
+msgid "Work in progress ..."
+msgstr ""
+
 #: Scripts\General\SweetAlertHelper.js:26
 msgid "Yes"
 msgstr ""
 
-#: Controllers\AccountController.cs:69
+#: Controllers\AccountController.cs:83
 msgid "You are already logged in."
 msgstr ""
 

@@ -30,10 +30,11 @@ namespace DataAccess
             try
             {
                 db = new DBConnect();
-                string Query = "select * ";
-                Query = Query + "from emailtypelanguage ";
-                Query = Query + " where EMailTypeId= "+ EMailTypeId;
-                Query = Query + " and LanguageId= " + LanguageId;
+                string Query = "select l.Id,l.LanguageId,l.Subject,l.TemplateName,l.EMailTypeId,c.Field1 ";
+                Query = Query + "from emailtypelanguage  l ";
+                Query = Query + " inner join  category c on c.id=l.LanguageId ";
+                Query = Query + " where l.EMailTypeId= "+ EMailTypeId;
+                Query = Query + " and l.LanguageId= " + LanguageId;
 
                 DataRow dr = db.GetUniqueDataRow(Query);
                 if(dr!=null)
@@ -44,6 +45,7 @@ namespace DataAccess
                     model.Subject = Convert.ToString(dr["Subject"]);
                     model.EMailTypeId = MySQLHelper.GetIntFromMySQL(dr["EMailTypeId"]).Value;
                     model.TemplateName = Convert.ToString(dr["TemplateName"]);
+                    model.EndEMailTemplateName= Convert.ToString(dr["Field1"]);
                 }
             }
             catch (Exception e)

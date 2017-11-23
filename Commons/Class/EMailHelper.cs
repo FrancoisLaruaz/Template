@@ -25,10 +25,9 @@ namespace Commons
         static string AdressFooter2 = "Vancouver, BC, V6K 1S6, CANADA";
         static string CompanyFooter = "Zaural Website is a registered trademark";
         static string ColorElement = "#6699ff";
-        static string ColorText = "black";
-        static string SizeText = "1.05rem";
-        static string SizeTextButton = "1.1rem";
-        static string SizeTextFooter = "0.9rem";
+        static string SizeText = "14px";
+        static string SizeTextButton = "16px";
+        static string SizeTextFooter = "13px";
 
 
         public static List<Tuple<string, string>> GetGenericEmailContent()
@@ -43,7 +42,6 @@ namespace Commons
                 GenericEmailContent.Add(new Tuple<string, string>("#AdressFooter2#", AdressFooter2));
                 GenericEmailContent.Add(new Tuple<string, string>("#CompanyFooter#", CompanyFooter));
                 GenericEmailContent.Add(new Tuple<string, string>("#ColorElement#", ColorElement));
-                GenericEmailContent.Add(new Tuple<string, string>("#ColorText#", ColorText));
                 GenericEmailContent.Add(new Tuple<string, string>("#WebsiteTitle#", Const.WebsiteTitle));
                 GenericEmailContent.Add(new Tuple<string, string>("#SizeText#", SizeText));
                 GenericEmailContent.Add(new Tuple<string, string>("#SizeTextButton#", SizeTextButton));
@@ -77,6 +75,8 @@ namespace Commons
                 MailAddress toAddress = new MailAddress(Email.ToEmail, "To " + Email.ToEmail);
                 string fromPassword = EncryptHelper.DecryptString(PasswordMailAdress);
 
+                if (String.IsNullOrWhiteSpace(Email.EndMailTemplate))
+                    Email.EndMailTemplate = "_EndMail_en";
 
                 if (!String.IsNullOrWhiteSpace(Email.EMailTemplate) && !String.IsNullOrWhiteSpace(Email.ToEmail))
                 {
@@ -94,11 +94,14 @@ namespace Commons
                     };
                     string PathHeaderOnServer = Email.BasePathFile + "/_HeaderMail.html";
                     string PathFooterOnServer = Email.BasePathFile + "/_FooterMail.html";
+                    string PathEndMailOnServer = Email.BasePathFile + "/"+Email.EndMailTemplate+".html";
                     string PathTemplateOnServer = Email.BasePathFile  + "/" + TemplateName + ".html";
                     string headerTemplate = new StreamReader(PathHeaderOnServer).ReadToEnd();
                     string bodyTemplate = new StreamReader(PathTemplateOnServer).ReadToEnd();
                     string footerTemplate = new StreamReader(PathFooterOnServer).ReadToEnd();
-                    bodyTemplate = headerTemplate + bodyTemplate + footerTemplate;
+                    string endMailTemplate = new StreamReader(PathEndMailOnServer).ReadToEnd();
+                    bodyTemplate = headerTemplate +  bodyTemplate + endMailTemplate + footerTemplate;
+                //    bodyTemplate=  new StreamReader(Email.BasePathFile + "/_Test.html").ReadToEnd();
                     foreach (var content in Email.EmailContent)
                     {
                         bodyTemplate = bodyTemplate.Replace(content.Item1, content.Item2);

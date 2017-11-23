@@ -4072,3 +4072,6 @@ INSERT INTO `province`(`Name`,`Order`,`CountryId` ) VALUES ('OTHER',1,230);
 update province
 set `Order`=Id, `code`=name
 where id>1
+
+
+

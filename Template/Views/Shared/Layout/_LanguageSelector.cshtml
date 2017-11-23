@@ -6,7 +6,7 @@
 }
 
 <div id="LanguageSelectorWrapper" class="col-xs-12 col-md-2 col-md-offset-5 col-sm-8 col-sm-offset-2" style="margin-top:15px;margin-bottom:15px;">
-    <select id="LanguageSelector" class="form-control">
+    <select id="LanguageSelector" class="form-control" style="text-align:center">
         @{
             KeyValuePair<string, i18n.LanguageTag>[] langs = LanguageHelpers.GetAppLanguages().OrderBy(x => x.Key).ToArray();
             int cellcnt = langs.Length + 1;
@@ -26,7 +26,7 @@
                     controllerName: "Home",
                     routeValues: new { langtag = @langtag, returnUrl = Request.Url });
 
-                <option value="@actionUrl" @selected>@nativelangname</option>
+                <option style="text-align:center" value="@actionUrl" @selected>@nativelangname</option>
             }
         }
     </select>

@@ -7,11 +7,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
+
 
 namespace Service
 {
     public static class ScheduledTaskService
     {
+        private static string WebsiteURL = ConfigurationManager.AppSettings["Website"];
+
+
+        /// <summary>
+        /// Schedule a mail for a user
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="EMailTypeId"></param>
+        /// <returns></returns>
+        public static bool ScheduleEMailUserTask(int UserId,int EMailTypeId,TimeSpan callbackDelay)
+        {
+            bool Result = false;
+            try
+            {
+                ScheduledTask Task = new ScheduledTask();
+                Task.UserId = null;
+                Task.EmailTypeId = EMailTypeId;
+                Task.CreationDate = DateTime.UtcNow;
+                Task.ExpectedExecutionDate = Task.CreationDate.Add(callbackDelay);
+                Task.CallbackUrl = WebsiteURL+ "/Tasks/EMail/SendMailToUser?Id=0&UserId=1&EMailTypeId=" + Task.EmailTypeId;
+                Task.Id = InsertScheduledTask(Task);
+                Task.CallbackId = Commons.TaskHelper.ScheduleTask(Task.CallbackUrl, callbackDelay);
+                Task.CallbackUrl = WebsiteURL + "/Tasks/EMail/SendMailToUser?Id=" + Task.Id+"&UserId=1&EMailTypeId=" + Task.EmailTypeId;
+                if (!String.IsNullOrWhiteSpace(Task.CallbackId))
+                {
+                    Result = true;
+                    ScheduledTaskService.UpdateCallbackIdAndCallBackUrl(Task.Id, Task.CallbackUrl,Task.CallbackId);
+                }
+            }
+            catch (Exception e)
+            {
+                Result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId.ToString()+ " and EMailTypeId = "+ EMailTypeId);
+            }
+            return Result;
+        }
 
         public static List<ScheduledTask> GetScheduledTasksListByUser(int UserId)
         {
@@ -46,10 +84,30 @@ namespace Service
         }
 
         /// <summary>
-        /// Update the execution date of a task
+        /// Update The task
         /// </summary>
         /// <param name="Id"></param>
+        /// <param name="CallbackUrl"></param>
+        /// <param name="CallbackId"></param>
         /// <returns></returns>
+        public static bool UpdateCallbackIdAndCallBackUrl(int Id,string CallbackUrl, string CallbackId)
+        {
+            bool Result = false;
+            try
+            {
+                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                Columns.Add("CallbackId", CallbackId);
+                Columns.Add("CallbackUrl", CallbackUrl);
+                Result = GenericDAL.UpdateById("scheduledtask", Id, Columns);
+            }
+            catch (Exception e)
+            {
+                Result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Id = " + Id.ToString()+ " and CallbackId = "+ CallbackId);
+            }
+            return Result;
+        }
+
         public static bool SetTaskAsExecuted(int Id)
         {
             bool Result = false;

@@ -1,0 +1,17 @@
+D:\DEV\Template\Service\bin\Release\Service.dll
+D:\DEV\Template\Service\bin\Release\Service.pdb
+D:\DEV\Template\Service\bin\Release\Commons.dll
+D:\DEV\Template\Service\bin\Release\DataAccess.dll
+D:\DEV\Template\Service\bin\Release\Models.dll
+D:\DEV\Template\Service\bin\Release\Ghostscript.NET.dll
+D:\DEV\Template\Service\bin\Release\log4net.dll
+D:\DEV\Template\Service\bin\Release\Revalee.Client.dll
+D:\DEV\Template\Service\bin\Release\MySql.Data.dll
+D:\DEV\Template\Service\bin\Release\DataAccess.dll.config
+D:\DEV\Template\Service\bin\Release\Ghostscript.NET.xml
+D:\DEV\Template\Service\bin\Release\log4net.xml
+D:\DEV\Template\Service\bin\Release\Revalee.Client.xml
+D:\DEV\Template\Service\bin\Release\MySql.Data.xml
+D:\DEV\Template\Service\obj\Release\Service.csprojResolveAssemblyReference.cache
+D:\DEV\Template\Service\obj\Release\Service.dll
+D:\DEV\Template\Service\obj\Release\Service.pdb

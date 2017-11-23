@@ -1,5 +1,11 @@
+delete from tasklog  where id>=1;
+delete from scheduledtask  where id>=1;
+delete from emailaudit where id>=1;
+delete from userrole where id>=1;
+delete from user where id>=1;
 delete from category where id>=1;
 delete from categorytype where id>=1;
+
 
 
 -- CATEGORY TYPE
@@ -28,12 +34,10 @@ INSERT INTO `category`
 (`Id`,
 `Name`,
 `Code`,
-`Description`,
 `CategoryTypeId`,
 `DateModification`)
 VALUES
 (1001,
-'forgotpassword',
 'forgotpassword',
 null,
 1,
@@ -43,12 +47,10 @@ INSERT INTO `template`.`category`
 (`Id`,
 `Name`,
 `Code`,
-`Description`,
 `CategoryTypeId`,
 `DateModification`)
 VALUES
 (2001,
-'Admin',
 'Admin',
 null,
 2,
@@ -68,14 +70,12 @@ INSERT INTO `template`.`category`
 (`Id`,
 `Name`,
 `Code`,
-`Description`,
 `CategoryTypeId`,
 `DateModification`)
 VALUES
 (3001,
 'English',
 'en',
-'English',
 3,
 NOW());
 
@@ -83,14 +83,12 @@ INSERT INTO `template`.`category`
 (`Id`,
 `Name`,
 `Code`,
-`Description`,
 `CategoryTypeId`,
 `DateModification`)
 VALUES
 (3002,
 'French',
 'fr',
-'French',
 3,
 NOW());
 
@@ -141,12 +139,10 @@ INSERT INTO `template`.`category`
 (`Id`,
 `Name`,
 `Code`,
-`Description`,
 `CategoryTypeId`,
 `DateModification`)
 VALUES
 (4001,
-'ErrorCleanUp',
 'ErrorCleanUp',
 null,
 1,
@@ -157,6 +153,12 @@ update category
 set `Order`=Id
 where id>1
 
-update template.category
-set description='Reset Your Password'
-where id=1001
+update category
+set `Field1`='_EndMail_fr'
+where `code`='fr' and id>=1
+
+
+
+update category
+set `Field1`='_EndMail_en'
+where `code`='en' and id>=1

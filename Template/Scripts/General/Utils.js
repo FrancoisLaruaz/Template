@@ -77,7 +77,7 @@ function SetEnterKey(IdElement) {
         if (e.which == 13) {
             if (IdElement != null) {
                 var Element = $("#" + IdElement);
-                if ($("#" + IdElement).length > 0 && $(Element).css("display") != "none" && !$(Element).is(':disabled') && $(Element).is(":visible")) {
+                if ($("#" + IdElement).length > 0 && $(Element).css("display") != "none" && !$(Element).is(':disabled') && $(Element).is(":visible") &&  !$(e.target).is("textarea")) {
                     $(Element).click();
                     e.preventDefault();
                     return false;

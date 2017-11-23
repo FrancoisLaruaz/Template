@@ -12,12 +12,33 @@ namespace Service
 {
     public static class TaskLogService
     {
+
+
+        public static DisplayTasksViewModel GetDisplayTasksViewModel(string Pattern, int StartAt, int PageSize)
+        {
+            DisplayTasksViewModel model = new DisplayTasksViewModel();
+            try
+            {
+                model.TaskList = TaskLogDAL.GetTaskLogsList(null,Pattern, StartAt, PageSize);
+                model.Pattern = Pattern;
+                model.Count = TaskLogDAL.GetTaskLogsCount(Pattern);
+                model.StartAt = StartAt;
+                model.PageSize = PageSize;
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Pattern = " + Pattern);
+            }
+            return model;
+        }
+
+
         /// <summary>
         ///  Get the logs of the scheduled tasks    
         /// </summary>
         /// <param name="TypeId"></param>
         /// <returns></returns>
-        public static List<TaskLog> GetTaskLogsList(int? TypeId)
+        public static List<TaskLog> GetTaskLogsListByType(int? TypeId)
         {
             List<TaskLog> Result = new List<TaskLog>();
             try

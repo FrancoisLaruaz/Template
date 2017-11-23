@@ -160,7 +160,7 @@ namespace DataAccess
             try
             {
                 db = new DBConnect();
-                string Query = "select U.Id, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, U.DateLastConnection, ";
+                string Query = "select U.Id, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, U.DateLastConnection ";
                 Query = Query + ",U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, U.Password, U.Email, U.CountryId, U.FacebookId ";
                 Query = Query + ", C.Name as CountryName ";
                 Query = Query + ",P.Id as ProvinceId, P.Name as ProvinceName ";

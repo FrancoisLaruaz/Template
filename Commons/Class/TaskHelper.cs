@@ -11,10 +11,38 @@ using Models.BDDObject;
 
 namespace Commons
 {
-
     public static class TaskHelper
     {
+
         private static string WebsiteURL = ConfigurationManager.AppSettings["Website"];
+        private static string BaseCallBackUrl = WebsiteURL + "/Tasks/Base/Execute/";
+
+        /// <summary>
+        ///  Schedule a task and return the guid
+        /// </summary>
+        /// <param name="callBackUrl"></param>
+        /// <param name="callBackDelay"></param>
+        /// <returns></returns>
+        public static string ScheduleTask(string callBackUrl, TimeSpan callBackDelay)
+        {
+            Guid? TaskGuid = null;
+            string result = null;
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(callBackUrl))
+                {
+                    var callbackUri = new Uri(callBackUrl);
+                    TaskGuid = RevaleeRegistrar.ScheduleCallback(callBackDelay, callbackUri);
+                    result = TaskGuid.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                result = null;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "callBackUrl = " + callBackUrl);
+            }
+            return result;
+        }
 
 
         /// <summary>

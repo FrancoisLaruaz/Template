@@ -38,7 +38,7 @@ namespace Website.Controllers
         {
             try
             {
-
+                bool restult = ScheduledTaskService.ScheduleEMailUserTask(5, Commons.EmailType.Forgotpassword, TimeSpan.FromMinutes(1.0));
             }
             catch (Exception e)
             {
