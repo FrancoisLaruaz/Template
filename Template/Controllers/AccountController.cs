@@ -16,11 +16,84 @@ using System.Threading.Tasks;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Web.Script.Serialization;
+using Identity;
+using System.Net;
+using System.IO;
 
 namespace Website.Controllers
 {
     public class AccountController : BaseController
     {
+
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                if(_signInManager==null)
+                {
+                   var owincontext= HttpContext.GetOwinContext();
+                    return owincontext.Get<ApplicationSignInManager>();
+                }
+                else
+                {
+                    return _signInManager;
+                }
+
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public AccountController()
+        {
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_userManager != null)
+                {
+                    _userManager.Dispose();
+                    _userManager = null;
+                }
+
+                if (_signInManager != null)
+                {
+                    _signInManager.Dispose();
+                    _signInManager = null;
+                }
+            }
+
+           // base.Dispose(disposing);
+        }
+
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+
         protected IAuthenticationManager AuthenticationManager
         {
             get
@@ -122,31 +195,51 @@ namespace Website.Controllers
 
             try
             {
-                
+
                 if (ModelState.IsValid)
                 {
-                    string Email = Commons.EncryptHelper.EncryptToString(model.Password.Replace("'", "''"));
 
-                    User User = UserService.GetUserByEMail(Email);
 
-                    if (User != null)
+                    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                    switch (result)
                     {
-                        if (User.PasswordDecrypt == model.Password)
-                        {
-                            _Result = true;
-                            _UserFirstName = User.FirstNameDecrypt;
-                            // https://insidemysql.com/how-to-use-mysql-for-your-asp-net-identity-provider-with-a-custom-primary-key/
-                     //       var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-                        //    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
-                        }
-                        else
-                        {
-                            _Error = "[[[Invalid password for this user]]]";
-                        }
-                    }
-                    else
-                    {
-                        _Error = "[[[Invalid username]]]";
+                        case SignInStatus.Success:
+                            string username = User.Identity.GetUserName();
+                            return Redirect(model.URLRedirect);
+                        case SignInStatus.LockedOut:
+                            return View("Lockout");
+                        case SignInStatus.RequiresVerification:
+                            return RedirectToAction("SendCode", new { ReturnUrl = model.URLRedirect, RememberMe = model.RememberMe });
+                        case SignInStatus.Failure:
+                        default:
+                            ModelState.AddModelError("", "Invalid login attempt.");
+                            return View(model);
+
+                            /*
+                            string Email = Commons.EncryptHelper.EncryptToString(model.Password.Replace("'", "''"));
+
+                            User User = UserService.GetUserByEMail(Email);
+
+                            if (User != null)
+                            {
+                                if (User.PasswordDecrypt == model.Password)
+                                {
+                                    _Result = true;
+                                    _UserFirstName = User.FirstNameDecrypt;
+                                    // https://insidemysql.com/how-to-use-mysql-for-your-asp-net-identity-provider-with-a-custom-primary-key/
+                             //       var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                                //    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+                                }
+                                else
+                                {
+                                    _Error = "[[[Invalid password for this user]]]";
+                                }
+                            }
+                            else
+                            {
+                                _Error = "[[[Invalid username]]]";
+                            }
+                            */
                     }
                 }
             }
@@ -159,6 +252,16 @@ namespace Website.Controllers
             return Json(new { Result = _Result, Error = _Error, UserFirstName = _UserFirstName, URLRedirect= model.URLRedirect });
         }
         #endregion
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            UserId = null;
+            return RedirectToAction("Index", "Home");
+        }
+
         #region Login
         public ActionResult Login(string returnUrl=null)
         {

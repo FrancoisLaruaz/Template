@@ -18,13 +18,11 @@ D:\DEV\Template\DataAccess\bin\Debug\DataAccess.dll
 D:\DEV\Template\DataAccess\bin\Debug\DataAccess.pdb
 D:\DEV\Template\DataAccess\bin\Debug\Commons.dll
 D:\DEV\Template\DataAccess\bin\Debug\Models.dll
-D:\DEV\Template\DataAccess\bin\Debug\MySql.Data.dll
 D:\DEV\Template\DataAccess\bin\Debug\Revalee.Client.dll
 D:\DEV\Template\DataAccess\bin\Debug\Ghostscript.NET.dll
 D:\DEV\Template\DataAccess\bin\Debug\log4net.dll
 D:\DEV\Template\DataAccess\bin\Debug\Models.pdb
 D:\DEV\Template\DataAccess\bin\Debug\Commons.pdb
-D:\DEV\Template\DataAccess\bin\Debug\MySql.Data.xml
 D:\DEV\Template\DataAccess\bin\Debug\Revalee.Client.xml
 D:\DEV\Template\DataAccess\bin\Debug\Ghostscript.NET.xml
 D:\DEV\Template\DataAccess\bin\Debug\log4net.xml

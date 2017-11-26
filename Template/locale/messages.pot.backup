@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-11-22 16:15-08:00\n"
+"POT-Creation-Date: 2017-11-26 14:07-08:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,7 +16,7 @@ msgstr ""
 msgid "A valid email is required."
 msgstr ""
 
-#: Views\Shared\Layout\_Header.cshtml:30
+#: Views\Shared\Layout\_Header.cshtml:31
 msgid "Admin"
 msgstr ""
 
@@ -80,10 +80,6 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: Views\Shared\Layout\_Header.cshtml:47
-msgid "Edit Profile"
-msgstr ""
-
 #: ..\Models\ViewModel\Account\LoginViewModel.cs:15
 #: ..\Models\ViewModel\Account\SignUpViewModel.cs:25
 #: Views\Account\_LoginForm.cshtml:21
@@ -91,7 +87,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: Views\Shared\Layout\_Header.cshtml:33
+#: Views\Shared\Layout\_Header.cshtml:34
 msgid "Email Audits"
 msgstr ""
 
@@ -127,11 +123,11 @@ msgstr ""
 msgid "Id"
 msgstr ""
 
-#: Controllers\AccountController.cs:144
+#: Controllers\AccountController.cs:235
 msgid "Invalid password for this user"
 msgstr ""
 
-#: Controllers\AccountController.cs:149
+#: Controllers\AccountController.cs:240
 msgid "Invalid username"
 msgstr ""
 
@@ -153,16 +149,16 @@ msgstr ""
 msgid "Log Off"
 msgstr ""
 
-#: Controllers\AccountController.cs:169
-#: Views\Shared\Layout\_Header.cshtml:38
+#: Controllers\AccountController.cs:272
+#: Views\Shared\Layout\_Header.cshtml:65
 msgid "Login"
 msgstr ""
 
-#: Views\Shared\Layout\_Header.cshtml:32
+#: Views\Shared\Layout\_Header.cshtml:33
 msgid "Logs"
 msgstr ""
 
-#: Views\Shared\Layout\_Header.cshtml:22
+#: Views\Shared\Layout\_Header.cshtml:23
 msgid "Menu"
 msgstr ""
 
@@ -216,7 +212,7 @@ msgid "Start Date"
 msgstr ""
 
 #: Controllers\AdminController.cs:100
-#: Views\Shared\Layout\_Header.cshtml:34
+#: Views\Shared\Layout\_Header.cshtml:35
 msgid "Tasks"
 msgstr ""
 
@@ -245,7 +241,7 @@ msgstr ""
 msgid "The Password field is required."
 msgstr ""
 
-#: Controllers\AccountController.cs:76
+#: Controllers\AccountController.cs:149
 msgid "This email address is already registered."
 msgstr ""
 
@@ -274,8 +270,12 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: Controllers\AccountController.cs:83
+#: Controllers\AccountController.cs:156
 msgid "You are already logged in."
+msgstr ""
+
+#: Views\Account\_LoginForm.cshtml:6
+msgid "You are already signed in"
 msgstr ""
 
 #: Scripts\Views\Account\_Login.js:55

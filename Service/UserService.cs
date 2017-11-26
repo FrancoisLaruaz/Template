@@ -110,12 +110,12 @@ namespace Service
             return result;
         }
 
-        public static User GetUserByEMail(string EMail)
+        public static User GetUserByUserName(string UserName)
         {
             User result = null;
             try
             {
-                List<User> ListResult = UserDAL.GetUsersList(null, EMail);
+                List<User> ListResult = UserDAL.GetUsersList(null, UserName);
                 if (ListResult != null && ListResult.Count > 0)
                 {
                     result = ListResult[0];
@@ -124,7 +124,7 @@ namespace Service
             catch (Exception e)
             {
                 result = null;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMail = " + EMail);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + UserName);
             }
             return result;
         }

@@ -10,6 +10,8 @@ namespace Models.BDDObject
 
     public partial class User
     {
+
+        public DateTime DateLastConnection { get; set; }
         public string CountryName { get; set; }
 
         public string ProvinceName { get; set; }
@@ -22,9 +24,19 @@ namespace Models.BDDObject
 
         public string LastNameDecrypt { get; set; }
 
-        public string EmailDecrypt { get; set; }
+        public string ResetPasswordToken { get; set; }
 
-        public string PasswordDecrypt { get; set; }
+        public int AccessFailedCount { get; set; }
+
+
+        public bool EmailConfirmed { get; set; }
+        public DateTime? LockoutEndDateUtc { get; set; }
+
+        public bool LockoutEnabled { get; set; }
+
+        public string Email { get; set; }
+
+        public string PasswordHash { get; set; }
 
         public string UserFullNameDecrypt { get { return (FirstNameDecrypt + " " + LastNameDecrypt).Trim(); } }
     }

@@ -276,7 +276,7 @@ namespace DataAccess
         {
             try
             {
-                connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["BDDWebsite"].ToString();
+                connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString();
                 MyAdapter = new MySqlDataAdapter();
                 mySqlConnection = new MySqlConnection();
                 mySqlConnection.ConnectionString = connectionString;

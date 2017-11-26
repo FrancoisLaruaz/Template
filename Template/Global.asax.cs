@@ -23,7 +23,7 @@ namespace Template
                 HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
                 SetGlobalization();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
@@ -55,7 +55,8 @@ namespace Template
 
 
             // Blacklist certain URLs from being 'localized' via a callback.
-            i18n.UrlLocalizer.IncomingUrlFilters += delegate (Uri url) {
+            i18n.UrlLocalizer.IncomingUrlFilters += delegate (Uri url)
+            {
                 if (url.LocalPath.EndsWith("sitemap.xml", StringComparison.OrdinalIgnoreCase))
                 {
                     return false;
@@ -79,12 +80,22 @@ namespace Template
         }
 
         /// <summary>
+        /// Session end
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
+        protected void Session_End(Object source, EventArgs e)
+        {
+            Session[Commons.Const.SessionUserId] = null;
+        }
+
+        /// <summary>
         /// Sessions the start.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">E.</param>
         private void Session_Start(object sender, EventArgs e)
-		{
+        {
             string languageBrowser = null;
             try
             {
@@ -95,6 +106,10 @@ namespace Template
                         languageBrowser = ConnectedUser.LanguageCode;
 
                 }
+                else
+                {
+                    Session[Commons.Const.SessionUserId] = null;
+                }
                 if (String.IsNullOrEmpty(languageBrowser))
                 {
 
@@ -104,11 +119,11 @@ namespace Template
                         string Favoritelanguage = languages[0];
                         languageBrowser = Commons.Const.DefaultCulture;
                         var ListLanguages = CategoryService.GetSelectionList(Commons.CategoryTypes.Language);
-                        if (ListLanguages!=null && ListLanguages.Count>0)
+                        if (ListLanguages != null && ListLanguages.Count > 0)
                         {
-                            foreach(var Language in ListLanguages)
+                            foreach (var Language in ListLanguages)
                             {
-                                if(Language.Code== Favoritelanguage || Favoritelanguage.IndexOf(Language.Code+"-") > -1)
+                                if (Language.Code == Favoritelanguage || Favoritelanguage.IndexOf(Language.Code + "-") > -1)
                                 {
                                     languageBrowser = Language.Code;
                                     break;
@@ -140,13 +155,13 @@ namespace Template
             }
         }
 
-		/// <summary>
-		/// Applications the end.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		private void Application_End(object sender, EventArgs e)
-		{
+        /// <summary>
+        /// Applications the end.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
+        private void Application_End(object sender, EventArgs e)
+        {
 
         }
 
@@ -177,11 +192,11 @@ namespace Template
                 }
 
                 Commons.Logger.GenerateError(ex, typeof(HttpApplication));
-                
+
                 string redirection = String.Format("~/Error/{0}/?Message={1}", "DisplayError", messagePageErreur.Replace("\r", "").Replace("\n", ""));
                 Response.Redirect(redirection);
             }
-            catch(Exception e2)
+            catch (Exception e2)
             {
                 Commons.Logger.GenerateError(e2, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }

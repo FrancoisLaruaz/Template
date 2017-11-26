@@ -153,20 +153,22 @@ namespace DataAccess
         /// <param name="Id"></param>
         /// <param name="EMail"></param>
         /// <returns></returns>
-        public static List<User> GetUsersList(int? Id=null,string EMail=null)
+        public static List<User> GetUsersList(int? Id=null,string UserName = null)
         {
             List<User> result = new List<User>();
             DBConnect db = null;
             try
             {
                 db = new DBConnect();
-                string Query = "select U.Id, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, U.DateLastConnection ";
-                Query = Query + ",U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, U.Password, U.Email, U.CountryId, U.FacebookId ";
+                string Query = "select U.Id, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, UI.DateLastConnection ";
+                Query = Query + ",U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, UI.PasswordHash, UI.Email, U.CountryId, U.FacebookId ";
                 Query = Query + ", C.Name as CountryName ";
+                Query = Query + ", UI.UserName, UI.ResetPasswordToken,UI.EmailConfirmed,UI.AccessFailedCount,UI.LockoutEnabled,UI.LockoutEndDateUtc ";
                 Query = Query + ",P.Id as ProvinceId, P.Name as ProvinceName ";
                 Query = Query + ",L.Id as LanguageId, L.Name as LanguageName, L.Code as LanguageCode ";
                 Query = Query + "from user U ";
                 Query = Query + "inner join category L on L.Id=U.LanguageId ";
+                Query = Query + "inner join useridentity UI on U.username=UI.username ";
                 Query = Query + "left join country C on C.Id=U.CountryId ";
                 Query = Query + "left join province P on P.Id=U.ProvinceId ";
                 Query = Query + " where 1=1 ";
@@ -174,9 +176,9 @@ namespace DataAccess
                 {
                     Query = Query + " and U.Id="+Id.Value.ToString();
                 }
-                if (!String.IsNullOrWhiteSpace(EMail))
+                if (!String.IsNullOrWhiteSpace(UserName))
                 {
-                    Query = Query + " and LOWER(U.EMail)=LOWER('" + EMail+"')";
+                    Query = Query + " and LOWER(U.UserName)=LOWER('" + UserName + "')";
                 }
                 Query = Query + " order by U.Id desc";
                 DataTable data = db.GetData(Query);
@@ -188,16 +190,21 @@ namespace DataAccess
                     User.LastName = Convert.ToString(dr["LastName"]);
                     User.Id = Convert.ToInt32(dr["Id"]);
                     User.Email = Convert.ToString(dr["Email"]);
+                    User.AccessFailedCount = Convert.ToInt32(dr["AccessFailedCount"]);
                     User.DateOfBirth = Commons.MySQLHelper.GetDateFromMySQL(dr["DateOfBirth"]);
                     User.DateModification = Commons.MySQLHelper.GetDateFromMySQL(dr["DateModification"]).Value;
                     User.DateCreation = Commons.MySQLHelper.GetDateFromMySQL(dr["DateCreation"]).Value;
                     User.DateLastConnection = Commons.MySQLHelper.GetDateFromMySQL(dr["DateLastConnection"]).Value;
+                    User.LockoutEndDateUtc = Commons.MySQLHelper.GetDateFromMySQL(dr["LockoutEndDateUtc"]);
+                    User.LockoutEnabled = Commons.MySQLHelper.GetBoolFromMySQL(dr["LockoutEnabled"]).Value;
+                    User.EmailConfirmed = Commons.MySQLHelper.GetBoolFromMySQL(dr["EmailConfirmed"]).Value;
                     User.Adress1 = MySQLHelper.GetStringFromMySQL(dr["Adress1"]);
                     User.Adress2 = MySQLHelper.GetStringFromMySQL(dr["Adress2"]);
                     User.Adress3 = MySQLHelper.GetStringFromMySQL(dr["Adress3"]);
-                    User.Password = Convert.ToString(dr["Password"]);
+                    User.PasswordHash = Convert.ToString(dr["PasswordHash"]);
                     User.FacebookId = MySQLHelper.GetStringFromMySQL(dr["FacebookId"]);
                     User.ResetPasswordToken = Convert.ToString(dr["ResetPasswordToken"]);
+                    User.UserName = Convert.ToString(dr["UserName"]);
                     User.Description = Convert.ToString(dr["Description"]);
                     User.CountryId= MySQLHelper.GetIntFromMySQL(dr["CountryId"]);
                     User.CountryName = Convert.ToString(dr["CountryName"]);
@@ -207,8 +214,6 @@ namespace DataAccess
                     User.LanguageCode = MySQLHelper.GetStringFromMySQL(dr["LanguageCode"]);
                     User.LanguageName = MySQLHelper.GetStringFromMySQL(dr["LanguageName"]);
                     User.IsMasculine = MySQLHelper.GetBoolFromMySQL(dr["IsMasculine"]);
-                    User.EmailDecrypt = Commons.EncryptHelper.DecryptString(Convert.ToString(dr["Email"]));
-                    User.PasswordDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["Password"]));
                     User.FirstNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["FirstName"]));
                     User.LastNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["LastName"]));
 
@@ -219,13 +224,13 @@ namespace DataAccess
             catch (Exception e)
             {
                 result = null;
-                string strEmail = "NULL";
-                if (EMail != null)
-                    strEmail = EMail;
+                string strUserName = "NULL";
+                if (UserName != null)
+                    strUserName = UserName;
                 string strId = "NULL";
                 if (Id != null)
                     strId = Id.ToString();
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Id = " + strId+" and Email = "+strEmail);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Id = " + strId+ " and UserName = " + strUserName);
             }
             finally
             {

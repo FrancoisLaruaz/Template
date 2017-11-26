@@ -87,6 +87,27 @@ function SetEnterKey(IdElement) {
     });
 }
 
+function ScrollToErrorOrFirstInput(formname) {
+    var FieldToFocus = $('#'+formname + ' .input-validation-error:first').get(0);
+    if (FieldToFocus == null) {
+        var FieldToFocus = $('#' +formname + ' :input:not(input[type=button],input[type=submit],button):visible:first').get(0);
+    }
+
+    if (FieldToFocus != null) {
+        $('html, body').animate({
+            scrollTop: $(FieldToFocus).offset().top -100
+        }, 1000);
+
+        $(FieldToFocus).focus();
+    }
+    else {
+        BackToTop();
+    }
+
+}
+
+
+jQuery.exists = function(selector) {return ($(selector).length > 0);}
 
 function SetValidationForm(IdForm) {
     var Form = $("#" + IdForm);
@@ -107,4 +128,15 @@ function PopupWindow(url, title, w, h) {
     var y = window.outerHeight / 2 + window.screenY - (h / 2);
     var x = window.outerWidth / 2 + window.screenX - (w / 2);
     return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + y + ', left=' + x);
+}
+
+
+function ScrollAndFocusToElement(id) {
+
+    if ($("#" + id).length > 0) {
+        $('html, body').animate({
+            scrollTop: $("#" + id).offset().top - 120
+        }, 1000);
+        $("#" + id).focus();
+    }
 }

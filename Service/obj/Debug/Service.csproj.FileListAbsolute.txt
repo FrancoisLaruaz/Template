@@ -14,7 +14,6 @@ D:\DEV\Template\Service\bin\Debug\Models.pdb
 D:\DEV\Template\Service\bin\Debug\Ghostscript.NET.xml
 D:\DEV\Template\Service\bin\Debug\log4net.xml
 D:\DEV\Template\Service\bin\Debug\Revalee.Client.xml
-D:\DEV\Template\Service\bin\Debug\MySql.Data.xml
 D:\DEV\Template\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Service\obj\Debug\Service.dll
 D:\DEV\Template\Service\obj\Debug\Service.pdb

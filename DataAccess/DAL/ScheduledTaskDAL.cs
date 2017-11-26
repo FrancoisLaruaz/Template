@@ -31,10 +31,11 @@ namespace DataAccess
                 db = new DBConnect();
                 string Query = "select t.Id, t.CallbackId, t.UserId, t.CallbackUrl, t.CancellationDate, t.ExecutionDate  ";
                 Query = Query + ", t.ExpectedExecutionDate, t.EmailTypeId, t.CreationDate ";
-                Query = Query + ", c.Name as 'EMailTypeName', u.FirstName, u.LastName, u.EMail ";
+                Query = Query + ", c.Name as 'EMailTypeName', u.FirstName, u.LastName, ui.EMail ";
                 Query = Query + "from scheduledtask t ";
                 Query = Query + "inner join category c on c.Id=t.EmailTypeId ";
                 Query = Query + "left join user u on u.Id=t.UserId ";
+                Query = Query + "left join useridentity ui on ui.username=u.username ";
                 Query = Query + " where 1=1 ";
                 if (UserId != null && UserId.Value>0)
                 {
@@ -64,7 +65,7 @@ namespace DataAccess
                     element.EMailTypeName = Commons.MySQLHelper.GetStringFromMySQL(dr["EMailTypeName"]);
                     element.UserFirstNameDecrypt = Commons.EncryptHelper.DecryptString(Commons.MySQLHelper.GetStringFromMySQL(dr["FirstName"]));
                     element.UserLastNameDecrypt = Commons.EncryptHelper.DecryptString(Commons.MySQLHelper.GetStringFromMySQL(dr["LastName"]));
-                    element.UserEMailDecrypt = Commons.EncryptHelper.DecryptString(Commons.MySQLHelper.GetStringFromMySQL(dr["EMail"]));
+                    element.UserEMail= Commons.MySQLHelper.GetStringFromMySQL(dr["EMail"]);
 
                     result.Add(element);
                 }
