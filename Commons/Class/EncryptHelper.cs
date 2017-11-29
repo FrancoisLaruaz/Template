@@ -169,7 +169,7 @@ namespace Commons
         /// <returns></returns>
         private static byte[] StrToByteArray(string str)
         {
-            if (str==null)
+            if (String.IsNullOrEmpty(str))
                 return null;
 
 

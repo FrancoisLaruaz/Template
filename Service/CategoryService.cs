@@ -70,12 +70,31 @@ namespace Service
             return result;
         }
 
+        public static Category GetCategoryByCode(string Code)
+        {
+            Category result = null;
+            try
+            {
+                List<Category> ListResult = CategoryDAL.GetCategoriesList(null, null, Code);
+                if (ListResult != null && ListResult.Count > 0)
+                {
+                    result = ListResult[0];
+                }
+            }
+            catch (Exception e)
+            {
+                result = null;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Code = " + Code);
+            }
+            return result;
+        }
+
         public static List<Category> GeListCategoriesByType(int CategoryTypeId,bool ActiveOnly=true)
         {
             List<Category> result = null;
             try
             {
-                result = CategoryDAL.GetCategoriesList(null, CategoryTypeId,ActiveOnly);
+                result = CategoryDAL.GetCategoriesList(null, CategoryTypeId,null,ActiveOnly);
             }
             catch (Exception e)
             {

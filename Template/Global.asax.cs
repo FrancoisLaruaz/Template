@@ -86,7 +86,7 @@ namespace Template
         /// <param name="e"></param>
         protected void Session_End(Object source, EventArgs e)
         {
-            Session[Commons.Const.SessionUserId] = null;
+            Session[Commons.Const.UserSession] = null;
         }
 
         /// <summary>
@@ -101,14 +101,14 @@ namespace Template
             {
                 if (Request.IsAuthenticated)
                 {
-                    User ConnectedUser = UserService.GetUserById(User.Identity.Name);
+                    User ConnectedUser = UserService.GetUserByUserName(User.Identity.Name);
                     if (ConnectedUser != null)
                         languageBrowser = ConnectedUser.LanguageCode;
 
                 }
                 else
                 {
-                    Session[Commons.Const.SessionUserId] = null;
+                    Session[Commons.Const.UserSession] = null;
                 }
                 if (String.IsNullOrEmpty(languageBrowser))
                 {

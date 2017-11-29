@@ -42,8 +42,9 @@
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="AspNet.Identity.MySQL">
-      <HintPath>..\..\AspNet.Identity.MySQL\bin\Debug\AspNet.Identity.MySQL.dll</HintPath>
+    <Reference Include="AspNet.Identity.MySQL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AspNet.Identity.MySQL\bin\Debug\AspNet.Identity.MySQL.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
@@ -177,8 +178,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="IdentityModels\IdentityModels.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Tasks\EMailController.cs" />
-    <Compile Include="Tasks\TaskErrorController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\font-awesome.css" />

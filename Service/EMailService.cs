@@ -49,7 +49,7 @@ namespace Service
                     LanguageId = User.LanguageId;
                     if (String.IsNullOrWhiteSpace(Email.ToEmail))
                     {
-                        Email.ToEmail = User.Email;
+                        Email.ToEmail = User.EMailDecrypt;
                     }
                     Email.EmailContent.Add(new Tuple<string, string>("#UserFirstName#", User.FirstNameDecrypt));
                     Email.EmailContent.Add(new Tuple<string, string>("#UserFullName#", User.UserFullNameDecrypt));

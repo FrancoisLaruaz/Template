@@ -34,63 +34,22 @@ namespace Service
             return result;
         }
 
-        /// <summary>
-        /// Check if the user can login
-        /// </summary>
-        /// <param name="EMail"></param>
-        /// <param name="Password"></param>
-        /// <returns></returns>
-        public static bool IsPasswordAndUserMatching(string EMail, string Password)
-        {
-            bool result = false;
-            try
-            {
-                result = UserDAL.IsPasswordAndUserMatching(EMail, Password);
-            }
-            catch (Exception e)
-            {
-                result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMail = " + EMail);
-            }
-            return result;
-        }
 
-        /// <summary>
-        /// Modification of DateLastConnection
-        /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
-        public static bool UpdateDateLastConnection(int UserId)
-        {
-            bool result = false;
-            try
-            {
-                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                Columns.Add("DateLastConnection", DateTime.UtcNow);
 
-                Task.Factory.StartNew(() => GenericDAL.UpdateById("user", UserId, Columns));
-                result = true;
-            }
-            catch (Exception e)
-            {
-                result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId );
-            }
-            return result;
-        }
 
-        public static bool UpdateLanguageUser(string Language, string UserId)
+
+        public static bool UpdateLanguageUser(string Language, string UserName)
         {
             bool result = false;
             try
             {
 
-                result = UserDAL.UpdateLanguageUser(Language, Convert.ToInt32(UserId));
+                result = UserDAL.UpdateLanguageUser(Language, UserName);
             }
             catch (Exception e)
             {
                 result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Language = " + Language+ " and UserId = "+ UserId);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Language = " + Language+ " and UserName = " + UserName);
             }
             return result;
         }
@@ -106,6 +65,39 @@ namespace Service
             {
                 result = null;
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get an object to put in the session
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <returns></returns>
+        public static UserSession GetUserSession(string UserName)
+        {
+            UserSession result = new UserSession();
+            try
+            {
+                List<User> ListResult = UserDAL.GetUsersList(null, UserName);
+                if (ListResult != null && ListResult.Count > 0)
+                {
+                    User UserLogged = ListResult[0];
+                    if(UserLogged!=null)
+                    {
+                        result.FirstNameDecrypt = UserLogged.FirstNameDecrypt;
+                        result.LastNameDecrypt = UserLogged.LastNameDecrypt;
+                        result.UserName = UserLogged.UserName;
+                        result.UserNameDecrypt = UserLogged.UserNameDecrypt;
+                        result.UserIdentityId = UserLogged.UserIdentityId;
+                        result.UserId = UserLogged.Id;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result = new UserSession();
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + UserName);
             }
             return result;
         }
@@ -140,7 +132,11 @@ namespace Service
             try
             {
                 ScheduledTaskService.CancelTaskByUserId(UserId);
-                result = UserDAL.DeleteUserById(UserId);
+                User UserToDelete = GetUserById(UserId);
+                if(UserToDelete!=null)
+                {
+                    result = UserDAL.DeleteUserById(UserToDelete);
+                }
             }
             catch (Exception e)
             {
@@ -150,25 +146,7 @@ namespace Service
             return result;
         }
 
-        /// <summary>
-        /// Return the specified user
-        /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
-        public static User GetUserById(string UserId)
-        {
-            User result = null;
-            try
-            {
-                result = GetUserById(Convert.ToInt32(UserId));
-            }
-            catch (Exception e)
-            {
-                result = null;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
-            }
-            return result;
-        }
+
 
         /// <summary>
         /// Return the specified user

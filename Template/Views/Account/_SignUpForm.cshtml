@@ -37,7 +37,7 @@ else
                 <div class="col-xs-12 col-md-12">
                     <div class="websiteFormGroup">
                         <div class="col-sm-12 col-xs-12">
-                            @Html.PasswordFor(model => model.LastName, new { @class = "form-control", @placeholder = "[[[Last Name]]]" })
+                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @placeholder = "[[[Last Name]]]" })
                             @Html.ValidationMessageFor(m => m.LastName)
                         </div>
                     </div>

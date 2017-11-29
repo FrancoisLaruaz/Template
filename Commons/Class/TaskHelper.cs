@@ -15,7 +15,7 @@ namespace Commons
     {
 
         private static string WebsiteURL = ConfigurationManager.AppSettings["Website"];
-        private static string BaseCallBackUrl = WebsiteURL + "/Tasks/Base/Execute/";
+ 
 
         /// <summary>
         ///  Schedule a task and return the guid

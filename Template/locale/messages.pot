@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-11-26 14:11-08:00\n"
+"POT-Creation-Date: 2017-11-28 18:00-08:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -9,6 +9,10 @@ msgstr ""
 
 #: Scripts\General\HighchartsHelper.js:55
 msgid "' + element[0] + '"
+msgstr ""
+
+#: Controllers\AccountController.cs:266
+msgid "[Your account is currently lockout."
 msgstr ""
 
 #: ..\Models\ViewModel\Account\LoginViewModel.cs:13
@@ -100,6 +104,10 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
+#: Controllers\AccountController.cs:170
+msgid "Error while creating the user."
+msgstr ""
+
 #: Scripts\General\FileDropHelper.js:75
 #: Scripts\General\FileDropHelper.js:80
 msgid "Error while uploading the picture."
@@ -123,12 +131,10 @@ msgstr ""
 msgid "Id"
 msgstr ""
 
-#: Controllers\AccountController.cs:235
-msgid "Invalid password for this user"
-msgstr ""
-
-#: Controllers\AccountController.cs:240
-msgid "Invalid username"
+#: Controllers\AccountController.cs:269
+#: Controllers\AccountController.cs:279
+#: Controllers\AccountController.cs:283
+msgid "Invalid login attempt."
 msgstr ""
 
 #: Views\Admin\_DisplayEmailAudits.cshtml:19
@@ -140,7 +146,7 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: Views\Account\_LoginForm.cshtml:42
+#: Views\Account\_LoginForm.cshtml:51
 #: Views\Account\_SignUpFormLinks.cshtml:2
 msgid "Log In"
 msgstr ""
@@ -149,7 +155,7 @@ msgstr ""
 msgid "Log Off"
 msgstr ""
 
-#: Controllers\AccountController.cs:272
+#: Controllers\AccountController.cs:335
 #: Views\Shared\Layout\_Header.cshtml:65
 msgid "Login"
 msgstr ""
@@ -185,8 +191,20 @@ msgstr ""
 msgid "Periodicity"
 msgstr ""
 
+#: Controllers\AccountController.cs:181
+msgid "Please complete the form."
+msgstr ""
+
+#: Controllers\AccountController.cs:176
+msgid "Please enter a valid email address."
+msgstr ""
+
 #: Views\Admin\Tasks.cshtml:25
 msgid "Recurring Scheduled Tasks"
+msgstr ""
+
+#: ..\Models\ViewModel\Account\LoginViewModel.cs:23
+msgid "Remember me?"
 msgstr ""
 
 #: Views\Admin\_DisplayTasks.cshtml:17
@@ -201,6 +219,10 @@ msgstr ""
 
 #: Views\Admin\Tasks.cshtml:31
 msgid "Schedule Time"
+msgstr ""
+
+#: Scripts\Views\Shared\_Header.js:35
+msgid "See you soon !"
 msgstr ""
 
 #: Views\Account\_LoginFormLinks.cshtml:3
@@ -241,8 +263,16 @@ msgstr ""
 msgid "The Password field is required."
 msgstr ""
 
-#: Controllers\AccountController.cs:149
+#: Controllers\AccountController.cs:197
 msgid "This email address is already registered."
+msgstr ""
+
+#: Controllers\AccountController.cs:166
+msgid "This email address is already used."
+msgstr ""
+
+#: Controllers\AccountController.cs:274
+msgid "This user is not registered. Please sign-up."
 msgstr ""
 
 #: Views\Admin\_DisplayEmailAudits.cshtml:17
@@ -270,15 +300,11 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: Controllers\AccountController.cs:156
+#: Controllers\AccountController.cs:205
 msgid "You are already logged in."
 msgstr ""
 
 #: Views\Account\_LoginForm.cshtml:6
 msgid "You are already signed in"
-msgstr ""
-
-#: Scripts\Views\Account\_Login.js:55
-msgid "you are now connected"
 msgstr ""
 

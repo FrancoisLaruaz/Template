@@ -17,13 +17,14 @@ namespace DataAccess
         }
 
         /// <summary>
-        /// Return a list of categories
+        ///  Return a list of categories
         /// </summary>
         /// <param name="Id"></param>
         /// <param name="CategoryTypeId"></param>
+        /// <param name="Code"></param>
         /// <param name="ActiveOnly"></param>
         /// <returns></returns>
-        public static List<Category> GetCategoriesList(int? Id=null, int? CategoryTypeId = null, bool ActiveOnly = false)
+        public static List<Category> GetCategoriesList(int? Id=null, int? CategoryTypeId = null, string Code=null, bool ActiveOnly = false)
         {
             List<Category> result = new List<Category>();
             DBConnect db = null;
@@ -39,6 +40,8 @@ namespace DataAccess
                     Query = Query + " and C.Id = " + Id.ToString();
                 if (CategoryTypeId != null && CategoryTypeId.Value > 0)
                     Query = Query + " and CategoryTypeId = " + CategoryTypeId.ToString();
+                if (!String.IsNullOrWhiteSpace(Code))
+                    Query = Query + " and LOWER(Code) = LOWER('" + Code+"')";
                 if (ActiveOnly)
                     Query = Query + " and Active=1 ";
                 Query = Query + " order by CT.Name, C.Order ";

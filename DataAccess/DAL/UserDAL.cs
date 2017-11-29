@@ -24,7 +24,7 @@ namespace DataAccess
         /// <param name="Language"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public static bool UpdateLanguageUser(string Language, int UserId)
+        public static bool UpdateLanguageUser(string Language, string UserName)
         {
             bool result = false;
             DBConnect db = null;
@@ -33,15 +33,15 @@ namespace DataAccess
                 db = new DBConnect();
                 string Query = "update User";
                 Query = Query + " set LanguageId=IFNULL(( ";
-                Query = Query + " select top 1 id  from category where CategoryTypeId="+Commons.CategoryTypes.Language.ToString()+" and code='"+Language+ "'),LanguageId) ";
-                Query = Query + "where Id =  "+UserId;
+                Query = Query + " select  id  from category where CategoryTypeId="+Commons.CategoryTypes.Language.ToString()+" and code='"+Language+ "' limit 1 ),LanguageId) ";
+                Query = Query + "where LOWER(username) =  LOWER("+ MySQLHelper.GetStringToInsert(UserName)+") and id>=1";
                 result = db.ExecuteQuery(Query);
 
             }
             catch (Exception e)
             {
                 result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Language = " + Language+" and UserId="+ UserId);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Language = " + Language+ " and UserName=" + UserName);
             }
             finally
             {
@@ -55,7 +55,7 @@ namespace DataAccess
         /// </summary>
         /// <param name="EMail"></param>
         /// <returns></returns>
-        public static bool IsUserRegistered(string EMail)
+        public static bool IsUserRegistered(string UserName)
         {
             bool result = false;
             DBConnect db = null;
@@ -63,7 +63,7 @@ namespace DataAccess
             {
                 db = new DBConnect();
                 string Query = "select count(*) ";
-                Query = Query + "from User where LOWER(Email)=LOWER('"+ EMail + "') ";
+                Query = Query + "from User where LOWER(UserName)=LOWER('" + UserName + "') ";
 
                 result = GenericDAL.GetSingleNumericData(Query).Value>0?true:false;
 
@@ -71,7 +71,7 @@ namespace DataAccess
             catch (Exception e)
             {
                 result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMail = " + EMail);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + UserName);
             }
             finally
             {
@@ -80,65 +80,47 @@ namespace DataAccess
             return result;
         }
 
-        /// <summary>
-        /// Check if the user can login
-        /// </summary>
-        /// <param name="EMail"></param>
-        /// <param name="Password"></param>
-        /// <returns></returns>
-        public static bool IsPasswordAndUserMatching(string EMail,string Password)
-        {
-            bool result = false;
-            DBConnect db = null;
-            try
-            {
-                db = new DBConnect();
-                string Query = "select count(*) ";
-                Query = Query + "from User where Email='" + EMail + "' ";
-                Query = Query + " and Password='" + Password + "' ";
 
-                result = GenericDAL.GetSingleNumericData(Query).Value > 0 ? true : false;
-
-            }
-            catch (Exception e)
-            {
-                result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMail = " + EMail);
-            }
-            finally
-            {
-                db.Dispose();
-            }
-            return result;
-        }
 
         /// <summary>
         /// Delete a user
         /// </summary>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public static bool DeleteUserById(int UserId)
+        public static bool DeleteUserById(User UserToDelete)
         {
             bool result = true;
             DBConnect db = null;
             try
             {
-                db = new DBConnect();
-                db.BeginTransaction();
-                string Query = "delete from userrole where UserId=" + UserId + ";";
-                Query = Query + "delete from scheduledtask where UserId=" + UserId+";";
-                Query = Query+"delete from user where Id=" + UserId + ";";
-                result = db.ExecuteQuery(Query);
+                if (UserToDelete != null)
+                {
+                    int UserId = UserToDelete.Id;
+                    string UserName = MySQLHelper.GetStringToInsert(UserToDelete.UserName);
+                    string UserIdentityId=  MySQLHelper.GetStringToInsert(UserToDelete.UserIdentityId);
 
-                if (result)
-                    result=db.CommitTransaction();
-                else
-                    db.RollbackTransaction();
+                    db = new DBConnect();
+                    db.BeginTransaction();
+                    string Query = "delete from userrole where UserId=" + UserId + ";";
+                    Query = Query + "delete from scheduledtask where UserId=" + UserId + ";";
+                    Query = Query + "update log4net set username=null where username=" + UserName + ";";
+                    Query = Query + "delete from user where Id=" + UserId + ";";
+                    Query = Query + "delete from userclaims where UserId=" + UserIdentityId + ";";
+                    Query = Query + "delete from userroles where UserId=" + UserIdentityId + ";";
+                    Query = Query + "delete from userlogins where UserId=" + UserIdentityId + ";";
+                    Query = Query + "delete from useridentity where Id=" + UserIdentityId + ";";
+                    result = db.ExecuteQuery(Query);
+
+                    if (result)
+                        result = db.CommitTransaction();
+                    else
+                        db.RollbackTransaction();
+                }
             }
             catch (Exception e)
             {
                 result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId.ToString());
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserToDelete.Id);
             }
             finally
             {
@@ -160,10 +142,10 @@ namespace DataAccess
             try
             {
                 db = new DBConnect();
-                string Query = "select U.Id, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, UI.DateLastConnection ";
+                string Query = "select U.Id, U.PictureSrc, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, UI.DateLastConnection ";
                 Query = Query + ",U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, UI.PasswordHash, UI.Email, U.CountryId, U.FacebookId ";
                 Query = Query + ", C.Name as CountryName ";
-                Query = Query + ", UI.UserName, UI.ResetPasswordToken,UI.EmailConfirmed,UI.AccessFailedCount,UI.LockoutEnabled,UI.LockoutEndDateUtc ";
+                Query = Query + ", UI.UserName, UI.Id as UserIdentityId, UI.ResetPasswordToken,UI.EmailConfirmed,UI.AccessFailedCount,UI.LockoutEnabled,UI.LockoutEndDateUtc ";
                 Query = Query + ",P.Id as ProvinceId, P.Name as ProvinceName ";
                 Query = Query + ",L.Id as LanguageId, L.Name as LanguageName, L.Code as LanguageCode ";
                 Query = Query + "from user U ";
@@ -188,6 +170,7 @@ namespace DataAccess
                     User User = new User();
                     User.FirstName = Convert.ToString(dr["FirstName"]);
                     User.LastName = Convert.ToString(dr["LastName"]);
+                    User.UserIdentityId = Convert.ToString(dr["UserIdentityId"]);
                     User.Id = Convert.ToInt32(dr["Id"]);
                     User.Email = Convert.ToString(dr["Email"]);
                     User.AccessFailedCount = Convert.ToInt32(dr["AccessFailedCount"]);
@@ -199,6 +182,7 @@ namespace DataAccess
                     User.LockoutEnabled = Commons.MySQLHelper.GetBoolFromMySQL(dr["LockoutEnabled"]).Value;
                     User.EmailConfirmed = Commons.MySQLHelper.GetBoolFromMySQL(dr["EmailConfirmed"]).Value;
                     User.Adress1 = MySQLHelper.GetStringFromMySQL(dr["Adress1"]);
+                    User.PictureSrc = MySQLHelper.GetStringFromMySQL(dr["PictureSrc"]);
                     User.Adress2 = MySQLHelper.GetStringFromMySQL(dr["Adress2"]);
                     User.Adress3 = MySQLHelper.GetStringFromMySQL(dr["Adress3"]);
                     User.PasswordHash = Convert.ToString(dr["PasswordHash"]);
@@ -216,6 +200,8 @@ namespace DataAccess
                     User.IsMasculine = MySQLHelper.GetBoolFromMySQL(dr["IsMasculine"]);
                     User.FirstNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["FirstName"]));
                     User.LastNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["LastName"]));
+                    User.EMailDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["EMail"]));
+                    User.UserNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["UserName"]));
 
                     result.Add(User);
                 }

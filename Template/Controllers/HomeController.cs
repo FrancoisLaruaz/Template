@@ -10,6 +10,8 @@ using Models.BDDObject;
 using Service;
 using Commons;
 using i18n;
+using Revalee.Client;
+using System.Configuration;
 
 namespace Website.Controllers
 {
@@ -23,9 +25,8 @@ namespace Website.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    User UserProfile = UserService.GetUserById(User.Identity.Name);
-                    if (UserProfile != null)
-                        model.UserFirstName = EncryptHelper.DecryptString(UserProfile.FirstName);
+                    model.UserFirstName = UserSession.FirstNameDecrypt;
+                    model.UserNameDecrypt = UserSession.UserNameDecrypt;
                 }
             }
             catch (Exception e)
@@ -38,7 +39,7 @@ namespace Website.Controllers
         {
             try
             {
-                bool result = ScheduledTaskService.ScheduleEMailUserTask(5, Commons.EmailType.Forgotpassword, TimeSpan.FromMinutes(1.0));
+              //  bool result = ScheduledTaskService.ScheduleEMailUserTask(5, Commons.EmailType.Forgotpassword, TimeSpan.FromMinutes(1.0));
             }
             catch (Exception e)
             {

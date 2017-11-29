@@ -33,10 +33,10 @@ namespace Service
                 Task.EmailTypeId = EMailTypeId;
                 Task.CreationDate = DateTime.UtcNow;
                 Task.ExpectedExecutionDate = Task.CreationDate.Add(callbackDelay);
-                Task.CallbackUrl = WebsiteURL+ "/Tasks/EMail/SendMailToUser?Id=0&UserId=1&EMailTypeId=" + Task.EmailTypeId;
+                Task.CallbackUrl = WebsiteURL+ "/Task/SendMailToUser?Id=0&UserId=1&EMailTypeId=" + Task.EmailTypeId;
                 Task.Id = InsertScheduledTask(Task);
                 Task.CallbackId = Commons.TaskHelper.ScheduleTask(Task.CallbackUrl, callbackDelay);
-                Task.CallbackUrl = WebsiteURL + "/Tasks/EMail/SendMailToUser?Id=" + Task.Id+"&UserId=1&EMailTypeId=" + Task.EmailTypeId;
+                Task.CallbackUrl = WebsiteURL + "/Task/SendMailToUser?Id=" + Task.Id+"&UserId=1&EMailTypeId=" + Task.EmailTypeId;
                 if (!String.IsNullOrWhiteSpace(Task.CallbackId))
                 {
                     Result = true;

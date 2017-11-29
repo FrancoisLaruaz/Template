@@ -56,11 +56,7 @@ namespace Service
             DisplayLogsViewModel model = new DisplayLogsViewModel();
             try
             {
-                model.LogsList = LogDAL.GetLogsList(Pattern, StartAt, PageSize);
-                model.Pattern = Pattern;
-                model.Count = LogDAL.GetLogsCount(Pattern);
-                model.StartAt = StartAt;
-                model.PageSize = PageSize;
+                model = LogDAL.GetLogsList(Pattern, StartAt, PageSize);
             }
             catch (Exception e)
             {

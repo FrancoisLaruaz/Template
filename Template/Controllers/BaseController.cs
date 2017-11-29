@@ -9,6 +9,7 @@ using Commons;
 using Service;
 using Microsoft.AspNet.Identity;
 using Models.BDDObject;
+using Models.Class;
 
 namespace Website.Controllers
 {
@@ -32,7 +33,7 @@ namespace Website.Controllers
         /// <summary>
         /// Get the id of the authenticated user
         /// </summary>
-        public int? UserId
+        public UserSession UserSession
         {
             get
             {
@@ -44,34 +45,35 @@ namespace Website.Controllers
                     }
                     else
                     {
-                        if (Session[Commons.Const.SessionUserId] == null)
+                        if (Session[Commons.Const.UserSession] == null)
                         {
-                            User ConnectedUser = UserService.GetUserByUserName(User.Identity.GetUserName());
+                            UserSession ConnectedUser = UserService.GetUserSession(User.Identity.GetUserName());
                             if(ConnectedUser==null)
                             {
                                 return null;
                             }
                             else
                             {
-                                Session[Commons.Const.SessionUserId] = ConnectedUser.Id;
-                                return ConnectedUser.Id;
+                                Session[Commons.Const.UserSession] = ConnectedUser;
+                                return ConnectedUser;
                             }
                         }
                         else
                         {
-                            return Convert.ToInt32(Session[Commons.Const.SessionUserId]);
+                            return Session[Commons.Const.UserSession] as UserSession;
                         }
                     }
 
                 }
-                catch
+                catch(Exception e)
                 {
+                    Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "User.Identity.IsAuthenticated = "+ User.Identity.IsAuthenticated + " and User.Identity.GetUserName() = "+ User.Identity.GetUserName());
                     return null;
                 }
             }
             set
             {
-                Session[Commons.Const.SessionUserId] = value;
+                Session[Commons.Const.UserSession] = value;
             }
         }
 
@@ -97,7 +99,7 @@ namespace Website.Controllers
                 String ControllerName = filterContext.Controller.ToString();
                 if ((!User.Identity.IsAuthenticated || !User.IsInRole(Commons.UserRoles.Admin)) && ControllerName== "Website.Controllers.AdminController" && filterContext.ActionDescriptor != null && filterContext.ActionDescriptor.ActionName != "Logs" && filterContext.ActionDescriptor.ActionName != "_DisplayLogs")
                 {
-               //     filterContext.Result = RedirectToAction("Login", "Account", new { returnUrl = Request.Url.AbsoluteUri.ToString() });
+                    // filterContext.Result = RedirectToAction("Login", "Account", new { returnUrl = Request.Url.AbsoluteUri.ToString() });
                     return;
                 }
 

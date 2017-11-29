@@ -14,7 +14,9 @@
 
 </head>
 <body>
-    @Html.Action("_Header", "Home")
+    <div id="divHeader">
+        @Html.Action("_Header", "Home")
+    </div>
     <div style="min-height:72vh;">
         @RenderBody()
     </div>

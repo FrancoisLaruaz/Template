@@ -3,6 +3,9 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 
 namespace Commons
@@ -59,6 +62,30 @@ namespace Commons
                 return value.Replace("<", "").Replace(">", "").Replace(":", "").Replace("\"", "").Replace("/", "").Replace("\\", "").Replace("|", "").Replace("?", "").Replace("*", "");
         }
 
+        /// <summary>
+        /// Check if the string is a valid email
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public static bool IsValidMail(string address)
+        {
+            try
+            {
+                if (String.IsNullOrWhiteSpace(address))
+                    return false;
+
+                EmailAddressAttribute e = new EmailAddressAttribute();
+                if (e.IsValid(address))
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "address = "+ address);
+            }
+            return false;
+        }
 
         /// <summary>
         /// Get a random password

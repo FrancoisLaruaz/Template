@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-11-26 14:07-08:00\n"
-"PO-Revision-Date: 2017-11-26 14:07-08:00\n"
+"POT-Creation-Date: 2017-11-28 17:58-08:00\n"
+"PO-Revision-Date: 2017-11-28 17:58-08:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,10 @@ msgstr ""
 
 #: Scripts\General\HighchartsHelper.js:55
 msgid "' + element[0] + '"
+msgstr ""
+
+#: Controllers\AccountController.cs:266
+msgid "[Your account is currently lockout."
 msgstr ""
 
 #: ..\Models\ViewModel\Account\LoginViewModel.cs:13
@@ -101,6 +105,10 @@ msgstr ""
 msgid "Error"
 msgstr "Erreur"
 
+#: Controllers\AccountController.cs:170
+msgid "Error while creating the user."
+msgstr ""
+
 #: Scripts\General\FileDropHelper.js:75
 #: Scripts\General\FileDropHelper.js:80
 msgid "Error while uploading the picture."
@@ -124,13 +132,11 @@ msgstr "De"
 msgid "Id"
 msgstr "Id"
 
-#: Controllers\AccountController.cs:235
-msgid "Invalid password for this user"
-msgstr "Le mot de passe renseigné est incorrect pour cet utilisateur"
-
-#: Controllers\AccountController.cs:240
-msgid "Invalid username"
-msgstr "Utilisateur incconu"
+#: Controllers\AccountController.cs:269
+#: Controllers\AccountController.cs:279
+#: Controllers\AccountController.cs:283
+msgid "Invalid login attempt."
+msgstr ""
 
 #: Views\Admin\_DisplayEmailAudits.cshtml:19
 msgid "Language"
@@ -141,7 +147,7 @@ msgstr "Langue"
 msgid "Last Name"
 msgstr "Nom de famille"
 
-#: Views\Account\_LoginForm.cshtml:42
+#: Views\Account\_LoginForm.cshtml:51
 #: Views\Account\_SignUpFormLinks.cshtml:2
 msgid "Log In"
 msgstr "Se connecter"
@@ -150,7 +156,7 @@ msgstr "Se connecter"
 msgid "Log Off"
 msgstr "Se déconnecter"
 
-#: Controllers\AccountController.cs:272
+#: Controllers\AccountController.cs:335
 #: Views\Shared\Layout\_Header.cshtml:65
 msgid "Login"
 msgstr "S'identifier"
@@ -186,8 +192,20 @@ msgstr "Longueur du mot de passe :"
 msgid "Periodicity"
 msgstr ""
 
+#: Controllers\AccountController.cs:181
+msgid "Please complete the form."
+msgstr ""
+
+#: Controllers\AccountController.cs:176
+msgid "Please enter a valid email address."
+msgstr ""
+
 #: Views\Admin\Tasks.cshtml:25
 msgid "Recurring Scheduled Tasks"
+msgstr ""
+
+#: ..\Models\ViewModel\Account\LoginViewModel.cs:23
+msgid "Remember me?"
 msgstr ""
 
 #: Views\Admin\_DisplayTasks.cshtml:17
@@ -202,6 +220,10 @@ msgstr "ligne(s) trouvées"
 
 #: Views\Admin\Tasks.cshtml:31
 msgid "Schedule Time"
+msgstr ""
+
+#: Scripts\Views\Shared\_Header.js:35
+msgid "See you soon !"
 msgstr ""
 
 #: Views\Account\_LoginFormLinks.cshtml:3
@@ -242,9 +264,17 @@ msgstr "Le nom de famille est requis."
 msgid "The Password field is required."
 msgstr "Le champ Mot de passe est requis."
 
-#: Controllers\AccountController.cs:149
+#: Controllers\AccountController.cs:197
 msgid "This email address is already registered."
 msgstr "Cette adresse mail est déjà utilisée."
+
+#: Controllers\AccountController.cs:166
+msgid "This email address is already used."
+msgstr ""
+
+#: Controllers\AccountController.cs:274
+msgid "This user is not registered. Please sign-up."
+msgstr ""
 
 #: Views\Admin\_DisplayEmailAudits.cshtml:17
 msgid "To"
@@ -271,7 +301,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Oui"
 
-#: Controllers\AccountController.cs:156
+#: Controllers\AccountController.cs:205
 msgid "You are already logged in."
 msgstr ""
 
@@ -279,10 +309,21 @@ msgstr ""
 msgid "You are already signed in"
 msgstr ""
 
-#: Scripts\Views\Account\_Login.js:55
-msgid "you are now connected"
-msgstr "vous êtes desormais connecté"
-
 #~ msgid "Edit Profile"
 #~ msgstr "Modifier le profil"
+
+#~ msgid "Error while creating the user"
+#~ msgstr ""
+
+#~ msgid "Invalid password for this user"
+#~ msgstr "Le mot de passe renseigné est incorrect pour cet utilisateur"
+
+#~ msgid "Invalid username"
+#~ msgstr "Utilisateur incconu"
+
+#~ msgid "This user is not registered."
+#~ msgstr ""
+
+#~ msgid "you are now connected"
+#~ msgstr "vous êtes desormais connecté"
 

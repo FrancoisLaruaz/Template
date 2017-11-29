@@ -42,20 +42,20 @@
                         if (Request.IsAuthenticated)
                         {
                             <li class="dropdown">
-                                <a href="/User/Index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Model.UserFirstName<span class="glyphicon glyphicon-user user-icon-span"></span></a>
+                                <a href="/User/Index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Model.UserFirstName <span class="glyphicon glyphicon-user user-icon-span"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/Account">@User.Identity.GetUserName()</a></li>
+                                    <li><a href="/Account">@Model.UserNameDecrypt</a></li>
 
                                     @if (User.IsInRole("Admin"))
                                     {
                                         <li><a href="/Admin">[[[Admin Panel]]]</a></li>
                                     }
-                                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                    @using (Ajax.BeginForm("LogOff", "Account", new { }, new AjaxOptions() { HttpMethod = "POST",  OnBegin = "LogOffBegin", OnSuccess = "LogOffSuccess", OnFailure = "LogOffFailure" }, new { @id = "logoutForm" , @class = "navbar-right" }))
                                     {
                                         @Html.AntiForgeryToken()
                                     }
                                     <li><a href="/Account/Manage">[[[Change Password]]]</a></li>
-                                    <li><a href="javascript:document.getElementById('logoutForm').submit()">[[[Log Off]]]</a></li>
+                                    <li><a id="LinkLogOff">[[[Log Off]]]</a></li>
                                 </ul>
                             </li>
                         }

@@ -10,7 +10,7 @@ namespace Models.BDDObject
 
     public partial class User
     {
-
+        public string UserIdentityId { get; set; }
         public DateTime DateLastConnection { get; set; }
         public string CountryName { get; set; }
 
@@ -23,6 +23,10 @@ namespace Models.BDDObject
         public string FirstNameDecrypt { get; set; }
 
         public string LastNameDecrypt { get; set; }
+
+        public string EMailDecrypt { get; set; }
+
+       public string UserNameDecrypt { get; set; }
 
         public string ResetPasswordToken { get; set; }
 

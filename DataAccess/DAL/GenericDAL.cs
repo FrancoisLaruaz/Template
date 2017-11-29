@@ -39,6 +39,9 @@ namespace DataAccess
         }
 
 
+
+
+
         /// <summary>
         /// Update generic of a row
         /// </summary>
@@ -46,14 +49,14 @@ namespace DataAccess
         /// <param name="Id"></param>
         /// <param name="Columns"></param>
         /// <returns></returns>
-        public static bool UpdateById(string Table, int Id,Dictionary<string,Object> Columns)
+        public static bool UpdateById(string Table, Object Id,Dictionary<string,Object> Columns)
         {
             bool result = false;
             DBConnect db = null;
             try
             {
                 db = new DBConnect();
-                if (Id > 0 && !String.IsNullOrWhiteSpace(Table) && Columns != null && Columns.Count>0)
+                if (!String.IsNullOrWhiteSpace(MySQLHelper.GetValueToInsert(Id)) && !String.IsNullOrWhiteSpace(Table) && Columns != null && Columns.Count>0)
                 {
                     string Query = "update " + Table+" set ";
                     foreach(var Column in Columns)
@@ -62,7 +65,7 @@ namespace DataAccess
                         Query = Query + Column.Key.ToString()+" = " + strValue+" , ";
                     }
                     Query=Query.Remove(Query.Length - 2);
-                    Query = Query + " where Id=" + Id;
+                    Query = Query + " where Id=" + MySQLHelper.GetValueToInsert(Id);
                     result = db.ExecuteQuery(Query);
 
                     

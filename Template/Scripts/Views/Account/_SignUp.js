@@ -13,7 +13,7 @@ function SignUpFailure()
 
 function handleSignUpBegin()
 {
-    $('#SubmitButtonSignUp').val("Creation ...");
+    $('#SubmitButtonSignUp').val("[[[Creation ...]]]");
     $("#SubmitButtonSignUp").toggleClass("disabled", true);
 }
 
@@ -23,7 +23,7 @@ function SignUpSuccess(Data)
     if (Data) {
         $('#ErrorSignUpForm').html(Data.Error);
         if (Data.Result) {
-
+          //  RefreshHeader();
         }
     }
 }
@@ -38,7 +38,7 @@ function SetSignUpForm()
 function SetSignUpSubmitForm()
 {
     $('#SubmitButtonSignUp').show();
-    $('#SubmitButtonSignUp').val("Create");
+    $('#SubmitButtonSignUp').val("[[[Create]]]");
     $('#SubmitButtonSignUp').removeAttr('disabled');
     $("#SubmitButtonSignUp").toggleClass("disabled", false);
 

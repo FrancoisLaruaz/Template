@@ -48,11 +48,13 @@ function LoginSuccess(Data) {
             if ($('#loginOrSignInModal').length > 0) {
                 $('#loginOrSignInModal').click();
             }
+         
             if (Data.URLRedirect != null && model.URLRedirect != "") {
                 window.location.href = Data.URLRedirect;
             }
-
-            NotificationOK(Data.UserFirstName + ", [[[you are now connected]]] :)");
+            else {
+                window.location.href = GetHomePageUrl();
+            }
         }
     }
 }

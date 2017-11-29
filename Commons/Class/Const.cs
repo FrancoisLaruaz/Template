@@ -28,7 +28,7 @@ namespace Commons
 
         public const string i18nlangtag = "i18n.langtag";
 
-        public const string SessionUserId = "SessionUserId";
+        public const string UserSession = "UserSession";
 
     }
 

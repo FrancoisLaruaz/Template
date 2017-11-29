@@ -22,7 +22,7 @@ namespace Models.BDDObject
 
         public string UserName { get; set; }
 
-
+        public string PictureSrc { get; set; }
         public string Adress1 { get; set; }
         public string Adress2 { get; set; }
 

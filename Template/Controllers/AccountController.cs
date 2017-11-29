@@ -20,6 +20,7 @@ using System.Web.Script.Serialization;
 using Identity;
 using System.Net;
 using System.IO;
+using Identity.Models;
 
 namespace Website.Controllers
 {
@@ -34,9 +35,9 @@ namespace Website.Controllers
         {
             get
             {
-                if(_signInManager==null)
+                if (_signInManager == null)
                 {
-                   var owincontext= HttpContext.GetOwinContext();
+                    var owincontext = HttpContext.GetOwinContext();
                     return owincontext.Get<ApplicationSignInManager>();
                 }
                 else
@@ -69,22 +70,29 @@ namespace Website.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            try
             {
-                if (_userManager != null)
+                if (disposing)
                 {
-                    _userManager.Dispose();
-                    _userManager = null;
+                    if (_userManager != null)
+                    {
+                        _userManager.Dispose();
+                        _userManager = null;
+                    }
+
+                    if (_signInManager != null)
+                    {
+                        _signInManager.Dispose();
+                        _signInManager = null;
+                    }
                 }
 
-                if (_signInManager != null)
-                {
-                    _signInManager.Dispose();
-                    _signInManager = null;
-                }
+                 base.Dispose(disposing);
             }
-
-           // base.Dispose(disposing);
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -102,7 +110,7 @@ namespace Website.Controllers
             }
         }
 
-  
+
 
         #region SignUp
         public ActionResult _SignUpForm()
@@ -123,7 +131,7 @@ namespace Website.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult _SignUpForm(SignUpViewModel model)
+        public async Task<ActionResult> _SignUpForm(SignUpViewModel model)
         {
             bool _Result = false;
             string _Error = "";
@@ -133,23 +141,64 @@ namespace Website.Controllers
             {
                 if (!User.Identity.IsAuthenticated)
                 {
+
                     if (ModelState.IsValid)
                     {
-                        string Email = Commons.EncryptHelper.EncryptToString(model.Password.Replace("'", "''"));
-
-                        bool IsUserRegistered = UserService.IsUserRegistered(Email);
-
-                        if (!IsUserRegistered)
+                        model.Email = model.Email.Trim().ToLower();
+                        if (Utils.IsValidMail(model.Email))
                         {
-                            model.LangTagPreference = CurrentLangTag;
-                            _Result = true;
+
+                            model.Email = Commons.EncryptHelper.EncryptToString(model.Email);
+                            int CurrentLanguageId = CategoryService.GetCategoryByCode(CurrentLangTag).Id;
+                            var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LanguageId = CurrentLanguageId };
+                            var result = await UserManager.CreateAsync(user, model.Password);
+                            if (result.Succeeded)
+                            {
+                                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                UserSession = null;
+                                UserSession LoggedUser = UserSession;
+                                _Result = true;
+                            }
+                            else
+                            {
+                                if (UserService.IsUserRegistered(model.Email))
+                                {
+                                    _Error = "[[[This email address is already used.]]]";
+                                }
+                                else
+                                {
+                                    _Error = "[[[Error while creating the user.]]]";
+                                }
+                            }
                         }
                         else
                         {
-                            _Error = "[[[This email address is already registered.]]]";
-                            _Result = false;
+                            _Error = "[[[Please enter a valid email address.]]]";
                         }
                     }
+                    else
+                    {
+                        _Error = "[[[Please complete the form.]]]";
+                    }
+
+
+                    /*
+                    string Email = Commons.EncryptHelper.EncryptToString(model.Password.Replace("'", "''"));
+
+                    bool IsUserRegistered = UserService.IsUserRegistered(Email);
+
+                    if (!IsUserRegistered)
+                    {
+                        model.LangTagPreference = CurrentLangTag;
+                        _Result = true;
+                    }
+                    else
+                    {
+                        _Error = "[[[This email address is already registered.]]]";
+                        _Result = false;
+                    }
+                    */
+
                 }
                 else
                 {
@@ -160,7 +209,7 @@ namespace Website.Controllers
             catch (Exception e)
             {
                 _Result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Email = " + model.Email+" and FirstName = "+model.FirstName + " and LastName = " + model.LastName);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Email = " + model.Email + " and FirstName = " + model.FirstName + " and LastName = " + model.LastName);
             }
 
             return Json(new { Result = _Result, Error = _Error, UserFirstName = _UserFirstName });
@@ -198,48 +247,41 @@ namespace Website.Controllers
 
                 if (ModelState.IsValid)
                 {
-
-
+                    model.Email = model.Email.Trim().ToLower();
+                    model.Email = Commons.EncryptHelper.EncryptToString(model.Email);
                     var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
                     switch (result)
                     {
                         case SignInStatus.Success:
-                            string username = User.Identity.GetUserName();
-                            return Redirect(model.URLRedirect);
-                        case SignInStatus.LockedOut:
-                            return View("Lockout");
-                        case SignInStatus.RequiresVerification:
-                            return RedirectToAction("SendCode", new { ReturnUrl = model.URLRedirect, RememberMe = model.RememberMe });
-                        case SignInStatus.Failure:
-                        default:
-                            ModelState.AddModelError("", "Invalid login attempt.");
-                            return View(model);
-
-                            /*
-                            string Email = Commons.EncryptHelper.EncryptToString(model.Password.Replace("'", "''"));
-
-                            User User = UserService.GetUserByEMail(Email);
-
-                            if (User != null)
+                            _Result = true;
+                            UserSession = null;
+                            UserSession LoggedUser = UserSession;
+                            if (LoggedUser != null)
                             {
-                                if (User.PasswordDecrypt == model.Password)
-                                {
-                                    _Result = true;
-                                    _UserFirstName = User.FirstNameDecrypt;
-                                    // https://insidemysql.com/how-to-use-mysql-for-your-asp-net-identity-provider-with-a-custom-primary-key/
-                             //       var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-                                //    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
-                                }
-                                else
-                                {
-                                    _Error = "[[[Invalid password for this user]]]";
-                                }
+                                _UserFirstName = LoggedUser.FirstNameDecrypt;
+                                UserIdentityService.UpdateUserIdentityLoginSuccess(LoggedUser.UserIdentityId);
+                            }
+                            break;
+                        case SignInStatus.LockedOut:
+                            _Error = "[[[[Your account is currently lockout.]]]";
+                            break;
+                        case SignInStatus.RequiresVerification:
+                            _Error = "[[[Invalid login attempt.]]]";
+                            break;
+                        case SignInStatus.Failure:
+                            if (!UserService.IsUserRegistered(model.Email))
+                            {
+                                _Error = "[[[This user is not registered. Please sign-up.]]]";
                             }
                             else
                             {
-                                _Error = "[[[Invalid username]]]";
+                                UserIdentityService.UpdateUserIdentityLoginFailure(model.Email);
+                                _Error = "[[[Invalid login attempt.]]]";
                             }
-                            */
+                            break;
+                        default:
+                            _Error = "[[[Invalid login attempt.]]]";
+                            break;
                     }
                 }
             }
@@ -249,50 +291,72 @@ namespace Website.Controllers
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Email = " + model.Email);
             }
 
-            return Json(new { Result = _Result, Error = _Error, UserFirstName = _UserFirstName, URLRedirect= model.URLRedirect });
+            return Json(new { Result = _Result, Error = _Error, UserFirstName = _UserFirstName, URLRedirect = model.URLRedirect });
         }
         #endregion
 
-        [HttpPost]
+      
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            UserId = null;
+            try
+            {
+                Session[Commons.Const.UserSession] = null;
+              //  Session.Clear();
+               // Session.Abandon();
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + User.Identity.Name);
+            }
             return RedirectToAction("Index", "Home");
         }
 
         #region Login
-        public ActionResult Login(string returnUrl=null)
+        public ActionResult Login(string returnUrl = null)
         {
             LoginViewModel model = new LoginViewModel();
             try
             {
+                if (User.Identity.IsAuthenticated)
+                {
+                    if (String.IsNullOrWhiteSpace(returnUrl))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
+
                 model.URLRedirect = returnUrl;
                 ViewBag.Title = "[[[Login]]]";
-                
-  
-               
+
+
+
                 Email Email = new Email();
                 Email.ToEmail = "francois.laruaz2@gmail.com";
                 Email.EMailTypeId = Commons.EmailType.Forgotpassword;
                 //   bool result =EMailService.SendMail(Email);
 
                 // UserService.UpdateDateLastConnection(5);
-              //  EMailService.SendEMailToUser(5, Commons.EmailType.Forgotpassword);
+                //  EMailService.SendEMailToUser(5, Commons.EmailType.Forgotpassword);
+
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "returnUrl = "+ returnUrl);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "returnUrl = " + returnUrl);
             }
 
             return View(model);
         }
 
- 
-        
 
-#endregion
+
+
+        #endregion
         public ActionResult Index()
         {
             return RedirectToAction("Login");
