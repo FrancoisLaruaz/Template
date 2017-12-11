@@ -72,7 +72,7 @@ namespace Service
                 {
                     if (!Utils.IsProductionWebsite())
                     {
-                        Email.EmailContent.Add(new Tuple<string, string>("#RealUserEMail#","Real mail :"+ Email.ToEmail));
+                        Email.EmailContent.Add(new Tuple<string, string>("#RealUserEMail#","Real mail : "+ Email.ToEmail));
                         Email.ToEmail = Const.EMailDev;
                     }
                     else
@@ -140,6 +140,32 @@ namespace Service
         /// <summary>
         /// Send a mail to a user
         /// </summary>
+        /// <param name="UserName"></param>
+        /// <param name="EMailTypeId"></param>
+        /// <returns></returns>
+        public static bool SendEMailToUser(string UserName, int EMailTypeId)
+        {
+            bool result = false;
+            try
+            {
+                User UserMail = UserService.GetUserByUserName(UserName);
+                if (UserMail != null)
+                {
+                    int UserId = UserMail.Id;
+                    result = SendEMailToUser(UserId, EMailTypeId);
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMailTypeId = " + EMailTypeId + " and UserName =" + UserName);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Send a mail to a user
+        /// </summary>
         /// <param name="UserId"></param>
         /// <param name="EMailTypeId"></param>
         /// <returns></returns>
@@ -160,6 +186,10 @@ namespace Service
                         case Commons.EmailType.Forgotpassword:
                             string ResetPasswordUrl = WebsiteURL + "/ResetPassword?UserId="+ UserMail.Id+"&Token=" + Commons.HashHelpers.HashEncode(UserMail.ResetPasswordToken);
                             EmailContent.Add(new Tuple<string, string>("#ResetPasswordUrl#", ResetPasswordUrl));
+                            break;
+                        case Commons.EmailType.UserWelcome:
+                            string ConfirmEmailUrl = WebsiteURL + "/ConfirmEmail?UserId=" + UserMail.Id + "&Token=" + Commons.HashHelpers.HashEncode(UserMail.EmailConfirmationToken);
+                            EmailContent.Add(new Tuple<string, string>("#ConfirmEmailUrl#", ConfirmEmailUrl));
                             break;
                     }
                     Email.EmailContent = EmailContent;

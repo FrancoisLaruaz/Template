@@ -87,7 +87,7 @@ namespace Website.Controllers
                     }
                 }
 
-                 base.Dispose(disposing);
+                base.Dispose(disposing);
             }
             catch (Exception e)
             {
@@ -155,9 +155,13 @@ namespace Website.Controllers
                             if (result.Succeeded)
                             {
                                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                                UserSession = null;
-                                UserSession LoggedUser = UserSession;
-                                _Result = true;
+                                if (!String.IsNullOrWhiteSpace(model.Email))
+                                {
+                                    UserSession = UserService.GetUserSession(model.Email);
+                                    _Result = true;
+                                    string UserName = model.Email;
+                                    EMailService.SendEMailToUser(UserName, Commons.EmailType.UserWelcome);
+                                }
                             }
                             else
                             {
@@ -181,23 +185,6 @@ namespace Website.Controllers
                         _Error = "[[[Please complete the form.]]]";
                     }
 
-
-                    /*
-                    string Email = Commons.EncryptHelper.EncryptToString(model.Password.Replace("'", "''"));
-
-                    bool IsUserRegistered = UserService.IsUserRegistered(Email);
-
-                    if (!IsUserRegistered)
-                    {
-                        model.LangTagPreference = CurrentLangTag;
-                        _Result = true;
-                    }
-                    else
-                    {
-                        _Error = "[[[This email address is already registered.]]]";
-                        _Result = false;
-                    }
-                    */
 
                 }
                 else
@@ -254,12 +241,12 @@ namespace Website.Controllers
                     {
                         case SignInStatus.Success:
                             _Result = true;
-                            UserSession = null;
-                            UserSession LoggedUser = UserSession;
-                            if (LoggedUser != null)
+                            UserSession = UserService.GetUserSession(model.Email);
+                            if (UserSession != null)
                             {
-                                _UserFirstName = LoggedUser.FirstNameDecrypt;
-                                UserIdentityService.UpdateUserIdentityLoginSuccess(LoggedUser.UserIdentityId);
+                                _UserFirstName = UserSession.FirstNameDecrypt;
+                                UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
+                                model.LanguageTag= UserSession.LanguageTag;
                             }
                             break;
                         case SignInStatus.LockedOut:
@@ -295,15 +282,15 @@ namespace Website.Controllers
         }
         #endregion
 
-      
+
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             try
             {
                 Session[Commons.Const.UserSession] = null;
-              //  Session.Clear();
-               // Session.Abandon();
+                //  Session.Clear();
+                // Session.Abandon();
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             }
             catch (Exception e)
@@ -335,14 +322,7 @@ namespace Website.Controllers
                 ViewBag.Title = "[[[Login]]]";
 
 
-
-                Email Email = new Email();
-                Email.ToEmail = "francois.laruaz2@gmail.com";
-                Email.EMailTypeId = Commons.EmailType.Forgotpassword;
-                //   bool result =EMailService.SendMail(Email);
-
-                // UserService.UpdateDateLastConnection(5);
-                //  EMailService.SendEMailToUser(5, Commons.EmailType.Forgotpassword);
+  
 
             }
             catch (Exception e)

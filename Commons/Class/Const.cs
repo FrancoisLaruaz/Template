@@ -11,7 +11,7 @@ namespace Commons
         public const  string GoogleAnalyticsID = "";
         public const  string FacebookPixelID = "110600362985483";
         public const  string EMailDev = "francois.laruaz@gmail.com";
-        public const string DefaultPassword = "r4NHU$sNG(f'+:e!";
+
         // Define if the application need  login/logout features
         public const bool UserManagement = true;
 
@@ -29,12 +29,13 @@ namespace Commons
         public const string i18nlangtag = "i18n.langtag";
 
         public const string UserSession = "UserSession";
-
+        public const string WebcamCaptureSession = "WebcamCaptureSession";
     }
 
     public static class EmailType
     {
         public const int Forgotpassword = 1001;
+        public const int UserWelcome = 1002;
     }
 
     public static class UserRoles
@@ -72,12 +73,13 @@ namespace Commons
     public static class TaskLogTypes
     {
         public const int ErrorCleanUp = 4001;
+        public const int UploadFilesCleanUp = 4002;
     }
 
 
     public static class StaticFileVersion
     {
-        public const string StaticFileVersionString = "20171006";
+        public const string StaticFileVersionString = "20171206";
     }
 
 }

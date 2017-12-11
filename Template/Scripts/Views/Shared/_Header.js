@@ -43,6 +43,38 @@ function LogOffFailure() {
     window.location.href = GetHomePageUrl();
 }
 
+function ShowSignUpForm() {
+    if ($("#loginOrSignInModalBody").length > 0) {
+
+        $("#loginOrSignInModal").modal('show');
+
+        $("#loginOrSignInModalBody #LoginForm").fadeOut(500, function () {
+            $("#loginOrSignInModalBody #SignUpForm").fadeIn(500);
+            if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
+                $("#div_SignUpFormLinks").show();
+                setTimeout(function () { SetPasswordForm(); }, 1000);
+                SetPasswordForm();
+            }
+            else {
+                $("#div_SignUpFormLinks").hide();
+            }
+        });
+    }
+}
+
+
+
+
+
+function ShowLogInForm() {
+    if ($("#loginOrSignInModalBody #SignUpForm").length > 0) {
+        $("#loginOrSignInModal").modal('show');
+        $("#loginOrSignInModalBody #SignUpForm").fadeOut(500, function () {
+            $("#loginOrSignInModalBody #LoginForm").fadeIn(500);
+        });
+    }
+}
+
 function RefreshHeader() {
 
     $.ajax({
@@ -59,4 +91,23 @@ function RefreshHeader() {
             ErrorActions();
         }
     });
+}
+
+
+function recordGoToUrl(shouldGoTo) {
+
+    if (shouldGoTo == null) {
+        $('#CentralGoToUrl').val('@HttpContext.Current.Request.Url.AbsolutePath'); // optional param not passed in, so use current page url
+    } else {
+        $('#CentralGoToUrl').val(shouldGoTo);
+    }
+}
+
+
+function ShowSecretlyLogInForm() {
+
+    if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
+        $("#loginOrSignInModalBody #SignUpForm").hide();
+        $("#loginOrSignInModalBody #LoginForm").show();
+    }
 }

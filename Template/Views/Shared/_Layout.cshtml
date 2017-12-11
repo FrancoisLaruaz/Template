@@ -16,6 +16,10 @@
 <body>
     <div id="divHeader">
         @Html.Action("_Header", "Home")
+        <div id="VideoHomePageDiv" style="display:none">
+            @Html.Partial("~/Views/Home/_VideoHomePage.cshtml")
+        </div>
+        
     </div>
     <div style="min-height:72vh;">
         @RenderBody()
@@ -27,6 +31,7 @@
     @Html.Partial("~/Views/Shared/Layout/_Spinner.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_GoogleAnalytics.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_FacebookPixel.cshtml")
+    @Html.Partial("~/Views/Shared/Layout/_Audio.cshtml")
     @RenderSection("scripts", required: false)
 </body>
 </html>

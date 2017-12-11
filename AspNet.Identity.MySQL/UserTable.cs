@@ -66,6 +66,7 @@ namespace AspNet.Identity.MySQL
                     user = (TUser)Activator.CreateInstance(typeof(TUser));
                     user.Id = row["Id"];
                     user.UserName = row["UserName"];
+                    user.EmailConfirmationToken = row["EmailConfirmationToken"];
                     user.ResetPasswordToken = row["ResetPasswordToken"];
                     user.PasswordHash = string.IsNullOrEmpty(row["PasswordHash"]) ? null : row["PasswordHash"];
                     user.SecurityStamp = string.IsNullOrEmpty(row["SecurityStamp"]) ? null : row["SecurityStamp"];
@@ -106,6 +107,7 @@ namespace AspNet.Identity.MySQL
                     TUser user = (TUser)Activator.CreateInstance(typeof(TUser));
                     user.Id = row["Id"];
                     user.UserName = row["UserName"];
+                    user.EmailConfirmationToken= row["EmailConfirmationToken"];
                     user.ResetPasswordToken = row["ResetPasswordToken"];
                     user.PasswordHash = string.IsNullOrEmpty(row["PasswordHash"]) ? null : row["PasswordHash"];
                     user.SecurityStamp = string.IsNullOrEmpty(row["SecurityStamp"]) ? null : row["SecurityStamp"];
@@ -194,14 +196,15 @@ namespace AspNet.Identity.MySQL
             int result = 0;
             try
             {
-                string commandText = @"Insert into userIdentity (UserName, Id, PasswordHash, SecurityStamp,Email,EmailConfirmed,PhoneNumber,PhoneNumberConfirmed, AccessFailedCount,LockoutEnabled,LockoutEndDateUtc,TwoFactorEnabled,DateLastConnection)
-                values (@name, @id, @pwdHash, @SecStamp,@email,@emailconfirmed,@phonenumber,@phonenumberconfirmed,@accesscount,@lockoutenabled,@lockoutenddate,@twofactorenabled,@DateLastConnection);";
+                string commandText = @"Insert into userIdentity (UserName, Id, PasswordHash, SecurityStamp,Email,EmailConfirmed,PhoneNumber,PhoneNumberConfirmed, AccessFailedCount,LockoutEnabled,LockoutEndDateUtc,TwoFactorEnabled,DateLastConnection,EmailConfirmationToken)
+                values (@name, @id, @pwdHash, @SecStamp,@email,@emailconfirmed,@phonenumber,@phonenumberconfirmed,@accesscount,@lockoutenabled,@lockoutenddate,@twofactorenabled,@DateLastConnection,@EmailConfirmationToken);";
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
                 parameters.Add("@name", user.UserName);
                 parameters.Add("@id", user.Id);
                 parameters.Add("@pwdHash", user.PasswordHash);
                 parameters.Add("@SecStamp", user.SecurityStamp);
                 parameters.Add("@email", user.Email);
+                parameters.Add("@EmailConfirmationToken", Commons.HashHelpers.RandomString(32));
                 parameters.Add("@emailconfirmed", user.EmailConfirmed);
                 parameters.Add("@phonenumber", user.PhoneNumber);
                 parameters.Add("@phonenumberconfirmed", user.PhoneNumberConfirmed);

@@ -91,6 +91,7 @@ namespace Service
                         result.UserNameDecrypt = UserLogged.UserNameDecrypt;
                         result.UserIdentityId = UserLogged.UserIdentityId;
                         result.UserId = UserLogged.Id;
+                        result.LanguageTag = UserLogged.LanguageCode;
                     }
                 }
             }

@@ -4,7 +4,7 @@ $(function () {
         SetPasswordForm();
     });
 
-    setTimeout(function () { SetPasswordForm(); }, 2000);
+    setTimeout(function () { SetPasswordForm(); }, 1000);
 
     SetPasswordForm();
 
@@ -17,10 +17,12 @@ $(function () {
 
 function SetPasswordForm() {
 
-    $(".PasswordButton").show();
+    $("#SubmitButtonSignUp").show();
     var disabledSubmitButton = false;
-    var Password = $("#PasswordToCheck").val();
-    if (Password) {
+    
+    // alert('Password : ' + Password);
+    if ($("#PasswordToCheck").length > 0) {
+        var Password = $("#PasswordToCheck").val();
         var upperCase = new RegExp('[A-Z]');
         var lowerCase = new RegExp('[a-z]');
         var numbers = new RegExp('[0-9]');
@@ -98,9 +100,9 @@ function SetPasswordForm() {
 
 
         SetPasswordStrengthScore(PasswordStrengthScore);
-        $(".PasswordButton").toggleClass("disabled", disabledSubmitButton);
+        $("#SubmitButtonSignUp").toggleClass("disabled", disabledSubmitButton);
         if (!disabledSubmitButton)
-            $(".PasswordButton").removeAttr('disabled');
+            $("#SubmitButtonSignUp").removeAttr('disabled');
     }
 
 }

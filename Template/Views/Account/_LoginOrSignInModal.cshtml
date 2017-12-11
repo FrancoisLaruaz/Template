@@ -1,8 +1,9 @@
 ﻿
 @if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
 {
-    <li><a href="" data-toggle="modal" data-target="#loginOrSignInModal" onclick="recordGoToUrl(null)">Log In</a></li>
+    <li><a href="" data-toggle="modal" data-target="#loginOrSignInModal" onclick="ShowSecretlyLogInForm();recordGoToUrl(null)">Log In</a></li>
 }
+
 <link href="~/Content/Views/Shared/_LoginModal.css" rel="stylesheet" type="text/css">
 
 
@@ -31,12 +32,3 @@
 
 
 
-<script>
-    function recordGoToUrl(shouldGoTo) {
-        if (shouldGoTo == null) {
-            $('#CentralGoToUrl').val('@HttpContext.Current.Request.Url.AbsolutePath'); // optional param not passed in, so use current page url
-        } else {
-            $('#CentralGoToUrl').val(shouldGoTo);
-        }
-    }
-</script>

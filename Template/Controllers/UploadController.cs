@@ -19,13 +19,82 @@ namespace Website.Controllers
     {
 
         /// <summary>
+        ///  Get the picture
+        /// </summary>
+        /// <param name="Purpose"></param>
+        /// <param name="WebcamSessionId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetWebcamCapture(string Purpose, string WebcamSessionId)
+        {
+            bool _success = false;
+            string _Error = "";
+            string _PathFile = "";
+            string _PathFilePreview = "";
+            try
+            {
+
+                if (Session[Commons.Const.WebcamCaptureSession + Purpose+ WebcamSessionId] != null)
+                {
+                    _PathFile = Session[Commons.Const.WebcamCaptureSession + Purpose + WebcamSessionId].ToString();
+
+                    _PathFilePreview = FileHelper.DecryptFile(_PathFile, true);
+                    _success = true;
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                _success = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.BaseType, "Purpose = " + Purpose);
+            }
+            return Json(new { Result = _success, PathFile = _PathFile, Error = _Error, PathFilePreview = _PathFilePreview });
+        }
+
+        /// <summary>
+        /// Save the picture
+        /// </summary>
+        /// <param name="Purpose"></param>
+        /// <param name="WebcamSessionId"></param>
+        /// <returns></returns>
+        public ActionResult SaveWebcamCapture(string Purpose, string WebcamSessionId)
+        {
+            bool _success = false;
+            string _Error = "";
+            string _PathFile = "";
+            string _PathFilePreview = "";
+            try
+            {
+
+                Stream stream = Request?.InputStream;
+                if (stream != null)
+                {
+                    _PathFile = FileHelper.WebcamCapture(stream, Purpose);
+                    if (!String.IsNullOrWhiteSpace(_PathFile))
+                    {
+                        _success = true;
+                        Session[Commons.Const.WebcamCaptureSession + Purpose + WebcamSessionId] = _PathFile;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                _success = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.BaseType, "Purpose = " + Purpose);
+            }
+            return Json(new { Result = _success, PathFile = _PathFile, Error = _Error, PathFilePreview = _PathFilePreview });
+        }
+
+        /// <summary>
         /// Generic picture upload
         /// </summary>
         /// <param name="Purpose"></param>
         /// <param name="EncryptFile"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult UploadPicture(string Purpose,bool EncryptFile=false)
+        public ActionResult UploadPicture(string Purpose, bool EncryptFile = false)
         {
             bool _success = false;
             string _Error = "";
@@ -46,16 +115,14 @@ namespace Website.Controllers
                         if (FileHelper.IsValidImage(file))
                         {
                             string ext = Path.GetExtension(fileName);
-                            Random rnd = new Random();
-                            string strRandom = rnd.Next(1, 100).ToString(); 
-                            fileName = DateTime.UtcNow.ToString("yyyyMMddhhmmssffffff")+ strRandom + "_" + Purpose + ext;
+                            fileName = FileHelper.GetFileName(Purpose, ext);
 
                             FileUpload newFile = new FileUpload()
                             {
                                 File = file,
                                 UploadName = fileName,
                                 IsImage = true,
-                                EncryptFile= EncryptFile
+                                EncryptFile = EncryptFile
                             };
 
                             string retour = FileHelper.UploadFile(newFile);
@@ -95,9 +162,9 @@ namespace Website.Controllers
             catch (Exception e)
             {
                 _success = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Purpose = " + Purpose+ " and EncryptFile = "+ EncryptFile);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Purpose = " + Purpose + " and EncryptFile = " + EncryptFile);
             }
-            return Json(new { Result = _success, PathFile = _PathFile, Error = _Error, PathFilePreview= _PathFilePreview });
+            return Json(new { Result = _success, PathFile = _PathFile, Error = _Error, PathFilePreview = _PathFilePreview });
         }
 
     }

@@ -32,7 +32,7 @@ function SetSignUpForm()
 {
     SetEnterKey('SubmitButtonSignUp'); 
     SetSignUpSubmitForm();
-    SetValidationForm('SignUpModalForm');
+    //SetValidationForm('SignUpModalForm');
 }
 
 function SetSignUpSubmitForm()
@@ -49,12 +49,6 @@ function SetSignUpFormLinks() {
     $("#LoginNowLink").unbind("click");
     $("#LoginNowLink").on("click", function (e) {
         e.preventDefault();    
-        if ($("#loginOrSignInModalBody #SignUpForm").length > 0) {
-            $("#loginOrSignInModal").modal('show');
-            $("#loginOrSignInModalBody #SignUpForm").fadeOut(500, function () {
-                $("#LoginForm").fadeIn(500);
-            });
-        }
-
+        ShowLogInForm();
     });
 }

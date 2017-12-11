@@ -7,6 +7,12 @@ $(document).ready(function () {
     });
 
 
+    //Reset the validation forms of the page
+    $('form').each(function (index, value) {
+        SetValidationForm($(this).attr('id'));
+    });
+
+
     $(document)
         .ajaxStart(function () {
             ShowSpinner();

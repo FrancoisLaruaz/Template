@@ -144,7 +144,7 @@ namespace DataAccess
                 db = new DBConnect();
                 string Query = "select U.Id, U.PictureSrc, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, UI.DateLastConnection ";
                 Query = Query + ",U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, UI.PasswordHash, UI.Email, U.CountryId, U.FacebookId ";
-                Query = Query + ", C.Name as CountryName ";
+                Query = Query + ", C.Name as CountryName, UI.EmailConfirmationToken ";
                 Query = Query + ", UI.UserName, UI.Id as UserIdentityId, UI.ResetPasswordToken,UI.EmailConfirmed,UI.AccessFailedCount,UI.LockoutEnabled,UI.LockoutEndDateUtc ";
                 Query = Query + ",P.Id as ProvinceId, P.Name as ProvinceName ";
                 Query = Query + ",L.Id as LanguageId, L.Name as LanguageName, L.Code as LanguageCode ";
@@ -170,6 +170,7 @@ namespace DataAccess
                     User User = new User();
                     User.FirstName = Convert.ToString(dr["FirstName"]);
                     User.LastName = Convert.ToString(dr["LastName"]);
+                    User.EmailConfirmationToken= Convert.ToString(dr["EmailConfirmationToken"]);
                     User.UserIdentityId = Convert.ToString(dr["UserIdentityId"]);
                     User.Id = Convert.ToInt32(dr["Id"]);
                     User.Email = Convert.ToString(dr["Email"]);

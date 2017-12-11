@@ -10,6 +10,7 @@ using Service;
 using Models.BDDObject;
 using Revalee.Client;
 using System.Configuration;
+using Models.Class;
 
 namespace Website.Controllers
 {
@@ -103,7 +104,51 @@ namespace Website.Controllers
             }
             return result;
         }
-    
+
+        /// <summary>
+        /// Delete old files uploaded but not used
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        public ActionResult DeleteUploadFiles()
+        {
+            HttpStatusCodeResult result = new HttpStatusCodeResult(HttpStatusCode.Found);
+            TaskLog Task = new TaskLog();
+            try
+            {
+                Task.TypeId = Commons.TaskLogTypes.UploadFilesCleanUp;
+                Task.Id = TaskLogService.InsertTaskLog(Task);
+                FileUploadDeleteResult ObjectResult = FileUploadService.DeleteUploadFiles();
+                if (ObjectResult!=null && ObjectResult.Result)
+                {
+                    Task.Result = true;
+                }
+                else
+                {
+                    Task.Result = false;
+                }
+                result = new HttpStatusCodeResult(HttpStatusCode.OK);
+
+                Task.Comment = ObjectResult.FilesAnalyzedNumber + " files analyzed : </br> - " + ObjectResult.FilesDeletedNumber + " files deleted </br> - " + ObjectResult.FilesErrorsNumber + " errors";
+                if (!string.IsNullOrWhiteSpace(ObjectResult.Error))
+                    Task.Comment = Task.Comment + " </br>" + ObjectResult.Error;
+
+            }
+            catch (Exception e)
+            {
+                Task.Result = false;
+                Task.Comment = e.ToString();
+                result = new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            finally
+            {
+                Task.EndDate = DateTime.UtcNow;
+                TaskLogService.UpdateTaskLog(Task);
+            }
+            return result;
+        }
+
 
     }
 }

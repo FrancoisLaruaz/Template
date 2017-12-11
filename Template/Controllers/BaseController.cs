@@ -97,10 +97,15 @@ namespace Website.Controllers
             {
                 base.OnActionExecuting(filterContext);
                 String ControllerName = filterContext.Controller.ToString();
-                if ((!User.Identity.IsAuthenticated || !User.IsInRole(Commons.UserRoles.Admin)) && ControllerName== "Website.Controllers.AdminController" && filterContext.ActionDescriptor != null && filterContext.ActionDescriptor.ActionName != "Logs" && filterContext.ActionDescriptor.ActionName != "_DisplayLogs")
+                if ( ControllerName== "Website.Controllers.AdminController" && filterContext.ActionDescriptor != null && filterContext.ActionDescriptor.ActionName != "Logs" && filterContext.ActionDescriptor.ActionName != "_DisplayLogs")
                 {
-                    // filterContext.Result = RedirectToAction("Login", "Account", new { returnUrl = Request.Url.AbsoluteUri.ToString() });
+                    /*
+                    if (!User.Identity.IsAuthenticated)
+                        filterContext.Result = RedirectToAction("Login", "Account", new { returnUrl = Request.Url.AbsoluteUri.ToString() });
+                    else if(false && !User.IsInRole(Commons.UserRoles.Admin))
+                        filterContext.Result = RedirectToAction("Index", "Home");
                     return;
+                    */
                 }
 
             }

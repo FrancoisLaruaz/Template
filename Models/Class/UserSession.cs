@@ -22,6 +22,8 @@ namespace Models.Class
 
        public string LastNameDecrypt { get; set; }
 
+        public string LanguageTag { get; set; }
+
 
         public UserSession()
         {

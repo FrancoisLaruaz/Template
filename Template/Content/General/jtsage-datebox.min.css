@@ -1,4 +1,4 @@
-﻿/*! JTSage-DateBox-4.2.3 |2017-09-28T16:47:57Z | (c) 2010,  2017 JTSage | https://github.com/jtsage/jquery-mobile-datebox/blob/master/LICENSE.txt */
+﻿/*! JTSage-DateBox-4.3.1 |2017-11-30T20:05:41Z | (c) 2010,  2017 JTSage | https://github.com/jtsage/jquery-mobile-datebox/blob/master/LICENSE.txt */
 
 .ui-datebox-container {
     width: 290px;
@@ -109,6 +109,11 @@ div.ui-datebox-container.ui-datebox-inline {
     margin-bottom: 10px
 }
 
+.ui-datebox-datebox-groups {
+    width: 100%;
+    text-align: center
+}
+
 .ui-datebox-datebox-group.col-xs-3, .ui-datebox-datebox-group.col-xs-4 {
     padding-left: 0;
     padding-right: 0
@@ -175,7 +180,7 @@ div.ui-datebox-datebox-button.glyphicon-minus {
     .ui-datebox-flipcontent div {
         margin-left: 3px;
         margin-right: 3px;
-        width: 77px;
+        width: 28%;
         height: 120px;
         display: inline-block;
         text-align: center;
@@ -184,7 +189,25 @@ div.ui-datebox-datebox-button.glyphicon-minus {
     }
 
 .ui-datebox-flipcontentd div {
-    width: 60px
+    width: 20%
+}
+
+.ui-datebox-flipcontente div {
+    width: 16.5%;
+    margin-left: 2px;
+    margin-right: 2px
+}
+
+.ui-datebox-flipcontentf div {
+    width: 14%;
+    margin-left: 1.5px;
+    margin-right: 1.5px
+}
+
+.ui-datebox-flipcontentg div {
+    width: 12%;
+    margin-left: 1px;
+    margin-right: 1px
 }
 
 .ui-datebox-flipcontent ul {

@@ -39,6 +39,8 @@ namespace AspNet.Identity.MySQL
         /// </summary>
         public string UserName { get; set; }
 
+        public string EmailConfirmationToken { get; set; }
+
         public string FirstName { get; set; }
 
 

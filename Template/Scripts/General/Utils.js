@@ -1,3 +1,5 @@
+var KeyPressAllowed = true;
+
 function GetParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -69,23 +71,41 @@ function ErrorActions()
 }
 
 function SetEnterKey(IdElement) {
+    KeyPressAllowed = true;
 
     if (IdElement === undefined) {
         IdElement = null;
     }
-    $(document).keypress(function (e) {
+    $(document).keydown(function (e) {
+        if (e.repeat != undefined) {
+            KeyPressAllowed = !e.repeat;
+        }
+        if (!KeyPressAllowed)
+            return;
+        KeyPressAllowed = false;
+
         if (e.which == 13) {
             if (IdElement != null) {
                 var Element = $("#" + IdElement);
-                if ($("#" + IdElement).length > 0 && $(Element).css("display") != "none" && !$(Element).is(':disabled') && $(Element).is(":visible") &&  !$(e.target).is("textarea")) {
-                    $(Element).click();
+            
+                if ($("#" + IdElement).length > 0 && $(Element).css("display") != "none" && !$(Element).is(':disabled') && !$(Element).is('.disabled') && $(Element).is(":visible") && !$(e.target).is("textarea")) {
                     e.preventDefault();
+                    $(Element).click();
                     return false;
                 }
             }
         }
     });
+
+
+    $(document).keyup(function (e) {
+        KeyPressAllowed = true;
+    });
+    $(document).focus(function (e) {
+        KeyPressAllowed = true;
+    });
 }
+
 
 function ScrollToErrorOrFirstInput(formname) {
     var FieldToFocus = $('#'+formname + ' .input-validation-error:first').get(0);
@@ -138,5 +158,22 @@ function ScrollAndFocusToElement(id) {
             scrollTop: $("#" + id).offset().top - 120
         }, 1000);
         $("#" + id).focus();
+    }
+}
+
+
+function GetRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function CanUserTakeWebcamPicture()
+{
+    var cams = webcam.getCameraList();
+    if (cams == null || cams.length == 0)
+    {
+        return false;
+    }
+    else {
+        return true;
     }
 }

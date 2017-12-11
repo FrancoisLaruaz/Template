@@ -60,7 +60,31 @@ namespace Service
             return result;
         }
 
-      
+        /// <summary>
+        /// Set theemail of the user as confirmed
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public static bool SetUserEmailAsConfirmed(string Id)
+        {
+            bool result = false;
+            try
+            {
+                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                Columns.Add("EmailConfirmationToken", null);
+                Columns.Add("EmailConfirmed", true);
+
+                result=GenericDAL.UpdateById("useridentity", Id, Columns);
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Id = " + Id);
+            }
+            return result;
+        }
+
+
 
     }
 }

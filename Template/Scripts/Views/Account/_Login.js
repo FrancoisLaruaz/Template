@@ -18,14 +18,7 @@ function SetLoginFormLinks() {
     $("#SignUpLink").unbind("click");
     $("#SignUpLink").on("click", function (e) {
         e.preventDefault();
-        if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
-            $("#loginOrSignInModal").modal('show');
-            $("#loginOrSignInModalBody #LoginForm").fadeOut(500, function () {
-                $("#SignUpForm").fadeIn(500);
-                SetPasswordForm();
-            });
-        }
-
+        ShowSignUpForm();
     });
 }
 
@@ -36,7 +29,7 @@ function LoginFailure() {
 }
 
 function handleLoginBegin() {
-    $('#SubmitButtonLogin').val("Logging In ...");
+    $('#SubmitButtonLogin').val("[[[Logging In ...]]]");
     $("#SubmitButtonLogin").toggleClass("disabled", true);
 }
 
@@ -49,7 +42,7 @@ function LoginSuccess(Data) {
                 $('#loginOrSignInModal').click();
             }
          
-            if (Data.URLRedirect != null && model.URLRedirect != "") {
+            if (Data.URLRedirect != null && Data.URLRedirect != "") {
                 window.location.href = Data.URLRedirect;
             }
             else {
@@ -61,28 +54,15 @@ function LoginSuccess(Data) {
 
 function SetLoginForm() {
     if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
-        $("#loginOrSignInModalBody #LoginForm").fadeOut(500, function () {
-
-            $("#loginOrSignInModalBody #LoginForm").fadeIn(500);
-        });
-        $("#SignUpForm").hide();
         SetEnterKey('SubmitButtonLogin');
         SetLoginSubmitForm();
-        SetValidationForm('LoginModalForm');
-    }
-    else {
-        $("#SignUpForm").fadeOut(500, function () {
-
-            $("#SignUpForm").fadeIn(500);
-        });
-        $("#loginOrSignInModalBody #LoginForm").hide();
     }
 
 }
 
 function SetLoginSubmitForm() {
     $('#SubmitButtonLogin').show();
-    $('#SubmitButtonLogin').val("Log In");
+    $('#SubmitButtonLogin').val("[[[Log In]]]");
     $('#SubmitButtonLogin').removeAttr('disabled');
     $("#SubmitButtonLogin").toggleClass("disabled", false);
 

@@ -127,6 +127,47 @@ VALUES
 'forgotpassword_fr');
 
 
+INSERT INTO `category`
+(`Id`,
+`Name`,
+`Code`,
+`CategoryTypeId`,
+`DateModification`)
+VALUES
+(1002,
+'userwelcome',
+null,
+1,
+NOW());
+
+INSERT INTO `template`.`emailtypelanguage`
+(
+`EMailTypeId`,
+`LanguageId`,
+`Subject`,
+`TemplateName`)
+VALUES
+(
+1002,
+3001,
+'Welcome',
+'forgotpassword_en');
+
+
+INSERT INTO `template`.`emailtypelanguage`
+(
+`EMailTypeId`,
+`LanguageId`,
+`Subject`,
+`TemplateName`)
+VALUES
+(
+1002,
+3002,
+'Bienvenue',
+'forgotpassword_fr');
+
+
 INSERT INTO `categorytype`
 (`Id`,
 `Name`)
@@ -162,3 +203,18 @@ where `code`='fr' and id>=1
 update category
 set `Field1`='_EndMail_en'
 where `code`='en' and id>=1
+
+
+
+INSERT INTO `template`.`category`
+(`Id`,
+`Name`,
+`Code`,
+`CategoryTypeId`,
+`DateModification`)
+VALUES
+(4002,
+'UploadFilesCleanUp',
+null,
+1,
+NOW());

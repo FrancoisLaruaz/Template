@@ -12,6 +12,7 @@ using Commons;
 using i18n;
 using Revalee.Client;
 using System.Configuration;
+using Models.Class;
 
 namespace Website.Controllers
 {
@@ -39,6 +40,7 @@ namespace Website.Controllers
         {
             try
             {
+  
               //  bool result = ScheduledTaskService.ScheduleEMailUserTask(5, Commons.EmailType.Forgotpassword, TimeSpan.FromMinutes(1.0));
             }
             catch (Exception e)
@@ -75,6 +77,9 @@ namespace Website.Controllers
                     if (User.Identity.IsAuthenticated)
                     {
                         UserService.UpdateLanguageUser(langtag, User.Identity.Name);
+                        UserSession LoggedUser = UserSession;
+                        LoggedUser.LanguageTag = langtag;
+                        UserSession = LoggedUser;
                     }
                 }
                 // Owise...delete any 'language' cookie in the client.

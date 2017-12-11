@@ -25,6 +25,8 @@ namespace Models.ViewModels
 
         public string URLRedirect { get; set; }
 
+        public string LanguageTag { get; set; }
+
         public LoginViewModel()
         {
         }

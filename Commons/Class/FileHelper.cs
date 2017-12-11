@@ -196,11 +196,66 @@ namespace Commons
                 File.WriteAllBytes(path, encryptedBytes);
                 result = true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 result = false;
                 Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "path = " + path);
             }
+            return result;
+        }
+
+        /// <summary>
+        /// Save am image captured with a webcam
+        /// </summary>
+        /// <param name="Stream"></param>
+        /// <param name="Purpose"></param>
+        /// <returns></returns>
+        public static string WebcamCapture(Stream Stream, string Purpose)
+        {
+            string returnPath = null;
+            try
+            {
+                string dump = "";
+
+                using (var reader = new StreamReader(Stream))
+                    dump = reader.ReadToEnd();
+                if (!String.IsNullOrWhiteSpace(dump))
+                {
+                    string ext = ".jpeg";
+                    string fileName = GetFileName(Purpose, ext);
+                    var path = FileHelper.GetStorageRoot(Const.BasePathUpload) + "/" + fileName;
+                    if (EncryptWriteBytes(path, Commons.FileHelper.String_To_Bytes2(dump)))
+                        returnPath = Const.BasePathUpload + "/" + fileName;
+                }
+            }
+            catch (Exception e)
+            {
+                returnPath = null;
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return returnPath;
+        }
+
+        /// <summary>
+        /// Return the name of the file
+        /// </summary>
+        /// <param name="Purpose"></param>
+        /// <param name="Extension"></param>
+        /// <returns></returns>
+        public static string GetFileName(string Purpose, string Extension)
+        {
+            string result = "";
+            try
+            {
+                Random rnd = new Random();
+                string strRandom = rnd.Next(1, 10000).ToString();
+                result = DateTime.UtcNow.ToString("yyyyMMddhhmmss_ffffff") + strRandom + "_" + Purpose + Extension;
+            }
+            catch (Exception e)
+            {
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Purpose = " + Purpose + " and Extension = " + Extension);
+            }
+
             return result;
         }
 
@@ -211,7 +266,7 @@ namespace Commons
         /// <param name="path"></param>
         /// <param name="IsUserPicture"></param>
         /// <returns></returns>
-        public static string DecryptFile(string path,bool IsUserPicture=false)
+        public static string DecryptFile(string path, bool IsUserPicture = false)
         {
             string fileSrc = Const.DefaultImage;
             try
@@ -221,25 +276,61 @@ namespace Commons
                     var localFilePath = path.Contains(":") ? path : GetStorageRoot(path);
                     if (File.Exists(localFilePath))
                     {
-                        var encyptedFileBytes = File.ReadAllBytes(localFilePath);
-                        var decyptedFileBytes = RijndaelHelper.DecryptBytes(encyptedFileBytes, ConfigurationManager.AppSettings["FileEncryptPassPhrase"], EncryptionSalt);
-
-                        fileSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(decyptedFileBytes));
+                        // If the file is in the upload folder, it needs to be decrypted
+                        if (path.Contains(Commons.Const.BasePathUpload))
+                        {
+                            var encyptedFileBytes = File.ReadAllBytes(localFilePath);
+                            var decyptedFileBytes = RijndaelHelper.DecryptBytes(encyptedFileBytes, ConfigurationManager.AppSettings["FileEncryptPassPhrase"], EncryptionSalt);
+                            fileSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(decyptedFileBytes));
+                        }
+                        else
+                        {
+                            fileSrc = path;
+                        }
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 fileSrc = Const.DefaultImage;
-                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "path = " + path+ " and IsUserPicture = "+ IsUserPicture);
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "path = " + path + " and IsUserPicture = " + IsUserPicture);
             }
 
-            if(IsUserPicture && fileSrc== Const.DefaultImage)
+            if (IsUserPicture && fileSrc == Const.DefaultImage)
             {
                 fileSrc = Const.DefaultImageUser;
             }
 
             return fileSrc;
+        }
+
+        /// <summary>
+        /// Transform a string to a bytes array
+        /// </summary>
+        /// <param name="strInput"></param>
+        /// <returns></returns>
+        public static byte[] String_To_Bytes2(string strInput)
+        {
+            byte[] bytes = null;
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(strInput))
+                {
+
+                    int numBytes = (strInput.Length) / 2;
+                    bytes = new byte[numBytes];
+
+                    for (int x = 0; x < numBytes; ++x)
+                    {
+                        bytes[x] = Convert.ToByte(strInput.Substring(x * 2, 2), 16);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.BaseType, "strInput = " + strInput);
+            }
+            return bytes;
         }
 
         /// <summary>
@@ -281,7 +372,7 @@ namespace Commons
                     string DiskPath = GetStorageRoot(uploadPath) + "/" + FileUpload.UploadName;
                     if (FileUpload.EncryptFile)
                     {
-                        if(!EncryptWriteBytes(DiskPath, FileUpload.FileBytes))
+                        if (!EncryptWriteBytes(DiskPath, FileUpload.FileBytes))
                             retour = "KO";
                     }
                     else
@@ -289,14 +380,14 @@ namespace Commons
                         File.WriteAllBytes(DiskPath, FileUpload.FileBytes);
                     }
 
-                    if(retour != "KO")
+                    if (retour != "KO")
                         retour = DiskPath;
                 }
             }
             catch (Exception e)
             {
                 retour = "KO";
-                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType,"FileNameOnServer = " + FileUpload.UploadName);
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "FileNameOnServer = " + FileUpload.UploadName);
             }
 
             return retour;
