@@ -238,6 +238,10 @@ body {
     z-index: 5;
 }
 
+.paddingGlyph {
+    padding-right:12px;
+}
+
 
 
 .greyBG {

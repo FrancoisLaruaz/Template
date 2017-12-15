@@ -18,5 +18,9 @@ namespace Models.BDDObject
 
         public string UserEMail { get; set; }
 
+        public string NewsTitle { get; set; }
+
+        public DateTime? NewsPublishDate { get; set; }
+
     }
 }

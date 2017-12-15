@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Models.BDDObject;
+using Models.Class;
 
-namespace Models.Class
+
+namespace Models.ViewModels
 {
     public class DisplayEmailAuditViewModel : BaseModelPager
     {

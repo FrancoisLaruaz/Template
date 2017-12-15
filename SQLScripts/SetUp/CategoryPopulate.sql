@@ -218,3 +218,87 @@ VALUES
 null,
 1,
 NOW());
+
+
+
+INSERT INTO `categorytype`
+(`Id`,
+`Name`)
+VALUES
+(5,
+'NewsType');
+
+
+
+INSERT INTO `categorytype`
+(`Id`,
+`Name`)
+VALUES
+(6,
+'TypeUserMailing');
+
+
+INSERT INTO `template`.`category`
+(`Id`,
+`Name`,
+`Code`,
+`CategoryTypeId`,
+`DateModification`,
+`Order`)
+VALUES
+(5001,
+'Publish',
+null,
+5,
+NOW(),
+1);
+
+
+INSERT INTO `template`.`category`
+(`Id`,
+`Name`,
+`Code`,
+`CategoryTypeId`,
+`DateModification`,
+`Order`)
+VALUES
+(5002,
+'Publish & Mail',
+null,
+5,
+NOW()
+,2);
+
+
+INSERT INTO `template`.`category`
+(`Id`,
+`Name`,
+`Code`,
+`CategoryTypeId`,
+`DateModification`,
+`Order`)
+VALUES
+(6001,
+'All users',
+null,
+6,
+NOW(),
+1);
+
+
+INSERT INTO `template`.`category`
+(`Id`,
+`Name`,
+`Code`,
+`CategoryTypeId`,
+`DateModification`,
+`Order`)
+VALUES
+(6002,
+'Confirmed Users',
+null,
+6,
+NOW()
+,2);
+
+

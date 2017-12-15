@@ -187,6 +187,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\General\bootstrap-social.css" />
     <Content Include="Content\General\DragAndDrop.css" />
+    <Content Include="Content\videos\homepage-video.mp4" />
     <Content Include="Content\Views\Experiment\Experiment.css" />
     <Content Include="Content\General\Main - Copy.css" />
     <Content Include="Content\General\sweetalert.css" />
@@ -238,6 +239,7 @@
     <Content Include="Scripts\General\bootstrap-datepicker.js" />
     <Content Include="Scripts\General\bootstrap-slider.js" />
     <Content Include="Scripts\General\daterangepicker.js" />
+    <Content Include="Scripts\General\DownloadFileForm.js" />
     <Content Include="Scripts\General\FileDrop.js" />
     <Content Include="Scripts\General\FileDropHelper.js" />
     <Content Include="Scripts\General\Highcharts.js" />
@@ -358,6 +360,8 @@
     <Content Include="Scripts\Views\Account\_PasswordPolicy.js" />
     <Content Include="Scripts\Views\Account\_SignUp.js" />
     <Content Include="Scripts\Views\Admin\EmailAudits.js" />
+    <Content Include="Scripts\Views\Admin\News\EditNews.js" />
+    <Content Include="Scripts\Views\Admin\News\Index.js" />
     <Content Include="Scripts\Views\Admin\Tasks.js" />
     <Content Include="Scripts\Views\Admin\Logs.js" />
     <Content Include="Scripts\Views\Account\_Login.js" />
@@ -400,11 +404,11 @@
     <Content Include="Views\Admin\Logs.cshtml" />
     <Content Include="Views\Admin\_AdminTitle.cshtml" />
     <Content Include="Views\Shared\Layout\_Footer.cshtml" />
-    <Content Include="Views\Admin\_DisplayLogs.cshtml" />
+    <Content Include="Views\Admin\Logs\_DisplayLogs.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_PageTitle.cshtml" />
     <Content Include="Views\Admin\EmailAudits.cshtml" />
-    <Content Include="Views\Admin\_DisplayEmailAudits.cshtml" />
+    <Content Include="Views\Admin\EMailAudits\_DisplayEmailAudits.cshtml" />
     <Content Include="Views\Account\_LoginOrSignInModal.cshtml" />
     <Content Include="Views\Account\_LoginForm.cshtml" />
     <Content Include="Views\Shared\Layout\_LanguageSelector.cshtml" />
@@ -414,11 +418,14 @@
     <Content Include="Views\Account\_PasswordPolicy.cshtml" />
     <Content Include="Views\Shared\Layout\_FacebookPixel.cshtml" />
     <Content Include="Views\Admin\Tasks.cshtml" />
-    <Content Include="Views\Admin\_DisplayTasks.cshtml" />
+    <Content Include="Views\Admin\Tasks\_DisplayTasks.cshtml" />
     <Content Include="Views\Experiment\Index.cshtml" />
     <Content Include="Views\Shared\_CameraNotFound.cshtml" />
     <Content Include="Views\Shared\Layout\_Audio.cshtml" />
     <Content Include="Views\Home\_VideoHomePage.cshtml" />
+    <Content Include="Views\Admin\News.cshtml" />
+    <Content Include="Views\Shared\Layout\_DownloadFileForm.cshtml" />
+    <Content Include="Views\Admin\News\EditNews.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

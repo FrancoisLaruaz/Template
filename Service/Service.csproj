@@ -51,6 +51,7 @@
     <Compile Include="CategoryService.cs" />
     <Compile Include="UserRoleService.cs" />
     <Compile Include="UserIdentityService.cs" />
+    <Compile Include="NewsService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="LogService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -38,6 +38,8 @@ namespace Models.BDDObject
 
         public bool? IsMasculine { get; set; }
 
+        public bool ReceiveNews { get; set; }
+
         public string FacebookId { get; set; }
     }
 }

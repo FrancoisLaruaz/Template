@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using Models.BDDObject;
 using Revalee;
 
-namespace Models.Class
+namespace Models.ViewModels
 {
     public class SchedulerStatusViewModel : IAdminViewModel
     {

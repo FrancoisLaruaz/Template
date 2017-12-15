@@ -32,8 +32,10 @@ namespace DataAccess
                 string Query = "select t.Id, t.CallbackId, t.UserId, t.CallbackUrl, t.CancellationDate, t.ExecutionDate  ";
                 Query = Query + ", t.ExpectedExecutionDate, t.EmailTypeId, t.CreationDate ";
                 Query = Query + ", c.Name as 'EMailTypeName', u.FirstName, u.LastName, ui.EMail ";
+                Query = Query + ", n.Id as NewsId, n.PublishDate as NewsPublishDate,m.Title as NewsTitle ";
                 Query = Query + "from scheduledtask t ";
                 Query = Query + "inner join category c on c.Id=t.EmailTypeId ";
+                Query = Query + "left join news n on n.Id=t.NewsId ";
                 Query = Query + "left join user u on u.Id=t.UserId ";
                 Query = Query + "left join useridentity ui on ui.username=u.username ";
                 Query = Query + " where 1=1 ";
@@ -61,7 +63,9 @@ namespace DataAccess
                     element.ExpectedExecutionDate = Commons.MySQLHelper.GetDateFromMySQL(dr["ExpectedExecutionDate"]).Value;
                     element.CreationDate = Commons.MySQLHelper.GetDateFromMySQL(dr["CreationDate"]).Value;
                     element.EmailTypeId = Commons.MySQLHelper.GetIntFromMySQL(dr["EmailTypeId"]);
-
+                    element.NewsPublishDate = Commons.MySQLHelper.GetDateFromMySQL(dr["NewsPublishDate"]);
+                    element.NewsId = Commons.MySQLHelper.GetIntFromMySQL(dr["NewsId"]);
+                    element.NewsTitle = MySQLHelper.GetStringFromMySQL(dr["NewsTitle"]);
                     element.EMailTypeName = Commons.MySQLHelper.GetStringFromMySQL(dr["EMailTypeName"]);
                     element.UserFirstNameDecrypt = Commons.EncryptHelper.DecryptString(Commons.MySQLHelper.GetStringFromMySQL(dr["FirstName"]));
                     element.UserLastNameDecrypt = Commons.EncryptHelper.DecryptString(Commons.MySQLHelper.GetStringFromMySQL(dr["LastName"]));

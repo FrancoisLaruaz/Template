@@ -35,6 +35,7 @@ namespace Template
              "~/Scripts/General/BackToTop.js",
             "~/Scripts/General/Utils.js",
             "~/Scripts/General/AudioHelper.js",
+            "~/Scripts/General/DownloadFileForm.js",
             "~/Scripts/bootstrap.min.js",
             "~/Scripts/General/bootstrap-datepicker.js",
             "~/Scripts/General/bootstrap-slider.js",

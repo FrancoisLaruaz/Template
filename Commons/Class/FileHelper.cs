@@ -259,14 +259,48 @@ namespace Commons
             return result;
         }
 
+        /// <summary>
+        /// Return an array of bytes in order to download the file
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static byte[] GetFileToDownLoad(string path)
+        {
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(path))
+                {
+                    var localFilePath = path.Contains(":") ? path : GetStorageRoot(path);
+                    if (File.Exists(localFilePath))
+                    {
+                        var encyptedFileBytes = File.ReadAllBytes(localFilePath);
+                        // If the file is in the upload folder, it needs to be decrypted
+                        if (path.Contains(Commons.Const.BasePathUpload))
+                        {
+                            var decyptedFileBytes = RijndaelHelper.DecryptBytes(encyptedFileBytes, ConfigurationManager.AppSettings["FileEncryptPassPhrase"], EncryptionSalt);
+                            return decyptedFileBytes;
+                        }
+                        else
+                        {
+                            return encyptedFileBytes;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "path = " + path );
+            }
+            return null;
+        }
 
         /// <summary>
-        /// Decrypt an encrypted file
+        /// get the path of the decrypted file
         /// </summary>
         /// <param name="path"></param>
         /// <param name="IsUserPicture"></param>
         /// <returns></returns>
-        public static string DecryptFile(string path, bool IsUserPicture = false)
+        public static string GetDecryptedFilePath(string path, bool IsUserPicture = false)
         {
             string fileSrc = Const.DefaultImage;
             try

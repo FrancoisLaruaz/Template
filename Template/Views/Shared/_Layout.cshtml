@@ -21,7 +21,7 @@
         </div>
         
     </div>
-    <div style="min-height:72vh;">
+    <div style="min-height:74vh;">
         @RenderBody()
     </div>
     @Scripts.Render("~/Scripts/ScriptsErrors")
@@ -32,6 +32,7 @@
     @Html.Partial("~/Views/Shared/Layout/_GoogleAnalytics.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_FacebookPixel.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_Audio.cshtml")
+    @Html.Partial("~/Views/Shared/Layout/_DownloadFileForm.cshtml")
     @RenderSection("scripts", required: false)
 </body>
 </html>

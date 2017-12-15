@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using Commons;
 using Models.Class;
 using Service;
+using Models.ViewModels;
+
 namespace Website.Controllers
 {
     public class AdminController : BaseController
@@ -19,6 +21,54 @@ namespace Website.Controllers
         { 
             return RedirectToAction("Logs");
         }
+
+        #region NewsLetter
+
+        [HttpGet]
+        public ActionResult News()
+        {
+            NewsViewModel Model = new NewsViewModel();
+
+            try
+            {
+                ViewBag.Title = "[[[News Letter]]]";
+                Model = NewsService.GetNewsViewModel();
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return View(Model);
+        }
+
+
+        [HttpGet]
+        public ActionResult EditNews(int Id)
+        {
+            NewsEditViewModel Model = new NewsEditViewModel();
+
+            try
+            {
+                if (Id > 0)
+                {
+                    ViewBag.Title = "[[[News Letter Edit]]]";
+                }
+                else
+                {
+                    ViewBag.Title = "[[[News Letter Creation]]]";
+                }
+                ViewBag.NewsId = Id;
+                Model = NewsService.GetNewsEditViewModel();
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Id = "+ Id);
+            }
+            return View("~/Views/Admin/News/EditNews.cshtml", Model);
+        }
+
+
+        #endregion
 
         #region EmailAudits
 
@@ -37,19 +87,21 @@ namespace Website.Controllers
         }
 
         [HttpPost]
-        public ActionResult _DisplayLogs(DisplayLogsViewModel Model)
+        public ActionResult _DisplayEmailAudits(DisplayEmailAuditViewModel Model)
         {
             try
             {
-                Model = LogService.GetDisplayLogsViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
+                Model = EMailService.GetDisplayEmailAuditViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
             }
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Model.Pattern = " + Model.Pattern);
                 return Content("ERROR");
             }
-            return PartialView(Model);
+            return PartialView("~/Views/Admin/EMailAudits/_DisplayEmailAudits.cshtml", Model);
         }
+
+
 
         #endregion
 
@@ -73,18 +125,18 @@ namespace Website.Controllers
         }
 
         [HttpPost]
-        public ActionResult _DisplayEmailAudits(DisplayEmailAuditViewModel Model)
+        public ActionResult _DisplayLogs(DisplayLogsViewModel Model)
         {
             try
             {
-                Model = EMailService.GetDisplayEmailAuditViewModel(Model.Pattern,Model.StartAt,Model.PageSize);
+                Model = LogService.GetDisplayLogsViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
             }
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Model.Pattern = " + Model.Pattern);
                 return Content("ERROR");
             }
-            return PartialView(Model);
+            return PartialView("~/Views/Admin/Logs/_DisplayLogs.cshtml", Model);
         }
 
         #endregion
@@ -96,7 +148,7 @@ namespace Website.Controllers
             SchedulerStatusViewModel Model = new SchedulerStatusViewModel();
             try
             {
-                ViewBag.Title = "[[[Tasks]]]";
+                ViewBag.Title = "[[[Recurring Tasks]]]";
                 var manifest = Revalee.Client.RecurringTasks.RecurringTaskModule.GetManifest();
                 if (manifest != null)
                 {
@@ -126,7 +178,7 @@ namespace Website.Controllers
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Model.Pattern = " + Model.Pattern);
                 return Content("ERROR");
             }
-            return PartialView(Model);
+            return PartialView("~/Views/Admin/Tasks/_DisplayTasks.cshtml", Model);
         }
 
         #endregion

@@ -23,6 +23,7 @@ namespace Models.BDDObject
 
         public int? EmailTypeId { get; set; }
 
+        public int? NewsId { get; set; }
 
     }
 }

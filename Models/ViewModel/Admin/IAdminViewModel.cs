@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Models.BDDObject;
 
-namespace Models.Class
+namespace Models.ViewModels
 {
     public interface IAdminViewModel
     {

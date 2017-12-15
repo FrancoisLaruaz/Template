@@ -63,11 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BDDObject\Extensions\EMailTypeLanguage.cs" />
+    <Compile Include="BDDObject\Extensions\News.cs" />
     <Compile Include="BDDObject\Extensions\ScheduledTask.cs" />
     <Compile Include="BDDObject\Extensions\TaskLog.cs" />
     <Compile Include="BDDObject\TaskLog.cs" />
     <Compile Include="BDDObject\ScheduledTask.cs" />
     <Compile Include="BDDObject\EMailTypeLanguage.cs" />
+    <Compile Include="BDDObject\News.cs" />
     <Compile Include="BDDObject\UserRole.cs" />
     <Compile Include="BDDObject\Province.cs" />
     <Compile Include="BDDObject\Extensions\Category.cs" />
@@ -88,12 +90,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\Account\SignUpViewModel.cs" />
     <Compile Include="ViewModel\Account\LoginViewModel.cs" />
-    <Compile Include="ViewModel\Admin\DisplayEmailAuditViewModel.cs" />
-    <Compile Include="ViewModel\Admin\DisplayTasksViewModel.cs" />
+    <Compile Include="ViewModel\Admin\EMailAudits\DisplayEmailAuditViewModel.cs" />
+    <Compile Include="ViewModel\Admin\News\NewsEditViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Tasks\DisplayTasksViewModel.cs" />
     <Compile Include="ViewModel\Admin\IAdminViewModel.cs" />
-    <Compile Include="ViewModel\Admin\DisplayLogsViewModel.cs" />
-    <Compile Include="ViewModel\Admin\SchedulerStatusViewModel.cs" />
-    <Compile Include="ViewModel\Admin\LogsViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Logs\DisplayLogsViewModel.cs" />
+    <Compile Include="ViewModel\Admin\News\NewsViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Tasks\SchedulerStatusViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Logs\LogsViewModel.cs" />
     <Compile Include="ViewModel\Shared\HeaderViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

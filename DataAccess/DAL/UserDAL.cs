@@ -104,6 +104,7 @@ namespace DataAccess
                     string Query = "delete from userrole where UserId=" + UserId + ";";
                     Query = Query + "delete from scheduledtask where UserId=" + UserId + ";";
                     Query = Query + "update log4net set username=null where username=" + UserName + ";";
+                    Query = Query + "update news set LastModificationUserId=null where LastModificationUserId=" + UserId + ";";
                     Query = Query + "delete from user where Id=" + UserId + ";";
                     Query = Query + "delete from userclaims where UserId=" + UserIdentityId + ";";
                     Query = Query + "delete from userroles where UserId=" + UserIdentityId + ";";
@@ -143,7 +144,7 @@ namespace DataAccess
             {
                 db = new DBConnect();
                 string Query = "select U.Id, U.PictureSrc, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, UI.DateLastConnection ";
-                Query = Query + ",U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, UI.PasswordHash, UI.Email, U.CountryId, U.FacebookId ";
+                Query = Query + ", U.ReceiveNews,U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, UI.PasswordHash, UI.Email, U.CountryId, U.FacebookId ";
                 Query = Query + ", C.Name as CountryName, UI.EmailConfirmationToken ";
                 Query = Query + ", UI.UserName, UI.Id as UserIdentityId, UI.ResetPasswordToken,UI.EmailConfirmed,UI.AccessFailedCount,UI.LockoutEnabled,UI.LockoutEndDateUtc ";
                 Query = Query + ",P.Id as ProvinceId, P.Name as ProvinceName ";
@@ -199,6 +200,7 @@ namespace DataAccess
                     User.LanguageCode = MySQLHelper.GetStringFromMySQL(dr["LanguageCode"]);
                     User.LanguageName = MySQLHelper.GetStringFromMySQL(dr["LanguageName"]);
                     User.IsMasculine = MySQLHelper.GetBoolFromMySQL(dr["IsMasculine"]);
+                    User.ReceiveNews = MySQLHelper.GetBoolFromMySQL(dr["ReceiveNews"]).Value;
                     User.FirstNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["FirstName"]));
                     User.LastNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["LastName"]));
                     User.EMailDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["EMail"]));

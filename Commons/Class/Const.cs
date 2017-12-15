@@ -48,6 +48,9 @@ namespace Commons
         public const int EmailType = 1;
         public const int UserRole = 2;
         public const int Language = 3;
+        public const int TaskLogType = 4;
+        public const int NewsType = 5;
+        public const int TypeUserMailing = 6;
     }
 
     public static class Languages
@@ -74,6 +77,18 @@ namespace Commons
     {
         public const int ErrorCleanUp = 4001;
         public const int UploadFilesCleanUp = 4002;
+    }
+
+    public static class TypeUserMailing
+    {
+        public const int AllUsers = 6001;
+        public const int ConfirmedUsers = 6002;
+    }
+
+    public static class NewsType
+    {
+        public const int Publish = 5001;
+        public const int PublishAndMail = 5002;
     }
 
 

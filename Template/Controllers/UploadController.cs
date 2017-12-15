@@ -38,7 +38,7 @@ namespace Website.Controllers
                 {
                     _PathFile = Session[Commons.Const.WebcamCaptureSession + Purpose + WebcamSessionId].ToString();
 
-                    _PathFilePreview = FileHelper.DecryptFile(_PathFile, true);
+                    _PathFilePreview = FileHelper.GetDecryptedFilePath(_PathFile, true);
                     _success = true;
                 }
 
@@ -137,7 +137,7 @@ namespace Website.Controllers
                                     {
                                         IsUserPicture = true;
                                     }
-                                    _PathFilePreview = FileHelper.DecryptFile(retour, IsUserPicture);
+                                    _PathFilePreview = FileHelper.GetDecryptedFilePath(retour, IsUserPicture);
 
                                 }
                                 else
@@ -165,6 +165,35 @@ namespace Website.Controllers
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Purpose = " + Purpose + " and EncryptFile = " + EncryptFile);
             }
             return Json(new { Result = _success, PathFile = _PathFile, Error = _Error, PathFilePreview = _PathFilePreview });
+        }
+
+        /// <summary>
+        /// Download an envrypted file
+        /// </summary>
+        /// <param name="PathFile"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public FileResult DownloadEncryptedFile(string PathFile)
+        {
+
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(PathFile))
+                {
+                    byte[] fileBytes = FileHelper.GetFileToDownLoad(PathFile);
+                    string ext = Path.GetExtension(PathFile);
+                    var fileName = Path.GetFileName(PathFile);
+
+                    string contentType = MimeMapping.GetMimeMapping(fileName);
+                    return File(fileBytes, contentType, fileName);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Logger.GenerateError(e,  typeof(UploadController), "PathFile =" + PathFile);
+            }
+            return null; ;
         }
 
     }
