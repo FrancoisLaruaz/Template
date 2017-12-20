@@ -39,7 +39,7 @@ namespace DataAccess
             {
                 mySqlTransaction = mySqlConnection.BeginTransaction();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 result = false;
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -56,7 +56,7 @@ namespace DataAccess
             bool result = true;
             try
             {
-                if(mySqlTransaction!=null)
+                if (mySqlTransaction != null)
                 {
                     mySqlTransaction.Commit();
                 }
@@ -105,7 +105,7 @@ namespace DataAccess
                 string Query = "SELECT LAST_INSERT_ID()";
                 DataTable data = GetData(Query);
                 DataRow dr;
-                if (data != null && data.Rows!=null && data.Rows.Count > 0)
+                if (data != null && data.Rows != null && data.Rows.Count > 0)
                 {
                     dr = data.Rows[0];
                     result = Convert.ToInt32(dr[0]);
@@ -130,7 +130,7 @@ namespace DataAccess
                     mySqlConnection.Close();
                 mySqlConnection.Dispose();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
@@ -141,21 +141,73 @@ namespace DataAccess
         /// </summary>
         /// <returns>The donnees.</returns>
         /// <param name="requete">Requete.</param>
-        public DataTable GetData(string Query)
+        public DataTable GetData(string Query, Dictionary<string, object> ParamsTab = null)
         {
             DataTable data = new DataTable();
             DataSet ds = new DataSet();
             try
             {
-                MyAdapter.SelectCommand = new MySql.Data.MySqlClient.MySqlCommand(Query, mySqlConnection);
+                MyAdapter.SelectCommand = CreateCommand(Query, ParamsTab);
                 MyAdapter.Fill(ds);
                 data = ds.Tables[0];
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Query = "+ Query);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Query = " + Query);
             }
             return data;
+        }
+
+        /// <summary>
+        /// Creates a MySQLCommand with the given parameters
+        /// </summary>
+        /// <param name="commandText">The MySQL query to execute</param>
+        /// <param name="parameters">Parameters to pass to the MySQL query</param>
+        /// <returns></returns>
+        private MySqlCommand CreateCommand(string commandText, Dictionary<string, object> parameters)
+        {
+            MySqlCommand command = null;
+            try
+            {
+                command = new MySql.Data.MySqlClient.MySqlCommand(commandText, mySqlConnection);
+                AddParameters(command, parameters);
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "commandText = " + commandText);
+            }
+            return command;
+        }
+
+        /// <summary>
+        /// Adds the parameters to a MySQL command
+        /// </summary>
+        /// <param name="commandText">The MySQL query to execute</param>
+        /// <param name="parameters">Parameters to pass to the MySQL query</param>
+        private static void AddParameters(MySqlCommand command, Dictionary<string, object> parameters)
+        {
+            object o = null;
+            try
+            {
+
+                if (parameters == null)
+                {
+                    return;
+                }
+
+                foreach (var param in parameters)
+                {
+                    o = param;
+                    var parameter = command.CreateParameter();
+                    parameter.ParameterName = param.Key;
+                    parameter.Value = param.Value ?? DBNull.Value;
+                    command.Parameters.Add(parameter);
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "param = " + o);
+            }
         }
 
         /// <summary>
@@ -184,17 +236,17 @@ namespace DataAccess
         }
 
         /// <summary>
-        /// Executers the requete.
+        /// Executers the query.
         /// </summary>
-        /// <returns><c>true</c>, if requete was executered, <c>false</c> otherwise.</returns>
-        /// <param name="requete">Requete.</param>
-        public bool ExecuteQuery(string Query)
+        /// <param name="Query"></param>
+        /// <param name="ParamsTab"></param>
+        /// <returns></returns>
+        public bool ExecuteQuery(string Query, Dictionary<string, object> ParamsTab = null)
         {
             bool result = true;
             try
             {
-                MySqlCommand myCommand = new MySqlCommand(Query);
-                myCommand.Connection = mySqlConnection;
+                MySqlCommand myCommand = CreateCommand(Query, ParamsTab);
                 myCommand.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -209,14 +261,14 @@ namespace DataAccess
         /// Execute an insert query and return the inserted id
         /// </summary>
         /// <param name="Query"></param>
+        /// <param name="ParamsTab"></param>
         /// <returns></returns>
-        public int ExecuteInsertQuery(string Query)
+        public int ExecuteInsertQuery(string Query, Dictionary<string, object> ParamsTab = null)
         {
             int InsertedId = -1;
             try
             {
-                MySqlCommand myCommand = new MySqlCommand(Query);
-                myCommand.Connection = mySqlConnection;
+                MySqlCommand myCommand =  CreateCommand(Query, ParamsTab);
                 myCommand.ExecuteNonQuery();
                 InsertedId = Convert.ToInt32(myCommand.LastInsertedId);
             }

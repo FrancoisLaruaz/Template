@@ -37,7 +37,7 @@ namespace DataAccess
                     Query = Query + " or C.Name like '%" + Pattern + "%'";
                     Query = Query + " or concat(l.Id, '') like '%" + Pattern + "%')";
                 }
-                result = GenericDAL.GetSingleNumericData(Query).Value;
+                result = GenericDAL.GetSingleNumericData(Query,null).Value;
 
             }
             catch (Exception e)

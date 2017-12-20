@@ -5,6 +5,10 @@
     <div class="container-fluid">
         <div class="main-content">
             <h2>Experiment</h2>
+            <div>
+                <div class="summernote"><p>Hello Summernote</p></div>
+            </div>
+
             <input type="button" style="display:none" value="Shoot!" class="webcamBtn" />
 
             <div class="col-xs-12 col-md-4 col-md-offset-4">
@@ -28,10 +32,12 @@
 
 <script>
     $(document).ready(function () {
-        SetCamera('picPreview', 'CameraFileSrc');
+        SetCamera('UserPicture', 'Camera', 'CameraFileSrc', 'CameraPreview');
     });
 
 </script>
+
+
 
 @section scripts {
     <script src="~/Scripts/Views/Experiment/Index.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>

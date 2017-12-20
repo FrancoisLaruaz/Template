@@ -32,6 +32,7 @@ namespace Website.Controllers
             try
             {
                 ViewBag.Title = "[[[News Letter]]]";
+                Model.Title = ViewBag.Title;
                 Model = NewsService.GetNewsViewModel();
             }
             catch (Exception e)
@@ -43,13 +44,13 @@ namespace Website.Controllers
 
 
         [HttpGet]
-        public ActionResult EditNews(int Id)
+        public ActionResult EditNews(int? Id)
         {
             NewsEditViewModel Model = new NewsEditViewModel();
 
             try
             {
-                if (Id > 0)
+                if (Id!=null && Id > 0)
                 {
                     ViewBag.Title = "[[[News Letter Edit]]]";
                 }
@@ -58,7 +59,9 @@ namespace Website.Controllers
                     ViewBag.Title = "[[[News Letter Creation]]]";
                 }
                 ViewBag.NewsId = Id;
-                Model = NewsService.GetNewsEditViewModel();
+                Model = NewsService.GetNewsEditViewModel(Id);
+                Model.Title = ViewBag.Title;
+                Model.NewsDescription = "<p style='color:red'>hahah</p>";
             }
             catch (Exception e)
             {
@@ -66,6 +69,26 @@ namespace Website.Controllers
             }
             return View("~/Views/Admin/News/EditNews.cshtml", Model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult EditNews(NewsEditViewModel Model)
+        {
+            bool _success = false;
+            string _Error = "";
+            try
+            {
+                _success = true;
+            }
+            catch (Exception e)
+            {
+                _success = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Id = " + Model.Id);
+            }
+            return Json(new { Result = _success,  Error = _Error});
+        }
+
 
 
         #endregion
@@ -75,15 +98,18 @@ namespace Website.Controllers
         [HttpGet]
         public ActionResult EmailAudits()
         {
+            EmailAuditViewModel model = new EmailAuditViewModel();
             try
             {
+
                 ViewBag.Title = "Email Audits";
+                model.Title = ViewBag.Title;
             }
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -116,6 +142,7 @@ namespace Website.Controllers
             {
                 ViewBag.Title = "Logs";
                 Model = LogService.GetLogsViewModel();
+                Model.Title = ViewBag.Title;
             }
             catch(Exception e)
             {
@@ -156,6 +183,7 @@ namespace Website.Controllers
                     Model.IsSchedulerActive = manifest.IsActive;
                     Model.RevaleeTasksScheduled = manifest.Tasks.ToList();
                 }
+                Model.Title = ViewBag.Title;
             }
             catch (Exception e)
             {

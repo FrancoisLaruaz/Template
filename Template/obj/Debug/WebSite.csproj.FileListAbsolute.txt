@@ -80,3 +80,8 @@ D:\DEV\Template\Template\bin\DataAccess.pdb
 D:\DEV\Template\Template\bin\DataAccess.dll.config
 D:\DEV\Template\Template\obj\Debug\WebSite.dll
 D:\DEV\Template\Template\obj\Debug\WebSite.pdb
+D:\DEV\Template\Template\bin\dotless.Core.dll
+D:\DEV\Template\Template\bin\dotless.Core.pdb
+D:\DEV\Template\Template\bin\System.Web.Optimization.Less.dll
+D:\DEV\Template\Template\bin\System.Web.Optimization.Less.pdb
+D:\DEV\Template\Template\bin\System.Web.Optimization.Less.xml

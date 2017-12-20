@@ -10,7 +10,10 @@
 
     @Styles.Render("~/bundles/Bootstrap")
     @Styles.Render("~/bundles/Style")
+    @Styles.Render("~/bundles/less")
     @Scripts.Render("~/Scripts/JQuery")
+    @Scripts.Render("~/Scripts/ScriptsErrors")
+
 
 </head>
 <body>
@@ -24,7 +27,6 @@
     <div style="min-height:74vh;">
         @RenderBody()
     </div>
-    @Scripts.Render("~/Scripts/ScriptsErrors")
     @Scripts.Render("~/Scripts/Scripts")
     @Html.Partial("~/Views/Shared/Layout/_Footer.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_PartialBackToTop.cshtml")
@@ -32,7 +34,7 @@
     @Html.Partial("~/Views/Shared/Layout/_GoogleAnalytics.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_FacebookPixel.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_Audio.cshtml")
-    @Html.Partial("~/Views/Shared/Layout/_DownloadFileForm.cshtml")
+    @Html.Partial("~/Views/Shared/Layout/_FileForm.cshtml")
     @RenderSection("scripts", required: false)
 </body>
 </html>

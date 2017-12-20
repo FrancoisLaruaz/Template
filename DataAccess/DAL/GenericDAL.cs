@@ -24,8 +24,11 @@ namespace DataAccess
             try
             {
                 db = new DBConnect();
-                string Query = "delete from " + Table + " where Id=" + Id;
-                result = db.ExecuteQuery(Query);
+                string Query = "delete from @Table where Id=@Id";
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                parameters.Add("@Table", Table);
+                parameters.Add("@Id", Id);
+                result = db.ExecuteQuery(Query, parameters);
                 db.Dispose();
 
             }
@@ -58,15 +61,20 @@ namespace DataAccess
                 db = new DBConnect();
                 if (!String.IsNullOrWhiteSpace(MySQLHelper.GetValueToInsert(Id)) && !String.IsNullOrWhiteSpace(Table) && Columns != null && Columns.Count>0)
                 {
-                    string Query = "update " + Table+" set ";
-                    foreach(var Column in Columns)
+                    string Query = "update @Table set ";
+                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    parameters.Add("@Table", Table);
+                    int n = 1;
+                    foreach (var Column in Columns)
                     {
-                        string strValue = MySQLHelper.GetValueToInsert(Column.Value);
-                        Query = Query + Column.Key.ToString()+" = " + strValue+" , ";
+                        Query = Query +  Column.Key.ToString() + " = @param" + n.ToString() + " , ";
+                        parameters.Add("@param" + n.ToString(), Column.Value);
+                        n++;
                     }
                     Query=Query.Remove(Query.Length - 2);
-                    Query = Query + " where Id=" + MySQLHelper.GetValueToInsert(Id);
-                    result = db.ExecuteQuery(Query);
+                    Query = Query + " where Id=@Id";
+                    parameters.Add("@Id" , Id);
+                    result = db.ExecuteQuery(Query, parameters);
 
                     
                 }
@@ -101,19 +109,24 @@ namespace DataAccess
                 if (!String.IsNullOrWhiteSpace(Table))
                 {
                     string Query = "insert into  " + Table + " (  ";
+                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    parameters.Add("@Table", Table);
 
                     foreach (var Column in Columns)
                     {
                         Query = Query + Column.Key.ToString() + " , ";
                     }
                     Query = Query.Remove(Query.Length - 2) + ") values (";
+                    int n = 1;
                     foreach (var Column in Columns)
                     {
                         string strValue = MySQLHelper.GetValueToInsert(Column.Value);
-                        Query = Query +  strValue + " , ";
+                        Query = Query + "@param" + n.ToString()+" , ";
+                        parameters.Add("@param"+n.ToString(), Column.Value);
+                        n++;
                     }
                     Query = Query.Remove(Query.Length - 2)+");";
-                    insertedId = db.ExecuteInsertQuery(Query);
+                    insertedId = db.ExecuteInsertQuery(Query, parameters);
 
 
                 }
@@ -136,8 +149,9 @@ namespace DataAccess
         /// Test if a value exist
         /// </summary>
         /// <param name="Query"></param>
+        /// <param name="Parameters"></param>
         /// <returns></returns>
-        public static bool DataExist(string Query)
+        public static bool DataExist(string Query, Dictionary<string, Object> Parameters)
         {
 
             bool result = false;
@@ -145,7 +159,7 @@ namespace DataAccess
             try
             {
                 db = new DBConnect();
-                DataTable Data = db.GetData(Query);
+                DataTable Data = db.GetData(Query, Parameters);
                 if (Data != null && Data.Rows != null && Data.Rows.Count > 0)
                 {
                     result = true;
@@ -162,14 +176,20 @@ namespace DataAccess
             return result;
         }
 
-        public static int? GetSingleNumericData(string Query)
+        /// <summary>
+        /// Get a signgle row
+        /// </summary>
+        /// <param name="Query"></param>
+        /// <param name="Columns"></param>
+        /// <returns></returns>
+        public static int? GetSingleNumericData(string Query, Dictionary<string, Object> Parameters=null)
         {
             int? result = null;
             DBConnect db = null;
             try
             {
                 db = new DBConnect();
-                DataTable Data = db.GetData(Query);
+                DataTable Data = db.GetData(Query, Parameters);
                 if (Data != null && Data.Rows != null && Data.Rows.Count > 0)
                 {
                     result = Convert.ToInt32(Data.Rows[0][0]);

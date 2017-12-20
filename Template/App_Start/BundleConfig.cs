@@ -35,7 +35,7 @@ namespace Template
              "~/Scripts/General/BackToTop.js",
             "~/Scripts/General/Utils.js",
             "~/Scripts/General/AudioHelper.js",
-            "~/Scripts/General/DownloadFileForm.js",
+            "~/Scripts/General/FileFormHelper.js",
             "~/Scripts/bootstrap.min.js",
             "~/Scripts/General/bootstrap-datepicker.js",
             "~/Scripts/General/bootstrap-slider.js",
@@ -51,6 +51,8 @@ namespace Template
             "~/Scripts/General/Highcharts.js",
             "~/Scripts/General/HighchartsExporting.js",
             "~/Scripts/General/HighchartsHelper.js",
+             "~/Scripts/General/summernote.js",
+             "~/Scripts/General/summernoteHelper.js",
             "~/Scripts/General/Main.js"
            
             ));
@@ -72,12 +74,13 @@ namespace Template
                 "~/Content/General/_Spinner.css",
                 "~/Content/General/DragAndDrop.css",
                 "~/Content/font-awesome.min.css",
-                "~/Content/General/Main.css",
                 "~/Content/General/sweetalert.css",
                 "~/Content/General/toastr.csss",
                 "~/Content/General/jtsage-datebox.min.css",
                 "~/Content/General/jtsage-syntax.css"
             ));
+
+            bundles.Add(new LessBundle("~/bundles/less").Include("~/Content/General/main.less"));
         }
 
         public static void RegisterBundles(BundleCollection bundles)

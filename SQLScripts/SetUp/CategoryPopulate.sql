@@ -219,6 +219,18 @@ null,
 1,
 NOW());
 
+INSERT INTO `template`.`category`
+(`Id`,
+`Name`,
+`Code`,
+`CategoryTypeId`,
+`DateModification`)
+VALUES
+(4003,
+'CancelledScheduledTasksCleanUp',
+null,
+1,
+NOW());
 
 
 INSERT INTO `categorytype`
@@ -268,6 +280,23 @@ null,
 5,
 NOW()
 ,2);
+
+
+
+INSERT INTO `template`.`category`
+(`Id`,
+`Name`,
+`Code`,
+`CategoryTypeId`,
+`DateModification`,
+`Order`)
+VALUES
+(5003,
+'Mail only',
+null,
+5,
+NOW()
+,3);
 
 
 INSERT INTO `template`.`category`

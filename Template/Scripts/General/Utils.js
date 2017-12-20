@@ -166,14 +166,44 @@ function GetRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function CanUserTakeWebcamPicture()
-{
-    var cams = webcam.getCameraList();
-    if (cams == null || cams.length == 0)
-    {
-        return false;
-    }
-    else {
-        return true;
-    }
+
+
+
+function SetGenericAjaxForm(FormId, OnSuccess, Onfailure, OnBegin) {
+    $("#" + FormId).unbind("submit");
+    $("#" + FormId).on("submit", function (e) {
+        e.preventDefault();
+        var Form = $(this);
+        var Model = $(Form).serialize();
+        var url = $(Form).attr('action');
+        if ($(this).valid()) {
+
+            if (typeof (OnBegin) === "function") {
+                OnBegin.apply(this, null);
+            }
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: Model,
+                success: function (data) {
+
+                    if (typeof (OnSuccess) === "function") {
+                        OnSuccess.apply(this, [data]);
+                    }
+                    else {
+                        HideSpinner();
+                    }
+                },
+                error: function (xhr, error) {
+                    if (typeof (Onfailure) === "function") {
+                        Onfailure.apply(this, null);
+                    }
+                    else {
+                        ErrorActions();
+                    }
+                }
+            });
+        }
+    });
 }

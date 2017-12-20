@@ -91,6 +91,7 @@
     <Compile Include="ViewModel\Account\SignUpViewModel.cs" />
     <Compile Include="ViewModel\Account\LoginViewModel.cs" />
     <Compile Include="ViewModel\Admin\EMailAudits\DisplayEmailAuditViewModel.cs" />
+    <Compile Include="ViewModel\Admin\EMailAudits\EmailAuditViewModel.cs" />
     <Compile Include="ViewModel\Admin\News\NewsEditViewModel.cs" />
     <Compile Include="ViewModel\Admin\Tasks\DisplayTasksViewModel.cs" />
     <Compile Include="ViewModel\Admin\IAdminViewModel.cs" />

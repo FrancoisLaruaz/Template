@@ -46,6 +46,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AspNet.Identity.MySQL\bin\Debug\AspNet.Identity.MySQL.dll</HintPath>
     </Reference>
+    <Reference Include="dotless.Core, Version=1.5.2.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotless.1.5.2\lib\dotless.Core.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -118,6 +121,9 @@
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Optimization.Less, Version=1.3.0.0, Culture=neutral, PublicKeyToken=9b7581e0240fe480, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Web.Optimization.Less.1.3.4\lib\net40\System.Web.Optimization.Less.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Services" />
@@ -187,9 +193,9 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\General\bootstrap-social.css" />
     <Content Include="Content\General\DragAndDrop.css" />
+    <Content Include="Content\General\summernote.css" />
     <Content Include="Content\videos\homepage-video.mp4" />
     <Content Include="Content\Views\Experiment\Experiment.css" />
-    <Content Include="Content\General\Main - Copy.css" />
     <Content Include="Content\General\sweetalert.css" />
     <Content Include="Content\General\animate.css" />
     <Content Include="Content\General\bootstrap-slider.css" />
@@ -239,7 +245,9 @@
     <Content Include="Scripts\General\bootstrap-datepicker.js" />
     <Content Include="Scripts\General\bootstrap-slider.js" />
     <Content Include="Scripts\General\daterangepicker.js" />
-    <Content Include="Scripts\General\DownloadFileForm.js" />
+    <Content Include="Scripts\General\summernoteHelper.js" />
+    <Content Include="Scripts\General\summernote.js" />
+    <Content Include="Scripts\General\FileFormHelper.js" />
     <Content Include="Scripts\General\FileDrop.js" />
     <Content Include="Scripts\General\FileDropHelper.js" />
     <Content Include="Scripts\General\Highcharts.js" />
@@ -396,7 +404,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\General\Main.css" />
+    <None Include="Content\General\main.less" />
     <Content Include="Scripts\General\Utils.js" />
     <Content Include="Scripts\General\SweetAlertHelper.js" />
     <Content Include="Scripts\General\SweetAlert.js" />
@@ -424,7 +432,7 @@
     <Content Include="Views\Shared\Layout\_Audio.cshtml" />
     <Content Include="Views\Home\_VideoHomePage.cshtml" />
     <Content Include="Views\Admin\News.cshtml" />
-    <Content Include="Views\Shared\Layout\_DownloadFileForm.cshtml" />
+    <Content Include="Views\Shared\Layout\_FileForm.cshtml" />
     <Content Include="Views\Admin\News\EditNews.cshtml" />
   </ItemGroup>
   <ItemGroup>

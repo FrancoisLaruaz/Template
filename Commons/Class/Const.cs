@@ -18,13 +18,15 @@ namespace Commons
         public const int MaxImageLength = 1000000;
 
         public const string BasePathRessources = "~/Ressources";
-        public const string BasePathUpload = BasePathRessources +"/Upload";
+        public const string BasePathUpload = BasePathRessources + "/Upload";
+        public const string BasePathUploadDecrypted = BasePathUpload + "/Decrypted";
+        public const string BasePathUploadEncrypted = BasePathUpload + "/Encrypted";
         public const string BasePathFiles = BasePathRessources + "/Files";
         public const string BasePathTemplateEMails = BasePathRessources + "/EMails";
         public const string BasePathImages = BasePathFiles + "/Images";
 
-        public const string DefaultImage = BasePathImages + "/Images/DefaultImage.jpg";
-        public const string DefaultImageUser = BasePathImages + "/Images/DefaultUser.jpg";
+        public const string DefaultImage = BasePathImages + "/DefaultImage.jpg";
+        public const string DefaultImageUser = BasePathImages + "/DefaultUser.jpg";
 
         public const string i18nlangtag = "i18n.langtag";
 
@@ -77,6 +79,7 @@ namespace Commons
     {
         public const int ErrorCleanUp = 4001;
         public const int UploadFilesCleanUp = 4002;
+        public const int CancelledScheduledTasksCleanUp = 4003;
     }
 
     public static class TypeUserMailing
@@ -87,8 +90,9 @@ namespace Commons
 
     public static class NewsType
     {
-        public const int Publish = 5001;
+        public const int PublishOnly = 5001;
         public const int PublishAndMail = 5002;
+        public const int MailOnly = 5003;
     }
 
 

@@ -30,23 +30,33 @@ namespace DataAccess
             DBConnect db = null;
             try
             {
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
                 db = new DBConnect();
                 string Query = "select C.Id, C.Name, C.Code , C.DateModification, C.Field1, C.Field2 ";
                 Query = Query + ", C.Order, CT.Name as CategoryTypeName, C.Active, C.CategoryTypeId ";
                 Query = Query + "from category C ";
                 Query = Query + "inner  join categorytype CT on CT.Id=C.CategoryTypeId ";
                 Query = Query + " where 1=1 " ;
-                if(Id!=null && Id.Value>0)
-                    Query = Query + " and C.Id = " + Id.ToString();
+                if (Id != null && Id.Value > 0)
+                {
+                    Query = Query + " and C.Id = @Id";
+                    parameters.Add("@Id", Id);
+                }
                 if (CategoryTypeId != null && CategoryTypeId.Value > 0)
-                    Query = Query + " and CategoryTypeId = " + CategoryTypeId.ToString();
+                {
+                    Query = Query + " and CategoryTypeId = @CategoryTypeId";
+                    parameters.Add("@CategoryTypeId", CategoryTypeId);
+                }
                 if (!String.IsNullOrWhiteSpace(Code))
-                    Query = Query + " and LOWER(Code) = LOWER('" + Code+"')";
+                {
+                    Query = Query + " and LOWER(Code) = LOWER(@Code)";
+                    parameters.Add("@Code", Code);
+                }
                 if (ActiveOnly)
                     Query = Query + " and Active=1 ";
                 Query = Query + " order by CT.Name, C.Order ";
 
-                DataTable data = db.GetData(Query);
+                DataTable data = db.GetData(Query, parameters);
                 for (int i = 0; i < data.Rows.Count; i++)
                 {
                     DataRow dr = data.Rows[i];

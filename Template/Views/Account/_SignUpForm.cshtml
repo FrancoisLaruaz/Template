@@ -29,6 +29,7 @@ else
                     <div class="websiteFormGroup">
                         <div class="col-sm-12 col-xs-12">
                             @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @placeholder = "[[[First Name]]]" })
+                            <i class="fa fa-user includeFAIcon" aria-hidden="true"></i>
                             @Html.ValidationMessageFor(m => m.FirstName)
                         </div>
 
@@ -38,6 +39,7 @@ else
                     <div class="websiteFormGroup">
                         <div class="col-sm-12 col-xs-12">
                             @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @placeholder = "[[[Last Name]]]" })
+                            <i class="fa fa-user includeFAIcon" aria-hidden="true"></i>
                             @Html.ValidationMessageFor(m => m.LastName)
                         </div>
                     </div>

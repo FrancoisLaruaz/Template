@@ -21,7 +21,7 @@
           <SQLDebugging>False</SQLDebugging>
           <ExternalProgram>
           </ExternalProgram>
-          <StartExternalURL>http://localhost:54808/Admin/News</StartExternalURL>
+          <StartExternalURL>http://localhost:54808/Admin/EditNews</StartExternalURL>
           <StartCmdLineArguments>
           </StartCmdLineArguments>
           <StartWorkingDirectory>

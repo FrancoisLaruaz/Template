@@ -26,10 +26,15 @@ namespace Commons
             {
                 if (!String.IsNullOrEmpty(FilePath))
                 {
-                    string FileName = Path.GetFileName(FilePath);
-                    string urlRelative = FilePath.Replace(FileName, "");
-                    string urlAbsolue = GetStorageRoot(urlRelative) + FileName;
-                    System.IO.File.Delete(urlAbsolue);
+                    var TabUrl= FilePath.Split(new[] { "/Ressources" }, StringSplitOptions.None);
+                    if (TabUrl.Length > 1)
+                    {
+                        FilePath = "~/Ressources" + TabUrl[1];
+                        string FileName = Path.GetFileName(FilePath);
+                        string urlRelative = FilePath.Replace(FileName, "");
+                        string urlAbsolue = GetStorageRoot(urlRelative) + FileName;
+                        System.IO.File.Delete(urlAbsolue);
+                    }
                 }
             }
             catch (Exception e)
@@ -223,9 +228,9 @@ namespace Commons
                 {
                     string ext = ".jpeg";
                     string fileName = GetFileName(Purpose, ext);
-                    var path = FileHelper.GetStorageRoot(Const.BasePathUpload) + "/" + fileName;
+                    var path = FileHelper.GetStorageRoot(Const.BasePathUploadEncrypted) + "/" + fileName;
                     if (EncryptWriteBytes(path, Commons.FileHelper.String_To_Bytes2(dump)))
-                        returnPath = Const.BasePathUpload + "/" + fileName;
+                        returnPath = Const.BasePathUploadEncrypted + "/" + fileName;
                 }
             }
             catch (Exception e)
@@ -273,16 +278,16 @@ namespace Commons
                     var localFilePath = path.Contains(":") ? path : GetStorageRoot(path);
                     if (File.Exists(localFilePath))
                     {
-                        var encyptedFileBytes = File.ReadAllBytes(localFilePath);
+                        var FileBytes = File.ReadAllBytes(localFilePath);
                         // If the file is in the upload folder, it needs to be decrypted
-                        if (path.Contains(Commons.Const.BasePathUpload))
+                        if (path.Contains(Commons.Const.BasePathUploadEncrypted))
                         {
-                            var decyptedFileBytes = RijndaelHelper.DecryptBytes(encyptedFileBytes, ConfigurationManager.AppSettings["FileEncryptPassPhrase"], EncryptionSalt);
+                            var decyptedFileBytes = RijndaelHelper.DecryptBytes(FileBytes, ConfigurationManager.AppSettings["FileEncryptPassPhrase"], EncryptionSalt);
                             return decyptedFileBytes;
                         }
                         else
                         {
-                            return encyptedFileBytes;
+                            return FileBytes;
                         }
                     }
                 }
@@ -311,7 +316,7 @@ namespace Commons
                     if (File.Exists(localFilePath))
                     {
                         // If the file is in the upload folder, it needs to be decrypted
-                        if (path.Contains(Commons.Const.BasePathUpload))
+                        if (path.Contains(Commons.Const.BasePathUploadEncrypted))
                         {
                             var encyptedFileBytes = File.ReadAllBytes(localFilePath);
                             var decyptedFileBytes = RijndaelHelper.DecryptBytes(encyptedFileBytes, ConfigurationManager.AppSettings["FileEncryptPassPhrase"], EncryptionSalt);
@@ -401,7 +406,11 @@ namespace Commons
                     }
 
 
-                    string uploadPath = Commons.Const.BasePathUpload;
+                    string uploadPath = Commons.Const.BasePathUploadEncrypted;
+                    if (!FileUpload.EncryptFile)
+                    {
+                        uploadPath = Commons.Const.BasePathUploadDecrypted;
+                    }
 
                     string DiskPath = GetStorageRoot(uploadPath) + "/" + FileUpload.UploadName;
                     if (FileUpload.EncryptFile)
@@ -415,7 +424,7 @@ namespace Commons
                     }
 
                     if (retour != "KO")
-                        retour = DiskPath;
+                        retour = uploadPath + "/" + FileUpload.UploadName;
                 }
             }
             catch (Exception e)

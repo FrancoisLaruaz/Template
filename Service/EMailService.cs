@@ -9,7 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
-using  Models.ViewModels;
+using Models.ViewModels;
+using System.IO;
 
 namespace Service
 {
@@ -63,17 +64,17 @@ namespace Service
                 Email.EmailContent.Add(new Tuple<string, string>("#WebSiteURL#", Utils.GetURLWebsite(LangTag)));
                 Email.LanguageId = LanguageId;
 
-                EMailTypeLanguage EMailTypeLanguage = GetEMailTypeLanguage(Email.EMailTypeId,Email.LanguageId);
+                EMailTypeLanguage EMailTypeLanguage = GetEMailTypeLanguage(Email.EMailTypeId, Email.LanguageId);
                 if (EMailTypeLanguage == null && Email.LanguageId != Languages.English)
                 {
                     EMailTypeLanguage = GetEMailTypeLanguage(Email.EMailTypeId, Languages.English);
                 }
-                
+
                 if (EMailTypeLanguage != null && !String.IsNullOrWhiteSpace(Email.ToEmail))
                 {
                     if (!Utils.IsProductionWebsite())
                     {
-                        Email.EmailContent.Add(new Tuple<string, string>("#RealUserEMail#","Real mail : "+ Email.ToEmail));
+                        Email.EmailContent.Add(new Tuple<string, string>("#RealUserEMail#", "Real mail : " + Email.ToEmail));
                         Email.ToEmail = Const.EMailDev;
                     }
                     else
@@ -94,7 +95,19 @@ namespace Service
                     {
                         foreach (string file in Email.Attachments)
                         {
-                            Email.AttachmentsMails.Add(new System.Net.Mail.Attachment(FileHelper.GetStorageRoot(file)));
+                            try
+                            {
+                                byte[] BitesTab = FileHelper.GetFileToDownLoad(file);
+                                if (BitesTab != null)
+                                {
+                                    Email.AttachmentsMails.Add(new System.Net.Mail.Attachment(new MemoryStream(BitesTab), Path.GetFileName(file)));
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                result = false;
+                                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "file = " + file);
+                            }
                         }
                     }
                     Task.Factory.StartNew(() => SendMailAsync(Email));
@@ -123,7 +136,7 @@ namespace Service
         {
             try
             {
-                Tuple<bool, int,int> ResultMail = EMailHelper.SendMail(EMail);
+                Tuple<bool, int, int> ResultMail = EMailHelper.SendMail(EMail);
                 if (ResultMail != null)
                 {
                     if (ResultMail.Item1)
@@ -170,7 +183,7 @@ namespace Service
         /// <param name="UserId"></param>
         /// <param name="EMailTypeId"></param>
         /// <returns></returns>
-        public static bool SendEMailToUser(int UserId,int EMailTypeId)
+        public static bool SendEMailToUser(int UserId, int EMailTypeId)
         {
             bool result = false;
             try
@@ -185,7 +198,7 @@ namespace Service
                     switch (EMailTypeId)
                     {
                         case Commons.EmailType.Forgotpassword:
-                            string ResetPasswordUrl = WebsiteURL + "/ResetPassword?UserId="+ UserMail.Id+"&Token=" + Commons.HashHelpers.HashEncode(UserMail.ResetPasswordToken);
+                            string ResetPasswordUrl = WebsiteURL + "/ResetPassword?UserId=" + UserMail.Id + "&Token=" + Commons.HashHelpers.HashEncode(UserMail.ResetPasswordToken);
                             EmailContent.Add(new Tuple<string, string>("#ResetPasswordUrl#", ResetPasswordUrl));
                             break;
                         case Commons.EmailType.UserWelcome:
@@ -222,7 +235,7 @@ namespace Service
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMailTypeId = " + EMailTypeId.ToString()+" and LanguageId="+LanguageId.ToString());
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMailTypeId = " + EMailTypeId.ToString() + " and LanguageId=" + LanguageId.ToString());
             }
             return retour;
         }
@@ -234,7 +247,7 @@ namespace Service
         /// <param name="AttachmentNumber"></param>
         /// <param name="CCUsersNumber"></param>
         /// <returns></returns>
-        public static bool InsertEMailAudit(Email EMail, int AttachmentNumber,int CCUsersNumber)
+        public static bool InsertEMailAudit(Email EMail, int AttachmentNumber, int CCUsersNumber)
         {
             bool result = false;
             try

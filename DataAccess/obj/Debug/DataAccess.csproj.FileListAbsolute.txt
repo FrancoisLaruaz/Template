@@ -29,3 +29,14 @@ D:\DEV\Template\DataAccess\bin\Debug\log4net.xml
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.dll
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.pdb
+D:\DEV\Template\DataAccess\bin\Debug\System.Web.Mvc.dll
+D:\DEV\Template\DataAccess\bin\Debug\System.Web.Razor.dll
+D:\DEV\Template\DataAccess\bin\Debug\System.Web.WebPages.Razor.dll
+D:\DEV\Template\DataAccess\bin\Debug\System.Web.WebPages.dll
+D:\DEV\Template\DataAccess\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\DEV\Template\DataAccess\bin\Debug\System.Web.WebPages.Deployment.dll
+D:\DEV\Template\DataAccess\bin\Debug\System.Web.Mvc.xml
+D:\DEV\Template\DataAccess\bin\Debug\System.Web.Razor.xml
+D:\DEV\Template\DataAccess\bin\Debug\System.Web.WebPages.Razor.xml
+D:\DEV\Template\DataAccess\bin\Debug\System.Web.WebPages.xml
+D:\DEV\Template\DataAccess\bin\Debug\System.Web.WebPages.Deployment.xml

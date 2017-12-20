@@ -1,13 +1,57 @@
 ﻿@model Models.ViewModels.NewsEditViewModel
 
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
 
-@Html.Partial("_PageTitle")
+@Html.Partial("_AdminTitle")
 <div>
     <div class="container-fluid">
         <div class="main-content">
             <div class="col-md-12 no-gutter">
-                <div>
+                <div class="well col-md-10 col-md-offset-1 col-xs-12 row" >
+                    @using (Ajax.BeginForm("EditNews", "Admin", new { }, new AjaxOptions() { HttpMethod = "POST" }, new { @id = "EditNewsForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.Title)
+                        @Html.HiddenFor(m => m.Description)
 
+                        <div class="websiteFormGroup col-md-12  col-xs-12">
+                            <a href="News"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                [[[Go back to the list]]]
+                            </a>
+
+                        </div>
+
+                        <div class="websiteFormGroup col-md-12 col-xs-12">
+                            @Html.LabelFor(model => model.NewsTitle, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                            <div class="col-md-10 col-xs-12">
+                                @Html.TextBoxFor(model => model.NewsTitle, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Title) })
+                                @Html.ValidationMessageFor(m => m.NewsTitle)
+                            </div>
+
+                        </div>
+                        <div class="websiteFormGroup col-md-12 col-xs-12">
+                            @Html.LabelFor(model => model.PublishDate, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                            <div class="col-md-3 col-xs-12">
+                                @Html.TextBoxFor(model => model.PublishDate, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.PublishDate)
+                            </div>
+
+                        </div>
+
+                        <div class="websiteFormGroup col-md-12  col-xs-12">
+                            @Html.LabelFor(model => model.NewsDescription, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                            <div class="col-md-10 col-xs-12">
+                                @Html.TextAreaFor(m => Model.NewsDescription, new { @class = "form-control summernote input-lg", @style="display:none" })
+                                @Html.ValidationMessageFor(m => m.NewsDescription)
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-2 col-md-offset-5 col-xs-12">
+                            <input type="submit"  value="[[[Save]]]" class="btn website-btn btnSummerNoteSubmitForm"  id="SubmitNews" />
+                        </div>
+                    }
                 </div>
 
 

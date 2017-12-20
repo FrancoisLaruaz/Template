@@ -53,12 +53,73 @@ namespace Service
             return result;
         }
 
-        public static NewsEditViewModel GetNewsEditViewModel()
+        /// <summary>
+        /// Creationf of a news
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static int CreateNews(NewsEditViewModel model)
+        {
+            int InsertedId = -1;
+            try
+            {
+                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                Columns.Add("PublishDate", model.PublishDate);
+                Columns.Add("Title", model.NewsTitle);
+                Columns.Add("Description", model.NewsDescription);
+                Columns.Add("MailSubject", model.MailSubject);
+                Columns.Add("TypeId", model.TypeId);
+                Columns.Add("TypeUserMailingId", model.TypeUserMailingId);
+              //  Columns.Add("TypeUserMailingId", model.mo);
+                Columns.Add("ModificationDate", DateTime.UtcNow);
+                Columns.Add("CreationDate", DateTime.UtcNow);
+                InsertedId = GenericDAL.InsertRow("news", Columns);
+            }
+            catch (Exception e)
+            {
+                InsertedId = -1;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return InsertedId;
+        }
+
+        /// <summary>
+        /// Get the viewmodel for the News form
+        /// </summary>
+        /// <param name="NewsId"></param>
+        /// <returns></returns>
+        public static NewsEditViewModel GetNewsEditViewModel(int? NewsId)
         {
             NewsEditViewModel model = new NewsEditViewModel();
             try
             {
-                
+                // Creation
+                if(NewsId==null || NewsId <= 0)
+                {
+                    model.Id = -1;
+                    model.Active = false;
+                    model.PublishDate = DateTime.UtcNow.ToLocalTime();
+                }
+                // Modification
+                else
+                {
+                    News RealNews = GetNewsById(NewsId.Value);
+                    model.Id = NewsId.Value;
+                    if (RealNews!=null)
+                    {
+                        model.NewsTitle = RealNews.Title;
+                        model.NewsDescription = RealNews.Description;
+                        model.MailSubject = RealNews.MailSubject;
+                        model.TypeUserMailingId = RealNews.TypeUserMailingId;
+                        model.TypeId = RealNews.TypeId;
+                        model.Active = RealNews.Active;
+                        model.PublishDate = RealNews.PublishDate;
+                    }
+                }
+
+
+                model.NewsTypeList = CategoryService.GetSelectionList(Commons.CategoryTypes.NewsType);
+                model.TypeUserMailingList = CategoryService.GetSelectionList(Commons.CategoryTypes.TypeUserMailing);
             }
             catch (Exception e)
             {

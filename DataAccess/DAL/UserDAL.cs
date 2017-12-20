@@ -30,12 +30,15 @@ namespace DataAccess
             DBConnect db = null;
             try
             {
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
                 db = new DBConnect();
                 string Query = "update User";
                 Query = Query + " set LanguageId=IFNULL(( ";
-                Query = Query + " select  id  from category where CategoryTypeId="+Commons.CategoryTypes.Language.ToString()+" and code='"+Language+ "' limit 1 ),LanguageId) ";
-                Query = Query + "where LOWER(username) =  LOWER("+ MySQLHelper.GetStringToInsert(UserName)+") and id>=1";
-                result = db.ExecuteQuery(Query);
+                Query = Query + " select  id  from category where CategoryTypeId="+Commons.CategoryTypes.Language.ToString()+ " and code=@Language limit 1 ),LanguageId) ";
+                Query = Query + "where LOWER(username) =  LOWER(@username) and id>=1";
+                parameters.Add("@UserName", UserName);
+                parameters.Add("@Language", Language);
+                result = db.ExecuteQuery(Query, parameters);
 
             }
             catch (Exception e)
@@ -61,11 +64,12 @@ namespace DataAccess
             DBConnect db = null;
             try
             {
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
                 db = new DBConnect();
                 string Query = "select count(*) ";
-                Query = Query + "from User where LOWER(UserName)=LOWER('" + UserName + "') ";
-
-                result = GenericDAL.GetSingleNumericData(Query).Value>0?true:false;
+                Query = Query + "from User where LOWER(UserName)=LOWER(@UserName) ";
+                parameters.Add("@UserName", UserName);
+                result = GenericDAL.GetSingleNumericData(Query, parameters).Value>0?true:false;
 
             }
             catch (Exception e)
@@ -101,16 +105,20 @@ namespace DataAccess
 
                     db = new DBConnect();
                     db.BeginTransaction();
-                    string Query = "delete from userrole where UserId=" + UserId + ";";
-                    Query = Query + "delete from scheduledtask where UserId=" + UserId + ";";
-                    Query = Query + "update log4net set username=null where username=" + UserName + ";";
-                    Query = Query + "update news set LastModificationUserId=null where LastModificationUserId=" + UserId + ";";
-                    Query = Query + "delete from user where Id=" + UserId + ";";
-                    Query = Query + "delete from userclaims where UserId=" + UserIdentityId + ";";
-                    Query = Query + "delete from userroles where UserId=" + UserIdentityId + ";";
-                    Query = Query + "delete from userlogins where UserId=" + UserIdentityId + ";";
-                    Query = Query + "delete from useridentity where Id=" + UserIdentityId + ";";
-                    result = db.ExecuteQuery(Query);
+                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    string Query = "delete from userrole where UserId=@UserId; ";
+                    Query = Query + "delete from scheduledtask where UserId=@UserId;";
+                    Query = Query + "update log4net set username=null where username=@UserName;";
+                    Query = Query + "update news set LastModificationUserId=null where LastModificationUserId=@UserId;";
+                    Query = Query + "delete from user where Id=@UserId;";
+                    Query = Query + "delete from userclaims where UserId=@UserIdentityId;";
+                    Query = Query + "delete from userroles where UserId=@UserIdentityId;";
+                    Query = Query + "delete from userlogins where UserId=@UserIdentityId;";
+                    Query = Query + "delete from useridentity where Id=@UserIdentityId;";
+                    parameters.Add("@UserIdentityId", UserIdentityId);
+                    parameters.Add("@UserId", UserId);
+                    parameters.Add("@UserName", UserName);
+                    result = db.ExecuteQuery(Query, parameters);
 
                     if (result)
                         result = db.CommitTransaction();
@@ -140,6 +148,7 @@ namespace DataAccess
         {
             List<User> result = new List<User>();
             DBConnect db = null;
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
             try
             {
                 db = new DBConnect();
@@ -157,14 +166,18 @@ namespace DataAccess
                 Query = Query + " where 1=1 ";
                 if (Id!=null && Id.Value>0)
                 {
-                    Query = Query + " and U.Id="+Id.Value.ToString();
+                    Query = Query + " and U.Id=@Id";
+                    parameters.Add("@Id", Id);
                 }
                 if (!String.IsNullOrWhiteSpace(UserName))
                 {
-                    Query = Query + " and LOWER(U.UserName)=LOWER('" + UserName + "')";
+                    Query = Query + " and LOWER(U.UserName)=LOWER(@UserName)";
+                    parameters.Add("@UserName", UserName);
                 }
                 Query = Query + " order by U.Id desc";
-                DataTable data = db.GetData(Query);
+                
+                
+                DataTable data = db.GetData(Query, parameters);
                 for (int i = 0; i < data.Rows.Count; i++)
                 {
                     DataRow dr = data.Rows[i];

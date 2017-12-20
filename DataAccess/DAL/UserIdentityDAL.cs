@@ -27,11 +27,13 @@ namespace DataAccess
             DBConnect db = null;
             try
             {
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
                 db = new DBConnect();
                 string Query = "update Useridentity";
                 Query = Query + " set AccessFailedCount= AccessFailedCount + 1";
-                Query = Query + " where LOWER(username) =  LOWER(" + MySQLHelper.GetStringToInsert(UserName) + ")";
-                result = db.ExecuteQuery(Query);
+                Query = Query + " where LOWER(username) =  LOWER(@username)";
+                parameters.Add("@UserName", UserName);
+                result = db.ExecuteQuery(Query, parameters);
 
             }
             catch (Exception e)

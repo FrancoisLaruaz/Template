@@ -32,6 +32,7 @@ namespace DataAccess
             DBConnect db = null;
             try
             {
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
                 db = new DBConnect();
                 string Query = "select U.Id as LastModificationUserId,  U.FirstName, U.LastName  ";
                 Query = Query + ", n.*  ";
@@ -46,11 +47,13 @@ namespace DataAccess
                 Query = Query + " where 1=1 ";
                 if (Id!=null && Id.Value>0)
                 {
-                    Query = Query + " and n.Id="+Id.Value.ToString();
+                    Query = Query + " and n.Id=@Id";
+                    parameters.Add("@Id", Id);
                 }
                 if (TypeId != null && TypeId.Value > 0)
                 {
-                    Query = Query + " and n.TypeId=" + TypeId.Value.ToString();
+                    Query = Query + " and n.TypeId=@TypeId";
+                    parameters.Add("@TypeId", TypeId);
                 }
                 if (Published != null )
                 {
@@ -68,7 +71,7 @@ namespace DataAccess
                     Query = Query + " and n.Active=" + MySQLHelper.GetBoolToInsert(Active.Value);
                 }
                 Query = Query + " order by n.PublishDate desc, n.id desc";
-                DataTable data = db.GetData(Query);
+                DataTable data = db.GetData(Query, parameters);
                 for (int i = 0; i < data.Rows.Count; i++)
                 {
                     DataRow dr = data.Rows[i];

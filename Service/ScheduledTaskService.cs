@@ -33,10 +33,10 @@ namespace Service
                 Task.EmailTypeId = EMailTypeId;
                 Task.CreationDate = DateTime.UtcNow;
                 Task.ExpectedExecutionDate = Task.CreationDate.Add(callbackDelay);
-                Task.CallbackUrl = WebsiteURL+ "/Task/SendMailToUser?Id=0&UserId=1&EMailTypeId=" + Task.EmailTypeId;
+                Task.CallbackUrl = WebsiteURL+ "/Task/SendMailToUser?Id=0&UserId="+ UserId + "&EMailTypeId=" + Task.EmailTypeId;
                 Task.Id = InsertScheduledTask(Task);
                 Task.CallbackId = Commons.TaskHelper.ScheduleTask(Task.CallbackUrl, callbackDelay);
-                Task.CallbackUrl = WebsiteURL + "/Task/SendMailToUser?Id=" + Task.Id+"&UserId=1&EMailTypeId=" + Task.EmailTypeId;
+                Task.CallbackUrl = WebsiteURL + "/Task/SendMailToUser?Id=" + Task.Id+ "&UserId=" + UserId + "&EMailTypeId=" + Task.EmailTypeId;
                 if (!String.IsNullOrWhiteSpace(Task.CallbackId))
                 {
                     Result = true;
@@ -65,6 +65,29 @@ namespace Service
             return Result;
         }
 
+        /// <summary>
+        /// Remove the cancelled tasks of the database
+        /// </summary>
+        /// <returns></returns>
+        public static bool DeleteCancelledScheduledTasks()
+        {
+            bool Result = false;
+            try
+            {
+                Result = ScheduledTaskDAL.DeleteCancelledScheduledTasks();
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return Result;
+        }
+
+        /// <summary>
+        /// Return the scheduled task
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public static ScheduledTask GetScheduledTaskById(int Id)
         {
             ScheduledTask Result = null;

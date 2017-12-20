@@ -1,4 +1,3 @@
-D:\DEV\Template\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Service\bin\Debug\Service.dll
 D:\DEV\Template\Service\bin\Debug\Service.pdb
 D:\DEV\Template\Service\bin\Debug\Commons.dll
@@ -15,5 +14,17 @@ D:\DEV\Template\Service\bin\Debug\Models.pdb
 D:\DEV\Template\Service\bin\Debug\Ghostscript.NET.xml
 D:\DEV\Template\Service\bin\Debug\log4net.xml
 D:\DEV\Template\Service\bin\Debug\Revalee.Client.xml
+D:\DEV\Template\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Service\obj\Debug\Service.dll
 D:\DEV\Template\Service\obj\Debug\Service.pdb
+D:\DEV\Template\Service\bin\Debug\System.Web.Mvc.dll
+D:\DEV\Template\Service\bin\Debug\System.Web.Razor.dll
+D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.Razor.dll
+D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.dll
+D:\DEV\Template\Service\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.Deployment.dll
+D:\DEV\Template\Service\bin\Debug\System.Web.Mvc.xml
+D:\DEV\Template\Service\bin\Debug\System.Web.Razor.xml
+D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.Razor.xml
+D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.xml
+D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.Deployment.xml

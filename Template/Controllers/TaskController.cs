@@ -105,6 +105,41 @@ namespace Website.Controllers
             return result;
         }
 
+
+
+
+    /// <summary>
+    /// Delete the cancelled scheduled tasks from the database
+    /// </summary>
+    /// <returns></returns>
+        [AllowAnonymous]
+        public ActionResult DeleteCancelledScheduledTasks()
+        {
+            HttpStatusCodeResult result = new HttpStatusCodeResult(HttpStatusCode.Found);
+            TaskLog Task = new TaskLog();
+            try
+            {
+                Task.TypeId = Commons.TaskLogTypes.CancelledScheduledTasksCleanUp;
+                Task.Id = TaskLogService.InsertTaskLog(Task);
+                Task.Result = ScheduledTaskService.DeleteCancelledScheduledTasks();
+
+                result = new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            catch (Exception e)
+            {
+                Task.Result = false;
+                Task.Comment = e.ToString();
+                result = new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            finally
+            {
+                Task.EndDate = DateTime.UtcNow;
+                TaskLogService.UpdateTaskLog(Task);
+            }
+            return result;
+        }
+
         /// <summary>
         /// Delete old files uploaded but not used
         /// </summary>

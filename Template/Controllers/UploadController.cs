@@ -88,6 +88,55 @@ namespace Website.Controllers
         }
 
         /// <summary>
+        ///  Upload a decypted document
+        /// </summary>
+        /// <param name="Purpose"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult UploadDecryptedDocument(string Purpose)
+        {
+            bool _success = false;
+            string _PathFile = "";
+            try
+            {
+
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+
+
+                        var fileName = Path.GetFileName(file.FileName);
+
+
+                            string ext = Path.GetExtension(fileName);
+                            fileName = FileHelper.GetFileName(Purpose, ext);
+
+                            FileUpload newFile = new FileUpload()
+                            {
+                                File = file,
+                                UploadName = fileName,
+                                IsImage = false,
+                                EncryptFile = false
+                            };
+
+                            string retour = FileHelper.UploadFile(newFile);
+                            if (retour != "KO")
+                            {
+                                _success = true;
+                                _PathFile = retour;
+                            }
+
+                    }
+            }
+            catch (Exception e)
+            {
+                _success = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return Json(new { Result = _success, PathFile = _PathFile});
+        }
+
+        /// <summary>
         /// Generic picture upload
         /// </summary>
         /// <param name="Purpose"></param>
@@ -173,7 +222,8 @@ namespace Website.Controllers
         /// <param name="PathFile"></param>
         /// <returns></returns>
         [HttpPost]
-        public FileResult DownloadEncryptedFile(string PathFile)
+        [ValidateAntiForgeryToken]
+        public FileResult DownloadFile(string PathFile)
         {
 
             try
@@ -191,9 +241,34 @@ namespace Website.Controllers
             }
             catch (Exception e)
             {
-                Logger.GenerateError(e,  typeof(UploadController), "PathFile =" + PathFile);
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "PathFile =" + PathFile);
             }
             return null; ;
+        }
+
+        /// <summary>
+        /// Delete the specified file
+        /// </summary>
+        /// <param name="PathFile"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteFile(string PathFile)
+        {
+            bool _success = false;
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(PathFile))
+                {
+                    _success = FileHelper.DeleteDocument(PathFile);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "PathFile =" + PathFile);
+            }
+            return Json(new { Result = _success });
         }
 
     }
