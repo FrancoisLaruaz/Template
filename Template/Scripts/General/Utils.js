@@ -167,7 +167,17 @@ function GetRandomInt(min, max) {
 }
 
 
+function SetDateTimeFields()
+{
+    $('.DateTimeField').each(function (index, value) {
+        var Id = $(this).attr('id');
+        $('#' + Id).datetimepicker({
+            format: 'MM/DD/YYYY hh:mm:ss',
+            defaultDate: new Date()
+        });
 
+    });
+}
 
 function SetGenericAjaxForm(FormId, OnSuccess, Onfailure, OnBegin) {
     $("#" + FormId).unbind("submit");

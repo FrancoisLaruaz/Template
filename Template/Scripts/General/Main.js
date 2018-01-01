@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    DisplayBrowserBanner();
     $('.formSpinnerLoad').each(function (index, value) {
         $(this).submit(function () {
             ShowSpinner();
@@ -7,11 +7,17 @@ $(document).ready(function () {
     });
 
 
+
+
+
     //Reset the validation forms of the page
     $('form').each(function (index, value) {
         SetValidationForm($(this).attr('id'));
     });
 
+
+
+    SetDateTimeFields();
 
     $(document)
         .ajaxStart(function () {
@@ -33,3 +39,23 @@ $(document).ready(function () {
     }
 
 });
+
+
+
+
+function ShowSignUpFormNow() {
+    if ($("#loginOrSignInModalBody").length > 0) {
+
+        $("#loginOrSignInModal").modal('show');
+        $("#loginOrSignInModalBody #LoginForm").hide();
+        $("#loginOrSignInModalBody #SignUpForm").show();
+        if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
+            $("#div_SignUpFormLinks").show();
+            setTimeout(function () { SetPasswordForm(); }, 1000);
+            SetPasswordForm();
+        }
+        else {
+            $("#div_SignUpFormLinks").hide();
+        }
+    }
+}

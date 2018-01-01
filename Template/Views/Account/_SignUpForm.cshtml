@@ -14,47 +14,35 @@ else
 
             <div class="col-xs-12 col-md-12">
 
-                <div class="col-xs-12 col-md-12">
-                    <div class="websiteFormGroup">
-                        <div class="col-sm-12 col-xs-12">
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "[[[Email]]]" })
-                            <i class="fa fa-envelope includeFAIcon" aria-hidden="true"></i>
-                            @Html.ValidationMessageFor(m => m.Email)
-                            <div id="ErrorSignUpForm" class="text-danger"></div>
-                        </div>
-
-                    </div>
+                <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
+                    @Html.TextBoxFor(model => model.Email, new { @class = "sexyTB", @id = "EmailSignUp" })
+                    <label class="labelSexyTb">@Html.DisplayNameFor(m => m.Email)</label>
+                    <i class="fa fa-envelope includeFAIcon" aria-hidden="true"></i>
+                    @Html.ValidationMessageFor(m => m.Email)
+                    <div id="ErrorSignUpForm" class="text-danger"></div>
                 </div>
-                <div class="col-xs-12 col-md-12">
-                    <div class="websiteFormGroup">
-                        <div class="col-sm-12 col-xs-12">
-                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @placeholder = "[[[First Name]]]" })
-                            <i class="fa fa-user includeFAIcon" aria-hidden="true"></i>
-                            @Html.ValidationMessageFor(m => m.FirstName)
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-xs-12 col-md-12">
-                    <div class="websiteFormGroup">
-                        <div class="col-sm-12 col-xs-12">
-                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @placeholder = "[[[Last Name]]]" })
-                            <i class="fa fa-user includeFAIcon" aria-hidden="true"></i>
-                            @Html.ValidationMessageFor(m => m.LastName)
-                        </div>
-                    </div>
+                <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
+                    @Html.TextBoxFor(model => model.FirstName, new { @class = "sexyTB" })
+                    <label class="labelSexyTb">@Html.DisplayNameFor(m => m.FirstName)</label>
+                    <i class="fa fa-user includeFAIcon" aria-hidden="true"></i>
+                    @Html.ValidationMessageFor(m => m.FirstName)
                 </div>
 
-                <div class="col-xs-12 col-md-12">
-                    <div class="websiteFormGroup">
-                        <div class="col-sm-12 col-xs-12">
-                            @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "[[[Password]]]", @id= "PasswordToCheck" })
-                            <i class="fa fa-lock includeFAIcon" aria-hidden="true"></i>
-                            @Html.ValidationMessageFor(m => m.Password)
-                            
-                        </div>
-                    </div>
+                <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
+                    @Html.TextBoxFor(model => model.LastName, new { @class = "sexyTB" })
+                    <label class="labelSexyTb">@Html.DisplayNameFor(m => m.LastName)</label>
+                    <i class="fa fa-user includeFAIcon" aria-hidden="true"></i>
+                    @Html.ValidationMessageFor(m => m.LastName)
                 </div>
+
+                <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
+                    @Html.PasswordFor(model => model.Password, new { @class = "sexyTB", @id = "PasswordToCheck" })
+                    <label class="labelSexyTb">@Html.DisplayNameFor(m => m.Password)</label>
+                    <i class="fa fa-lock includeFAIcon" aria-hidden="true"></i>
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+
+
                 <div class="col-md-8 col-md-offset-2 col-xs-12">
                     @Html.Partial("_PasswordPolicy")
                 </div>

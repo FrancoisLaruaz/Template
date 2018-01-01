@@ -131,6 +131,11 @@ namespace Service
             return Result;
         }
 
+        /// <summary>
+        /// Set a task as executed
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public static bool SetTaskAsExecuted(int Id)
         {
             bool Result = false;
@@ -152,11 +157,12 @@ namespace Service
 
 
         /// <summary>
-        /// Cancel a Task by Id
+        ///  Cancel a Task by Id
         /// </summary>
         /// <param name="Id"></param>
+        /// <param name="CancelledByUser"></param>
         /// <returns></returns>
-        public static bool CancelTaskById(int Id)
+        public static bool CancelTaskById(int Id,bool CancelledByUser=false)
         {
             bool Result = false;
             try
@@ -166,10 +172,18 @@ namespace Service
 
                 if (Result)
                 {
-                    Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                    Columns.Add("CancellationDate", DateTime.UtcNow);
-                    Result = GenericDAL.UpdateById("scheduledtask", Id, Columns);
+                    if (CancelledByUser)
+                    {
+                        Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                        Columns.Add("CancellationDate", DateTime.UtcNow);
+                        Result = GenericDAL.UpdateById("scheduledtask", Id, Columns);
+                    }
+                    else
+                    {
+                        Result = GenericDAL.DeleteById("scheduledtask", Id);
+                    }
                 }
+
             }
             catch (Exception e)
             {

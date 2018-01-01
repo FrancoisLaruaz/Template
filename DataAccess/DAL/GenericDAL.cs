@@ -24,9 +24,8 @@ namespace DataAccess
             try
             {
                 db = new DBConnect();
-                string Query = "delete from @Table where Id=@Id";
+                string Query = "delete from "+ Table + " where Id=@Id";
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
-                parameters.Add("@Table", Table);
                 parameters.Add("@Id", Id);
                 result = db.ExecuteQuery(Query, parameters);
                 db.Dispose();
@@ -61,14 +60,15 @@ namespace DataAccess
                 db = new DBConnect();
                 if (!String.IsNullOrWhiteSpace(MySQLHelper.GetValueToInsert(Id)) && !String.IsNullOrWhiteSpace(Table) && Columns != null && Columns.Count>0)
                 {
-                    string Query = "update @Table set ";
+                    string Query = "update "+ Table + " set ";
                     Dictionary<string, object> parameters = new Dictionary<string, object>();
-                    parameters.Add("@Table", Table);
                     int n = 1;
                     foreach (var Column in Columns)
                     {
                         Query = Query +  Column.Key.ToString() + " = @param" + n.ToString() + " , ";
+
                         parameters.Add("@param" + n.ToString(), Column.Value);
+
                         n++;
                     }
                     Query=Query.Remove(Query.Length - 2);

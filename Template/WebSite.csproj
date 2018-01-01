@@ -188,6 +188,8 @@
     <Compile Include="Controllers\TaskController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\General\mainscss.min.css" />
+    <Content Include="Content\materialize.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -239,8 +241,11 @@
     <Content Include="Ressources\Files\Images\homepagevideo.jpg" />
     <Content Include="Ressources\Files\Images\Logo.png" />
     <Content Include="Ressources\Files\Video\Homepage.mp4" />
+    <Content Include="Scripts\General\SexyCSSHelper.js" />
+    <Content Include="Scripts\jquery-migrate-1.4.1.min.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\General\BrowserHelper.js" />
     <Content Include="Scripts\General\BackToTop.js" />
     <Content Include="Scripts\General\bootstrap-datepicker.js" />
     <Content Include="Scripts\General\bootstrap-slider.js" />
@@ -352,6 +357,7 @@
     <Content Include="locale\messages.pot" />
     <Content Include="locale\messages.pot.backup" />
     <Content Include="locale\Web.config" />
+    <None Include="Content\General\mainscss.scss" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -365,6 +371,7 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\OtherFormats\jscam.swf" />
     <Content Include="Scripts\OtherFormats\jscam_canvas_only.swf" />
+    <Content Include="Scripts\Views\Account\Login.js" />
     <Content Include="Scripts\Views\Account\_PasswordPolicy.js" />
     <Content Include="Scripts\Views\Account\_SignUp.js" />
     <Content Include="Scripts\Views\Admin\EmailAudits.js" />
@@ -434,6 +441,7 @@
     <Content Include="Views\Admin\News.cshtml" />
     <Content Include="Views\Shared\Layout\_FileForm.cshtml" />
     <Content Include="Views\Admin\News\EditNews.cshtml" />
+    <Content Include="Views\Shared\Layout\_BrowserBanner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

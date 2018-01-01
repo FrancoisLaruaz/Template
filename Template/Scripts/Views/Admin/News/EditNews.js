@@ -6,10 +6,6 @@ $(document).ready(function () {
 function SetEditNewsForm()
 {
     SetEnterKey("SubmitNews");
-    $('#PublishDate').datetimepicker({
-        format: 'MM/DD/YYYY hh:mm:ss',
-        defaultDate: new Date()
-    });
     SetGenericAjaxForm('EditNewsForm', EditNewsSuccess, EditNewsFailure, null);
 
 

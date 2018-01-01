@@ -15,8 +15,8 @@ function SetLoginFormLinks() {
     });
 
 
-    $("#SignUpLink").unbind("click");
-    $("#SignUpLink").on("click", function (e) {
+    $("#loginOrSignInModalBody .SignUpLink").unbind("click");
+    $("#loginOrSignInModalBody .SignUpLink").on("click", function (e) {
         e.preventDefault();
         ShowSignUpForm();
     });

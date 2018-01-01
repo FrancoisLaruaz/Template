@@ -2,7 +2,7 @@
     padding: 10px 20px 10px 20px;
     line-height: 40px;
     z-index: 100;
-    font-size:18px;
+    font-size: 1.8rem;
 }
 
 
@@ -41,4 +41,16 @@
 .navigationLink {
     font-size: 1.6rem;
     line-height: 2.4rem;
+}
+
+#banner-contentBrowser {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.customAlertBrowser {
+    margin-bottom: 0px !important;
+    padding: 10px !important;
 }

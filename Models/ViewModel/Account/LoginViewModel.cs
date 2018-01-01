@@ -20,7 +20,7 @@ namespace Models.ViewModels
         [Display(Name = "[[[Password]]]")]
         public string Password { get; set; }
 
-        [Display(Name = "[[[Remember me?]]]")]
+        [Display(Name = "[[[Remember me ?]]]")]
         public bool RememberMe { get; set; }
 
         public string URLRedirect { get; set; }
@@ -29,6 +29,7 @@ namespace Models.ViewModels
 
         public LoginViewModel()
         {
+            RememberMe = true;
         }
     }
 }

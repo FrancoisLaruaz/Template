@@ -1,4 +1,9 @@
-function SetCamera(Purpose, IdCamera, IdFileToSave, IdPicturePreview = null) {
+function SetCamera(Purpose, IdCamera, IdFileToSave, IdPicturePreview) {
+
+
+    if (IdPicturePreview === undefined) {
+        IdPicturePreview = null;
+    }
 
     if (IdCamera != null && IdCamera.trim() != '') {
         var WebcamSessionId = GetRandomInt(0, 99999999);

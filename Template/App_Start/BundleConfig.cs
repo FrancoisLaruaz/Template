@@ -16,10 +16,12 @@ namespace Template
             "~/Scripts/jquery.unobtrusive-ajax.min.js",
             "~/Scripts/jquery.validate.min.js",
             "~/Scripts/jquery.validate.unobtrusive.min.js",
+            "~/Scripts/jquery-migrate-1.4.1.min",
             "~/Scripts/jquery.webcam.js"
             ));
 
             bundles.Add(new ScriptBundle("~/Scripts/ScriptsErrors").Include(
+            "~/Scripts/General/BrowserHelper.js",
             "~/Scripts/General/Toastr.js",
             "~/Scripts/General/ToastrHelper.js",
             "~/Scripts/General/Error.js"
@@ -53,6 +55,7 @@ namespace Template
             "~/Scripts/General/HighchartsHelper.js",
              "~/Scripts/General/summernote.js",
              "~/Scripts/General/summernoteHelper.js",
+             "~/Scripts/General/SexyCSSHelper.js",
             "~/Scripts/General/Main.js"
            
             ));
@@ -76,6 +79,7 @@ namespace Template
                 "~/Content/font-awesome.min.css",
                 "~/Content/General/sweetalert.css",
                 "~/Content/General/toastr.csss",
+                "~/Content/General/mainscss.min.css",
                 "~/Content/General/jtsage-datebox.min.css",
                 "~/Content/General/jtsage-syntax.css"
             ));

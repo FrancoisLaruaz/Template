@@ -1,5 +1,6 @@
 @WebsiteColor1: #6699ff;
 @WebsiteColor2: #BBD2FF;
+@selectWidth: 300px;
 
 .main-content {
     margin: 30px 0 0px 0 !important;
@@ -12,7 +13,7 @@
 }
 
 .websiteFormGroup {
-    min-height: 62px;
+    min-height: 86px;
 }
 
 .bgColorWebsite {
@@ -31,6 +32,13 @@
         color: @WebsiteColor2 !important;
     }
 
+.DateTimeField:hover, .DateTimeField:focus {
+    cursor: pointer;
+}
+
+.bootstrap-datetimepicker-widget {
+    cursor: pointer !important;
+}
 
     .website-btn:hover {
         background: transparent;
@@ -58,8 +66,8 @@
         width: 100%;
         font-family: 'Open Sans', sans-serif;
         font-weight: 400;
-        font-size: 2.4rem;
-        padding: 15px 40px;
+        font-size: 2.2rem;
+        padding: 15px 30px;
         border: 3px @WebsiteColor1 solid;
     }
 
@@ -91,8 +99,8 @@
         width: 100%;
         font-family: 'Open Sans', sans-serif;
         font-weight: 400;
-        font-size: 2.4rem;
-        padding: 15px 40px;
+        font-size: 2.2rem;
+        padding: 15px 30px;
     }
 
 
@@ -111,16 +119,17 @@
         overflow-x: hidden;
     }
 
-    html, body {
-        padding: 0;
-        margin: 0;
-        width: 100%;
-    }
+html, body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+
+}
 
     body {
         font-family: 'Open Sans', sans-serif;
         font-weight: 400;
-        font-size: 1.4rem;
+        font-size: 1.45rem;
         line-height: 2.2rem;
         color: #414042;
         -webkit-font-smoothing: antialiased;
@@ -134,6 +143,8 @@
         font-size: 1.6rem;
         line-height: 2.4rem;
     }
+
+
 
     #wrapper {
         width: 100%;
@@ -239,9 +250,11 @@
         z-index: 5;
     }
 
-    .paddingGlyph {
-        padding-right: 12px;
-    }
+.paddingGlyph {
+    padding-right: 12px;
+    padding-left: -20px;
+    margin-left:-20px;
+}
 
 
 
@@ -314,4 +327,256 @@
 .note-editor
 {
     display:none;
+}
+
+.summernote {
+    display: none;
+}
+
+
+
+/* sexy select */
+
+
+
+
+
+/* select starting stylings ------------------------------*/
+.select {
+    position: relative;
+    width: @selectWidth;
+}
+
+.select-text {
+    position: relative;
+    font-family: inherit;
+    background-color: transparent;
+    width: @selectWidth;
+    padding: 7px 10px 7px 0;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #757575;
+}
+
+select {
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+}
+
+/* Remove focus */
+.select-text:focus {
+    outline: none;
+    border-bottom: 2px solid @WebsiteColor1;
+}
+
+/* Use custom arrow */
+.select .select-text {
+    appearance: none;
+    -webkit-appearance: none
+}
+
+.select:after {
+    position: absolute;
+    top: 18px;
+    right: 10px;
+    /* Styling the down arrow */
+    width: 0;
+    height: 0;
+    padding: 0;
+    content: '';
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid @WebsiteColor1;
+    pointer-events: none;
+}
+
+
+/* LABEL ======================================= */
+.select-label {
+    color: @WebsiteColor1;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 0;
+    top: 10px;
+    transition: 0.2s ease all;
+}
+
+/* active state */
+.select-text:focus ~ .select-label, .select-text:valid ~ .select-label {
+    color: @WebsiteColor1;
+    top: -20px;
+    transition: 0.5s ease all;
+}
+
+/* BOTTOM BARS ================================= */
+.select-bar {
+    position: relative;
+    display: block;
+    width: @selectWidth;
+}
+
+.select-bar:before, .select-bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: @WebsiteColor1;
+    transition: 0.2s ease all;
+}
+
+.select-bar:before {
+    left: 50%;
+}
+
+.select-bar:after {
+    right: 50%;
+}
+
+/* active state */
+.select-text:focus ~ .select-bar:before, .select-text:focus ~ .select-bar:after {
+    width: 50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.select-highlight {
+    position: absolute;
+    height: 60%;
+    width: 100px;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* endsexy select */
+
+
+
+/* form starting stylings ------------------------------- */
+.sexyTBgroup {
+    position: relative;
+}
+
+.sexyTB {
+    padding: 7px 10px 7px 0;
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #757575;
+    background-color:transparent;
+}
+
+.sexyTB:focus {
+    outline: none;
+}
+
+/* LABEL ======================================= */
+.labelSexyTb {
+    color: #999;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 12px;
+    padding-left: 8px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+    font-size: 1.6rem;
+}
+
+/* active state */
+.sexyTB:focus ~ .labelSexyTb, .sexyTB:not(.empty) ~ .labelSexyTb {
+    top: -18px;
+    font-size:  1.5rem;
+    color: @WebsiteColor1;
+}
+
+/* BOTTOM BARS ================================= */
+.bar {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding-bottom:2px;
+}
+
+.bar:before, .bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 2px;
+    position: absolute;
+    background: @WebsiteColor1;
+    transition: 0.5s ease all;
+    -moz-transition: 0.5s ease all;
+    -webkit-transition: 0.5s ease all;
+
+}
+
+.bar:before {
+    left: 50%;
+}
+
+.bar:after {
+    right: 50%;
+}
+
+/* active state */
+.sexyTB:focus ~ .bar:before, .sexyTB:focus ~ .bar:after {
+    width: 50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.highlight {
+    position: absolute;
+    height: 60%;
+    width: 100px;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* active state */
+.sexyTB:focus ~ .highlight {
+    -webkit-animation: inputHighlighter 0.3s ease;
+    -moz-animation: inputHighlighter 0.3s ease;
+    animation: inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+    from {
+        background: @WebsiteColor1;
+    }
+
+    to {
+        width: 0;
+        background: transparent;
+    }
+}
+
+@-moz-keyframes inputHighlighter {
+    from {
+        background: @WebsiteColor1;
+    }
+
+    to {
+        width: 0;
+        background: transparent;
+    }
+}
+
+@keyframes inputHighlighter {
+    from {
+        background: @WebsiteColor1;
+    }
+
+    to {
+        width: 0;
+        background: transparent;
+    }
 }
