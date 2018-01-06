@@ -1,0 +1,50 @@
+﻿<link href="~/Content/Views/Account/_SignUpWelcome.css?@Commons.StaticFileVersion.StaticFileVersionString" rel="stylesheet" />
+
+
+<div id="newUserPicturePg" style="padding-bottom:25px;padding-top:25px;" class="row" data-note="welcome to website modal page">
+
+    <div class="col-md-12 col-xs-12">
+
+        <div class="paras modal-headers SignUpPictureTitle">
+            [[[Please smile]]]
+        </div>
+
+
+
+        <div class="paras center-txt  plsTxt">
+            [[[It's now time tu update your website profile picture !]]]
+        </div>
+
+
+ 
+        <div class="col-xs-12 col-md-12" style="text-align:center;">
+            <div id="Camera" style="width:60% !important;margin-left:20% !important;margin-right:20% !important;"></div>
+            <div id="CameraNotFound" style="width:100%;display:none" class="img-rounded">
+                @Html.Partial("~/Views/Shared/_CameraNotFound.cshtml")
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1" style="text-align:center;padding:5px 10px 10px 10px;">
+            <input type="button" value=" [[[Shoot !]]]" class="btn greenButton webcamBtn" id="SHootWebcam" style="display:none" />
+        </div>
+
+        <div  class="col-xs-12 col-md-12">
+            <imput type="hidden" name="CameraFileSrc" id="CameraFileSrc" />
+        </div>
+
+        <div class="col-xs-12 col-md-4 col-md-offset-4" >
+            <div class="wrapPicPrev">
+                <label id="CameraPreview" class="circular PicturePreview" for="Pic">
+                    <i class="fa fa-camera" aria-hidden="true"></i>
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1">
+            <input type="submit" value=" [[[Get Started]]]" class="btn website-btn" id="SignUpWelcomeBtn" />
+        </div>
+
+    </div>
+
+</div>
+
+<script src="~/Scripts/Views/Account/_SignUpPictureForm.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>

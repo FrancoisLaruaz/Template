@@ -10,35 +10,35 @@ else
     using (Ajax.BeginForm("_SignUpForm", "Account", new { }, new AjaxOptions() { HttpMethod = "POST", OnBegin = "handleSignUpBegin", OnSuccess = "SignUpSuccess", OnFailure = "SignUpFailure" }, new { @id = "SignUpForm" }))
     {
         @Html.AntiForgeryToken()
-        <div class="row">
+        <div class="row" style="margin-top:30px;margin-bottom:20px;">
 
             <div class="col-xs-12 col-md-12">
 
                 <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
                     @Html.TextBoxFor(model => model.Email, new { @class = "sexyTB", @id = "EmailSignUp" })
                     <label class="labelSexyTb">@Html.DisplayNameFor(m => m.Email)</label>
-                    <i class="fa fa-envelope includeFAIcon" aria-hidden="true"></i>
+                    <i class="fa fa-envelope SexyField-iconsSmall" aria-hidden="true"></i>
                     @Html.ValidationMessageFor(m => m.Email)
                     <div id="ErrorSignUpForm" class="text-danger"></div>
                 </div>
                 <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
                     @Html.TextBoxFor(model => model.FirstName, new { @class = "sexyTB" })
                     <label class="labelSexyTb">@Html.DisplayNameFor(m => m.FirstName)</label>
-                    <i class="fa fa-user includeFAIcon" aria-hidden="true"></i>
+                    <i class="fa fa-user SexyField-icons" aria-hidden="true"></i>
                     @Html.ValidationMessageFor(m => m.FirstName)
                 </div>
 
                 <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
                     @Html.TextBoxFor(model => model.LastName, new { @class = "sexyTB" })
                     <label class="labelSexyTb">@Html.DisplayNameFor(m => m.LastName)</label>
-                    <i class="fa fa-user includeFAIcon" aria-hidden="true"></i>
+                    <i class="fa fa-user SexyField-icons" aria-hidden="true"></i>
                     @Html.ValidationMessageFor(m => m.LastName)
                 </div>
 
                 <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
                     @Html.PasswordFor(model => model.Password, new { @class = "sexyTB", @id = "PasswordToCheck" })
                     <label class="labelSexyTb">@Html.DisplayNameFor(m => m.Password)</label>
-                    <i class="fa fa-lock includeFAIcon" aria-hidden="true"></i>
+                    <i class="fa fa-lock SexyField-icons" aria-hidden="true"></i>
                     @Html.ValidationMessageFor(m => m.Password)
                 </div>
 

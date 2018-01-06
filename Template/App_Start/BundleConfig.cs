@@ -79,7 +79,7 @@ namespace Template
                 "~/Content/font-awesome.min.css",
                 "~/Content/General/sweetalert.css",
                 "~/Content/General/toastr.csss",
-                "~/Content/General/mainscss.min.css",
+              //  "~/Content/General/mainscss.min.css",
                 "~/Content/General/jtsage-datebox.min.css",
                 "~/Content/General/jtsage-syntax.css"
             ));

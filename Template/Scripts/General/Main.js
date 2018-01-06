@@ -1,5 +1,11 @@
+var LoggedUserName = "";
+
+
 $(document).ready(function () {
     DisplayBrowserBanner();
+
+    var LoggedUserName = $("#HiddenLoggedUserName").val();
+
     $('.formSpinnerLoad').each(function (index, value) {
         $(this).submit(function () {
             ShowSpinner();

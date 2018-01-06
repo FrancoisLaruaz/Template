@@ -12,17 +12,46 @@ namespace Commons
 {
     public static class Utils
     {
+
+        private static string Website = System.Configuration.ConfigurationManager.AppSettings["Website"].ToString();
+
         public static bool IsProductionWebsite()
         {
             bool result = true;
             try
             {
-                if (GetURLWebsite().Contains("localhost"))
+                if (Website.Contains("localhost:"))
                     result = false;
             }
             catch (Exception e)
             {
                 result= true;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Generate an error
+        /// </summary>
+        public static void GenerateError()
+        {
+            int n = 0;
+            n = 5 / n;
+        }
+
+
+        public static bool IsLocalhost()
+        {
+            bool result = false;
+            try
+            {
+                if (Website.Contains("localhost:"))
+                    result = true;
+            }
+            catch (Exception e)
+            {
+                result = false;
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
             return result;

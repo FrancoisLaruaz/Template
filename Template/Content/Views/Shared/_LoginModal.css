@@ -32,7 +32,7 @@ select:invalid {
 
 
 .iAgreeTxt {
-    font-size: 12px;
+    font-size: 13px;
     font-style: italic;
     padding-bottom: 8px;
     text-align: center;
@@ -44,7 +44,7 @@ select:invalid {
 
 
 #loginOrSignInModalBody {
-    padding: 0;
+    padding: 0px 0 0 0;
 }
 
 #modalTabs {

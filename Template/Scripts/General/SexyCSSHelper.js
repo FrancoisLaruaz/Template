@@ -1,9 +1,13 @@
 $(document).ready(function () {
+    SetSexyCSS();
+});
+
+function SetSexyCSS() {
     SetStyledCheckboxes();
     SetSexyLabelsForTB();
     SetSexyTB();
     SetSexySelect();
-});
+}
 
 function SetSexySelect()
 {
@@ -28,39 +32,41 @@ function SetSexyTB() {
 function SetSexyLabelsForTB() {
     $('.sexyTB').each(function (index, value) {
         var Id = $(this).attr('id');
-        setSexyTbLabel(Id);
+        SetSexyTbLabel(Id);
 
         $(this).blur(function (element, value) {
             $('.sexyTB').each(function (index, value) {
                 var Id = $(this).attr('id');
-                setSexyTbLabel(Id);
+                SetSexyTbLabel(Id);
             });
         });
 
+        $(this).change(function (element, value) {
+            $('.sexyTB').each(function (index, value) {
+                var Id = $(this).attr('id');
+                SetSexyTbLabel(Id);
+            });
+        });
 
     });
 }
 
 function SetStyledCheckboxes() {
     $('.styled-checkbox').each(function (index, value) {
-        if ($(this).is(':checked')) {
-            $(this).val("true");
-        } else {
-            $(this).val("false");
-        }
-        $(this).on("change", function () {
+        var name = $(this).attr('name');
+        var HiddenInput = $('input:not(.styled-checkbox)[name=' + name + ']');
 
-            if ($(this).is(':checked')) {
-                $(this).val("true");
-            } else {
-                $(this).val("false");
-            }
-        });
+
+        if (HiddenInput != "undefined" && HiddenInput != null) {
+            $(HiddenInput).remove();
+            var parentElement = document.querySelector("#" + $(this).attr('id')).parentNode;
+            parentElement.children[1].insertAdjacentHTML("afterEnd", ' <input name="' + name + '" value="false" type="hidden">');
+        }
     });
 }
 
 
-function setSexyTbLabel(Id) {
+function SetSexyTbLabel(Id) {
     var element = $("#" + Id);
     tmpval = $(element).val();
 

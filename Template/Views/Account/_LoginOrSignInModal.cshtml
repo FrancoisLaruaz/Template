@@ -3,15 +3,15 @@
 {
     <li><a href="" data-toggle="modal" data-target="#loginOrSignInModal" onclick="ShowSecretlyLogInForm();recordGoToUrl(null)">Log In</a></li>
 }
-
+<script src="~/Scripts/Views/Account/_SignUp.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>
 <link href="~/Content/Views/Shared/_LoginModal.css" rel="stylesheet" type="text/css">
 
 
-<div class="modal fade" id="loginOrSignInModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="loginOrSignInModal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="vertical-alignment-helper">
         <div class="modal-dialog SmallModalResponsive vertical-align-center" role="document">
             <div class="modal-content">
-                <div id="loginOrSignInModalBody" class="modal-body" style="margin-top:20px;margin-bottom:20px;">
+                <div id="loginOrSignInModalBody" class="modal-body" >
                     <div class="divCloseModal">
                         <button id="closeLoginModal" type="button" class="close closeLoginModal" data-dismiss="modal">&times;</button>
                     </div>
@@ -24,6 +24,12 @@
                     <div id="SignUpForm" style="display:none">
                         @Html.Action("_SignUpForm", "Account")
                     </div>
+                    <div id="SignUpWelcome" style="display: none;">
+                        @Html.Partial("~/Views/Account/_SignUpWelcome.cshtml")
+                    </div>
+                </div>
+                <div id="SignUpPictureForm" style="display: none;">
+                    @Html.Partial("~/Views/Account/_SignUpPictureForm.cshtml")
                 </div>
             </div>
         </div>

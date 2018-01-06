@@ -29,14 +29,14 @@
                         <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
                             @Html.TextBoxFor(model => model.NewsTitle, new { @class = "sexyTB" })
                             <label class="labelSexyTb">@Html.DisplayNameFor(m => m.NewsTitle)</label>
-                            <i class="fa fa-newspaper-o includeFAIcon" aria-hidden="true"></i>
+                            <i class="fa fa-newspaper-o SexyField-icons" aria-hidden="true"></i>
                             @Html.ValidationMessageFor(m => m.NewsTitle)
                         </div>
 
                         <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
                             @Html.TextBoxFor(model => model.PublishDate, new { @class = "sexyTB DateTimeField" })
                             <label class="labelSexyTb">@Html.DisplayNameFor(m => m.PublishDate)</label>
-                            <i class="fa fa-clock-o includeFAIcon" aria-hidden="true"></i>
+                            <i class="fa fa-clock-o SexyField-icons" aria-hidden="true"></i>
                             @Html.ValidationMessageFor(m => m.PublishDate)
                         </div>
 
@@ -51,6 +51,7 @@
 
                         </div>
 
+
                         <div class="col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
                             @Html.LabelFor(model => model.NewsDescription, htmlAttributes: new { @class = "control-label"  })
                             <div>
@@ -60,12 +61,26 @@
 
                         </div>
 
+                        <div class="col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
+                            <div class="select">
+                                @Html.DropDownListFor(model => model.TypeUserMailingId, new SelectList(Model.TypeUserMailingList, "Id", "Name"), "--- [[[Select a User Mailing Type]]] ---", new { @class = "select-text" })
+                                <span class="select-label">@Html.DisplayNameFor(m => m.TypeUserMailingId)</span>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.TypeUserMailingId)
 
+                        </div>
+
+                        <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
+                            @Html.TextBoxFor(model => model.MailSubject, new { @class = "sexyTB" })
+                            <label class="labelSexyTb">@Html.DisplayNameFor(m => m.MailSubject)</label>
+                            <i class="fa fa-envelope-o SexyField-icons" aria-hidden="true"></i>
+                            @Html.ValidationMessageFor(m => m.MailSubject)
+                        </div>
 
                         <div class="col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
 
-                            <input class="styled-checkbox" id="Active" type="checkbox" name="Active" value="false">
-                            <label for="Active">@Html.DisplayNameFor(m => m.Active)</label>
+                            @Html.CheckBoxFor(m => m.Active, new { @class = "styled-checkbox" })
+                            <label for="Active" class="LabelStyled-checkbox">@Html.DisplayNameFor(m => m.Active)</label>
                             @Html.ValidationMessageFor(m => m.Active)
                         </div>
 

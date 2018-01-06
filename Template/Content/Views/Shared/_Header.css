@@ -2,7 +2,18 @@
     padding: 10px 20px 10px 20px;
     line-height: 40px;
     z-index: 100;
-    font-size: 1.8rem;
+    font-size: 1.9rem;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a::after {
+   
+}
+
+.dropdown-menu li a {
+    padding: 10px 20px 10px 20px;
+    line-height: 40px;
+    z-index: 100;
+    font-size: 1.6rem;
 }
 
 
@@ -34,12 +45,12 @@
     margin-right: 2px;
     BACKGROUND: #EEE;
     COLOR: #555;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     line-height: 2.4rem;
 }
 
 .navigationLink {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     line-height: 2.4rem;
 }
 

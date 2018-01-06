@@ -150,6 +150,7 @@ namespace Website.Controllers
 
                             model.Email = Commons.EncryptHelper.EncryptToString(model.Email);
                             int CurrentLanguageId = CategoryService.GetCategoryByCode(CurrentLangTag).Id;
+                            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                             var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LanguageId = CurrentLanguageId };
                             var result = await UserManager.CreateAsync(user, model.Password);
                             if (result.Succeeded)
@@ -271,6 +272,7 @@ namespace Website.Controllers
                             break;
                     }
                 }
+ 
             }
             catch (Exception e)
             {
@@ -282,7 +284,7 @@ namespace Website.Controllers
         }
         #endregion
 
-
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
@@ -292,6 +294,7 @@ namespace Website.Controllers
                 //  Session.Clear();
                 // Session.Abandon();
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+        
             }
             catch (Exception e)
             {

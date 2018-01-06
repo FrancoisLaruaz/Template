@@ -26,6 +26,27 @@ $(document).ready(function () {
     });
 });
 
+function showGuidePg(pgId) {
+    var visibleGuide = $('#loginOrSignInModalBody');
+    $("#loginOrSignInModal").modal('show');
+    var contentHtml = $('#' + pgId).html();
+    visibleGuide.fadeOut('slow', function () {
+        visibleGuide.html(contentHtml).fadeIn()
+    });
+}
+
+function hideAndShowGuidePg(toHideId, toShowId, mode) {
+    
+    if (mode == null || typeof mode== "undefined")
+    {
+        mode = "slow";
+    }
+   
+    $('#' + toHideId).fadeOut(mode, function () {
+        $('#' + toShowId).fadeIn();
+    });
+}
+
 function LogOffBegin() {
     ShowSpinner();
 }

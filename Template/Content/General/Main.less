@@ -1,6 +1,7 @@
 @WebsiteColor1: #6699ff;
 @WebsiteColor2: #BBD2FF;
-@selectWidth: 300px;
+@selectWidth: 100%;
+@bodyColor : #f3f3f3;
 
 .main-content {
     margin: 30px 0 0px 0 !important;
@@ -12,8 +13,8 @@
     color: red;
 }
 
-.websiteFormGroup {
-    min-height: 86px;
+.center-txt {
+    text-align: center;
 }
 
 .bgColorWebsite {
@@ -26,11 +27,11 @@
 
 .ColorWebsite {
     color: @WebsiteColor1 !important;
-    }
+}
 
-    .ColorWebsite2 {
-        color: @WebsiteColor2 !important;
-    }
+.ColorWebsite2 {
+    color: @WebsiteColor2 !important;
+}
 
 .DateTimeField:hover, .DateTimeField:focus {
     cursor: pointer;
@@ -40,306 +41,363 @@
     cursor: pointer !important;
 }
 
-    .website-btn:hover {
-        background: transparent;
-        color: @WebsiteColor1;
-        cursor: pointer;
-        margin: 10px 0 10px 0;
-        text-align: center;
-        padding: 10px;
-        opacity: 1;
-        text-decoration: none;
-        display: block;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-        -webkit-transform: translate(0, 0);
-        -moz-transform: translate(0, 0);
-        transform: translate(0, 0);
-        -webkit-transition: all .2s ease;
-        -moz-transition: all .2s ease;
-        -ms-transition: all .2s ease;
-        -o-transition: all .2s ease;
-        line-height: 24px;
-        transition: 0.2s ease;
-        box-shadow: none;
-        width: 100%;
-        font-family: 'Open Sans', sans-serif;
-        font-weight: 400;
-        font-size: 2.2rem;
-        padding: 15px 30px;
-        border: 3px @WebsiteColor1 solid;
-    }
+.website-btn:hover {
+    background: transparent;
+    color: @WebsiteColor1;
+    cursor: pointer;
+    margin: 10px 0 10px 0;
+    text-align: center;
+    padding: 10px;
+    opacity: 1;
+    text-decoration: none;
+    display: block;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    transform: translate(0, 0);
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    line-height: 24px;
+    transition: 0.2s ease;
+    box-shadow: none;
+    width: 100%;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: 2.3rem;
+    padding: 15px 30px;
+    border: 3px @WebsiteColor1 solid;
+}
+
+
+.website-btn {
+    background: none repeat scroll 0 0 @WebsiteColor1;
+    color: #ffffff;
+    margin: 10px 0 10px 0;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    transform: translate(0, 0);
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    border: 3px @WebsiteColor1 solid;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+    line-height: 24px;
+    cursor: pointer;
+    box-shadow: 0 2px 0 @WebsiteColor1;
+    width: 100%;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: 2.3rem;
+    padding: 15px 30px;
+}
+
+.arrow-down-white {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 35px solid transparent;
+    border-right: 35px solid transparent;
+    border-top: 30px solid #f3f3f3;
+    left: 50%;
+    margin-left: -35px;
+    margin-top: -11px;
+    z-index: 9;
+    color: @bodyColor;
+}
 
 
 
-    .website-btn {
-        background: none repeat scroll 0 0 @WebsiteColor1;
-        color: #ffffff;
-        margin: 10px 0 10px 0;
-        text-align: center;
-        padding: 10px;
-        text-decoration: none;
-        display: block;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-        -webkit-transform: translate(0, 0);
-        -moz-transform: translate(0, 0);
-        transform: translate(0, 0);
-        -webkit-transition: all .2s ease;
-        -moz-transition: all .2s ease;
-        -ms-transition: all .2s ease;
-        border: 3px @WebsiteColor1 solid;
-        -o-transition: all .2s ease;
-        transition: all .2s ease;
-        line-height: 24px;
-        cursor: pointer;
-        box-shadow: 0 2px 0 @WebsiteColor1;
-        width: 100%;
-        font-family: 'Open Sans', sans-serif;
-        font-weight: 400;
-        font-size: 2.2rem;
-        padding: 15px 30px;
-    }
-
-
-    .includeFAIcon {
-        float: right;
-        margin-right: 8px;
-        margin-top: -25px;
-        position: relative;
-        z-index: 2;
-    }
+.includeFAIcon {
+    float: right;
+    margin-right: 8px;
+    margin-top: -25px;
+    position: relative;
+    z-index: 2;
+}
 
 
 
-    html {
-        overflow-y: scroll;
-        overflow-x: hidden;
-    }
+html {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 
 html, body {
     padding: 0;
     margin: 0;
     width: 100%;
-
 }
 
-    body {
-        font-family: 'Open Sans', sans-serif;
-        font-weight: 400;
-        font-size: 1.45rem;
-        line-height: 2.2rem;
-        color: #414042;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        background-color: #f3f3f3;
-    }
-
-    p {
-        font-family: 'Open Sans', sans-serif;
-        color: #414042;
-        font-size: 1.6rem;
-        line-height: 2.4rem;
-    }
+body {
+    font-size: 1.55rem;
+    line-height: 2.2rem;
+    color: #414042;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: @bodyColor;
+}
 
 
+html,
+body,
+div,
+span,
+a,
+li,
+section,
+ul,
+td,
+p,
+h1,
+h2,
+h3,
+h4,
+tr,
+th {
+    font-family: 'Lato', sans-serif;
+}
 
-    #wrapper {
-        width: 100%;
-        background-color: #ffffff;
-    }
+bold {
+    font-family: 'Lato-Bold', sans-serif;
+    font-weight: Bold;
+}
 
-
-    .vertical-alignment-helper {
-        display: table;
-        height: 100%;
-        width: 100%;
-        pointer-events: none;
-    }
-
-    .vertical-align-center {
-        /* To center vertically */
-        display: table-cell;
-        vertical-align: middle;
-        pointer-events: none;
-    }
-    /* MODAL */
-    .modal-content {
-        /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
-        width: inherit;
-        max-width: inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
-        height: inherit;
-        /* To center horizontally */
-        margin: 0 auto;
-        pointer-events: all;
-    }
-
-    .divCloseModal {
-        position: relative;
-        height: 1px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    .closeLoginModal {
-        position: absolute;
-        right: 13px;
-        top: -12px;
-    }
+p {
+    font-family: inherit;
+    color: #414042;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+}
 
 
+
+#wrapper {
+    width: 100%;
+    background-color: #ffffff;
+}
+
+
+.vertical-alignment-helper {
+    display: table;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+}
+
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events: none;
+}
+/* MODAL */
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width: inherit;
+    max-width: inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
+    height: inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events: all;
+}
+
+.divCloseModal {
+    position: relative;
+    height: 1px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.closeLoginModal {
+    position: absolute;
+    right: 14px;
+}
+
+
+.SmallModalResponsive {
+    width: 315px;
+}
+
+
+@media (max-width: 480px) {
     .SmallModalResponsive {
-        width: 315px;
+        vertical-align: inherit;
+        margin-top: 10px;
     }
+}
 
 
-    @media (max-width: 480px) {
-        .SmallModalResponsive {
-            vertical-align: inherit;
-            margin-top: 0px;
-        }
+@media (min-width: 600px) {
+    .SmallModalResponsive {
+        width: 430px;
     }
+}
 
 
-    @media (min-width: 600px) {
-        .SmallModalResponsive {
-            width: 430px;
-        }
-    }
+.modal {
+    text-align: center;
+}
 
+.modal-dialog {
+    text-align: left;
+}
 
-    .modal {
-        text-align: center;
-    }
-
-    .modal-dialog {
-        text-align: left;
-    }
-
-    body {
-        padding-right: 0 !important
-    }
-    /* END MODAL 
+body {
+    padding-right: 0 !important
+}
+/* END MODAL 
 */
-    /*This is for .NET validation errors since sometimes they show in black*/
-    .field-validation-error, .validation-summary-errors, .text-danger {
-        color: #E61616;
-        font-size: 14px;
-        text-align: left;
-    }
+/*This is for .NET validation errors since sometimes they show in black*/
+.field-validation-error, .validation-summary-errors, .text-danger {
+    color: #E61616;
+    font-size: 15px;
+    text-align: left;
+}
 
-    .floatRight {
-        float: right;
-    }
+.floatRight {
+    float: right;
+}
 
-    .circular {
-        border-radius: 50%;
-    }
+.circular {
+    border-radius: 50%;
+}
 
-    .relativePos {
-        position: relative;
-    }
+.relativePos {
+    position: relative;
+}
 
-    .fix-at-top {
-        position: fixed;
-        right: 0;
-        left: 0;
-        top: 0px;
-        z-index: 5;
-    }
+.fix-at-top {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0px;
+    z-index: 5;
+}
 
 .paddingGlyph {
     padding-right: 12px;
     padding-left: -20px;
-    margin-left:-20px;
+    margin-left: -20px;
 }
 
 
 
-    .greyBG {
-        background-color: #F2F2F2 !important;
-    }
+.greyBG {
+    background-color: #F2F2F2 !important;
+}
 
-    a {
-        cursor: pointer;
-    }
+a {
+    cursor: pointer;
+}
 
-    .noMarginNoPaddingHorizontal {
-        margin-left: 0px !important;
-        margin-right: 0px !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-    }
+.noMarginNoPaddingHorizontal {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
 
 
-    .greenButton:hover {
-        border-color: rgba(45,191,183, 0.8);
-        background-color: rgba(45,191,183, 1);
-        color: #fff;
-    }
+.greenButton:hover {
+    border-color: rgba(45,191,183, 0.8);
+    background-color: rgba(45,191,183, 1);
+    color: #fff;
+}
 
-    .greenButton {
-        background-color: rgba(45,191,183, 0.8);
-        border-color: rgba(45,191,183, 0.8);
-        color: #fff;
-    }
+.greenButton {
+    background-color: rgba(45,191,183, 0.8);
+    border-color: rgba(45,191,183, 0.8);
+    color: #fff;
+}
 
-    .AdminTitle {
-        text-align: center;
-        border-top: solid 5px @WebsiteColor1;
-        height: 25px;
-    }
+.AdminTitle {
+    text-align: center;
+    border-top: solid 5px @WebsiteColor1;
+    height: 25px;
+}
 
-    .back-to-top {
-        z-index: 999;
-        cursor: pointer;
-        position: fixed;
-        height: 50px;
-        width: 50px;
-        border: 0;
-        border-radius: 50%;
-        bottom: 50px;
-        right: 50px;
-        text-align: right;
-        padding-top: 13px;
-        background: @WebsiteColor1;
-        display: none;
-    }
+.back-to-top {
+    z-index: 999;
+    cursor: pointer;
+    position: fixed;
+    height: 50px;
+    width: 50px;
+    border: 0;
+    border-radius: 50%;
+    bottom: 50px;
+    right: 50px;
+    text-align: right;
+    padding-top: 13px;
+    background: @WebsiteColor1;
+    display: none;
+}
 
-    .LoginLink {
-        padding-left: 0px !important;
-        text-align: right;
-        border-right: 1px solid @WebsiteColor1;
-    }
+.LoginLink {
+    padding-left: 0px !important;
+    text-align: right;
+    border-right: 1px solid @WebsiteColor1;
+}
 
-    .spinner > .bouncer {
-        width: 50px;
-        height: 50px;
-        background-color: @WebsiteColor1;
-        border-radius: 100%;
-        display: inline-block;
-        -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-        animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-    }
+.spinner > .bouncer {
+    width: 50px;
+    height: 50px;
+    background-color: @WebsiteColor1;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
 
-.note-editor
-{
-    display:none;
+.note-editor {
+    display: none;
 }
 
 .summernote {
     display: none;
 }
 
+.SexyField-icons {
+    position: absolute;
+    top: 0.5em;
+    right: 1em;
+    color: grey;
+    font-size: 1.3em;
+}
+
+.SexyField-iconsSmall {
+    position: absolute;
+    top: 0.5em;
+    right: 1em;
+    color: grey;
+    font-size: 1.1em;
+}
 
 
-/* sexy select */
 
+.websiteFormGroupShort {
+    min-height: 82px;
+}
 
+.websiteFormGroup {
+    min-height: 82px;
+}
 
-
+.websiteFormGroupLong {
+    min-height: 111px;
+}
 
 /* select starting stylings ------------------------------*/
 .select {
@@ -401,12 +459,13 @@ select {
     left: 0;
     top: 10px;
     transition: 0.2s ease all;
+    font-size: 1.5rem;
 }
 
 /* active state */
 .select-text:focus ~ .select-label, .select-text:valid ~ .select-label {
     color: @WebsiteColor1;
-    top: -20px;
+    top: -17px;
     transition: 0.5s ease all;
 }
 
@@ -466,7 +525,7 @@ select {
     width: 100%;
     border: none;
     border-bottom: 1px solid #757575;
-    background-color:transparent;
+    background-color: transparent;
 }
 
 .sexyTB:focus {
@@ -485,13 +544,13 @@ select {
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
 }
 
 /* active state */
 .sexyTB:focus ~ .labelSexyTb, .sexyTB:not(.empty) ~ .labelSexyTb {
-    top: -18px;
-    font-size:  1.5rem;
+    top: -16px;
+    font-size: 1.5rem;
     color: @WebsiteColor1;
 }
 
@@ -500,7 +559,7 @@ select {
     position: relative;
     display: block;
     width: 100%;
-    padding-bottom:2px;
+    padding-bottom: 2px;
 }
 
 .bar:before, .bar:after {
@@ -513,7 +572,6 @@ select {
     transition: 0.5s ease all;
     -moz-transition: 0.5s ease all;
     -webkit-transition: 0.5s ease all;
-
 }
 
 .bar:before {
@@ -579,4 +637,58 @@ select {
         width: 0;
         background: transparent;
     }
+}
+
+
+.styled-checkbox {
+    position: absolute;
+    opacity: 0
+}
+
+.styled-checkbox + label {
+    position: relative;
+    cursor: pointer;
+    padding: 0
+}
+
+.styled-checkbox + label:before {
+    content: '';
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: text-bottom;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    border: 4px solid @WebsiteColor1
+}
+
+.styled-checkbox:hover + label:before {
+    background: white
+}
+
+.styled-checkbox:checked + label:before {
+    background: @WebsiteColor1
+}
+
+.styled-checkbox:disabled + label {
+    color: #b8b8b8;
+    cursor: auto
+}
+
+.styled-checkbox:disabled + label:before {
+    box-shadow: none;
+    background: #ddd
+}
+
+.styled-checkbox:checked + label:after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 11px;
+    background: white;
+    width: 3px;
+    height: 3px;
+    box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+    transform: rotate(45deg)
 }

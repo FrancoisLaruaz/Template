@@ -34,7 +34,7 @@ function handleLoginBegin() {
 }
 
 function LoginSuccess(Data) {
-    SetLoginSubmitForm();
+    
     if (Data) {
         $('#ErrorLoginForm').html(Data.Error);
         if (Data.Result) {
@@ -49,6 +49,12 @@ function LoginSuccess(Data) {
                 window.location.href = GetHomePageUrl();
             }
         }
+        else {
+            SetLoginSubmitForm();
+        }
+    }
+    else {
+        SetLoginSubmitForm();
     }
 }
 

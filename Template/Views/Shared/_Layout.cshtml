@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="@Url.Content("~/Ressources/Files/Images/icone.ico")" type="image/x-icon">
     <link rel="icon" href="@Url.Content("~/Ressources/Files/Images/icone.ico")" type="image/x-icon">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
     @Styles.Render("~/bundles/Bootstrap")
     @Styles.Render("~/bundles/Style")
     @Styles.Render("~/bundles/less")
@@ -28,7 +29,9 @@
 
     </div>
     <div style="min-height:74vh;">
+        <input type="hidden" id="HiddenLoggedUserName" value="@User.Identity.Name" />
         @RenderBody()
+        
     </div>
     @Scripts.Render("~/Scripts/Scripts")
     @Html.Partial("~/Views/Shared/Layout/_Footer.cshtml")

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-01-01 11:41-08:00\n"
-"PO-Revision-Date: 2018-01-01 11:41-08:00\n"
+"POT-Creation-Date: 2018-01-05 17:28-08:00\n"
+"PO-Revision-Date: 2018-01-05 17:28-08:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,7 +12,7 @@ msgstr ""
 msgid "' + element[0] + '"
 msgstr ""
 
-#: Controllers\AccountController.cs:253
+#: Controllers\AccountController.cs:254
 msgid "[Your account is currently lockout."
 msgstr ""
 
@@ -86,7 +86,7 @@ msgid "Confirmation needed"
 msgstr "Confirmation requise"
 
 #: Views\Account\_SignUpForm.cshtml:52
-#: Scripts\Views\Account\_SignUp.js:41
+#: Scripts\Views\Account\_SignUp.js:47
 msgid "Create"
 msgstr "Crêer"
 
@@ -120,7 +120,7 @@ msgstr ""
 msgid "Error"
 msgstr "Erreur"
 
-#: Controllers\AccountController.cs:174
+#: Controllers\AccountController.cs:175
 msgid "Error while creating the user."
 msgstr ""
 
@@ -146,6 +146,11 @@ msgstr "Mot de passe oublié?"
 msgid "From"
 msgstr "De"
 
+#: Views\Account\_SignUpPictureForm.cshtml:43
+#: Views\Account\_SignUpWelcome.cshtml:25
+msgid "Get Started"
+msgstr ""
+
 #: Views\Admin\News\EditNews.cshtml:21
 msgid "Go back to the list"
 msgstr ""
@@ -163,10 +168,14 @@ msgstr "Id"
 msgid "Internal camera plugin error"
 msgstr ""
 
-#: Controllers\AccountController.cs:256
-#: Controllers\AccountController.cs:266
-#: Controllers\AccountController.cs:270
+#: Controllers\AccountController.cs:257
+#: Controllers\AccountController.cs:267
+#: Controllers\AccountController.cs:271
 msgid "Invalid login attempt."
+msgstr ""
+
+#: Views\Account\_SignUpPictureForm.cshtml:15
+msgid "It's now time tu update your website profile picture !"
 msgstr ""
 
 #: Views\Admin\EMailAudits\_DisplayEmailAudits.cshtml:19
@@ -177,9 +186,9 @@ msgstr "Langue"
 msgid "Last Name"
 msgstr "Nom de famille"
 
-#: Views\Account\_LoginForm.cshtml:47
+#: Views\Account\_LoginForm.cshtml:46
 #: Views\Account\_SignUpFormLinks.cshtml:2
-#: Scripts\Views\Account\_Login.js:65
+#: Scripts\Views\Account\_Login.js:71
 msgid "Log In"
 msgstr "Se connecter"
 
@@ -191,7 +200,7 @@ msgstr "Se déconnecter"
 msgid "Logging In ..."
 msgstr ""
 
-#: Controllers\AccountController.cs:322
+#: Controllers\AccountController.cs:325
 msgid "Login"
 msgstr "S'identifier"
 
@@ -240,12 +249,16 @@ msgstr "Longueur du mot de passe :"
 msgid "Periodicity"
 msgstr ""
 
-#: Controllers\AccountController.cs:185
+#: Controllers\AccountController.cs:186
 msgid "Please complete the form."
 msgstr ""
 
-#: Controllers\AccountController.cs:180
+#: Controllers\AccountController.cs:181
 msgid "Please enter a valid email address."
+msgstr ""
+
+#: Views\Account\_SignUpPictureForm.cshtml:9
+msgid "Please smile"
 msgstr ""
 
 #: ..\Models\ViewModel\Admin\News\NewsEditViewModel.cs:26
@@ -275,7 +288,7 @@ msgstr ""
 msgid "row(s) found"
 msgstr "ligne(s) trouvées"
 
-#: Views\Admin\News\EditNews.cshtml:78
+#: Views\Admin\News\EditNews.cshtml:93
 msgid "Save"
 msgstr ""
 
@@ -283,12 +296,20 @@ msgstr ""
 msgid "Schedule Time"
 msgstr ""
 
-#: Scripts\Views\Shared\_Header.js:35
+#: Scripts\Views\Shared\_Header.js:56
 msgid "See you soon !"
 msgstr ""
 
 #: Views\Admin\News\EditNews.cshtml:47
 msgid "Select a Type"
+msgstr ""
+
+#: Views\Admin\News\EditNews.cshtml:66
+msgid "Select a User Mailing Type"
+msgstr ""
+
+#: Views\Account\_SignUpPictureForm.cshtml:27
+msgid "Shoot !"
 msgstr ""
 
 #: Views\Account\_LoginFormLinks.cshtml:3
@@ -356,11 +377,11 @@ msgstr ""
 msgid "The Type is required."
 msgstr ""
 
-#: Controllers\AccountController.cs:170
+#: Controllers\AccountController.cs:171
 msgid "This email address is already used."
 msgstr ""
 
-#: Controllers\AccountController.cs:261
+#: Controllers\AccountController.cs:262
 msgid "This user is not registered. Please sign-up."
 msgstr ""
 
@@ -394,8 +415,16 @@ msgstr ""
 msgid "User"
 msgstr "Utilisateur"
 
+#: Views\Account\_SignUpWelcome.cshtml:19
+msgid "We have just sent you an email. Please confirm your account by clicking on the link in this mail."
+msgstr ""
+
 #: Scripts\General\WebcamHelper.js:62
 msgid "Web camera is not available"
+msgstr ""
+
+#: Views\Account\_SignUpWelcome.cshtml:9
+msgid "Welcome to our platform"
 msgstr ""
 
 #: Views\Admin\Tasks\_DisplayTasks.cshtml:33
@@ -406,7 +435,11 @@ msgstr ""
 msgid "Yes"
 msgstr "Oui"
 
-#: Controllers\AccountController.cs:192
+#: Views\Account\_SignUpWelcome.cshtml:15
+msgid "You are almost there !"
+msgstr ""
+
+#: Controllers\AccountController.cs:193
 msgid "You are already logged in."
 msgstr ""
 
@@ -436,6 +469,9 @@ msgstr ""
 #~ msgid "Invest In Companies You Believe In"
 #~ msgstr ""
 
+#~ msgid "Please confirm a few more details to set up your account."
+#~ msgstr ""
+
 #~ msgid "PublishDate"
 #~ msgstr ""
 
@@ -458,6 +494,9 @@ msgstr ""
 #~ msgstr "Cette adresse mail est déjà utilisée."
 
 #~ msgid "This user is not registered."
+#~ msgstr ""
+
+#~ msgid "Welcome to"
 #~ msgstr ""
 
 #~ msgid "you are now connected"

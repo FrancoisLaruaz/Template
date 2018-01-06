@@ -12,29 +12,28 @@ else
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.URLRedirect)
-        <div class="row">
+        <div class="row" style="margin-top:30px;margin-bottom:20px;">
 
             <div class="col-xs-12 col-md-12">
 
                 <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
                     @Html.TextBoxFor(model => model.Email, new { @class = "sexyTB"})
                     <label class="labelSexyTb">@Html.DisplayNameFor(m => m.Email)</label>
-                    <i class="fa fa-envelope includeFAIcon" aria-hidden="true"></i>
+                    <i class="fa fa-envelope SexyField-iconsSmall" aria-hidden="true"></i>
                     @Html.ValidationMessageFor(m => m.Email)
                 </div>
 
                 <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
                     @Html.PasswordFor(model => model.Password, new { @class = "sexyTB" })
                     <label class="labelSexyTb">@Html.DisplayNameFor(m => m.Password)</label>
-                    <i class="fa fa-lock includeFAIcon" aria-hidden="true"></i>
+                    <i class="fa fa-lock SexyField-icons" aria-hidden="true"></i>
                     @Html.ValidationMessageFor(m => m.Password)
                     <div id="ErrorLoginForm" class="text-danger"></div>
                 </div>
 
-                <div class="col-md-8 col-md-offset-2 col-xs-12">
-
-                    <input class="styled-checkbox" id="RememberMe" type="checkbox" name="RememberMe" value="false">
-                    <label for="RememberMe" style="font-weight:normal;font-size:1.45rem;">@Html.DisplayNameFor(m => m.RememberMe)</label>
+                <div class="col-md-10 col-xs-12 col-md-offset-1">
+                    @Html.CheckBoxFor(m => m.RememberMe, new {  @class = "styled-checkbox" })
+                    <label for="RememberMe" class="LabelStyled-checkbox" style="font-weight:normal;font-size:1.55rem;">@Html.DisplayNameFor(m => m.RememberMe)</label>
                     @Html.ValidationMessageFor(m => m.RememberMe)
                 </div>
 
@@ -43,7 +42,7 @@ else
 
                 
 
-                <div class="col-md-8 col-md-offset-2 col-xs-12">
+                <div class="col-md-10 col-xs-12 col-md-offset-1">
                     <input type="submit" value="[[[Log In]]]" class="btn website-btn" id="SubmitButtonLogin"   />
                 </div>
 

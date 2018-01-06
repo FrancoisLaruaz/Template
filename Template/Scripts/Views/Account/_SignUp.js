@@ -19,12 +19,18 @@ function handleSignUpBegin()
 
 function SignUpSuccess(Data)
 {
-    SetSignUpSubmitForm();
     if (Data) {
         $('#ErrorSignUpForm').html(Data.Error);
         if (Data.Result) {
+            showGuidePg('SignUpProcess');
           //  RefreshHeader();
         }
+        else {
+            SetSignUpSubmitForm();
+        }
+    }
+    else {
+        SetSignUpSubmitForm();
     }
 }
 

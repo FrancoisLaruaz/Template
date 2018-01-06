@@ -11,33 +11,43 @@ namespace Commons
     {
 
 
-        public static List<string> NotLoggedErrorsUrl = new List<string> { "Error/LogJavascriptError" };
+        public static List<string> NotLoggedErrorsUrl = new List<string> { };
         public static List<string> NotLoggedErrorsMessage = new List<string> { "Le contrôleur pour le chemin" };
 
 
-        public static void GenerateJavascriptError(string Message = "", string URL = "", string lineNumber = "", string col = "", string error = "", string browser = "")
+        /// <summary>
+        /// Save into the database a javscript error
+        /// </summary>
+        /// <param name="Message"></param>
+        /// <param name="URLError"></param>
+        /// <param name="lineNumber"></param>
+        /// <param name="col"></param>
+        /// <param name="error"></param>
+        /// <param name="browser"></param>
+        public static void GenerateJavascriptError(string Message = "", string URLError = "", string lineNumber = "", string col = "", string error = "", string browser = "")
         {
             try
             {
 
                 log4net.ILog logger = log4net.LogManager.GetLogger("*** JAVASCRIPT ***");
-                if (string.IsNullOrEmpty(URL))
-                {
-                    try
-                    {
-                        URL = HttpContext.Current?.Request?.Url?.AbsoluteUri;
-                    }
-                    catch
-                    {
-                        URL = "Unknown";
-                    }
-                }
+                string UrlReferrer = HttpContext.Current?.Request?.UrlReferrer?.AbsoluteUri;
+                bool LoggeError = Logger.IsErrorLogged(URLError, Message) && Logger.IsErrorLogged(UrlReferrer, Message);
 
-                bool LoggeError = Logger.IsErrorLogged(URL, Message);
-
-                if (LoggeError && (!String.IsNullOrEmpty(Message) || !String.IsNullOrEmpty(URL) || !String.IsNullOrEmpty(error)))
+                if (LoggeError && (!String.IsNullOrEmpty(Message) || !String.IsNullOrEmpty(UrlReferrer) || !String.IsNullOrEmpty(URLError) || !String.IsNullOrEmpty(error)))
                 {
-                    Message = "-Message => " + Message + " </br></br>- URL => " + URL + " </br></br>- lineNumber => " + lineNumber + "</br></br>- col => " + col + "</br></br>- browser => " + browser + "</br></br>- error => " + error;
+                    Message = "- Message => " + Message;
+                    if (!String.IsNullOrEmpty(URLError))
+                        Message = Message + " </br></br>- URL Error => " + URLError;
+                    if (!String.IsNullOrEmpty(UrlReferrer) && (String.IsNullOrEmpty(URLError) || URLError.Trim().ToLower() != UrlReferrer.Trim().ToLower()))
+                        Message = Message + " </br></br>- URL Referrer => " + UrlReferrer;
+                    if (!String.IsNullOrEmpty(lineNumber))
+                        Message = Message + " </br></br>- Line Number => " + lineNumber;
+                    if (!String.IsNullOrEmpty(col))
+                        Message = Message + " </br></br>- Col => " + col;
+                    if (!String.IsNullOrEmpty(browser))
+                        Message = Message + " </br></br>- Browser => " + browser;
+                    if (!String.IsNullOrEmpty(error))
+                        Message = Message + " </br></br>- Error => " + error;
                     logger.Error(Message);
                 }
 
@@ -51,7 +61,7 @@ namespace Commons
             bool result = true;
             try
             {
-                if (NotLoggedErrorsUrl != null && Url != null)
+                if (NotLoggedErrorsUrl != null && !String.IsNullOrWhiteSpace(Url))
                 {
                     foreach (string pattern in NotLoggedErrorsUrl)
                     {
@@ -84,6 +94,7 @@ namespace Commons
         /// <param name="Url"></param>
         public static void GenerateError(Exception Ex, System.Type type = null, string Details = null, string Url = null)
         {
+            bool LoggeError = true;
             try
             {
 
@@ -106,30 +117,44 @@ namespace Commons
                 {
                     Url = "Unknown";
                 }
-                string Message = "";
+                string ExceptionMessage = "";
                 if (Ex != null)
                 {
-                    Message = Ex.Message;
+                    ExceptionMessage = Ex.Message;
                 }
                 else
                 {
                     Ex = new Exception("Unknown exception");
                 }
 
-                bool LoggeError = Logger.IsErrorLogged(Url, Message);
+                string UrlReferrer = HttpContext.Current?.Request?.UrlReferrer?.AbsoluteUri;
+                string Form = HttpContext.Current?.Request?.Form?.ToString();
+                string Message = "";
+
+                LoggeError = Logger.IsErrorLogged(Url, ExceptionMessage) && Logger.IsErrorLogged(UrlReferrer, ExceptionMessage);
 
                 if (LoggeError)
                 {
+                    if (!String.IsNullOrEmpty(Form) && !Utils.IsProductionWebsite())
+                        Message = "- Form => " + Form;
                     if (!String.IsNullOrEmpty(Details))
-                        Message = "- Details => " + Details + " </br></br>- Message => " + Message;
+                        Message = "- Details => " + Details + " </br></br>" + Message;
+                    Message = "- HttpMethod => " + HttpContext.Current.Request.HttpMethod + " </br></br>" + Message;
+                    if (!String.IsNullOrEmpty(Url) && !String.IsNullOrEmpty(UrlReferrer) && UrlReferrer.Trim().ToLower() != Url.Trim().ToLower())
+                        Message = "- Url Referrer => " + UrlReferrer + " </br></br>" + Message;
                     if (!String.IsNullOrEmpty(Url))
                         Message = "- Url => " + Url + " </br></br>" + Message;
+                    Message = "- Message => " + ExceptionMessage + " </br></br>" + Message;
                     logger.Error(Message, Ex);
                 }
 
             }
             catch
             { }
+            if (LoggeError && Utils.IsLocalhost() && (type != typeof(HttpApplication) || type == null))
+            {
+                throw Ex;
+            }
         }
 
         public static ILog Monitoring

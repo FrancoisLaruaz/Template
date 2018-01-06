@@ -197,6 +197,7 @@
     <Content Include="Content\General\DragAndDrop.css" />
     <Content Include="Content\General\summernote.css" />
     <Content Include="Content\videos\homepage-video.mp4" />
+    <Content Include="Content\Views\Account\_SignUp.css" />
     <Content Include="Content\Views\Experiment\Experiment.css" />
     <Content Include="Content\General\sweetalert.css" />
     <Content Include="Content\General\animate.css" />
@@ -358,6 +359,7 @@
     <Content Include="locale\messages.pot.backup" />
     <Content Include="locale\Web.config" />
     <None Include="Content\General\mainscss.scss" />
+    <Content Include="Content\General\main.less" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -373,6 +375,8 @@
     <Content Include="Scripts\OtherFormats\jscam_canvas_only.swf" />
     <Content Include="Scripts\Views\Account\Login.js" />
     <Content Include="Scripts\Views\Account\_PasswordPolicy.js" />
+    <Content Include="Scripts\Views\Account\_SignUpPictureForm.js" />
+    <Content Include="Scripts\Views\Account\_SignUpWelcome.js" />
     <Content Include="Scripts\Views\Account\_SignUp.js" />
     <Content Include="Scripts\Views\Admin\EmailAudits.js" />
     <Content Include="Scripts\Views\Admin\News\EditNews.js" />
@@ -411,7 +415,6 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
-    <None Include="Content\General\main.less" />
     <Content Include="Scripts\General\Utils.js" />
     <Content Include="Scripts\General\SweetAlertHelper.js" />
     <Content Include="Scripts\General\SweetAlert.js" />
@@ -442,6 +445,8 @@
     <Content Include="Views\Shared\Layout\_FileForm.cshtml" />
     <Content Include="Views\Admin\News\EditNews.cshtml" />
     <Content Include="Views\Shared\Layout\_BrowserBanner.cshtml" />
+    <Content Include="Views\Account\_SignUpWelcome.cshtml" />
+    <Content Include="Views\Account\_SignUpPictureForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">
