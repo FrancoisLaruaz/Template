@@ -30,17 +30,16 @@ select:invalid {
 }
 
 
-
 .iAgreeTxt {
     font-size: 13px;
     font-style: italic;
-    padding-bottom: 8px;
+    padding-bottom: 3px;
+    padding-top:5px;
     text-align: center;
+    line-height: 1.5
 }
 
-    .iAgreeTxt .anti-old-a {
-        color: #f36f23;
-    }
+
 
 
 #loginOrSignInModalBody {

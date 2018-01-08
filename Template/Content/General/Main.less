@@ -17,6 +17,13 @@
     text-align: center;
 }
 
+.copyright {
+    text-align-last: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: white
+}
+
 .bgColorWebsite {
     background-color: @WebsiteColor1 !important;
 }
@@ -145,6 +152,7 @@ body {
     font-size: 1.55rem;
     line-height: 2.2rem;
     color: #414042;
+    margin-right:0px !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: @bodyColor;
@@ -256,7 +264,7 @@ p {
 }
 
 body {
-    padding-right: 0 !important
+    padding-right: 0 !important;
 }
 /* END MODAL 
 */
@@ -414,12 +422,13 @@ a {
     border-radius: 0;
     border: none;
     border-bottom: 1px solid #757575;
-}
-
-select {
     -moz-appearance: none;
     text-indent: 0.01px;
     text-overflow: '';
+}
+
+.select-text::-ms-expand {
+    display: none;
 }
 
 /* Remove focus */

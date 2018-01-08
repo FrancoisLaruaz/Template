@@ -11,31 +11,31 @@ namespace Template
         {
 
              bundles.Add(new ScriptBundle("~/Scripts/JQuery").Include(
-            "~/Scripts/jquery-2.2.3.min.js",
-            "~/Scripts/jquery-ui.min.js",
-            "~/Scripts/jquery.unobtrusive-ajax.min.js",
-            "~/Scripts/jquery.validate.min.js",
-            "~/Scripts/jquery.validate.unobtrusive.min.js",
-            "~/Scripts/jquery-migrate-1.4.1.min",
-            "~/Scripts/jquery.webcam.js"
+           "~/Scripts/jquery-{version}.js",
+            "~/Scripts/jquery-ui.min.js"
             ));
+
+            bundles.Add(new ScriptBundle("~/Scripts/JQueryVal").Include(
+                        "~/Scripts/jquery.validate*",
+                        "~/Scripts/jquery.unobtrusive*"));
 
             bundles.Add(new ScriptBundle("~/Scripts/ScriptsErrors").Include(
             "~/Scripts/General/BrowserHelper.js",
             "~/Scripts/General/Toastr.js",
             "~/Scripts/General/ToastrHelper.js",
+            "~/Scripts/General/Utils.js",
             "~/Scripts/General/Error.js"
             ));
 
-          
+
             bundles.Add(new ScriptBundle("~/Scripts/Scripts").Include(
+            "~/Scripts/jquery.webcam.js",
             "~/Scripts/General/Responsive.js",
              "~/Scripts/moment.min.js",
              "~/Scripts/bootstrap-datetimepicker.min.js",
              "~/Scripts/General/daterangepicker.js",
              "~/Scripts/General/Cookie.js",
              "~/Scripts/General/BackToTop.js",
-            "~/Scripts/General/Utils.js",
             "~/Scripts/General/AudioHelper.js",
             "~/Scripts/General/FileFormHelper.js",
             "~/Scripts/bootstrap.min.js",
@@ -52,14 +52,14 @@ namespace Template
             "~/Scripts/General/WebcamHelper.js",
             "~/Scripts/General/Highcharts.js",
             "~/Scripts/General/HighchartsExporting.js",
-            "~/Scripts/General/HighchartsHelper.js",
-             "~/Scripts/General/summernote.js",
-             "~/Scripts/General/summernoteHelper.js",
-             "~/Scripts/General/SexyCSSHelper.js",
-            "~/Scripts/General/Main.js"
-           
+            "~/Scripts/General/HighchartsHelper.js"
+          , "~/Scripts/General/summernote.js"
+           , "~/Scripts/General/summernoteHelper.js"
+            , "~/Scripts/General/SexyCSSHelper.js"
+            , "~/Scripts/General/Main.js"
+
             ));
-           
+
         }
 
         public static void RegisterCSSBundles(BundleCollection bundles)

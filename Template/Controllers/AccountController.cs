@@ -303,7 +303,6 @@ namespace Website.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        #region Login
         public ActionResult Login(string returnUrl = null)
         {
             LoginViewModel model = new LoginViewModel();
@@ -325,7 +324,7 @@ namespace Website.Controllers
                 ViewBag.Title = "[[[Login]]]";
 
 
-  
+
 
             }
             catch (Exception e)
@@ -336,7 +335,46 @@ namespace Website.Controllers
             return View(model);
         }
 
+        #region Login
 
+
+        /// <summary>
+        /// Terms and conditions of the website
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult TermsAndConditions()
+        {
+ 
+            try
+            {
+                ViewBag.Title = "[[[Terms And Conditions]]]"; 
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
+            return View();
+        }
+
+        /// <summary>
+        /// Privacy policy of the website
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult PrivacyPolicy()
+        {
+
+            try
+            {
+                ViewBag.Title = "[[[Privacy Policy]]]";
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
+            return View();
+        }
 
 
         #endregion

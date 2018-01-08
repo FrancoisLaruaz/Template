@@ -243,7 +243,7 @@
     <Content Include="Ressources\Files\Images\Logo.png" />
     <Content Include="Ressources\Files\Video\Homepage.mp4" />
     <Content Include="Scripts\General\SexyCSSHelper.js" />
-    <Content Include="Scripts\jquery-migrate-1.4.1.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\General\BrowserHelper.js" />
@@ -403,7 +403,6 @@
     <Content Include="Scripts\General\Toastr.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
-    <Content Include="Scripts\jquery-2.2.3-vsdoc.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -447,6 +446,8 @@
     <Content Include="Views\Shared\Layout\_BrowserBanner.cshtml" />
     <Content Include="Views\Account\_SignUpWelcome.cshtml" />
     <Content Include="Views\Account\_SignUpPictureForm.cshtml" />
+    <Content Include="Views\Account\TermsAndConditions.cshtml" />
+    <Content Include="Views\Account\PrivacyPolicy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">
@@ -463,7 +464,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\jquery-2.2.3.min.map" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Content\bootstrap.css.map" />
     <None Include="Content\bootstrap-theme.css.map" />

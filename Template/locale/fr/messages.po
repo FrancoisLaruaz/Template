@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-01-05 18:23-08:00\n"
-"PO-Revision-Date: 2018-01-05 18:23-08:00\n"
+"POT-Creation-Date: 2018-01-07 19:18-08:00\n"
+"PO-Revision-Date: 2018-01-07 19:18-08:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -69,6 +69,10 @@ msgstr "au moins une lettre majuscule"
 msgid "Attachments"
 msgstr "Pièces-jointes"
 
+#: Views\Account\_SignUpForm.cshtml:51
+msgid "By clicking Sign Up, I agree to our <a  href=\"Account/TermsAndConditions\" target=\"_blank\">Terms of Service</a> and <a class=\"anti-old-a\" href=\"Account/PrivacyPolicy\" target=\"_blank\">Privacy Policy</a>."
+msgstr ""
+
 #: Views\Admin\EMailAudits\_DisplayEmailAudits.cshtml:21
 msgid "CC"
 msgstr "CC"
@@ -85,7 +89,7 @@ msgstr ""
 msgid "Confirmation needed"
 msgstr "Confirmation requise"
 
-#: Views\Account\_SignUpForm.cshtml:52
+#: Views\Account\_SignUpForm.cshtml:57
 #: Scripts\Views\Account\_SignUp.js:47
 msgid "Create"
 msgstr "Crêer"
@@ -200,7 +204,7 @@ msgstr "Se déconnecter"
 msgid "Logging In ..."
 msgstr ""
 
-#: Controllers\AccountController.cs:325
+#: Controllers\AccountController.cs:324
 msgid "Login"
 msgstr "S'identifier"
 
@@ -259,6 +263,10 @@ msgstr ""
 
 #: Views\Account\_SignUpPictureForm.cshtml:9
 msgid "Please smile"
+msgstr ""
+
+#: Controllers\AccountController.cs:369
+msgid "Privacy Policy"
 msgstr ""
 
 #: ..\Models\ViewModel\Admin\News\NewsEditViewModel.cs:26
@@ -330,6 +338,10 @@ msgstr ""
 
 #: ..\Models\ViewModel\Admin\News\NewsEditViewModel.cs:38
 msgid "Subject"
+msgstr ""
+
+#: Controllers\AccountController.cs:350
+msgid "Terms And Conditions"
 msgstr ""
 
 #: Scripts\General\ToastrHelper.js:8
@@ -451,6 +463,9 @@ msgstr ""
 msgid "You are currently using an out dated browser. In order to fully enjoy all the possibilities of our website, please upgrade your browser (Google Chrome, Firefox or Safari). Thanks!"
 msgstr ""
 
+#~ msgid "By clicking Sign Up, I agree to our <a  href=\"/TermsAndConditions\" target=\"_blank\">Terms of Service</a> and <a class=\"anti-old-a\" href=\"/Privacy\" target=\"_blank\">Privacy Policy</a>."
+#~ msgstr ""
+
 #~ msgid "Do what you want"
 #~ msgstr ""
 
@@ -470,6 +485,9 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Please confirm a few more details to set up your account."
+#~ msgstr ""
+
+#~ msgid "Please use a valid email address."
 #~ msgstr ""
 
 #~ msgid "PublishDate"

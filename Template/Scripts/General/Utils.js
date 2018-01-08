@@ -42,8 +42,7 @@ function GetHomePageUrl() {
         result = newURL;
 
     }
-    catch (err)
-    {
+    catch (err) {
         result = null;
     }
     return result;
@@ -56,7 +55,7 @@ function GoBackToHomePage() {
     }
 }
 
-function ShowSpinner(){
+function ShowSpinner() {
     $('#spinner').fadeIn();
 }
 
@@ -64,8 +63,7 @@ function HideSpinner() {
     $('#spinner').fadeOut();
 }
 
-function ErrorActions()
-{
+function ErrorActions() {
     NotificationKO();
     HideSpinner();
 }
@@ -87,7 +85,7 @@ function SetEnterKey(IdElement) {
         if (e.which == 13) {
             if (IdElement != null) {
                 var Element = $("#" + IdElement);
-            
+
                 if ($("#" + IdElement).length > 0 && $(Element).css("display") != "none" && !$(Element).is(':disabled') && !$(Element).is('.disabled') && $(Element).is(":visible") && !$(e.target).is("textarea")) {
                     e.preventDefault();
                     $(Element).click();
@@ -106,16 +104,23 @@ function SetEnterKey(IdElement) {
     });
 }
 
+function OpenNewTabWindow(url) {
+    if (url != null && url.trim() != '') {
+        var win = window.open(url, '_blank');
+        win.focus();
+    }
+}
+
 
 function ScrollToErrorOrFirstInput(formname) {
-    var FieldToFocus = $('#'+formname + ' .input-validation-error:first').get(0);
+    var FieldToFocus = $('#' + formname + ' .input-validation-error:first').get(0);
     if (FieldToFocus == null) {
-        var FieldToFocus = $('#' +formname + ' :input:not(input[type=button],input[type=submit],button):visible:first').get(0);
+        var FieldToFocus = $('#' + formname + ' :input:not(input[type=button],input[type=submit],button):visible:first').get(0);
     }
 
     if (FieldToFocus != null) {
         $('html, body').animate({
-            scrollTop: $(FieldToFocus).offset().top -100
+            scrollTop: $(FieldToFocus).offset().top - 100
         }, 1000);
 
         $(FieldToFocus).focus();
@@ -127,11 +132,11 @@ function ScrollToErrorOrFirstInput(formname) {
 }
 
 
-jQuery.exists = function(selector) {return ($(selector).length > 0);}
+jQuery.exists = function (selector) { return ($(selector).length > 0); }
 
 function SetValidationForm(IdForm) {
     var Form = $("#" + IdForm);
-    if ($(Form).length>0) {
+    if ($(Form).length > 0) {
         $(Form).removeData("validator");
         $(Form).removeData("unobtrusiveValidation");
         $.validator.unobtrusive.parse("#" + IdForm);
@@ -167,8 +172,7 @@ function GetRandomInt(min, max) {
 }
 
 
-function SetDateTimeFields()
-{
+function SetDateTimeFields() {
     $('.DateTimeField').each(function (index, value) {
         var Id = $(this).attr('id');
         $('#' + Id).datetimepicker({
@@ -214,6 +218,10 @@ function SetGenericAjaxForm(FormId, OnSuccess, Onfailure, OnBegin) {
                     }
                 }
             });
+
+        } else {
+            ScrollToErrorOrFirstInput(FormId);
         }
     });
+
 }
