@@ -17,7 +17,7 @@ namespace Models.BDDObject
         public DateTime ExpectedExecutionDate { get; set; }
         public int? UserId { get; set; }
 
-        public string CallbackUrl { get; set; }
+        public string GroupName { get; set; }
 
         public string CallbackId { get; set; }
 

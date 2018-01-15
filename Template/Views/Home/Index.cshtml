@@ -1,6 +1,10 @@
 ﻿<div>
     <div class="container-fluid">
         <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
+
+
+
+
             @if (!User.Identity.IsAuthenticated)
             {
             <div class="col-md-4 col-md-offset-4 col-xs-12">
@@ -16,8 +20,8 @@
 
 
 @section scripts {
-<script src="~/Scripts/Views/Home/Index.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>
-<script src="~/Scripts/Views/Home/_VideoHomePage.js?@Commons.StaticFileVersion.StaticFileVersionString"></script>
+<script src="~/Scripts/Views/Home/Index.js?@CommonsConst.StaticFileVersion.StaticFileVersionString"></script>
+<script src="~/Scripts/Views/Home/_VideoHomePage.js?@CommonsConst.StaticFileVersion.StaticFileVersionString"></script>
 }
 
 

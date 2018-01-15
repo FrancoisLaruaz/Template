@@ -8,6 +8,11 @@ using Commons;
 using Models.Class;
 using Service;
 using Models.ViewModels;
+using Quartz;
+using Quartz.Impl;
+using Service.TaskClasses;
+using Quartz.Impl.Matchers;
+using Models.Class.TaskSchedule;
 
 namespace Website.Controllers
 {
@@ -175,14 +180,14 @@ namespace Website.Controllers
             SchedulerStatusViewModel Model = new SchedulerStatusViewModel();
             try
             {
-                ViewBag.Title = "[[[Recurring Tasks]]]";
-                var manifest = Revalee.Client.RecurringTasks.RecurringTaskModule.GetManifest();
-                if (manifest != null)
-                {
-                    Model.ScheduledTaskNumber = manifest.Tasks.Count();
-                    Model.IsSchedulerActive = manifest.IsActive;
-                    Model.RevaleeTasksScheduled = manifest.Tasks.ToList();
-                }
+                ViewBag.Title = "[[[Tasks]]]";
+                //  ScheduledTaskService.ScheduleEMailUserTask(21, CommonsConst.EmailType.UserWelcome, TimeSpan.FromSeconds(200));
+               //   ScheduledTaskService.ScheduleEMailUserTask(21, CommonsConst.EmailType.UserWelcome, TimeSpan.FromSeconds(300));
+
+                Model = TaskHelper.GetSchedulerInformation();
+                Model.ScheduledTasksNumberInDatabase = ScheduledTaskService.GetActiveScheduledTasksNumber();
+                Model.ScheduledTasksProblemsNumber = ScheduledTaskService.GetNotExecutedTasksNumber();
+
                 Model.Title = ViewBag.Title;
             }
             catch (Exception e)
@@ -209,6 +214,26 @@ namespace Website.Controllers
             return PartialView("~/Views/Admin/Tasks/_DisplayTasks.cshtml", Model);
         }
 
+
+        /// <summary>
+        /// Reset the tasks from the databse data
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ResetTasks()
+        {
+            bool _success = false;
+            try
+            {
+                _success=ScheduledTaskService.SetScheduledTasks();
+            }
+            catch (Exception e)
+            {
+                _success = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return Json(new { Result = _success });
+        }
         #endregion
     }
 }

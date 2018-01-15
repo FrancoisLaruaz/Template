@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Web;
 using System.Configuration;
+using CommonsConst;
 
 namespace Commons
 {
@@ -132,8 +133,23 @@ namespace Commons
         }
 
 
-
-
+        /// <summary>
+        /// Get the root path on the server
+        /// </summary>
+        /// <returns></returns>
+        public static string GetRootPathDefault()
+        {
+            try
+            {
+                var dirPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath;
+                return dirPath;
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return "";
+        }
 
 
         /// <summary>
@@ -145,7 +161,11 @@ namespace Commons
         {
             try
             {
-                return Path.Combine(System.Web.HttpContext.Current.Server.MapPath(url));
+                if (!String.IsNullOrWhiteSpace(url))
+                {
+                    string StorageRoot= GetRootPathDefault() + url.Replace("~/", "").Replace("/", @"\");
+                    return StorageRoot;
+                }
             }
             catch (Exception e)
             {
@@ -280,7 +300,7 @@ namespace Commons
                     {
                         var FileBytes = File.ReadAllBytes(localFilePath);
                         // If the file is in the upload folder, it needs to be decrypted
-                        if (path.Contains(Commons.Const.BasePathUploadEncrypted))
+                        if (path.ToLower().Contains("/encrypted/") || path.ToLower().Contains("\\encrypted\\"))
                         {
                             var decyptedFileBytes = RijndaelHelper.DecryptBytes(FileBytes, ConfigurationManager.AppSettings["FileEncryptPassPhrase"], EncryptionSalt);
                             return decyptedFileBytes;
@@ -316,7 +336,7 @@ namespace Commons
                     if (File.Exists(localFilePath))
                     {
                         // If the file is in the upload folder, it needs to be decrypted
-                        if (path.Contains(Commons.Const.BasePathUploadEncrypted))
+                        if (path.Contains(CommonsConst.Const.BasePathUploadEncrypted))
                         {
                             var encyptedFileBytes = File.ReadAllBytes(localFilePath);
                             var decyptedFileBytes = RijndaelHelper.DecryptBytes(encyptedFileBytes, ConfigurationManager.AppSettings["FileEncryptPassPhrase"], EncryptionSalt);
@@ -324,20 +344,20 @@ namespace Commons
                         }
                         else
                         {
-                            fileSrc = path;
+                            fileSrc = path.Replace("~","");
                         }
                     }
                 }
             }
             catch (Exception e)
             {
-                fileSrc = Const.DefaultImage;
+                fileSrc = Const.DefaultImage.Replace("~", "");
                 Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "path = " + path + " and IsUserPicture = " + IsUserPicture);
             }
 
-            if (IsUserPicture && fileSrc == Const.DefaultImage)
+            if (IsUserPicture && fileSrc == Const.DefaultImage.Replace("~", ""))
             {
-                fileSrc = Const.DefaultImageUser;
+                fileSrc = Const.DefaultImageUser.Replace("~", "");
             }
 
             return fileSrc;
@@ -391,9 +411,12 @@ namespace Commons
                     if (String.IsNullOrWhiteSpace(FileUpload.UploadName))
                         FileUpload.UploadName = FileUpload.File.FileName;
 
+                    FileUpload.UploadName = FileUpload.UploadName.ToLower();
+
                     if (FileUpload.IsImage && IsPdfFile(FileUpload.File))
                     {
                         FileUpload.FileBytes = ImageHelper.ConvertPdfToPngBytes(FileUpload);
+                        FileUpload.UploadName = FileUpload.UploadName.Replace(".pdf", ".png");
                     }
                     else
                     {
@@ -406,10 +429,10 @@ namespace Commons
                     }
 
 
-                    string uploadPath = Commons.Const.BasePathUploadEncrypted;
+                    string uploadPath = CommonsConst.Const.BasePathUploadEncrypted;
                     if (!FileUpload.EncryptFile)
                     {
-                        uploadPath = Commons.Const.BasePathUploadDecrypted;
+                        uploadPath = CommonsConst.Const.BasePathUploadDecrypted;
                     }
 
                     string DiskPath = GetStorageRoot(uploadPath) + "/" + FileUpload.UploadName;

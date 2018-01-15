@@ -9,7 +9,7 @@ namespace Models.BDDObject
 {
     public partial class TaskLog
     {
-        public string TypeName { get; set; }
+      
 
     }
 }

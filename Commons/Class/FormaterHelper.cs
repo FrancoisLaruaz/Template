@@ -51,7 +51,7 @@ namespace Commons
                 if (number == null)
                     return "";
                 if (String.IsNullOrEmpty(strCulture))
-                    strCulture = Const.DefaultCulture;
+                    strCulture = CommonsConst.Const.DefaultCulture;
                 CultureInfo Culture = CultureInfo.CreateSpecificCulture(strCulture);
 
                 string numbercullture = number.Value.ToString("N", Culture);

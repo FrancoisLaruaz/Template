@@ -1,0 +1,2 @@
+alert('load const');
+

@@ -7,11 +7,24 @@ using i18n;
 using System.Threading;
 using Models.BDDObject;
 using Service;
+using Commons;
+using System.Transactions;
+using Quartz;
+using Quartz.Impl;
+using Service.TaskClasses;
+using System.Threading.Tasks;
 
 namespace Template
 {
     public class Global : HttpApplication
     {
+        /*  Project -> Build events -> Post build event line
+         *  "$(TargetDir)i18n.PostBuild.exe"  "$(ProjectDir)web.config"
+         * 
+         * 
+         */
+
+
         protected void Application_Start()
         {
             log4net.Config.XmlConfigurator.Configure();
@@ -22,6 +35,8 @@ namespace Template
                 BundleConfig.RegisterBundles(BundleTable.Bundles);
                 HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
                 SetGlobalization();
+
+
             }
             catch (Exception e)
             {
@@ -29,54 +44,66 @@ namespace Template
             }
         }
 
+
+
+
+        /// <summary>
+        /// Initialisation
+        /// </summary>
         public void SetGlobalization()
         {
-            // Change from the default of 'en'.
-            i18n.LocalizedApplication.Current.DefaultLanguage = Commons.Const.DefaultCulture;
-
-
-            // Change from the of temporary redirects during URL localization
-            i18n.LocalizedApplication.Current.PermanentRedirects = true;
-
-            // This line can be used to disable URL Localization.
-            //i18n.UrlLocalizer.UrlLocalizationScheme = i18n.UrlLocalizationScheme.Void;
-
-            // Change the URL localization scheme from Scheme1.
-            i18n.UrlLocalizer.UrlLocalizationScheme = i18n.UrlLocalizationScheme.Scheme2;
-
-            // Change i18n's expectation for the ASP.NET application's virtual application root path on the server, 
-            // used by Url Localization. Defaults to "/".
-            //i18n.LocalizedApplication.Current.ApplicationPath = "/mysite";
-
-            // Specifies whether the key for a message may be assumed to be the value for
-            // the message in the default language. Defaults to true.
-            //i18n.LocalizedApplication.Current.MessageKeyIsValueInDefaultLanguage = false;
-
-
-
-            // Blacklist certain URLs from being 'localized' via a callback.
-            i18n.UrlLocalizer.IncomingUrlFilters += delegate (Uri url)
+            try
             {
-                if (url.LocalPath.EndsWith("sitemap.xml", StringComparison.OrdinalIgnoreCase))
+                // Change from the default of 'en'.
+                i18n.LocalizedApplication.Current.DefaultLanguage = CommonsConst.Const.DefaultCulture;
+
+
+                // Change from the of temporary redirects during URL localization
+                i18n.LocalizedApplication.Current.PermanentRedirects = true;
+
+                // This line can be used to disable URL Localization.
+                //i18n.UrlLocalizer.UrlLocalizationScheme = i18n.UrlLocalizationScheme.Void;
+
+                // Change the URL localization scheme from Scheme1.
+                i18n.UrlLocalizer.UrlLocalizationScheme = i18n.UrlLocalizationScheme.Scheme2;
+
+                // Change i18n's expectation for the ASP.NET application's virtual application root path on the server, 
+                // used by Url Localization. Defaults to "/".
+                //i18n.LocalizedApplication.Current.ApplicationPath = "/mysite";
+
+                // Specifies whether the key for a message may be assumed to be the value for
+                // the message in the default language. Defaults to true.
+                //i18n.LocalizedApplication.Current.MessageKeyIsValueInDefaultLanguage = false;
+
+
+
+                // Blacklist certain URLs from being 'localized' via a callback.
+                i18n.UrlLocalizer.IncomingUrlFilters += delegate (Uri url)
                 {
-                    return false;
-                }
-                return true;
-            };
+                    if (url.LocalPath.EndsWith("sitemap.xml", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return false;
+                    }
+                    return true;
+                };
 
-            // Extend (+=) or override (=) the default handler for Set-PAL event.
-            // The default handler applies the setting to both the CurrentCulture and CurrentUICulture
-            // settings of the thread, as shown below.
-            i18n.LocalizedApplication.Current.SetPrincipalAppLanguageForRequestHandlers = delegate (System.Web.HttpContextBase context, ILanguageTag langtag)
-            {
+                // Extend (+=) or override (=) the default handler for Set-PAL event.
+                // The default handler applies the setting to both the CurrentCulture and CurrentUICulture
+                // settings of the thread, as shown below.
+                i18n.LocalizedApplication.Current.SetPrincipalAppLanguageForRequestHandlers = delegate (System.Web.HttpContextBase context, ILanguageTag langtag)
+                {
                 // Do own stuff with the language tag.
                 // The default handler does the following:
                 if (langtag != null)
-                {
-                    Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = langtag.GetCultureInfo();
-                }
-            };
-
+                    {
+                        Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = langtag.GetCultureInfo();
+                    }
+                };
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
         }
 
         /// <summary>
@@ -86,7 +113,7 @@ namespace Template
         /// <param name="e"></param>
         protected void Session_End(Object source, EventArgs e)
         {
-            Session[Commons.Const.UserSession] = null;
+            Session[CommonsConst.Const.UserSession] = null;
         }
 
         /// <summary>
@@ -108,7 +135,7 @@ namespace Template
                 }
                 else
                 {
-                    Session[Commons.Const.UserSession] = null;
+                    Session[CommonsConst.Const.UserSession] = null;
                 }
                 if (String.IsNullOrEmpty(languageBrowser))
                 {
@@ -117,8 +144,8 @@ namespace Template
                     if (languages != null && languages.Length > 0)
                     {
                         string Favoritelanguage = languages[0];
-                        languageBrowser = Commons.Const.DefaultCulture;
-                        var ListLanguages = CategoryService.GetSelectionList(Commons.CategoryTypes.Language);
+                        languageBrowser = CommonsConst.Const.DefaultCulture;
+                        var ListLanguages = CategoryService.GetSelectionList(CommonsConst.CategoryTypes.Language);
                         if (ListLanguages != null && ListLanguages.Count > 0)
                         {
                             foreach (var Language in ListLanguages)
@@ -138,7 +165,7 @@ namespace Template
                 if (!String.IsNullOrEmpty(languageBrowser))
                 {
                     i18n.LanguageTag lt = i18n.LanguageTag.GetCachedInstance(languageBrowser);
-                    Response.Cookies.Add(new HttpCookie(Commons.Const.i18nlangtag)
+                    Response.Cookies.Add(new HttpCookie(CommonsConst.Const.i18nlangtag)
                     {
                         Value = lt.ToString(),
                         HttpOnly = true,

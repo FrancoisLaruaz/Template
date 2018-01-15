@@ -128,6 +128,9 @@ namespace Website.Controllers
             return PartialView(model);
         }
 
+
+
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -161,7 +164,7 @@ namespace Website.Controllers
                                     UserSession = UserService.GetUserSession(model.Email);
                                     _Result = true;
                                     string UserName = model.Email;
-                                    EMailService.SendEMailToUser(UserName, Commons.EmailType.UserWelcome);
+                                    EMailService.SendEMailToUser(UserName, CommonsConst.EmailType.UserWelcome);
                                 }
                             }
                             else
@@ -202,6 +205,59 @@ namespace Website.Controllers
 
             return Json(new { Result = _Result, Error = _Error, UserFirstName = _UserFirstName });
         }
+
+
+        [HttpGet]
+        public ActionResult _SignUpPictureForm()
+        {
+            SignUpPictureViewModel model = new SignUpPictureViewModel();
+            try
+            {
+                if(User.Identity.IsAuthenticated)
+                {
+                    User userLogged = UserService.GetUserByUserName(User.Identity.Name);
+                    if(userLogged!=null)
+                    {
+                        model.PictureSrc = userLogged.PictureSrc;
+                        model.PicturePreviewSrc = FileHelper.GetDecryptedFilePath(model.PictureSrc, true);
+                        return PartialView(model);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return null;
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public ActionResult _SignUpPictureForm(SignUpPictureViewModel model)
+        {
+            bool _Result = false;
+            string _Error = "";
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    int UserId = UserSession.UserId;
+                    if(UserId>0 && !String.IsNullOrWhiteSpace(model.PictureSrc))
+                    {
+                        _Result = UserService.UpdateProfilePicture(UserId, model.PictureSrc);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return Json(new { Result = _Result, Error = _Error });
+        }
+
+
         #endregion
 
 
@@ -290,7 +346,7 @@ namespace Website.Controllers
         {
             try
             {
-                Session[Commons.Const.UserSession] = null;
+                Session[CommonsConst.Const.UserSession] = null;
                 //  Session.Clear();
                 // Session.Abandon();
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);

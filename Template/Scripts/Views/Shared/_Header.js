@@ -30,7 +30,7 @@ function showGuidePg(pgId) {
     var visibleGuide = $('#loginOrSignInModalBody');
     $("#loginOrSignInModal").modal('show');
     var contentHtml = $('#' + pgId).html();
-    visibleGuide.fadeOut('slow', function () {
+    visibleGuide.fadeOut(500, function () {
         visibleGuide.html(contentHtml).fadeIn()
     });
 }

@@ -60,7 +60,7 @@
     display: block;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    border-radius: 5px;
+    border-radius: 50px;
     -webkit-transform: translate(0, 0);
     -moz-transform: translate(0, 0);
     transform: translate(0, 0);
@@ -77,6 +77,7 @@
     font-size: 2.3rem;
     padding: 15px 30px;
     border: 3px @WebsiteColor1 solid;
+    box-shadow: 0 1px 4px rgba(0,0,0,.15)
 }
 
 
@@ -90,7 +91,7 @@
     display: block;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    border-radius: 5px;
+    border-radius: 50px;
     -webkit-transform: translate(0, 0);
     -moz-transform: translate(0, 0);
     transform: translate(0, 0);
@@ -108,7 +109,85 @@
     font-weight: inherit;
     font-size: 2.3rem;
     padding: 15px 30px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.15)
 }
+
+
+
+.icon {
+    width: 150px;
+    display: block;
+    margin: 25px auto 25px;
+    border-radius: 50%;
+    stroke: #50E38E;
+    -webkit-animation: bounceIcon .17s ease-in-out;
+    animation: bounceIcon .17s ease-in-out;
+    -webkit-animation-delay: .5s;
+    animation-delay: .5s;
+}
+
+.circle {
+    stroke-dasharray: 190;
+    stroke-dashoffset: 190;
+    stroke-width: 9;
+    stroke: #50E38E;
+    fill: none;
+    -webkit-animation: drawCircle .5s linear;
+    animation: drawCircle .5s linear;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.check {
+    stroke-width: 7;
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+    -webkit-animation: drawCheckmark .5s cubic-bezier(.89,.09,.91,.67);
+    animation: drawCheckmark .5s cubic-bezier(.89,.09,.91,.67) forwards;
+    -webkit-animation-delay: .5s;
+    animation-delay: .5s;
+}
+
+@keyframes drawCircle {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes drawCheckmark {
+    100% {
+        opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes bounceIcon {
+    0% {
+        transform: none;
+    }
+
+    50% {
+        transform: scale3D(.9, .9, 1);
+    }
+
+    100% {
+        transform: none;
+    }
+}
+
+
+
+
+.sweet-alert p {
+    font-size: 19px !important;
+}
+
+.sweet-alert 
+{
+    padding-top:20px !important;
+    padding-bottom:35px !important;
+}
+
 
 .arrow-down-white {
     position: absolute;
@@ -323,12 +402,14 @@ a {
     border-color: rgba(45,191,183, 0.8);
     background-color: rgba(45,191,183, 1);
     color: #fff;
+    width:100px;
 }
 
 .greenButton {
     background-color: rgba(45,191,183, 0.8);
     border-color: rgba(45,191,183, 0.8);
     color: #fff;
+    width: 100px;
 }
 
 .AdminTitle {

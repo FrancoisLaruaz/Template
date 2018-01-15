@@ -15,7 +15,9 @@ namespace Models.BDDObject
         public DateTime? EndDate { get; set; }
         public bool? Result{ get; set; }
 
-        public int TypeId { get; set; }
+        public string CallbackId { get; set; }
+
+        public string GroupName { get; set; }
 
         public string Comment { get; set; }
 

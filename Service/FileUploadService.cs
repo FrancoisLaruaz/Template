@@ -23,7 +23,7 @@ namespace Service
             try
             {
                 int intDate;
-                DirectoryInfo InfoUploadFolder = new DirectoryInfo(FileHelper.GetStorageRoot(Commons.Const.BasePathUploadEncrypted));//Assuming Test is your Folder
+                DirectoryInfo InfoUploadFolder = new DirectoryInfo(FileHelper.GetStorageRoot(CommonsConst.Const.BasePathUploadEncrypted));//Assuming Test is your Folder
                 FileInfo[] Files = InfoUploadFolder.GetFiles(); //Getting Text files
                 string FileName = "";
                 DateTime DateToCompare = DateTime.UtcNow.AddDays(-2);
@@ -45,7 +45,7 @@ namespace Service
                             else
                             {
                                 DateTime DateFile = new DateTime(Convert.ToInt32(FileName.Substring(0, 4)), Convert.ToInt32(FileName.Substring(4, 2)), Convert.ToInt32(FileName.Substring(6, 2)));
-                                string FullPathFile = Commons.Const.BasePathUploadEncrypted + "/" + FileName;
+                                string FullPathFile = CommonsConst.Const.BasePathUploadEncrypted + "/" + FileName;
                                 if (DateFile < DateToCompare && !ListUsedFiles.Contains(FullPathFile))
                                 {
                                     bool resultDelete = FileHelper.DeleteDocument(FullPathFile);

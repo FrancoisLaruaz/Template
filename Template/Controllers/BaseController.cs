@@ -10,6 +10,9 @@ using Service;
 using Microsoft.AspNet.Identity;
 using Models.BDDObject;
 using Models.Class;
+using System.Web.Script.Serialization;
+using System.Reflection;
+using CommonsConst;
 
 namespace Website.Controllers
 {
@@ -21,12 +24,30 @@ namespace Website.Controllers
             {
                 try
                 {
-                    return Request.RequestContext.HttpContext.GetPrincipalAppLanguageForRequest().GetLanguage()?? Commons.Const.DefaultCulture;
+                    return Request.RequestContext.HttpContext.GetPrincipalAppLanguageForRequest().GetLanguage()?? CommonsConst.Const.DefaultCulture;
                 }
                 catch
                 {
-                    return Commons.Const.DefaultCulture;
+                    return CommonsConst.Const.DefaultCulture;
                 }
+            }
+        }
+
+        protected string JsonConstants
+        {
+            get
+            {
+                if (Session[CommonsConst.Const.JsonConstantsSession] == null)
+                {
+                    var constants = Commons.Utils.GetJSonConstants();
+                    Session[CommonsConst.Const.JsonConstantsSession] = new JavaScriptSerializer().Serialize(constants);
+                }
+                return Session[CommonsConst.Const.JsonConstantsSession].ToString();
+            }
+
+            set
+            {
+                Session[CommonsConst.Const.JsonConstantsSession] = value;
             }
         }
 
@@ -45,7 +66,7 @@ namespace Website.Controllers
                     }
                     else
                     {
-                        if (Session[Commons.Const.UserSession] == null)
+                        if (Session[CommonsConst.Const.UserSession] == null)
                         {
                             UserSession ConnectedUser = UserService.GetUserSession(User.Identity.GetUserName());
                             if(ConnectedUser==null)
@@ -54,13 +75,13 @@ namespace Website.Controllers
                             }
                             else
                             {
-                                Session[Commons.Const.UserSession] = ConnectedUser;
+                                Session[CommonsConst.Const.UserSession] = ConnectedUser;
                                 return ConnectedUser;
                             }
                         }
                         else
                         {
-                            return Session[Commons.Const.UserSession] as UserSession;
+                            return Session[CommonsConst.Const.UserSession] as UserSession;
                         }
                     }
 
@@ -73,7 +94,7 @@ namespace Website.Controllers
             }
             set
             {
-                Session[Commons.Const.UserSession] = value;
+                Session[CommonsConst.Const.UserSession] = value;
             }
         }
 
@@ -88,6 +109,23 @@ namespace Website.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+
+        /// <summary>
+        /// Send constants to javascript
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Constants()
+        {
+            try {
+                return JavaScript("var Constants = " + JsonConstants + ";");
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return null;
         }
 
 

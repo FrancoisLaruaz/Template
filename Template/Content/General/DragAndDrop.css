@@ -2,13 +2,13 @@
     position: relative;
     overflow: hidden;
     /* The following are not required but create a pretty box: */
-    width: 100%;
     margin: auto;
     padding: 18px;
     text-align: center;
     background-color: white;
     vertical-align: middle;
     border: dashed 2px black;
+    opacity: 1;
 }
 
 
@@ -23,19 +23,20 @@
     background-color: lightblue;
     vertical-align: middle;
     border: dashed 2px black;
+    opacity: 0.5;
 }
 
 .fd-zone:hover {
     position: relative;
     overflow: hidden;
     /* The following are not required but create a pretty box: */
-    width: 100%;
     margin: auto;
     padding: 18px;
     text-align: center;
     background-color: lightblue;
     vertical-align: middle;
     border: dashed 2px black;
+    opacity: 0.5;
 }
 
 

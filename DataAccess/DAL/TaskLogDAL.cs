@@ -30,11 +30,11 @@ namespace DataAccess
                 db = new DBConnect();
                 string Query = "select count(*) ";
                 Query = Query + "from tasklog l ";
-                Query = Query + "inner join category c on c.Id=l.TypeId  where 1=1  ";
                 if (!string.IsNullOrEmpty(Pattern))
                 {
                     Query = Query + " and (Comment like '%" + Pattern + "%'";
-                    Query = Query + " or C.Name like '%" + Pattern + "%'";
+                    Query = Query + " or CallbackId like '%" + Pattern + "%'";
+                    Query = Query + " or GroupName like '%" + Pattern + "%'";
                     Query = Query + " or concat(l.Id, '') like '%" + Pattern + "%')";
                 }
                 result = GenericDAL.GetSingleNumericData(Query,null).Value;
@@ -57,26 +57,26 @@ namespace DataAccess
         /// </summary>
         /// <param name="TypeId"></param>
         /// <returns></returns>
-        public static List<TaskLog> GetTaskLogsList(int? TypeId, string Pattern=null, int StartAt = -1, int PageSize = -1)
+        public static List<TaskLog> GetTaskLogsList(string GroupName, string Pattern=null, int StartAt = -1, int PageSize = -1)
         {
             List<TaskLog> result = new List<TaskLog>();
             DBConnect db = null;
             try
             {
                 db = new DBConnect();
-                string Query = "select l.Id, l.TypeId, l.StartDate,l.EndDate,l.Result,l.Comment ";
-                Query = Query + ", C.Name as TypeName ";
+                string Query = "select l.Id, l.GroupName, l.StartDate,l.EndDate,l.Result,l.Comment ";
+                Query = Query + ", l.CallbackId  ";
                 Query = Query + "from tasklog l ";
-                Query = Query + "inner join category c on c.Id=l.TypeId ";
                 Query = Query + " where 1=1 ";
-                if (TypeId != null && TypeId.Value>0)
+                if (!String.IsNullOrWhiteSpace(GroupName))
                 {
-                    Query = Query + " and l.TypeId="+ TypeId.Value.ToString();
+                    Query = Query + " and l.GroupName=" + GroupName.ToString();
                 }
                 if (!string.IsNullOrEmpty(Pattern))
                 {
                     Query = Query + " and (Comment like '%" + Pattern + "%'";
-                    Query = Query + " or C.Name like '%" + Pattern + "%'";
+                    Query = Query + " or CallbackId like '%" + Pattern + "%'";
+                    Query = Query + " or GroupName like '%" + Pattern + "%'";
                     Query = Query + " or concat(l.Id, '') like '%" + Pattern + "%')";
                 }
                 Query = Query + " order by l.Id desc";
@@ -89,8 +89,8 @@ namespace DataAccess
                     DataRow dr = data.Rows[i];
                     TaskLog element = new TaskLog();
                     element.Id = Convert.ToInt32(dr["Id"]);
-                    element.TypeId = MySQLHelper.GetIntFromMySQL(dr["TypeId"]).Value;
-                    element.TypeName = Convert.ToString(dr["TypeName"]);
+                    element.GroupName = Convert.ToString(dr["GroupName"]);
+                    element.CallbackId = Convert.ToString(dr["CallbackId"]);
                     element.Result = MySQLHelper.GetBoolFromMySQL(dr["Result"]);
                     element.StartDate = Commons.MySQLHelper.GetDateFromMySQL(dr["StartDate"]).Value.ToLocalTime();
                     element.EndDate = Commons.MySQLHelper.GetDateFromMySQL(dr["EndDate"]);
@@ -104,10 +104,8 @@ namespace DataAccess
             }
             catch (Exception e)
             {
-                string StrTypeId = "NULL";
-                if (TypeId != null)
-                    StrTypeId = TypeId.ToString();
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "TypeId = " + StrTypeId);
+
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "GroupName = " + GroupName);
             }
             finally
             {
@@ -130,7 +128,7 @@ namespace DataAccess
             try
             {
                 Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                Columns.Add("EndDate", Task.EndDate);
+                Columns.Add("EndDate", DateTime.UtcNow);
                 Columns.Add("Result", Task.Result);
                 Columns.Add("Comment",Task.Comment);
                 Result = GenericDAL.UpdateById("tasklog", Task.Id, Columns);

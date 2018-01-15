@@ -22,7 +22,8 @@ function SignUpSuccess(Data)
     if (Data) {
         $('#ErrorSignUpForm').html(Data.Error);
         if (Data.Result) {
-            showGuidePg('SignUpProcess');
+            hideAndShowGuidePg('loginOrSignInModalBody', 'SignUpProcessPages');
+          //  showGuidePg('SignUpProcessPages');
           //  RefreshHeader();
         }
         else {

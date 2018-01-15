@@ -7,7 +7,7 @@ function SetCamera(Purpose, IdCamera, IdFileToSave, IdPicturePreview) {
 
     if (IdCamera != null && IdCamera.trim() != '') {
         var WebcamSessionId = GetRandomInt(0, 99999999);
-
+    
         $(".webcamBtn").unbind("click");
         $(".webcamBtn").on("click", function (e) {
             e.preventDefault();
@@ -26,37 +26,41 @@ function SetCamera(Purpose, IdCamera, IdFileToSave, IdPicturePreview) {
             onTick: function (remain) {
             },
             onSave: function (data) {
-                ShowSpinner();
-                $.ajax({
-                    type: "POST",
-                    url: UrlGet,
-                    data: '',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data != null) {
-                            if (data.Result) {
-                                if (IdPicturePreview != null && $("#" + IdPicturePreview).length > 0 && data.PathFilePreview != null) {
+                if (data != null) {
+                    ShowSpinner();
+                    $.ajax({
+                        type: "POST",
+                        url: UrlGet,
+                        data: '',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data != null) {
+                            
+                                if (data.Result) {
+                                  
+                                    if (IdPicturePreview != null && $("#" + IdPicturePreview).length > 0 && data.PathFilePreview != null) {
 
-                                    if ($("#" + IdPicturePreview).is("img")) {
-                                        $("#" + IdPicturePreview).attr("src", data.PathFilePreview);
+                                        if ($("#" + IdPicturePreview).is("img")) {
+                                            $("#" + IdPicturePreview).attr("src", data.PathFilePreview);
+                                        }
+                                        else {
+                                            $("#" + IdPicturePreview).css('backgroundImage', 'url(' + data.PathFilePreview + ')');
+                                        }
+                                        $("#" + IdPicturePreview).fadeIn();
                                     }
-                                    else {
-                                        $("#" + IdPicturePreview).css('backgroundImage', 'url(' + data.PathFilePreview + ')');
+                                    if (IdFileToSave != null && $("#" + IdFileToSave).length > 0 && data.PathFile != null) {
+                                        $("#" + IdFileToSave).val(data.PathFile);
                                     }
-                                    $("#" + IdPicturePreview).fadeIn();
-                                }
-                                if (IdFileToSave != null && $("#" + IdFileToSave).length > 0 && data.PathFile != null) {
-                                    $("#" + IdFileToSave).val(data.PathFile);
                                 }
                             }
+                            HideSpinner();
+                        },
+                        failure: function (response) {
+                            ErrorActions();
                         }
-                        HideSpinner();
-                    },
-                    failure: function (response) {
-                        ErrorActions();
-                    }
-                });
+                    });
+                }
             },
             noCameraFound: function () {
                 NotificationKO('[[[Web camera is not available]]]');
@@ -73,6 +77,7 @@ function SetCamera(Purpose, IdCamera, IdFileToSave, IdPicturePreview) {
             debug: function () {
             },
             onLoad: function () {
+              
                 if (!CanUserTakeWebcamPicture()) {
                     $("#" + IdCamera).hide();
                     if ($("#CameraNotFound").length > 0) {
@@ -107,7 +112,11 @@ function WebcamCapture() {
 
 function CanUserTakeWebcamPicture() {
     var cams = webcam.getCameraList();
-    if (cams == null || cams.length == 0) {
+
+    var isFlashExists = swfobject.hasFlashPlayerVersion('1') ? true : false;
+
+
+    if (cams == null || cams.length == 0 || !isFlashExists) {
         return false;
     }
     else {

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 
-namespace Commons
+namespace CommonsConst
 {
     public static class Const
     {
+
+
         public const string DefaultCulture = "en";
         public const string WebsiteTitle = "Website Title";
         public const  string GoogleAnalyticsID = "";
@@ -15,14 +18,14 @@ namespace Commons
         // Define if the application need  login/logout features
         public const bool UserManagement = true;
 
-        public const int MaxImageLength = 1000000;
+        public const int MaxImageLength = 10000000;
 
         public const string BasePathRessources = "~/Ressources";
         public const string BasePathUpload = BasePathRessources + "/Upload";
         public const string BasePathUploadDecrypted = BasePathUpload + "/Decrypted";
         public const string BasePathUploadEncrypted = BasePathUpload + "/Encrypted";
         public const string BasePathFiles = BasePathRessources + "/Files";
-        public const string BasePathTemplateEMails = BasePathRessources + "/EMails";
+        public const string BasePathTemplateEMails = BasePathRessources + "\\EMails";
         public const string BasePathImages = BasePathFiles + "/Images";
 
         public const string DefaultImage = BasePathImages + "/DefaultImage.jpg";
@@ -32,6 +35,9 @@ namespace Commons
 
         public const string UserSession = "UserSession";
         public const string WebcamCaptureSession = "WebcamCaptureSession";
+        public const string JsonConstantsSession = "JsonConstantsSession";
+
+        public const string ColorWebsite = "#6699ff";
     }
 
     public static class EmailType
@@ -75,11 +81,20 @@ namespace Commons
     }
 
 
+    public static class Periodicities
+    {
+        public const string Daily = "[[[Daily]]]";
+    }
+
+    public static class ScheduledTaskTypes
+    {
+        public const string SendEMailToUser = "SendEMailToUser";
+    }
+
     public static class TaskLogTypes
     {
-        public const int ErrorCleanUp = 4001;
-        public const int UploadFilesCleanUp = 4002;
-        public const int CancelledScheduledTasksCleanUp = 4003;
+        public const string DeleteLogs = "DeleteLogs";
+        public const string DeleteUploadedFile = "DeleteUploadedFile";
     }
 
     public static class TypeUserMailing

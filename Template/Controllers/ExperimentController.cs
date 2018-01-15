@@ -10,7 +10,6 @@ using Models.BDDObject;
 using Service;
 using Commons;
 using i18n;
-using Revalee.Client;
 using System.Configuration;
 using System.IO;
 

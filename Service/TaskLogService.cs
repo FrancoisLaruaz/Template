@@ -39,19 +39,17 @@ namespace Service
         /// </summary>
         /// <param name="TypeId"></param>
         /// <returns></returns>
-        public static List<TaskLog> GetTaskLogsListByType(int? TypeId)
+        public static List<TaskLog> GetTaskLogsListByGroupName(string GroupName)
         {
             List<TaskLog> Result = new List<TaskLog>();
             try
             {
-                Result = TaskLogDAL.GetTaskLogsList(TypeId);
+                Result = TaskLogDAL.GetTaskLogsList(GroupName);
             }
             catch(Exception e)
             {
-                string StrTypeId = "NULL";
-                if (TypeId != null)
-                    StrTypeId = TypeId.ToString();
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "TypeId = "+ StrTypeId);
+
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "GroupName = " + GroupName);
             }
             return Result;
         }
@@ -67,7 +65,8 @@ namespace Service
             try
             {
                 Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                Columns.Add("TypeId", Task.TypeId);
+                Columns.Add("GroupName", Task.GroupName);
+                Columns.Add("CallbackId", Task.CallbackId);
                 Columns.Add("StartDate", DateTime.UtcNow);
                 Result = GenericDAL.InsertRow("tasklog", Columns);
             }

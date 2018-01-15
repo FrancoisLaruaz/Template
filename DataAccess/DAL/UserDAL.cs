@@ -34,7 +34,7 @@ namespace DataAccess
                 db = new DBConnect();
                 string Query = "update User";
                 Query = Query + " set LanguageId=IFNULL(( ";
-                Query = Query + " select  id  from category where CategoryTypeId="+Commons.CategoryTypes.Language.ToString()+ " and code=@Language limit 1 ),LanguageId) ";
+                Query = Query + " select  id  from category where CategoryTypeId="+ CommonsConst.CategoryTypes.Language.ToString()+ " and code=@Language limit 1 ),LanguageId) ";
                 Query = Query + "where LOWER(username) =  LOWER(@username) and id>=1";
                 parameters.Add("@UserName", UserName);
                 parameters.Add("@Language", Language);

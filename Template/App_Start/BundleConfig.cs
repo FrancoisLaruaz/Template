@@ -49,6 +49,7 @@ namespace Template
             "~/Scripts/General/SweetAlertHelper.js",
             "~/Scripts/General/FileDrop.js",
             "~/Scripts/General/FileDropHelper.js",
+             "~/Scripts/General/FlashVersion.js",
             "~/Scripts/General/WebcamHelper.js",
             "~/Scripts/General/Highcharts.js",
             "~/Scripts/General/HighchartsExporting.js",
@@ -79,7 +80,7 @@ namespace Template
                 "~/Content/font-awesome.min.css",
                 "~/Content/General/sweetalert.css",
                 "~/Content/General/toastr.csss",
-              //  "~/Content/General/mainscss.min.css",
+               "~/Content/General/webcam.css",
                 "~/Content/General/jtsage-datebox.min.css",
                 "~/Content/General/jtsage-syntax.css"
             ));

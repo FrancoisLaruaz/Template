@@ -19,6 +19,8 @@ namespace Models.Class
 
         public int LanguageId { get; set; }
 
+        public string RootPathDefault { get; set; }
+
         public string EMailTemplate { get; set; }
 
         public string Subject { get; set; }
@@ -39,6 +41,8 @@ namespace Models.Class
         public Email()
         {
             EmailContent = new List<Tuple<string, string>>();
+            Attachments = new List<string>() ;
+            CCList = new List<string>();
         }
 
         public Email(int _UserId,int _EMailTypeId)

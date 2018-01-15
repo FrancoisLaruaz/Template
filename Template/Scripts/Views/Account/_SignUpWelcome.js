@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+
     $("#SignUpWelcomeBtn").unbind("click");
     $("#SignUpWelcomeBtn").on("click", function (e) {
         e.preventDefault();
@@ -10,5 +11,5 @@ $(document).ready(function () {
 
 function SignUpPictureForm()
 {
-    hideAndShowGuidePg('loginOrSignInModalBody', 'SignUpPictureForm');
+    hideAndShowGuidePg('SignUpWelcomePage', 'SignUpProcessPages');
 }

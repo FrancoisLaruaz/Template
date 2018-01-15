@@ -34,9 +34,9 @@ namespace Website.Controllers
             try
             {
 
-                if (Session[Commons.Const.WebcamCaptureSession + Purpose+ WebcamSessionId] != null)
+                if (Session[CommonsConst.Const.WebcamCaptureSession + Purpose+ WebcamSessionId] != null)
                 {
-                    _PathFile = Session[Commons.Const.WebcamCaptureSession + Purpose + WebcamSessionId].ToString();
+                    _PathFile = Session[CommonsConst.Const.WebcamCaptureSession + Purpose + WebcamSessionId].ToString();
 
                     _PathFilePreview = FileHelper.GetDecryptedFilePath(_PathFile, true);
                     _success = true;
@@ -74,7 +74,7 @@ namespace Website.Controllers
                     if (!String.IsNullOrWhiteSpace(_PathFile))
                     {
                         _success = true;
-                        Session[Commons.Const.WebcamCaptureSession + Purpose + WebcamSessionId] = _PathFile;
+                        Session[CommonsConst.Const.WebcamCaptureSession + Purpose + WebcamSessionId] = _PathFile;
                     }
                 }
 
@@ -156,7 +156,7 @@ namespace Website.Controllers
                 {
                     var file = Request.Files[i];
 
-                    if (file.ContentLength <= Const.MaxImageLength) // 1 MB
+                    if (file.ContentLength <= CommonsConst.Const.MaxImageLength) // 10 MB
                     {
 
                         var fileName = Path.GetFileName(file.FileName);
@@ -164,6 +164,9 @@ namespace Website.Controllers
                         if (FileHelper.IsValidImage(file))
                         {
                             string ext = Path.GetExtension(fileName);
+
+        
+
                             fileName = FileHelper.GetFileName(Purpose, ext);
 
                             FileUpload newFile = new FileUpload()
@@ -191,18 +194,18 @@ namespace Website.Controllers
                                 }
                                 else
                                 {
-                                    _PathFilePreview = _PathFile;
+                                    _PathFilePreview = _PathFile.Replace("~", "");
                                 }
                             }
                         }
                         else
                         {
-                            _Error = "[[[The image must be smaller than 1 MB.]]]";
+                            _Error = "[[[The document must be a picture or a pdf.]]]";
                         }
                     }
                     else
                     {
-                        _Error = "[[[The document must be a picture or a pdf.]]]";
+                        _Error = "[[[The image must be smaller than 10 MB.]]]";
                     }
 
                 }

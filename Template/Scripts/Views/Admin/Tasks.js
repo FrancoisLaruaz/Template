@@ -2,20 +2,52 @@ $(document).ready(function () {
     $('#SearchBox').focus();
     RefreshData(true);
     SetEnterKey("SearchIcon");
+
+
+    ShowSpinner();
+
+    $("#ResetTasks").unbind("click");
+    $("#ResetTasks").on("click", function (e) {
+        e.preventDefault();
+        AskConfirmationToResetTasks();
+    });
 });
+
+function AskConfirmationToResetTasks() {
+    SweetConfirmation("[[[Are you sure you want to reset the tasks?]]]", null, ResetTasks, null);
+}
+
+var ResetTasks=function ResetTasks()
+{
+    $.ajax({
+        url: "/Admin/ResetTasks",
+        type: "POST",
+        success: function (data) {
+     
+            if (data == null || !data.Result) {
+                ErrorActions();
+            }
+            else {
+                window.location.href = window.location.href;
+            }
+        },
+        error: function (xhr, error) {
+            ErrorActions();
+        }
+    });
+}
 
 function RefreshData(IsNewResearch) {
 
     if (IsNewResearch === undefined) {
         IsNewResearch = true;
     }
-    if (IsNewResearch)
-    {
+    if (IsNewResearch) {
         $('#StartAt').val(0);
     }
     StartAt = parseInt($('#StartAt').val());
     ShowSpinner();
-    var _Pattern = $('#SearchBox').val().replace("'","''");
+    var _Pattern = $('#SearchBox').val().replace("'", "''");
     $.ajax({
         url: "/Admin/_DisplayTasks",
         type: "POST",
@@ -26,7 +58,7 @@ function RefreshData(IsNewResearch) {
                 ErrorActions();
             }
             else {
-                $("#targetContainer").fadeOut(500,function () {
+                $("#targetContainer").fadeOut(500, function () {
                     $("#targetContainer").html(data).fadeIn(500);
                 });
             }

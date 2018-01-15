@@ -24,7 +24,6 @@ namespace Commons
         static string AdressFooter1 = "304-2385 West 5th Avenue";
         static string AdressFooter2 = "Vancouver, BC, V6K 1S6, CANADA";
         static string CompanyFooter = "Zaural Website is a registered trademark";
-        static string ColorElement = "#6699ff";
         static string SizeText = "14px";
         static string SizeTextButton = "16px";
         static string SizeTextFooter = "13px";
@@ -41,8 +40,8 @@ namespace Commons
                 GenericEmailContent.Add(new Tuple<string, string>("#AdressFooter1#", AdressFooter1));
                 GenericEmailContent.Add(new Tuple<string, string>("#AdressFooter2#", AdressFooter2));
                 GenericEmailContent.Add(new Tuple<string, string>("#CompanyFooter#", CompanyFooter));
-                GenericEmailContent.Add(new Tuple<string, string>("#ColorElement#", ColorElement));
-                GenericEmailContent.Add(new Tuple<string, string>("#WebsiteTitle#", Const.WebsiteTitle));
+                GenericEmailContent.Add(new Tuple<string, string>("#ColorElement#", CommonsConst.Const.ColorWebsite));
+                GenericEmailContent.Add(new Tuple<string, string>("#WebsiteTitle#", CommonsConst.Const.WebsiteTitle));
                 GenericEmailContent.Add(new Tuple<string, string>("#SizeText#", SizeText));
                 GenericEmailContent.Add(new Tuple<string, string>("#SizeTextButton#", SizeTextButton));
                 GenericEmailContent.Add(new Tuple<string, string>("#SizeTextFooter#", SizeTextFooter));
@@ -92,10 +91,10 @@ namespace Commons
                         UseDefaultCredentials = false,
                         Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
                     };
-                    string PathHeaderOnServer = Email.BasePathFile + "/_HeaderMail.html";
-                    string PathFooterOnServer = Email.BasePathFile + "/_FooterMail.html";
-                    string PathEndMailOnServer = Email.BasePathFile + "/"+Email.EndMailTemplate+".html";
-                    string PathTemplateOnServer = Email.BasePathFile  + "/" + TemplateName + ".html";
+                    string PathHeaderOnServer = Email.BasePathFile + "\\_HeaderMail.html";
+                    string PathFooterOnServer = Email.BasePathFile + "\\_FooterMail.html";
+                    string PathEndMailOnServer = Email.BasePathFile + "\\"+Email.EndMailTemplate+".html";
+                    string PathTemplateOnServer = Email.BasePathFile  + "\\" + TemplateName + ".html";
                     string headerTemplate = new StreamReader(PathHeaderOnServer).ReadToEnd();
                     string bodyTemplate = new StreamReader(PathTemplateOnServer).ReadToEnd();
                     string footerTemplate = new StreamReader(PathFooterOnServer).ReadToEnd();

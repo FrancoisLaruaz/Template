@@ -69,7 +69,8 @@ function onDragOver(idElementZone) {
 }
 
 
-function SetDragAndDropPicture(idElementZone, Purpose, idImage) {
+function SetDragAndDropPicture(idElementZone, Purpose, idImageSrc,idImagePreview) {
+
 
     SetDragAndDropEvents(idElementZone);
 
@@ -85,9 +86,10 @@ function SetDragAndDropPicture(idElementZone, Purpose, idImage) {
             ShowSpinner();
             var model = new FormData();
             model.append("Purpose", Purpose);
+            model.append("EncryptFile", true);
+         
             model.append(file.nativeFile.name, file.nativeFile);
-            var url = URL.createObjectURL(file.nativeFile);
-
+     
             $.ajax({
                 url: "/Upload/UploadPicture",
                 type: 'POST',
@@ -98,12 +100,22 @@ function SetDragAndDropPicture(idElementZone, Purpose, idImage) {
                 success: function (data) {
                     if (data.Result) {
 
-                        if (data.PathFile != null && data.PathFile != "") {
+     
+                        if (data.PathFile != null && data.PathFile != "" && data.PathFilePreview != null && data.PathFilePreview != "") {
 
-                            if ($('#' + idImage + 'Preview').length > 0 && url != null && url != "") {
-                                $('#' + idImage + 'Preview').attr('src', url);
+                            var url = data.PathFilePreview;
+                    
+                            if ($('#' + idImagePreview).length > 0 && url != null && url != "") {
+                                if ($("#" + idImagePreview).is("img")) {
+                                    $("#" + idImagePreview).attr("src", url);
+                                }
+                                else {
+                                    $("#" + idImagePreview).css('backgroundImage', 'url(' + url + ')');
+                                }
                             }
-                            $('#' + idImage).val(data.PathFile);
+
+
+                            $('#' + idImageSrc).val(data.PathFile);
                         }
                     }
                     else if (data.Error != null && data.Error.trim() != "") {

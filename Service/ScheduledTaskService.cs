@@ -8,13 +8,140 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
-
+using Quartz;
+using Quartz.Impl;
+using Service.TaskClasses;
+using Models.Class.TaskSchedule;
 
 namespace Service
 {
     public static class ScheduledTaskService
     {
         private static string WebsiteURL = ConfigurationManager.AppSettings["Website"];
+
+        /// <summary>
+        /// Set the tasks when the application starts
+        /// </summary>
+        public static void SetTasks()
+        {
+            try
+            {
+                var SchedulerInfo = TaskHelper.GetSchedulerInformation();
+                if (SchedulerInfo.RecurringTaskList.Count==0 && SchedulerInfo.ScheduledTasksNumberInScheduler==0)
+                {
+                    SetRecurringScheduledTasks();
+                    SetScheduledTasks();
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+        }
+
+        /// <summary>
+        /// Check if a task need to be executed or no
+        /// </summary>
+        /// <param name="CallBackId"></param>
+        /// <returns></returns>
+        public static bool IsScheduledTaskActive(string CallBackId)
+        {
+            bool result = false;
+            try
+            {
+                result = ScheduledTaskDAL.IsScheduledTaskActive(CallBackId);
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return result;
+        }
+
+
+        public static int GetNotExecutedTasksNumber()
+        {
+            int result = 0;
+            try
+            {
+                result = ScheduledTaskDAL.GetNotExecutedTasksNumber();
+            }
+            catch (Exception e)
+            {
+                result = 0;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return result;
+        }
+
+
+        public static int GetActiveScheduledTasksNumber()
+        {
+            int result = 0;
+            try
+            {
+                result = ScheduledTaskDAL.GetScheduledTasksList(null, null, true).Count();
+            }
+            catch (Exception e)
+            {
+                result = 0;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Set the recurring daily task
+        /// </summary>
+        public static void SetRecurringScheduledTasks()
+        {
+            try
+            {
+                TaskHelper.ScheduleRecurringTask(JobBuilder.Create<DeleteLogs>(), TaskHelper.GetDailyCronSchedule("19", "39"));
+                TaskHelper.ScheduleRecurringTask(JobBuilder.Create<DeleteUploadedFile>(), TaskHelper.GetDailyCronSchedule("19", "43"));
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+        }
+
+        /// <summary>
+        /// Set the scheduled task when the application starts
+        /// </summary>
+        public static bool SetScheduledTasks()
+        {
+            bool result = true;
+            try
+            {
+                Random random = new Random();
+                var ListTaskToSchedule = ScheduledTaskDAL.GetScheduledTasksList(null, null, true);
+                foreach (var Task in ListTaskToSchedule)
+                {
+                    if (CancelTaskById(Task.Id))
+                    {
+
+                        if (Task.ExpectedExecutionDate <= DateTime.UtcNow)
+                        {
+                            Task.ExpectedExecutionDate = DateTime.UtcNow.AddSeconds(random.Next(5, 500));
+                        }
+                        TimeSpan Delay = Task.ExpectedExecutionDate - DateTime.UtcNow;
+
+                        if (Task.GroupName == CommonsConst.ScheduledTaskTypes.SendEMailToUser)
+                        {
+                            result = result && ScheduledTaskService.ScheduleEMailUserTask(Task.UserId.Value, Task.EmailTypeId.Value, Delay, Task.CreationDate, Task.ExpectedExecutionDate);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return result;
+        }
 
 
         /// <summary>
@@ -23,30 +150,41 @@ namespace Service
         /// <param name="UserId"></param>
         /// <param name="EMailTypeId"></param>
         /// <returns></returns>
-        public static bool ScheduleEMailUserTask(int UserId,int EMailTypeId,TimeSpan callbackDelay)
+        public static bool ScheduleEMailUserTask(int UserId, int EMailTypeId, TimeSpan callbackDelay, DateTime? CreationDate = null, DateTime? ExpectedExecutionDate = null)
         {
             bool Result = false;
             try
             {
-                ScheduledTask Task = new ScheduledTask();
-                Task.UserId = null;
-                Task.EmailTypeId = EMailTypeId;
-                Task.CreationDate = DateTime.UtcNow;
-                Task.ExpectedExecutionDate = Task.CreationDate.Add(callbackDelay);
-                Task.CallbackUrl = WebsiteURL+ "/Task/SendMailToUser?Id=0&UserId="+ UserId + "&EMailTypeId=" + Task.EmailTypeId;
-                Task.Id = InsertScheduledTask(Task);
-                Task.CallbackId = Commons.TaskHelper.ScheduleTask(Task.CallbackUrl, callbackDelay);
-                Task.CallbackUrl = WebsiteURL + "/Task/SendMailToUser?Id=" + Task.Id+ "&UserId=" + UserId + "&EMailTypeId=" + Task.EmailTypeId;
-                if (!String.IsNullOrWhiteSpace(Task.CallbackId))
+
+                if (CreationDate == null)
                 {
-                    Result = true;
-                    ScheduledTaskService.UpdateCallbackIdAndCallBackUrl(Task.Id, Task.CallbackUrl,Task.CallbackId);
+                    CreationDate = DateTime.UtcNow;
+                    ExpectedExecutionDate = CreationDate.Value.Add(callbackDelay);
                 }
+
+
+                Dictionary<string, object> Parameters = new Dictionary<string, object>();
+                Parameters.Add("UserId", UserId);
+                Parameters.Add("EMailTypeId", EMailTypeId);
+                TaskScheduleResult ResultSchedule = TaskHelper.ScheduleTask(JobBuilder.Create<SendEMailToUser>(), callbackDelay, Parameters);
+
+                if (ResultSchedule != null && ResultSchedule.Result)
+                {
+                    ScheduledTask Task = new ScheduledTask();
+                    Task.UserId = UserId;
+                    Task.EmailTypeId = EMailTypeId;
+                    Task.CreationDate = CreationDate.Value;
+                    Task.ExpectedExecutionDate = ExpectedExecutionDate.Value;
+                    Task.CallbackId = ResultSchedule.Id;
+                    Task.GroupName = ResultSchedule.GroupName;
+                    Result = InsertScheduledTask(Task);
+                }
+
             }
             catch (Exception e)
             {
                 Result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId.ToString()+ " and EMailTypeId = "+ EMailTypeId);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId.ToString() + " and EMailTypeId = " + EMailTypeId);
             }
             return Result;
         }
@@ -106,49 +244,27 @@ namespace Service
             return Result;
         }
 
-        /// <summary>
-        /// Update The task
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <param name="CallbackUrl"></param>
-        /// <param name="CallbackId"></param>
-        /// <returns></returns>
-        public static bool UpdateCallbackIdAndCallBackUrl(int Id,string CallbackUrl, string CallbackId)
-        {
-            bool Result = false;
-            try
-            {
-                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                Columns.Add("CallbackId", CallbackId);
-                Columns.Add("CallbackUrl", CallbackUrl);
-                Result = GenericDAL.UpdateById("scheduledtask", Id, Columns);
-            }
-            catch (Exception e)
-            {
-                Result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Id = " + Id.ToString()+ " and CallbackId = "+ CallbackId);
-            }
-            return Result;
-        }
+
 
         /// <summary>
         /// Set a task as executed
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public static bool SetTaskAsExecuted(int Id)
+        public static bool SetTaskAsExecuted(string CallBackId)
         {
             bool Result = false;
             try
             {
-                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                Columns.Add("ExecutionDate", DateTime.UtcNow);
-                Result = GenericDAL.UpdateById("scheduledtask", Id, Columns);
+                if (!string.IsNullOrWhiteSpace(CallBackId))
+                {
+                    Result = ScheduledTaskDAL.SetTaskAsExecuted(CallBackId);
+                }
             }
             catch (Exception e)
             {
                 Result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Id = " + Id.ToString());
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "CallBackId = " + CallBackId);
             }
             return Result;
         }
@@ -162,7 +278,7 @@ namespace Service
         /// <param name="Id"></param>
         /// <param name="CancelledByUser"></param>
         /// <returns></returns>
-        public static bool CancelTaskById(int Id,bool CancelledByUser=false)
+        public static bool CancelTaskById(int Id, bool CancelledByUser = false)
         {
             bool Result = false;
             try
@@ -205,7 +321,7 @@ namespace Service
             try
             {
                 List<ScheduledTask> TaskList = GetScheduledTasksListByUser(UserId);
-                foreach(var Task in TaskList)
+                foreach (var Task in TaskList)
                 {
                     Result = Result && CancelTaskById(Task.Id);
                 }
@@ -224,23 +340,23 @@ namespace Service
         /// </summary>
         /// <param name="Task"></param>
         /// <returns></returns>
-        public static int InsertScheduledTask(ScheduledTask Task)
+        public static bool InsertScheduledTask(ScheduledTask Task)
         {
-            int Result = -1;
+            bool Result = false;
             try
             {
                 Dictionary<string, Object> Columns = new Dictionary<string, Object>();
                 Columns.Add("CallbackId", Task.CallbackId);
-                Columns.Add("CallbackUrl", Task.CallbackUrl);
+                Columns.Add("GroupName", Task.GroupName);
                 Columns.Add("UserId", Task.UserId);
                 Columns.Add("ExpectedExecutionDate", Task.ExpectedExecutionDate);
                 Columns.Add("EmailTypeId", Task.EmailTypeId);
-                Columns.Add("CreationDate", DateTime.UtcNow);
-                Result = GenericDAL.InsertRow("scheduledtask", Columns);
+                Columns.Add("CreationDate", Task.CreationDate);
+                Result = GenericDAL.InsertRow("scheduledtask", Columns) > 0 ? true : false;
             }
             catch (Exception e)
             {
-                Result = -1;
+                Result = false;
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
             return Result;

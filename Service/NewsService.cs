@@ -118,8 +118,8 @@ namespace Service
                 }
 
 
-                model.NewsTypeList = CategoryService.GetSelectionList(Commons.CategoryTypes.NewsType);
-                model.TypeUserMailingList = CategoryService.GetSelectionList(Commons.CategoryTypes.TypeUserMailing);
+                model.NewsTypeList = CategoryService.GetSelectionList(CommonsConst.CategoryTypes.NewsType);
+                model.TypeUserMailingList = CategoryService.GetSelectionList(CommonsConst.CategoryTypes.TypeUserMailing);
             }
             catch (Exception e)
             {

@@ -1,4 +1,4 @@
-﻿@if (!String.IsNullOrEmpty(Commons.Const.GoogleAnalyticsID))
+﻿@if (!String.IsNullOrEmpty(CommonsConst.Const.GoogleAnalyticsID))
 {
     <script>
         if (!IsTestEnvironment()) {
@@ -9,7 +9,7 @@
                     m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
             })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-            ga('create', '@Commons.Const.GoogleAnalyticsID', 'auto');
+            ga('create', '@CommonsConst.Const.GoogleAnalyticsID', 'auto');
             ga('send', 'pageview');
         }
     </script>

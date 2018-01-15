@@ -1,4 +1,4 @@
-﻿@if (!String.IsNullOrEmpty(Commons.Const.FacebookPixelID))
+﻿@if (!String.IsNullOrEmpty(CommonsConst.Const.FacebookPixelID))
 {
     <script>
         if (!IsTestEnvironment()) {
@@ -11,7 +11,7 @@
                 t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
             }(window,
                 document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '@Commons.Const.FacebookPixelID');
+            fbq('init', '@CommonsConst.Const.FacebookPixelID');
             fbq('track', 'PageView');
         }
     </script>

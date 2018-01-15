@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using Models.ViewModels;
 using System.IO;
+using CommonsConst;
 
 namespace Service
 {
@@ -29,8 +30,8 @@ namespace Service
             bool result = false;
             try
             {
-                int LanguageId = Commons.Languages.English;
-                string LangTag = Commons.Languages.ToString(LanguageId);
+                int LanguageId = CommonsConst.Languages.English;
+                string LangTag = CommonsConst.Languages.ToString(LanguageId);
 
 
 
@@ -61,7 +62,7 @@ namespace Service
                     Email.EmailContent.Add(new Tuple<string, string>("#UserFirstName#", "user"));
                     Email.EmailContent.Add(new Tuple<string, string>("#UserFullName#", "user"));
                 }
-                Email.EmailContent.Add(new Tuple<string, string>("#WebSiteURL#", Utils.GetURLWebsite(LangTag)));
+                Email.EmailContent.Add(new Tuple<string, string>("#WebSiteURL#", Utils.Website));
                 Email.LanguageId = LanguageId;
 
                 EMailTypeLanguage EMailTypeLanguage = GetEMailTypeLanguage(Email.EMailTypeId, Email.LanguageId);
@@ -75,7 +76,7 @@ namespace Service
                     if (!Utils.IsProductionWebsite())
                     {
                         Email.EmailContent.Add(new Tuple<string, string>("#RealUserEMail#", "Real mail : " + Email.ToEmail));
-                        Email.ToEmail = Const.EMailDev;
+                        Email.ToEmail = CommonsConst.Const.EMailDev;
                     }
                     else
                     {
@@ -84,7 +85,7 @@ namespace Service
 
                     Email.EMailTypeLanguageId = EMailTypeLanguage.Id;
                     Email.EMailTemplate = EMailTypeLanguage.TemplateName;
-                    Email.BasePathFile = FileHelper.GetStorageRoot(Const.BasePathTemplateEMails);
+                    Email.BasePathFile = Email.RootPathDefault+Const.BasePathTemplateEMails.Replace("~/", "\\");
                     Email.EndMailTemplate = EMailTypeLanguage.EndEMailTemplateName;
                     if (String.IsNullOrWhiteSpace(Email.Subject))
                         Email.Subject = EMailTypeLanguage.Subject;
@@ -97,10 +98,11 @@ namespace Service
                         {
                             try
                             {
-                                byte[] BitesTab = FileHelper.GetFileToDownLoad(file);
+                                string FileName = FileHelper.GetStorageRoot(file); 
+                                byte[] BitesTab = FileHelper.GetFileToDownLoad(FileName);
                                 if (BitesTab != null)
                                 {
-                                    Email.AttachmentsMails.Add(new System.Net.Mail.Attachment(new MemoryStream(BitesTab), Path.GetFileName(file)));
+                                    Email.AttachmentsMails.Add(new System.Net.Mail.Attachment(new MemoryStream(BitesTab), Path.GetFileName(FileName)));
                                 }
                             }
                             catch (Exception e)
@@ -162,6 +164,8 @@ namespace Service
             bool result = false;
             try
             {
+
+
                 User UserMail = UserService.GetUserByUserName(UserName);
                 if (UserMail != null)
                 {
@@ -177,6 +181,7 @@ namespace Service
             return result;
         }
 
+       
         /// <summary>
         /// Send a mail to a user
         /// </summary>
@@ -194,14 +199,15 @@ namespace Service
                     Email Email = new Email();
                     Email.UserId = UserId;
                     Email.EMailTypeId = EMailTypeId;
+                    Email.RootPathDefault = FileHelper.GetRootPathDefault()+ @"\";
                     List<Tuple<string, string>> EmailContent = new List<Tuple<string, string>>();
                     switch (EMailTypeId)
                     {
-                        case Commons.EmailType.Forgotpassword:
+                        case CommonsConst.EmailType.Forgotpassword:
                             string ResetPasswordUrl = WebsiteURL + "/ResetPassword?UserId=" + UserMail.Id + "&Token=" + Commons.HashHelpers.HashEncode(UserMail.ResetPasswordToken);
                             EmailContent.Add(new Tuple<string, string>("#ResetPasswordUrl#", ResetPasswordUrl));
                             break;
-                        case Commons.EmailType.UserWelcome:
+                        case CommonsConst.EmailType.UserWelcome:
                             string ConfirmEmailUrl = WebsiteURL + "/ConfirmEmail?UserId=" + UserMail.Id + "&Token=" + Commons.HashHelpers.HashEncode(UserMail.EmailConfirmationToken);
                             EmailContent.Add(new Tuple<string, string>("#ConfirmEmailUrl#", ConfirmEmailUrl));
                             break;

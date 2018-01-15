@@ -21,9 +21,9 @@ function SweetConfirmation(text, title, ConfirmFunction, ConfirmFunctionParams ,
         text: text,
         type: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#6699ff",
-        confirmButtonText: "[[[No]]]",
-        cancelButtonText: "[[[Yes]]]",
+        confirmButtonColor: Constants.Const.ColorWebsite,
+        confirmButtonText: "[[[Yes]]]",
+        cancelButtonText: "[[[No]]]",
         closeOnConfirm: true,
         closeOnCancel: true
     },
@@ -31,7 +31,7 @@ function SweetConfirmation(text, title, ConfirmFunction, ConfirmFunctionParams ,
 
 
 
-            if (!isReject)
+            if (isReject)
             {
                 if (typeof (ConfirmFunction) === "function") {
                     ConfirmFunction.apply(this, ConfirmFunctionParams);

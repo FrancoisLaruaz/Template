@@ -10,9 +10,9 @@ using Models.BDDObject;
 using Service;
 using Commons;
 using i18n;
-using Revalee.Client;
 using System.Configuration;
 using Models.Class;
+
 
 namespace Website.Controllers
 {
@@ -41,7 +41,12 @@ namespace Website.Controllers
             try
             {
                 ViewBag.ShowVideo = true;
-              //  bool result = ScheduledTaskService.ScheduleEMailUserTask(5, Commons.EmailType.Forgotpassword, TimeSpan.FromMinutes(1.0));
+
+              // ScheduledTaskService.ScheduleEMailUserTask(21, CommonsConst.EmailType.UserWelcome, TimeSpan.FromSeconds(200));
+               // ScheduledTaskService.ScheduleEMailUserTask(21, CommonsConst.EmailType.UserWelcome, TimeSpan.FromSeconds(300));
+            //   ScheduledTaskService.ScheduleEMailUserTask(21, CommonsConst.EmailType.UserWelcome, TimeSpan.FromSeconds(400));
+               //    ScheduledTaskService.CancelTaskById(68,true);
+
             }
             catch (Exception e)
             {
@@ -67,7 +72,7 @@ namespace Website.Controllers
                 if (lt.IsValid())
                 {
                     // Set persistent cookie in the client to remember the language choice.
-                    Response.Cookies.Add(new HttpCookie(Commons.Const.i18nlangtag)
+                    Response.Cookies.Add(new HttpCookie(CommonsConst.Const.i18nlangtag)
                     {
                         Value = lt.ToString(),
                         HttpOnly = true,
@@ -85,7 +90,7 @@ namespace Website.Controllers
                 // Owise...delete any 'language' cookie in the client.
                 else
                 {
-                    var cookie = Response.Cookies[Commons.Const.i18nlangtag];
+                    var cookie = Response.Cookies[CommonsConst.Const.i18nlangtag];
                     if (cookie != null)
                     {
                         cookie.Value = null;

@@ -104,6 +104,14 @@ function SetEnterKey(IdElement) {
     });
 }
 
+
+function RemoveDiv(IdElement) {
+    var divIdToRemove = "#" + IdElement;
+    $(divIdToRemove).fadeOut(500, function () {
+        $(this).remove();
+    })
+}
+
 function OpenNewTabWindow(url) {
     if (url != null && url.trim() != '') {
         var win = window.open(url, '_blank');
@@ -147,7 +155,7 @@ function ContainSpecialCharacter(str) {
     return /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
 }
 
-function PopupWindow(url, title, w, h) {
+function PopupGenericWindow(url, title, w, h) {
     // ex :  onclick="popupwindow('https://www.linkedin.com/shareArticle?mini=true&url=@HttpUtility.UrlEncode(ViewBag.OgUrl)&title=@HttpUtility.UrlEncode(ViewBag.OgTitle)&summary=@HttpUtility.UrlEncode(ViewBag.OgDescription)', '@ViewBag.OgTitle', 520, 570);">
 
     var y = window.outerHeight / 2 + window.screenY - (h / 2);

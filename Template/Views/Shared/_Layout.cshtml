@@ -4,7 +4,7 @@
 <html>
 <head>
     @Html.Partial("~/Views/Shared/Layout/_MetaTags.cshtml")
-    <title>@Commons.Const.WebsiteTitle</title>
+    <title>@CommonsConst.Const.WebsiteTitle</title>
     <link rel="shortcut icon" href="@Url.Content("~/Ressources/Files/Images/icone.ico")" type="image/x-icon">
     <link rel="icon" href="@Url.Content("~/Ressources/Files/Images/icone.ico")" type="image/x-icon">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -14,21 +14,9 @@
     @Styles.Render("~/bundles/less")
     @Scripts.Render("~/Scripts/JQuery")
     @Scripts.Render("~/Scripts/JQueryVal")
+    <script type="text/javascript" src="/Base/Constants"></script>
     @Scripts.Render("~/Scripts/ScriptsErrors")
 
-
-
-    @*
-        <script src="https://code.jquery.com/jquery-2.2.4.min.js"
-                integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-                crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-                integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
-                crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"
-                crossorigin="anonymous"></script>
-        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"
-                crossorigin="anonymous"></script>*@
 
 </head>
 <body>

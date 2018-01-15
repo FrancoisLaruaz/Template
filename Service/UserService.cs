@@ -147,6 +147,28 @@ namespace Service
             return result;
         }
 
+        /// <summary>
+        /// Update the path of the profile picture of the user
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="PictureSrc"></param>
+        /// <returns></returns>
+        public static bool UpdateProfilePicture(int UserId, string PictureSrc)
+        {
+            bool result = false;
+            try
+            {
+                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                Columns.Add("PictureSrc", PictureSrc);
+                result = GenericDAL.UpdateById("user", UserId, Columns);
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId.ToString());
+            }
+            return result;
+        }
 
 
         /// <summary>

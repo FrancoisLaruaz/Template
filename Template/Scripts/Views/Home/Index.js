@@ -7,9 +7,8 @@ $(document).ready(function () {
     });
 
     HideSpinner();
-  //  $("#loginOrSignInModal").modal('show');
- //   hideAndShowGuidePg('loginOrSignInModalBody', 'SignUpPictureForm');
-  //  showGuidePg('SignUpPictureForm');
+
+
 });
 
 
