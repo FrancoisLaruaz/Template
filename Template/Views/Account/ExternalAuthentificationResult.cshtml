@@ -1,0 +1,34 @@
+﻿@model Models.Class.ExternalAuthentification.ExternalAuthentificationResult
+@{
+
+    Layout = null;
+
+    var success = Model.Success ? "true" : "false";
+    var returnUrl = Model.ReturnUrl == null ? "" : string.Format("'{0}'", Model.ReturnUrl);
+    var error = Model.Error == null ? "" : Model.Error;
+    var media = Model.Media == null ? "" : Model.Media;
+    var imageSrc = Model.ImageSrc == null ? "" : Model.ImageSrc;
+    var isSignUp = Model.IsSignUp ? "true" : "false";
+    var language = Model.Language == null ? "" : Model.Language;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript">
+
+
+
+
+        if (window.opener && window.opener.externalAuthentificationCallback) {
+            window.opener.externalAuthentificationCallback('@success', '@returnUrl', '@error','@media','@isSignUp','@imageSrc','@language');
+        }
+        window.close();
+    </script>
+
+
+</head>
+<body>
+
+</body>
+</html>

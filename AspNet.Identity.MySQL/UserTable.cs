@@ -226,7 +226,7 @@ namespace AspNet.Identity.MySQL
                     parameters.Add("@DateCreation", DateTime.UtcNow);
                     parameters.Add("@DateModification", DateTime.UtcNow);
                     parameters.Add("@LanguageId", user.LanguageId);
-                    parameters.Add("@PictureSrc", CommonsConst.Const.DefaultImageUser);
+                    parameters.Add("@PictureSrc", user.PictureSrc?? CommonsConst.Const.DefaultImageUser);
                     result = _database.Execute(commandText, parameters);
                 }
             }

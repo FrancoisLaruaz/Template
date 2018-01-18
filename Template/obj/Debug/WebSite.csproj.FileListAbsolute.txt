@@ -1,3 +1,4 @@
+D:\DEV\Template\Template\obj\Debug\WebSite.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Template\bin\WebSite.dll.config
 D:\DEV\Template\Template\bin\WebSite.dll
 D:\DEV\Template\Template\bin\WebSite.pdb
@@ -45,7 +46,6 @@ D:\DEV\Template\Template\bin\WebGrease.dll
 D:\DEV\Template\Template\bin\Ghostscript.NET.dll
 D:\DEV\Template\Template\bin\DataAccess.dll
 D:\DEV\Template\Template\bin\MySql.Data.dll
-D:\DEV\Template\Template\bin\Revalee.Client.dll
 D:\DEV\Template\Template\bin\Commons.pdb
 D:\DEV\Template\Template\bin\Models.pdb
 D:\DEV\Template\Template\bin\Service.pdb
@@ -91,7 +91,7 @@ D:\DEV\Template\Template\bin\log4net.xml
 D:\DEV\Template\Template\bin\Ghostscript.NET.xml
 D:\DEV\Template\Template\bin\DataAccess.pdb
 D:\DEV\Template\Template\bin\DataAccess.dll.config
-D:\DEV\Template\Template\bin\Revalee.Client.xml
-D:\DEV\Template\Template\obj\Debug\WebSite.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Template\obj\Debug\WebSite.dll
 D:\DEV\Template\Template\obj\Debug\WebSite.pdb
+D:\DEV\Template\Template\bin\Facebook.dll
+D:\DEV\Template\Template\bin\Facebook.xml

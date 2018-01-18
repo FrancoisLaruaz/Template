@@ -27,7 +27,6 @@ D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Quartz.dll
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Ghostscript.NET.dll
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\log4net.dll
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\System.Web.Mvc.dll
-D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Revalee.Client.dll
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Common.Logging.Core.dll
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Common.Logging.dll
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\System.Web.Razor.dll
@@ -43,7 +42,6 @@ D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Quartz.xml
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Ghostscript.NET.xml
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\log4net.xml
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\System.Web.Mvc.xml
-D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Revalee.Client.xml
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Common.Logging.Core.pdb
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Common.Logging.Core.xml
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Common.Logging.pdb

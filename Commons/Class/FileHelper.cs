@@ -6,6 +6,8 @@ using System.IO;
 using System.Web;
 using System.Configuration;
 using CommonsConst;
+using Models.Class.FileUpload;
+using System.Net;
 
 namespace Commons
 {
@@ -85,6 +87,41 @@ namespace Commons
                 if (file != null)
                     FileName = file.FileName;
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "FileName = " + FileName);
+            }
+            return result;
+        }
+
+
+
+
+
+        /// <summary>
+        /// Save and ecrypt a given file from an url
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="Purpose"></param>
+        /// <param name="Extension"></param>
+        /// <returns></returns>
+        public static string SaveAndEncryptFileFromWeb(string url, string Purpose, string Extension)
+        {
+            string result = null;
+            try
+            {
+                WebClient myWebClient = new WebClient();
+                byte[] data = myWebClient.DownloadData(url);
+
+                string FileName = GetFileName(Purpose, Extension);
+                string DiskPath = GetStorageRoot(Const.BasePathUploadEncrypted) + "/" + FileName;
+  
+                if(EncryptWriteBytes(DiskPath,data))
+                {
+                    result = Const.BasePathUploadEncrypted + "/" + FileName;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "url = " + url);
             }
             return result;
         }

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Ghostscript.NET;
 using Ghostscript.NET.Rasterizer;
 using Models.Class;
+using Models.Class.FileUpload;
 
 namespace Commons
 {

@@ -21,6 +21,11 @@ using Identity;
 using System.Net;
 using System.IO;
 using Identity.Models;
+using System.Net.Http;
+using Newtonsoft.Json;
+using Models.Class.ExternalAuthentification;
+using Facebook;
+using CommonsConst;
 
 namespace Website.Controllers
 {
@@ -111,6 +116,272 @@ namespace Website.Controllers
         }
 
 
+        internal class ChallengeResult : HttpUnauthorizedResult
+        {
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null)
+            {
+            }
+
+            public ChallengeResult(string provider, string redirectUri, string userId)
+            {
+                LoginProvider = provider;
+                RedirectUri = redirectUri;
+                UserId = userId;
+            }
+
+            public string LoginProvider { get; set; }
+            public string RedirectUri { get; set; }
+            public string UserId { get; set; }
+
+            public override void ExecuteResult(ControllerContext context)
+            {
+                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
+                if (UserId != null)
+                {
+                    properties.Dictionary[XsrfKey] = UserId;
+                }
+                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+            }
+        }
+        private const string XsrfKey = "XsrfId";
+
+
+        public class FacebookBackChannelHandler : HttpClientHandler
+        {
+            protected override async System.Threading.Tasks.Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+            {
+                try
+                {
+                    var result = await base.SendAsync(request, cancellationToken);
+                    if (!request.RequestUri.AbsolutePath.Contains("access_token"))
+                        return result;
+
+                    // For the access token we need to now deal with the fact that the response is now in JSON format, not form values. Owin looks for form values.
+                    var content = await result.Content.ReadAsStringAsync();
+                    var facebookOauthResponse = JsonConvert.DeserializeObject<FacebookOauthResponse>(content);
+
+
+
+                    var outgoingQueryString = HttpUtility.ParseQueryString(string.Empty);
+                    outgoingQueryString.Add(nameof(facebookOauthResponse.access_token), facebookOauthResponse.access_token);
+                    outgoingQueryString.Add(nameof(facebookOauthResponse.expires_in), facebookOauthResponse.expires_in + string.Empty);
+                    outgoingQueryString.Add(nameof(facebookOauthResponse.token_type), facebookOauthResponse.token_type);
+                    var postdata = outgoingQueryString.ToString();
+
+                    var modifiedResult = new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent(postdata)
+                    };
+
+                    string accessToken = facebookOauthResponse.access_token;
+                    FacebookAccessToken = accessToken;
+                    //  Session["FacebookAccessToken"] = accessToken;
+                    return modifiedResult;
+                }
+                catch (Exception e)
+                {
+                    Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                }
+                return null;
+            }
+        }
+
+
+
+
+        public static string FacebookAccessToken
+        {
+            get;
+            set;
+        }
+
+        #region ExternalLogin
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+        }
+
+
+
+        [AllowAnonymous]
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        {
+            bool _Result = false;
+            string _Error = "";
+            string _Media = "";
+            string _ImageSrc = "";
+            try
+            {
+                var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+
+                if (loginInfo == null)
+                {
+                    _Error = "[[[An error occured while logging in.]]]";
+                }
+                else
+                {
+                    var externalIdentity = HttpContext.GetOwinContext().Authentication.GetExternalIdentityAsync(DefaultAuthenticationTypes.ExternalCookie);
+                    _Media = loginInfo.Login.LoginProvider;
+                    // Sign in the user with this external login provider if the user already has a login
+                    var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+                    switch (result)
+                    {
+                        case SignInStatus.Success:
+                            _Result = true;
+                            UserSession = UserService.GetUserSession(User.Identity.GetUserName());
+                            if (UserSession != null)
+                            {
+                                UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);   
+                            }
+
+
+                            break;
+                        case SignInStatus.LockedOut:
+                            _Error = "[[[The user is currently locked out.]]]";
+                            break;
+                        case SignInStatus.RequiresVerification:
+                            _Error = "[[[A user verification is required.]]]";
+                            break;
+                        case SignInStatus.Failure:
+                        default:
+                            _Error = "[[[The user is not registered. Please sign-up.]]]";
+                            break;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
+            return View("~/Views/Account/ExternalAuthentificationResult.cshtml", new ExternalAuthentificationResult(_Result, returnUrl, _Error.Trim(), _Media, _ImageSrc, false, CurrentLangTag));
+        }
+
+        #endregion
+
+        #region ExternalSignUp
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ExternalSignUp(string provider, string returnUrl)
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            // Request a redirect to the external login provider
+            return new ChallengeResult(provider, Url.Action("ExternalSignUpCallback", "Account", new { ReturnUrl = returnUrl }));
+        }
+
+
+        [AllowAnonymous]
+        public async Task<ActionResult> ExternalSignUpCallback(string returnUrl)
+        {
+            bool _Result = false;
+            string _Error = "";
+            string _Media = "";
+            string _ImageSrc = "";
+            try
+            {
+
+
+                var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+                if (loginInfo != null)
+                {
+
+                    _Media = loginInfo.Login.LoginProvider;
+                    ExternalSignUpInformation ExternalSignUpInformation = null;
+                    // added the following lines
+                    if (loginInfo.Login.LoginProvider == LoginProviders.Facebook)
+                    {
+                        var identity = AuthenticationManager.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
+                        if (!String.IsNullOrWhiteSpace(FacebookAccessToken))
+                        {
+                            ExternalSignUpInformation = SocialMediaHelper.GetFacebookInformation(FacebookAccessToken);
+                        }
+
+                    }
+
+
+                    if (ExternalSignUpInformation != null && ExternalSignUpInformation.EmailPermission)
+                    {
+
+                        if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.Email))
+                        {
+                            string EncryptedUserName = EncryptHelper.EncryptToString(ExternalSignUpInformation.Email);
+
+                            int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
+                            var user = new ApplicationUser { UserName = EncryptedUserName, Email = EncryptedUserName, FirstName = ExternalSignUpInformation.FirstName, LastName = ExternalSignUpInformation.LastName, LanguageId = CurrentLanguageId };
+                            var result = await UserManager.CreateAsync(user);
+                            if (result.Succeeded)
+                            {
+                                result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
+                                if (result.Succeeded)
+                                {
+                                    if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.ImageSrc))
+                                    {
+                                        ExternalSignUpInformation.ImageSrc = FileHelper.SaveAndEncryptFileFromWeb(ExternalSignUpInformation.ImageSrc, "user", ".jpg");
+                                        _ImageSrc = ExternalSignUpInformation.ImageSrc;
+                                    }
+
+                                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                    if (!String.IsNullOrWhiteSpace(EncryptedUserName))
+                                    {
+                                        UserSession = UserService.GetUserSession(EncryptedUserName);
+                                        _Result = true;
+                                        EMailService.SendEMailToUser(EncryptedUserName, CommonsConst.EmailType.UserWelcome);
+                                    }
+                                    _Result = true;
+
+                                }
+
+                            }
+                            if (result != null)
+                            {
+                                foreach (var error in result.Errors)
+                                {
+                                    string message = error;
+                                    _Error = _Error + " " + message;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            _Error = "[[[You need a ]]]" + loginInfo.Login.LoginProvider + "[[[ account associated to a confirmed email address in order to sign up.]]]";
+                        }
+
+                    }
+                    else
+                    {
+                        _Error = "[[[You must authorize FrontFundr to access your email address in order to sign up.]]]";
+
+                        if (!string.IsNullOrWhiteSpace(FacebookAccessToken))
+                        {
+                            var fb = new FacebookClient(FacebookAccessToken);
+                            if (fb != null)
+                            {
+                                var res = fb.Delete("me/permissions");
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
+
+            return View("~/Views/Account/ExternalAuthentificationResult.cshtml", new ExternalAuthentificationResult(_Result, returnUrl, _Error.Trim(), _Media, _ImageSrc, true, CurrentLangTag));
+        }
+        #endregion
 
         #region SignUp
         public ActionResult _SignUpForm()
@@ -152,12 +423,12 @@ namespace Website.Controllers
                         {
 
                             model.Email = Commons.EncryptHelper.EncryptToString(model.Email);
-                            int CurrentLanguageId = CategoryService.GetCategoryByCode(CurrentLangTag).Id;
-                            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                            int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
                             var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LanguageId = CurrentLanguageId };
                             var result = await UserManager.CreateAsync(user, model.Password);
                             if (result.Succeeded)
                             {
+                                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                                 if (!String.IsNullOrWhiteSpace(model.Email))
                                 {
@@ -288,7 +559,7 @@ namespace Website.Controllers
 
             try
             {
-
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                 if (ModelState.IsValid)
                 {
                     model.Email = model.Email.Trim().ToLower();

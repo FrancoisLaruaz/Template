@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 
-namespace Models.Class
+namespace Models.Class.FileUpload
 {
     public class FileUpload
     {

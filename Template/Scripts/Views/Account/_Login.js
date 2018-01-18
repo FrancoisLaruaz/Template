@@ -71,5 +71,5 @@ function SetLoginSubmitForm() {
     $('#SubmitButtonLogin').val("[[[Log In]]]");
     $('#SubmitButtonLogin').removeAttr('disabled');
     $("#SubmitButtonLogin").toggleClass("disabled", false);
-
+    HideSpinner();
 }

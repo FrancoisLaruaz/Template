@@ -34,6 +34,8 @@ namespace AspNet.Identity.MySQL
 
         public string ResetPasswordToken { get; set; }
 
+        public string PictureSrc { get; set; }
+
         /// <summary>
         /// User's name
         /// </summary>

@@ -12,6 +12,7 @@ using Commons;
 using i18n;
 using System.IO;
 using Models.Class;
+using Models.Class.FileUpload;
 
 namespace Website.Controllers
 {

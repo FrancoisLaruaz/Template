@@ -69,6 +69,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalLib\EPPlus.dll</HintPath>
     </Reference>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
+    </Reference>
     <Reference Include="i18n, Version=2.1.8.0, Culture=neutral, PublicKeyToken=b54a7283d4bad1bb, processorArchitecture=MSIL">
       <HintPath>..\packages\i18n.2.1.8.0\lib\net40\i18n.dll</HintPath>
     </Reference>
@@ -197,6 +200,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\General\fakeSocialMediaStyle.css" />
     <Content Include="Content\General\webcam.css" />
     <Content Include="Content\General\mainscss.min.css" />
     <Content Include="Content\materialize.min.css" />
@@ -207,6 +211,7 @@
     <Content Include="Content\General\DragAndDrop.css" />
     <Content Include="Content\General\summernote.css" />
     <Content Include="Content\videos\homepage-video.mp4" />
+    <Content Include="Content\Views\Account\_SignUp.css" />
     <Content Include="Content\Views\Account\_SignUpProcess.css" />
     <Content Include="Content\Views\Experiment\Experiment.css" />
     <Content Include="Content\General\sweetalert.css" />
@@ -253,6 +258,8 @@
     <Content Include="Ressources\Files\Images\Logo.png" />
     <Content Include="Ressources\Files\Images\SignUp\signupconfirmation.jpg" />
     <Content Include="Ressources\Files\Images\SignUp\signupwelcome.jpg" />
+    <Content Include="Ressources\Files\Images\SocialMedia\icon_facebook.png" />
+    <Content Include="Ressources\Files\Images\SocialMedia\icon_google.png" />
     <Content Include="Ressources\Files\Video\Homepage.mp4" />
     <Content Include="Scripts\General\LoadConsts.js" />
     <Content Include="Scripts\General\SexyCSSHelper.js" />
@@ -393,6 +400,7 @@
     <Content Include="Scripts\Views\Account\Login.js" />
     <Content Include="Scripts\Views\Account\_PasswordPolicy.js" />
     <Content Include="Scripts\Views\Account\_SignUpPictureForm.js" />
+    <Content Include="Scripts\Views\Account\ExternalAuthentification.js" />
     <Content Include="Scripts\Views\Account\_SignUpProcess.js" />
     <Content Include="Scripts\Views\Account\_SignUpWelcome.js" />
     <Content Include="Scripts\Views\Account\_SignUp.js" />
@@ -467,6 +475,9 @@
     <Content Include="Views\Account\TermsAndConditions.cshtml" />
     <Content Include="Views\Account\PrivacyPolicy.cshtml" />
     <Content Include="Views\Account\_SignUpProcessPages.cshtml" />
+    <Content Include="Views\Account\_ExternalLogIn.cshtml" />
+    <Content Include="Views\Account\_ExternalSignUp.cshtml" />
+    <Content Include="Views\Account\ExternalAuthentificationResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

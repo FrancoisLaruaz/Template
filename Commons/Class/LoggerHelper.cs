@@ -128,7 +128,15 @@ namespace Commons
                 }
 
                 string UrlReferrer = HttpContext.Current?.Request?.UrlReferrer?.AbsoluteUri;
-                string Form = HttpContext.Current?.Request?.Form?.ToString();
+                string Form = "";
+                try
+                {
+                    Form = HttpContext.Current?.Request?.Form?.ToString();
+                }
+                catch
+                {
+
+                }
                 string Message = "";
 
                 LoggeError = Logger.IsErrorLogged(Url, ExceptionMessage) && Logger.IsErrorLogged(UrlReferrer, ExceptionMessage);

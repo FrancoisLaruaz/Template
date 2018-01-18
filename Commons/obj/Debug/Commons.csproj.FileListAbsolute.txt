@@ -8,6 +8,7 @@
 /Users/francoislaruaz/Projects/Template/Commons/obj/Debug/Commons.csproj.CoreCompileInputs.cache
 /Users/francoislaruaz/Projects/Template/Commons/obj/Debug/Commons.dll
 /Users/francoislaruaz/Projects/Template/Commons/obj/Debug/Commons.pdb
+D:\DEV\Template\Commons\obj\Debug\Commons.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Commons\bin\Debug\Commons.dll
 D:\DEV\Template\Commons\bin\Debug\Commons.pdb
 D:\DEV\Template\Commons\bin\Debug\Common.Logging.Core.dll
@@ -38,6 +39,5 @@ D:\DEV\Template\Commons\bin\Debug\System.Web.Razor.xml
 D:\DEV\Template\Commons\bin\Debug\System.Web.WebPages.xml
 D:\DEV\Template\Commons\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\DEV\Template\Commons\bin\Debug\System.Web.WebPages.Razor.xml
-D:\DEV\Template\Commons\obj\Debug\Commons.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Commons\obj\Debug\Commons.dll
 D:\DEV\Template\Commons\obj\Debug\Commons.pdb

@@ -1,0 +1,117 @@
+﻿using System;
+using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection;
+using System.Collections;
+using System.Net;
+using Models.Class.ExternalAuthentification;
+using System.IO;
+using Commons;
+using System.Web.Script.Serialization;
+
+namespace Commons
+{
+    public static class SocialMediaHelper
+    {
+
+        public static ExternalSignUpInformation GetFacebookInformation(string Token)
+        {
+            ExternalSignUpInformation Result = new ExternalSignUpInformation();
+            try
+            {
+                Result.EmailPermission = false;
+                Uri targetUserUriPermission = new Uri("https://graph.facebook.com/me/permissions?access_token=" + Token);
+                HttpWebRequest userPermission = (HttpWebRequest)HttpWebRequest.Create(targetUserUriPermission);
+
+                // Read the returned JSON object response
+                StreamReader userInfoPermission = new StreamReader(userPermission.GetResponse().GetResponseStream());
+                string jsonResponsePermission = string.Empty;
+                jsonResponsePermission = userInfoPermission.ReadToEnd();
+                dynamic jsondataPermission = null;
+                if (!string.IsNullOrWhiteSpace(jsonResponsePermission))
+                {
+
+                    JavaScriptSerializer srPermission = new JavaScriptSerializer();
+                    jsondataPermission = srPermission.DeserializeObject(jsonResponsePermission);
+                    if (jsondataPermission != null && Utils.DoesPropertyExist(jsondataPermission, "data"))
+                    {
+                        var DataPermission = jsondataPermission["data"];
+
+                        foreach (var Perm in DataPermission)
+                        {
+                            if (Perm["permission"].ToString() == "email")
+                            {
+                                if (Perm["status"].ToString() == "granted")
+                                {
+                                    Result.EmailPermission = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (Result.EmailPermission)
+                {
+
+                    Uri targetUserUri = new Uri("https://graph.facebook.com/me?fields=first_name,email,last_name,gender,locale,id,link&access_token=" + Token);
+                    HttpWebRequest user = (HttpWebRequest)HttpWebRequest.Create(targetUserUri);
+
+                    // Read the returned JSON object response
+                    StreamReader userInfo = new StreamReader(user.GetResponse().GetResponseStream());
+                    string jsonResponse = string.Empty;
+                    jsonResponse = userInfo.ReadToEnd();
+                    if (!string.IsNullOrWhiteSpace(jsonResponse))
+                    {
+
+                        JavaScriptSerializer sr = new JavaScriptSerializer();
+                        dynamic jsondata = sr.DeserializeObject(jsonResponse);
+                        if (jsondata != null)
+                        {
+                            Result.FirstName = Utils.DoesPropertyExist(jsondata, "first_name") ? jsondata["first_name"].ToString() : null;
+                            Result.LastName = Utils.DoesPropertyExist(jsondata, "last_name") ? jsondata["last_name"].ToString() : null;
+                            Result.Gender = Utils.DoesPropertyExist(jsondata, "gender") ? jsondata["gender"].ToString() : null;
+                            Result.Email = Utils.DoesPropertyExist(jsondata, "email") ? jsondata["email"].ToString() : null;
+                            Result.FacebookId = Utils.DoesPropertyExist(jsondata, "id") ? jsondata["id"].ToString() : null;
+                            Result.ImageSrc = Utils.DoesPropertyExist(jsondata, "id") ? "http://graph.facebook.com/" + Result.FacebookId + "/picture?type=large&redirect=true&width=500&height=500" : null;
+                            Result.FacebookLink = Utils.DoesPropertyExist(jsondata, "link") ? jsondata["link"].ToString() : null;
+                            var BirthDay = Utils.DoesPropertyExist(jsondata, "birthday") ? jsondata["birthday"].ToString() : null;
+
+
+
+
+                            if (Utils.DoesPropertyExist(jsondata, "location"))
+                            {
+                                try
+                                {
+                                    var location = jsondata["location"];
+                                    if (location != null && Utils.DoesPropertyExist(location, "name") != null)
+                                    {
+                                        string Location = location["name"].ToString();
+                                        string[] tabLocation = Location.Trim().ToLower().Split(',');
+                                        //    Result.CountryCode = location.location.country_code.ToString();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Commons.Logger.GenerateError(ex, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Result.Email =" + Result.Email);
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Token =" + Token);
+            }
+            return Result;
+        }
+
+    }
+}

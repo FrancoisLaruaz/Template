@@ -61,6 +61,12 @@ namespace CommonsConst
         public const int TypeUserMailing = 6;
     }
 
+    public static class LoginProviders
+    {
+        public static string Facebook = "Facebook";
+        public static string Google = "Google";
+    }
+
     public static class Languages
     {
         public const  int English = 3001;
@@ -76,6 +82,19 @@ namespace CommonsConst
                     return "fr";
                 default:
                     return "";
+            }
+        }
+
+        public static int ToInt(string value)
+        {
+            switch (value)
+            {
+                case "en":
+                    return English;
+                case "fr":
+                    return French;
+                default:
+                    return ToInt(Const.DefaultCulture);
             }
         }
     }

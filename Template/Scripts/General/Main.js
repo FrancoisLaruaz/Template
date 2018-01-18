@@ -9,7 +9,9 @@ $(document).ready(function () {
 
     $('.formSpinnerLoad').each(function (index, value) {
         $(this).submit(function () {
-            ShowSpinner();
+            if ($(this).valid()) {
+                ShowSpinner();
+            }
         });
     });
 

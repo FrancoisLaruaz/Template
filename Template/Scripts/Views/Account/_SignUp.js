@@ -22,7 +22,7 @@ function SignUpSuccess(Data)
     if (Data) {
         $('#ErrorSignUpForm').html(Data.Error);
         if (Data.Result) {
-            hideAndShowGuidePg('loginOrSignInModalBody', 'SignUpProcessPages');
+            hideAndShowGuidePg('loginOrSignInModalBody', 'SignUpWelcomePage');
           //  showGuidePg('SignUpProcessPages');
           //  RefreshHeader();
         }
@@ -37,6 +37,22 @@ function SignUpSuccess(Data)
 
 function SetSignUpForm()
 {
+    $("#SignUpWithEmail").unbind("click");
+    $("#SignUpWithEmail").on("click", function (e) {
+        e.preventDefault();
+        $("#SignUpChoice").fadeOut(500, function () {
+            $("#SignUpFormDiv").fadeIn(500);
+        });
+    });
+
+
+    $("#GoBackToSignUpChoiceBtn").unbind("click");
+    $("#GoBackToSignUpChoiceBtn").on("click", function (e) {
+        e.preventDefault();
+        $("#SignUpFormDiv").fadeOut(500, function () {
+            $("#SignUpChoice").fadeIn(500);
+        });
+    });
     SetEnterKey('SubmitButtonSignUp'); 
     SetSignUpSubmitForm();
     //SetValidationForm('SignUpModalForm');

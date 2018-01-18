@@ -79,6 +79,7 @@ namespace Template
                 "~/Content/General/DragAndDrop.css",
                 "~/Content/font-awesome.min.css",
                 "~/Content/General/sweetalert.css",
+                 "~/Content/General/fakeSocialMediaStyle.css",
                 "~/Content/General/toastr.csss",
                "~/Content/General/webcam.css",
                 "~/Content/General/jtsage-datebox.min.css",

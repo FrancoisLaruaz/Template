@@ -33,6 +33,27 @@ namespace Commons
         }
 
         /// <summary>
+        /// Indicate if a property exists
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool DoesPropertyExist(dynamic settings, string name)
+        {
+            bool result = false;
+            try
+            {
+                result = ((IDictionary<string, object>)settings).ContainsKey(name);
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "name ="+ name);
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Generate an error
         /// </summary>
         public static void GenerateError()
