@@ -10,9 +10,9 @@
 }
 else
 {
-    <div class="area-container" id="SignUpChoice" style="margin-top:30px;margin-bottom:20px;">
+    <div class="area-container row" id="SignUpChoice" style="margin-top:30px;margin-bottom:20px;">
         <div class="col-md-10 col-xs-12 col-md-offset-1">
-            <input type="submit" class="square-btn square-inverse" value="[[[Sign Up With Email]]]" style="width:100% !important;" id="SignUpWithEmail" />
+            <input type="submit" class="btn website-btn PasswordButton" value="[[[Sign Up With Email]]]"  id="SignUpWithEmail" />
         </div>
         @Html.Partial("~/Views/Account/_ExternalSignUp.cshtml")
 
@@ -20,7 +20,7 @@ else
             @Html.Partial("_SignUpFormLinks")
         </div>
     </div>
-    <div class="area-container" id="SignUpFormDiv" style="margin-top:30px;margin-bottom:20px;">
+    <div class="area-container row" id="SignUpFormDiv" style="display:none;margin-top:30px;margin-bottom:20px;">
         <div style="position: relative;">
             <span class="SignUpmodalGoBackBtns ColorWebsite" id="GoBackToSignUpChoiceBtn">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i> [[[back]]]
@@ -29,7 +29,7 @@ else
         @using (Ajax.BeginForm("_SignUpForm", "Account", new { }, new AjaxOptions() { HttpMethod = "POST", OnBegin = "handleSignUpBegin", OnSuccess = "SignUpSuccess", OnFailure = "SignUpFailure" }, new { @id = "SignUpForm" }))
         {
             @Html.AntiForgeryToken()
-            <div class="row">
+            <div class="row" style="margin-top:15px;">
 
                 <div class="col-xs-12 col-md-12">
 
@@ -73,7 +73,7 @@ else
 
 
                     <div class="col-md-8 col-md-offset-2 col-xs-12">
-                        <input type="submit" disabled value="[[[Create]]]" class="btn website-btn PasswordButton" disabled id="SubmitButtonSignUp" />
+                        <input type="submit" disabled value="[[[Sign Up]]]" class="btn website-btn PasswordButton" disabled id="SubmitButtonSignUp" />
                     </div>
 
                     <div class="col-xs-12 col-md-12" id="div_SignUpFormLinks" style="display:none">

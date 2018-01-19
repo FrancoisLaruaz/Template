@@ -250,7 +250,71 @@ namespace Website.Controllers
                             break;
                         case SignInStatus.Failure:
                         default:
-                            _Error = "[[[The user is not registered. Please sign-up.]]]";
+                            ExternalSignUpInformation ExternalSignUpInformation = null;
+                            if (!String.IsNullOrWhiteSpace(FacebookAccessToken))
+                            {
+                                ExternalSignUpInformation = SocialMediaHelper.GetFacebookInformation(FacebookAccessToken);
+
+                            }
+
+                            if (ExternalSignUpInformation != null)
+                            {
+
+                                if (ExternalSignUpInformation.EmailPermission)
+                                {
+                                    if (UserService.IsUserRegistered(ExternalSignUpInformation.Email))
+                                    {
+
+                                        bool success = UserLoginsService.CreateExternalLogin(ExternalSignUpInformation);
+
+                                        if (success)
+                                        {
+                                            result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+                                            switch (result)
+                                            {
+                                                case SignInStatus.Success:
+                                                    _Result = true;
+                                                    UserSession = UserService.GetUserSession(User.Identity.GetUserName());
+                                                    if (UserSession != null)
+                                                    {
+                                                        UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
+                                                    }
+
+                                                    break;
+                                                case SignInStatus.Failure:
+                                                default:
+                                                    _Error = ExternalSignUpInformation.Email + "[[[ registered using an email address. Please log in with this email using a password.]]]";
+                                                    break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            _Error = ExternalSignUpInformation.Email + "[[[ registered using an email address. Please log in with this email using a password.]]]";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        _Error = "[[[The user is not registered. Please sign-up.]]]";
+                                    }
+                                }
+                                else
+                                {
+                                    _Error = "[[[You must authorize ]]]" + CommonsConst.Const.WebsiteTitle + "[[[ to access your email address in order to sign up.]]]";
+                                    if (!string.IsNullOrWhiteSpace(FacebookAccessToken))
+                                    {
+                                        var fb = new FacebookClient(FacebookAccessToken);
+                                        if (fb != null)
+                                        {
+                                            var res = fb.Delete("me/permissions");
+                                        }
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                _Error = "[[[The user is not registered. Please sign-up.]]]";
+                            }
                             break;
                     }
                 }
@@ -359,7 +423,7 @@ namespace Website.Controllers
                     }
                     else
                     {
-                        _Error = "[[[You must authorize FrontFundr to access your email address in order to sign up.]]]";
+                        _Error = "[[[You must authorize ]]]"+CommonsConst.Const.WebsiteTitle+"[[[ to access your email address in order to sign up.]]]";
 
                         if (!string.IsNullOrWhiteSpace(FacebookAccessToken))
                         {

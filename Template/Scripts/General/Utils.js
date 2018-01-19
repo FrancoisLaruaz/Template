@@ -233,3 +233,15 @@ function SetGenericAjaxForm(FormId, OnSuccess, Onfailure, OnBegin) {
     });
 
 }
+
+
+function scrollToErrorOnly(formname) {
+    var FieldToFocus = $('#' + formname + ' .input-validation-error:first').get(0);
+    if (FieldToFocus != null) {
+        $('html, body').animate({
+            scrollTop: $(FieldToFocus).offset().top - 120
+        }, 1000);
+
+        $(FieldToFocus).focus();
+    }
+}

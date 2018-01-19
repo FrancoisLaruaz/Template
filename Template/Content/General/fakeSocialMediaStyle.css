@@ -4,17 +4,17 @@
     box-sizing: border-box;
     position: relative;
     /* width: 13em;  - apply for fixed size */
-    margin: 15px 0px 15px 0px;;
-    padding: 8px 15px 8px 46px;
+    margin: 15px 0px 15px 0px;
+    padding: 2px 15px 8px 0px;
     border: none;
     white-space: nowrap;
-    line-height: 24px;
+    line-height: 50px;
     transition: 0.2s ease;
     box-shadow: none;
     width: 100%;
     font-family: inherit;
     font-weight: inherit;
-    font-size: 2.3rem;
+    font-size: 1.8rem;
     color: #FFF;
     text-align: center;
     width: 100%;
@@ -54,7 +54,12 @@
     background-image: linear-gradient(#4C69BA, #3B55A0);
     /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
     text-shadow: 0 -1px 0 #354C8C;
+    margin-left:12px;
 }
+
+    .loginBtn--facebook.SignUpBtn_js {
+        margin-left: 7px;
+    }
 
     .loginBtn--facebook:before {
         background: url('../../Ressources/Files/Images/SocialMedia/icon_facebook.png') 6px 6px no-repeat;
@@ -73,8 +78,13 @@
     background: #DD4B39;
 }
 
+
+    .loginBtn--google.SignUpBtn_js {
+        margin-left: 12px;
+    }
+
     .loginBtn--google:before {
-        background: url('../../Ressources/Files/Images/SocialMedia/icon_google.png') 6px 6px no-repeat;
+        background: url('../../Ressources/Files/Images/SocialMedia/icon_google.png') -0px 6px no-repeat;
     }
 
     .loginBtn--google:hover,

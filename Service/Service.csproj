@@ -63,6 +63,7 @@
     <Compile Include="CountryService.cs" />
     <Compile Include="EMailService.cs" />
     <Compile Include="CategoryService.cs" />
+    <Compile Include="UserLoginsService.cs" />
     <Compile Include="UserRoleService.cs" />
     <Compile Include="UserIdentityService.cs" />
     <Compile Include="NewsService.cs" />

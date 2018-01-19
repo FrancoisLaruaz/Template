@@ -4,7 +4,7 @@
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
 }
 <div class="col-md-10 col-xs-12 col-md-offset-1 row" style="text-align:center;margin-top:12px;margin-bottom:12px;">
-    <div class="col-md-5 col-xs-5" style="padding-left:0px;padding-right:0px;">
+    <div class="col-md-2 col-xs-2" style="padding-left:0px;padding-right:0px;">
         <hr style="display: block;
         height: 1px;
         border: 0;
@@ -12,10 +12,10 @@
         margin: 1em 0;
         padding: 0;" />
     </div>
-    <div class="col-md-2 col-xs-2" style="padding-top:4px;">
-        [[[Or]]]
+    <div class="col-md-8 col-xs-8" style="padding-top:4px;padding-left:0px;padding-right:0px;">
+        [[[Or Continue With]]]
     </div>
-    <div class="col-md-5 col-xs-5" style="padding-left:0px;padding-right:0px;">
+    <div class="col-md-2. col-xs-2" style="padding-left:0px;padding-right:0px;">
         <hr style="display: block;
         height: 1px;
         border: 0;
@@ -25,19 +25,21 @@
     </div>
 </div>
 
-<div class="col-md-12 col-xs-12" style="padding-left:0px;padding-right:0px;padding-bottom:15px;">
+<div class="col-md-10 col-md-offset-1 col-xs-12 row" style="padding-bottom:15px;">
     <form id="ExternalSignUpForm" action="@Url.Action("ExternalLogIn", "Account")" method="POST" target="ExternalLogInPopUp" onsubmit="invokeExternalAuthentification('ExternalLogInPopUp');">
         @Html.AntiForgeryToken()
-        <div id="socialLoginList" class="col-md-10 col-xs-12 col-md-offset-1" style="padding-left:-5px;">
+        <div id="socialLoginList" class="col-md-12 col-xs-12 noMarginNoPaddingHorizontal" >
 
             @foreach (AuthenticationDescription p in loginProviders)
             {
-                <button id="LogInButton_@p.AuthenticationType" type="submit" onclick="ExternalLogInFormOnBegin('@p.AuthenticationType')" class="loginBtn loginBtn--@p.AuthenticationType.ToLower() LogInBtn_js" name="provider" value="@p.AuthenticationType" title="[[[Log In using your ]]]@p.Caption [[[account]]]"><span id="LogInSpan_@p.AuthenticationType">[[[Log In With ]]]@p.AuthenticationType</span></button>
-                <span id="LogInResult_@p.AuthenticationType" class="text-danger resultExternalAuthentification" style="min-height:25px;"></span>
+                <div class="col-md-6 col-xs-12 noMarginNoPaddingHorizontal" >
+                    <button id="LogInButton_@p.AuthenticationType" type="submit" onclick="ExternalLogInFormOnBegin('@p.AuthenticationType')" class="loginBtn loginBtn--@p.AuthenticationType.ToLower() LogInBtn_js" name="provider" value="@p.AuthenticationType" title="[[[Log In using your ]]]@p.Caption [[[account]]]"><span id="LogInSpan_@p.AuthenticationType">@p.AuthenticationType</span></button>
+                    <span id="LogInResult_@p.AuthenticationType" class="text-danger resultExternalAuthentification" style="min-height:25px;"></span>
+                </div>
             }
 
         </div>
     </form>
 </div>
 
-<script src="~/Content/ForUserArea/Account/ExternalAuthentification.js"></script>
+<script src="~/Scripts/Views/Account/ExternalAuthentification.js"></script>

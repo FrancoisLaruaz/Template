@@ -37,6 +37,9 @@ function SignUpSuccess(Data)
 
 function SetSignUpForm()
 {
+
+ 
+
     $("#SignUpWithEmail").unbind("click");
     $("#SignUpWithEmail").on("click", function (e) {
         e.preventDefault();
@@ -69,8 +72,8 @@ function SetSignUpSubmitForm()
 
 
 function SetSignUpFormLinks() {
-    $("#LoginNowLink").unbind("click");
-    $("#LoginNowLink").on("click", function (e) {
+    $(".LoginNowLink").unbind("click");
+    $(".LoginNowLink").on("click", function (e) {
         e.preventDefault();    
         ShowLogInForm();
     });

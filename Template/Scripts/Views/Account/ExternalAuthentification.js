@@ -1,11 +1,12 @@
 function externalAuthentificationCallback(success, returnUrl, error, media, isSignUp, imageSrc, language) {
 
-
+ 
 
     if (isSignUp == 'true') {
 
-        $('#SignUpV2Result').html('');
+        $('#ErrorSignUpForm').html('');
         $('.resultExternalAuthentification').html('');
+        alert('success : ' + success);
         if (success == 'true') {
             hideAndShowGuidePg('loginOrSignInModalBody', 'SignUpWelcomePage');
         } else {
@@ -15,12 +16,14 @@ function externalAuthentificationCallback(success, returnUrl, error, media, isSi
         }
     }
     else {
-        $('#loginV2Result').html('');
+        ShowSpinner();
+        $('#ErrorLoginForm').html('');
         $('.resultExternalAuthentification').html('');
+        alert('success : ' + success);
         if (success == 'true') {
-            var toGo = $('#CentralGoToUrl').val();
+            var toGo = $('#URLRedirect').val();
 
-
+            alert('toGo : ' + toGo);
             if (toGo.length > 0 && toGo.trim() != "/") {
 
 
@@ -50,6 +53,7 @@ function externalAuthentificationCallback(success, returnUrl, error, media, isSi
 }
 
 function invokeExternalAuthentification(IdPopUp) {
+   
     var chrome = 100;
     var width = 500;
     var height = 500;
@@ -74,18 +78,17 @@ function externalAuthentificationWindowClose() {
 }
 
 function ExternalSignUpFormOnBegin(Media) {
-    $("#HiddenSpinner").fadeIn();
-    document.getElementById("SignUpSpan_" + Media).innerHTML = "[[[Signing Up ...]]]";
+    ShowSpinner();
 }
 
 function SetExternalSignUpForm(Media) {
-    document.getElementById("SignUpSpan_" + Media).innerHTML = "[[[Sign Up With ]]]" + Media;
+    
 }
 
 function SetExternalSignUpBtns() {
     $('.SignUpBtn_js').each(function (index, value) {
         var Provider = $(this).attr("value");
-        document.getElementById("SignUpSpan_" + Provider).innerHTML = "[[[Sign Up With ]]]" + Provider;
+        document.getElementById("SignUpSpan_" + Provider).innerHTML =  Provider;
     });
 
 }
@@ -95,16 +98,16 @@ function SetExternalLogInBtns() {
 
     $('.LogInBtn_js').each(function (index, value) {
         var Provider = $(this).attr("value");
-        document.getElementById("LogInSpan_" + Provider).innerHTML = "[[[Log In With ]]]" + Provider;
+        document.getElementById("LogInSpan_" + Provider).innerHTML =  Provider;
     });
 
 }
 
 function ExternalLogInFormOnBegin(Media) {
-    $("#HiddenSpinner").fadeIn();
-    document.getElementById("LogInSpan_" + Media).innerHTML = "[[[Logging In ...]]]";
+    ShowSpinner();
+   // document.getElementById("LogInSpan_" + Media).innerHTML = "[[[Logging In ...]]]";
 }
 
 function SetExternalLogInForm(Media) {
-    document.getElementById("LogInSpan_" + Media).innerHTML = "[[[Log In With ]]]" + Media;
+    document.getElementById("LogInSpan_" + Media).innerHTML =  Media;
 }

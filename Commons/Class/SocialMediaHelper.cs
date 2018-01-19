@@ -13,6 +13,7 @@ using Models.Class.ExternalAuthentification;
 using System.IO;
 using Commons;
 using System.Web.Script.Serialization;
+using CommonsConst;
 
 namespace Commons
 {
@@ -24,6 +25,7 @@ namespace Commons
             ExternalSignUpInformation Result = new ExternalSignUpInformation();
             try
             {
+                Result.LoginProvider = LoginProviders.Facebook;
                 Result.EmailPermission = false;
                 Uri targetUserUriPermission = new Uri("https://graph.facebook.com/me/permissions?access_token=" + Token);
                 HttpWebRequest userPermission = (HttpWebRequest)HttpWebRequest.Create(targetUserUriPermission);
@@ -80,9 +82,7 @@ namespace Commons
                             Result.ImageSrc = Utils.DoesPropertyExist(jsondata, "id") ? "http://graph.facebook.com/" + Result.FacebookId + "/picture?type=large&redirect=true&width=500&height=500" : null;
                             Result.FacebookLink = Utils.DoesPropertyExist(jsondata, "link") ? jsondata["link"].ToString() : null;
                             var BirthDay = Utils.DoesPropertyExist(jsondata, "birthday") ? jsondata["birthday"].ToString() : null;
-
-
-
+                            Result.ProviderKey = Result.FacebookId != null ? Result.FacebookId.ToString() : null;
 
                             if (Utils.DoesPropertyExist(jsondata, "location"))
                             {
