@@ -29,10 +29,15 @@ namespace Models.Class.ExternalAuthentification
 
         public string ProviderKey { get; set; }
 
+        public List<string> FriendsList { get; set; }
+
+        public bool FriendsPermission { get; set; }
 
         public ExternalSignUpInformation()
         {
             EmailPermission = true;
+            FriendsPermission = true;
+            FriendsList = new List<string>();
         }
     }
 }

@@ -55,8 +55,8 @@ function externalAuthentificationCallback(success, returnUrl, error, media, isSi
 function invokeExternalAuthentification(IdPopUp) {
    
     var chrome = 100;
-    var width = 500;
-    var height = 500;
+    var width = 550;
+    var height = 550;
     var left = (screen.width - width) / 2;
     var top = (screen.height - height - chrome) / 2;
     var options = "status=0,toolbar=0,location=1,resizable=1,scrollbars=1,left=" + left + ",top=" + top + ",width=" + width + ",height=" + height;

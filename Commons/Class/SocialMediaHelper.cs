@@ -14,6 +14,7 @@ using System.IO;
 using Commons;
 using System.Web.Script.Serialization;
 using CommonsConst;
+using Facebook;
 
 namespace Commons
 {
@@ -46,7 +47,14 @@ namespace Commons
 
                         foreach (var Perm in DataPermission)
                         {
-                            if (Perm["permission"].ToString() == "email")
+                            if (Perm["permission"].ToString() == "user_friends")
+                            {
+                                if (Perm["status"].ToString() == "granted")
+                                {
+                                    Result.FriendsPermission = true;
+                                }
+                            }
+                            else if (Perm["permission"].ToString() == "email")
                             {
                                 if (Perm["status"].ToString() == "granted")
                                 {
@@ -59,13 +67,37 @@ namespace Commons
 
                 if (Result.EmailPermission)
                 {
+                    string jsonResponse = string.Empty;
+                    if (Result.FriendsPermission)
+                    {
+                        try
+                        {
+                            var fb = new FacebookClient(Token);
+                            dynamic fbFriends = fb.Get("/me/friends");
+                            JavaScriptSerializer sr = new JavaScriptSerializer();
+                            jsonResponse = fbFriends.data.ToString();
+                            dynamic jsondata = sr.DeserializeObject(jsonResponse);
+                            if (jsondata != null)
+                            {
+                                foreach (var friendItem in jsondata)
+                                {
+                                    string FacebookFriendId = friendItem["id"];
+                                    Result.FriendsList.Add(FacebookFriendId);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Commons.Logger.GenerateError(ex, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Get FriendsList, Token =" + Token);
+                        }
+                    }
 
                     Uri targetUserUri = new Uri("https://graph.facebook.com/me?fields=first_name,email,last_name,gender,locale,id,link&access_token=" + Token);
                     HttpWebRequest user = (HttpWebRequest)HttpWebRequest.Create(targetUserUri);
 
                     // Read the returned JSON object response
                     StreamReader userInfo = new StreamReader(user.GetResponse().GetResponseStream());
-                    string jsonResponse = string.Empty;
+                    jsonResponse = string.Empty;
                     jsonResponse = userInfo.ReadToEnd();
                     if (!string.IsNullOrWhiteSpace(jsonResponse))
                     {
@@ -98,7 +130,7 @@ namespace Commons
                                 }
                                 catch (Exception ex)
                                 {
-                                    Commons.Logger.GenerateError(ex, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Result.Email =" + Result.Email);
+                                    Commons.Logger.GenerateError(ex, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Get Location, Token =" + Token);
                                 }
                             }
 

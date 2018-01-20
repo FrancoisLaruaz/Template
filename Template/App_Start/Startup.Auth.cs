@@ -63,8 +63,9 @@ namespace Template
 
                     // Set requested scope
                     facebookOptions.Scope.Add("email");
+                    facebookOptions.Scope.Add("user_friends");
                     //facebookOptions.Scope.Add("user_location");
-                   // facebookOptions.Scope.Add("user_birthday");
+                    // facebookOptions.Scope.Add("user_birthday");
 
                     app.UseFacebookAuthentication(facebookOptions);
 
