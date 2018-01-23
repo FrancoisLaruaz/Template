@@ -200,7 +200,7 @@ namespace DataAccess
                     element.EMailTypeName = Commons.MySQLHelper.GetStringFromMySQL(dr["EMailTypeName"]);
                     element.UserFirstNameDecrypt = Commons.EncryptHelper.DecryptString(Commons.MySQLHelper.GetStringFromMySQL(dr["FirstName"]));
                     element.UserLastNameDecrypt = Commons.EncryptHelper.DecryptString(Commons.MySQLHelper.GetStringFromMySQL(dr["LastName"]));
-                    element.UserEMail= Commons.MySQLHelper.GetStringFromMySQL(dr["EMail"]);
+                    element.UserEMailDecrypt = Commons.EncryptHelper.DecryptString(Commons.MySQLHelper.GetStringFromMySQL(dr["EMail"]));
 
                     result.Add(element);
                 }

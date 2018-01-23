@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileUploadService.cs" />
+    <Compile Include="SocialMediaConnectionService.cs" />
     <Compile Include="Task\DeleteUploadedFiles.cs" />
     <Compile Include="Task\Base\RecurringJobBase.cs" />
     <Compile Include="Task\Base\JobBase.cs" />

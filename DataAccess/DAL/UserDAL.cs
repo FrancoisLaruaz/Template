@@ -113,6 +113,8 @@ namespace DataAccess
                     Query = Query + "delete from user where Id=@UserId;";
                     Query = Query + "delete from userclaims where UserId=@UserIdentityId;";
                     Query = Query + "delete from userroles where UserId=@UserIdentityId;";
+                    Query = Query + "delete from socialmediaconnection where ProviderKeyUserFriend in  (select providerKey from userlogins where UserId=@UserIdentityId);";
+                    Query = Query + "delete from socialmediaconnection where ProviderKeyUserSignedUp in  (select providerKey from userlogins where UserId=@UserIdentityId);";
                     Query = Query + "delete from userlogins where UserId=@UserIdentityId;";
                     Query = Query + "delete from useridentity where Id=@UserIdentityId;";
                     parameters.Add("@UserIdentityId", UserIdentityId);

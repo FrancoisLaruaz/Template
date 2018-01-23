@@ -16,7 +16,7 @@ namespace Models.BDDObject
 
         public string UserLastNameDecrypt { get; set; }
 
-        public string UserEMail { get; set; }
+        public string UserEMailDecrypt { get; set; }
 
         public string NewsTitle { get; set; }
 
