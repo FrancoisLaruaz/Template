@@ -113,3 +113,5 @@ C:\DEV\Template_local\Commons\obj\Debug\Commons.csprojResolveAssemblyReference.c
 C:\DEV\Template_local\Commons\obj\Debug\Commons.csproj.CoreCompileInputs.cache
 C:\DEV\Template_local\Commons\obj\Debug\Commons.dll
 C:\DEV\Template_local\Commons\obj\Debug\Commons.pdb
+D:\DEV\Template\Commons\bin\Debug\Facebook.dll
+D:\DEV\Template\Commons\bin\Debug\Facebook.xml

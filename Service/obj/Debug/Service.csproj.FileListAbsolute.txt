@@ -116,3 +116,6 @@ C:\DEV\Template_local\Service\obj\Debug\Service.csproj.CoreCompileInputs.cache
 C:\DEV\Template_local\Service\obj\Debug\Service.dll
 C:\DEV\Template_local\Service\obj\Debug\Service.pdb
 C:\DEV\Template_local\Service\bin\Debug\Service.dll.config
+D:\DEV\Template\Service\bin\Debug\Service.dll.config
+D:\DEV\Template\Service\bin\Debug\Facebook.dll
+D:\DEV\Template\Service\bin\Debug\Facebook.xml

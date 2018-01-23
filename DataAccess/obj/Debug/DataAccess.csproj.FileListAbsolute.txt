@@ -122,3 +122,6 @@ C:\DEV\Template_local\DataAccess\obj\Debug\DataAccess.csproj.CoreCompileInputs.c
 C:\DEV\Template_local\DataAccess\obj\Debug\DataAccess.dll
 C:\DEV\Template_local\DataAccess\obj\Debug\DataAccess.pdb
 C:\DEV\Template_local\DataAccess\bin\Debug\mysql.data.entity.EF6.dll
+D:\DEV\Template\DataAccess\bin\Debug\mysql.data.entity.EF6.dll
+D:\DEV\Template\DataAccess\bin\Debug\Facebook.dll
+D:\DEV\Template\DataAccess\bin\Debug\Facebook.xml
