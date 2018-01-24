@@ -40,16 +40,7 @@ namespace Website.Controllers
         {
             get
             {
-                if (_signInManager == null)
-                {
-                    var owincontext = HttpContext.GetOwinContext();
-                    return owincontext.Get<ApplicationSignInManager>();
-                }
-                else
-                {
-                    return _signInManager;
-                }
-
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
             private set
             {
@@ -147,6 +138,9 @@ namespace Website.Controllers
         private const string XsrfKey = "XsrfId";
 
 
+
+
+
         public class FacebookBackChannelHandler : HttpClientHandler
         {
             protected override async System.Threading.Tasks.Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
@@ -161,8 +155,6 @@ namespace Website.Controllers
                     var content = await result.Content.ReadAsStringAsync();
                     var facebookOauthResponse = JsonConvert.DeserializeObject<FacebookOauthResponse>(content);
 
-
-
                     var outgoingQueryString = HttpUtility.ParseQueryString(string.Empty);
                     outgoingQueryString.Add(nameof(facebookOauthResponse.access_token), facebookOauthResponse.access_token);
                     outgoingQueryString.Add(nameof(facebookOauthResponse.expires_in), facebookOauthResponse.expires_in + string.Empty);
@@ -176,9 +168,9 @@ namespace Website.Controllers
 
                     string accessToken = facebookOauthResponse.access_token;
                     FacebookAccessToken = accessToken;
-                    //  Session["FacebookAccessToken"] = accessToken;
                     return modifiedResult;
                 }
+
                 catch (Exception e)
                 {
                     Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -237,7 +229,7 @@ namespace Website.Controllers
                             UserSession = UserService.GetUserSession(User.Identity.GetUserName());
                             if (UserSession != null)
                             {
-                                UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);   
+                                UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
                             }
 
 
@@ -337,7 +329,7 @@ namespace Website.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalSignUp(string provider, string returnUrl)
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            //  AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalSignUpCallback", "Account", new { ReturnUrl = returnUrl }));
         }
@@ -380,9 +372,10 @@ namespace Website.Controllers
                             string EncryptedUserName = EncryptHelper.EncryptToString(ExternalSignUpInformation.Email);
 
                             int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
-                            var user = new ApplicationUser { UserName = EncryptedUserName, Email = EncryptedUserName, FirstName = ExternalSignUpInformation.FirstName, LastName = ExternalSignUpInformation.LastName, LanguageId = CurrentLanguageId };
+                            var user = new ApplicationUser { UserName = EncryptedUserName, Email = EncryptedUserName, FirstName = ExternalSignUpInformation.FirstName, LastName = ExternalSignUpInformation.LastName, LanguageId = CurrentLanguageId,IsMasculine= ExternalSignUpInformation.IsMasculine, ReceiveNews=false };
+                         
                             var result = await UserManager.CreateAsync(user);
-                            if (result.Succeeded)
+                            if (result != null && result.Succeeded)
                             {
                                 result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
                                 if (result.Succeeded)
@@ -406,13 +399,17 @@ namespace Website.Controllers
                                 }
 
                             }
-                            if (result != null)
+                            else if (result != null)
                             {
                                 foreach (var error in result.Errors)
                                 {
                                     string message = error;
                                     _Error = _Error + " " + message;
                                 }
+                            }
+                            else
+                            {
+                                _Error = "[[[An error occured while creating the user.]]]";
                             }
                         }
                         else
@@ -423,7 +420,7 @@ namespace Website.Controllers
                     }
                     else
                     {
-                        _Error = "[[[You must authorize ]]]"+CommonsConst.Const.WebsiteTitle+"[[[ to access your email address in order to sign up.]]]";
+                        _Error = "[[[You must authorize ]]]" + CommonsConst.Const.WebsiteTitle + "[[[ to access your email address in order to sign up.]]]";
 
                         if (!string.IsNullOrWhiteSpace(FacebookAccessToken))
                         {
@@ -453,7 +450,7 @@ namespace Website.Controllers
             SignUpViewModel model = new SignUpViewModel();
             try
             {
-
+                model.ReceiveNews = true;
             }
             catch (Exception e)
             {
@@ -488,9 +485,10 @@ namespace Website.Controllers
 
                             model.Email = Commons.EncryptHelper.EncryptToString(model.Email);
                             int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
-                            var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LanguageId = CurrentLanguageId };
+                            var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LanguageId = CurrentLanguageId, ReceiveNews = model.ReceiveNews };
+                        
                             var result = await UserManager.CreateAsync(user, model.Password);
-                            if (result.Succeeded)
+                            if (result!=null && result.Succeeded)
                             {
                                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -548,10 +546,10 @@ namespace Website.Controllers
             SignUpPictureViewModel model = new SignUpPictureViewModel();
             try
             {
-                if(User.Identity.IsAuthenticated)
+                if (User.Identity.IsAuthenticated)
                 {
                     User userLogged = UserService.GetUserByUserName(User.Identity.Name);
-                    if(userLogged!=null)
+                    if (userLogged != null)
                     {
                         model.PictureSrc = userLogged.PictureSrc;
                         model.PicturePreviewSrc = FileHelper.GetDecryptedFilePath(model.PictureSrc, true);
@@ -579,7 +577,7 @@ namespace Website.Controllers
                 if (User.Identity.IsAuthenticated)
                 {
                     int UserId = UserSession.UserId;
-                    if(UserId>0 && !String.IsNullOrWhiteSpace(model.PictureSrc))
+                    if (UserId > 0 && !String.IsNullOrWhiteSpace(model.PictureSrc))
                     {
                         _Result = UserService.UpdateProfilePicture(UserId, model.PictureSrc);
                     }
@@ -638,7 +636,7 @@ namespace Website.Controllers
                             {
                                 _UserFirstName = UserSession.FirstNameDecrypt;
                                 UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
-                                model.LanguageTag= UserSession.LanguageTag;
+                                model.LanguageTag = UserSession.LanguageTag;
                             }
                             break;
                         case SignInStatus.LockedOut:
@@ -663,7 +661,7 @@ namespace Website.Controllers
                             break;
                     }
                 }
- 
+
             }
             catch (Exception e)
             {
@@ -685,7 +683,7 @@ namespace Website.Controllers
                 //  Session.Clear();
                 // Session.Abandon();
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-        
+
             }
             catch (Exception e)
             {
@@ -735,10 +733,10 @@ namespace Website.Controllers
         /// <returns></returns>
         public ActionResult TermsAndConditions()
         {
- 
+
             try
             {
-                ViewBag.Title = "[[[Terms And Conditions]]]"; 
+                ViewBag.Title = "[[[Terms And Conditions]]]";
             }
             catch (Exception e)
             {

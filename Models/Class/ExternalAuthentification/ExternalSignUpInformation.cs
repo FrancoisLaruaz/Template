@@ -17,7 +17,6 @@ namespace Models.Class.ExternalAuthentification
 
         public string ImageSrc { get; set; }
 
-        public string Gender { get; set; }
 
         public string FacebookId { get; set; }
 
@@ -30,6 +29,10 @@ namespace Models.Class.ExternalAuthentification
         public string ProviderKey { get; set; }
 
         public List<string> FriendsList { get; set; }
+
+        public bool? IsMasculine { get; set; }
+
+
 
         public bool FriendsPermission { get; set; }
 

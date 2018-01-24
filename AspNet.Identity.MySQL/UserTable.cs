@@ -217,8 +217,8 @@ namespace AspNet.Identity.MySQL
 
                 if (result > 0)
                 {
-                    commandText = @"Insert into user (UserName, FirstName, LastName, DateCreation, DateModification, LanguageId, PictureSrc)
-                values (@UserName, @FirstName, @LastName, @DateCreation,@DateModification,@LanguageId,@PictureSrc);";
+                    commandText = @"Insert into user (UserName, FirstName, LastName, DateCreation, DateModification, LanguageId, PictureSrc,IsMasculine,ReceiveNews)
+                values (@UserName, @FirstName, @LastName, @DateCreation,@DateModification,@LanguageId,@PictureSrc,@IsMasculine,@ReceiveNews);";
                     parameters = new Dictionary<string, object>();
                     parameters.Add("@UserName", user.UserName);
                     parameters.Add("@FirstName", Commons.EncryptHelper.EncryptToString(user.FirstName));
@@ -226,6 +226,8 @@ namespace AspNet.Identity.MySQL
                     parameters.Add("@DateCreation", DateTime.UtcNow);
                     parameters.Add("@DateModification", DateTime.UtcNow);
                     parameters.Add("@LanguageId", user.LanguageId);
+                    parameters.Add("@IsMasculine", user.IsMasculine);
+                    parameters.Add("@ReceiveNews", user.ReceiveNews);
                     parameters.Add("@PictureSrc", user.PictureSrc?? CommonsConst.Const.DefaultImageUser);
                     result = _database.Execute(commandText, parameters);
                 }

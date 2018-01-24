@@ -155,7 +155,7 @@ namespace DataAccess
             {
                 db = new DBConnect();
                 string Query = "select U.Id, U.PictureSrc, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, UI.DateLastConnection ";
-                Query = Query + ", U.ReceiveNews,U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, UI.PasswordHash, UI.Email, U.CountryId, U.FacebookId ";
+                Query = Query + ", U.ReceiveNews,U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, UI.PasswordHash, UI.Email, U.CountryId ";
                 Query = Query + ", C.Name as CountryName, UI.EmailConfirmationToken ";
                 Query = Query + ", UI.UserName, UI.Id as UserIdentityId, UI.ResetPasswordToken,UI.EmailConfirmed,UI.AccessFailedCount,UI.LockoutEnabled,UI.LockoutEndDateUtc ";
                 Query = Query + ",P.Id as ProvinceId, P.Name as ProvinceName ";
@@ -203,7 +203,6 @@ namespace DataAccess
                     User.Adress2 = MySQLHelper.GetStringFromMySQL(dr["Adress2"]);
                     User.Adress3 = MySQLHelper.GetStringFromMySQL(dr["Adress3"]);
                     User.PasswordHash = Convert.ToString(dr["PasswordHash"]);
-                    User.FacebookId = MySQLHelper.GetStringFromMySQL(dr["FacebookId"]);
                     User.ResetPasswordToken = Convert.ToString(dr["ResetPasswordToken"]);
                     User.UserName = Convert.ToString(dr["UserName"]);
                     User.Description = Convert.ToString(dr["Description"]);

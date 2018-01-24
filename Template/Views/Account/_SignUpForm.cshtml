@@ -66,6 +66,14 @@ else
                         @Html.Partial("_PasswordPolicy")
                     </div>
 
+
+                    <div class="col-md-10 col-xs-12 col-md-offset-1">
+
+                        @Html.CheckBoxFor(m => m.ReceiveNews, new { @class = "styled-checkbox" })
+
+                        <label for="ReceiveNews" class="LabelStyled-checkbox" style="font-size:13px !important;font-weight:normal !important;">[[[Receive our special offers, opportunities, and updates.]]]</label>
+                    </div>
+
                     <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 iAgreeTxt">
                         [[[By clicking Sign Up, I agree to our <a href="Account/TermsAndConditions" target="_blank">Terms of Service</a> and <a class="anti-old-a" href="Account/PrivacyPolicy" target="_blank">Privacy Policy</a>.]]]
                     </div>

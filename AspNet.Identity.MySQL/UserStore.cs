@@ -74,9 +74,16 @@ namespace AspNet.Identity.MySQL
                 throw new ArgumentNullException("user");
             }
 
-            userTable.Insert(user);
+            int Id=userTable.Insert(user);
 
-            return Task.FromResult<object>(null);
+            if (Id > 0)
+            {
+                return Task.FromResult<object>(null);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>

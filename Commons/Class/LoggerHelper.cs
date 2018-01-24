@@ -161,7 +161,7 @@ namespace Commons
             { }
             if (LoggeError && Utils.IsLocalhost() && (type != typeof(HttpApplication) || type == null))
             {
-                throw Ex;
+             //   throw Ex;
             }
         }
 

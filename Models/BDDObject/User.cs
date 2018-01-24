@@ -40,6 +40,5 @@ namespace Models.BDDObject
 
         public bool ReceiveNews { get; set; }
 
-        public string FacebookId { get; set; }
     }
 }

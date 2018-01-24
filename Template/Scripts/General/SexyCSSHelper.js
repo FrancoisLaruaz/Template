@@ -3,17 +3,21 @@ $(document).ready(function () {
 });
 
 function SetSexyCSS() {
+    DeleteSexyCSSElements();
     SetStyledCheckboxes();
     SetSexyLabelsForTB();
     SetSexyTB();
     SetSexySelect();
 }
 
-function SetSexySelect()
-{
+function DeleteSexyCSSElements() {
+    $(".highlightSexyCSS").remove();
+}
+
+function SetSexySelect() {
     $('.select-text').each(function (index, value) {
         var FieldToAdd = $(this).parent();
-        $(FieldToAdd).append('<span class="select-highlight"></span><span class="select-bar"></span >');
+        $(FieldToAdd).append('<span class="select-highlight highlightSexyCSS"></span><span class="select-bar highlightSexyCSS"></span >');
     });
 }
 
@@ -22,7 +26,7 @@ function SetSexyTB() {
     $('.sexyTB').each(function (index, value) {
 
         var parentElement = document.querySelector("#" + $(this).attr('id')).parentNode;
-        parentElement.children[1].insertAdjacentHTML("afterEnd", '<span class="bar"></span><span class="highlight"></span >');
+        parentElement.children[1].insertAdjacentHTML("afterEnd", '<span class="bar highlightSexyCSS"></span><span class="highlight highlightSexyCSS"></span >');
     });
 
 

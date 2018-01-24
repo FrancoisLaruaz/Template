@@ -108,13 +108,27 @@ namespace Commons
                         {
                             Result.FirstName = Utils.DoesPropertyExist(jsondata, "first_name") ? jsondata["first_name"].ToString() : null;
                             Result.LastName = Utils.DoesPropertyExist(jsondata, "last_name") ? jsondata["last_name"].ToString() : null;
-                            Result.Gender = Utils.DoesPropertyExist(jsondata, "gender") ? jsondata["gender"].ToString() : null;
                             Result.Email = Utils.DoesPropertyExist(jsondata, "email") ? jsondata["email"].ToString() : null;
                             Result.FacebookId = Utils.DoesPropertyExist(jsondata, "id") ? jsondata["id"].ToString() : null;
                             Result.ImageSrc = Utils.DoesPropertyExist(jsondata, "id") ? "http://graph.facebook.com/" + Result.FacebookId + "/picture?type=large&redirect=true&width=500&height=500" : null;
                             Result.FacebookLink = Utils.DoesPropertyExist(jsondata, "link") ? jsondata["link"].ToString() : null;
                             var BirthDay = Utils.DoesPropertyExist(jsondata, "birthday") ? jsondata["birthday"].ToString() : null;
                             Result.ProviderKey = Result.FacebookId != null ? Result.FacebookId.ToString() : null;
+
+
+                            if(Utils.DoesPropertyExist(jsondata, "gender"))
+                            {
+                                string Gender = jsondata["gender"].ToString();
+
+                                if(Gender.ToLower()=="male")
+                                {
+                                    Result.IsMasculine = true;
+                                }
+                                else if (Gender.ToLower() == "female")
+                                {
+                                    Result.IsMasculine = false;
+                                }
+                            }
 
                             if (Utils.DoesPropertyExist(jsondata, "location"))
                             {

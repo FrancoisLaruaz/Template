@@ -123,7 +123,7 @@ function OpenNewTabWindow(url) {
 function ScrollToErrorOrFirstInput(formname) {
     var FieldToFocus = $('#' + formname + ' .input-validation-error:first').get(0);
     if (FieldToFocus == null) {
-        var FieldToFocus = $('#' + formname + ' :input:not(input[type=button],input[type=submit],button):visible:first').get(0);
+        FieldToFocus = $('#' + formname + ' :input:not(input[type=button],input[type=submit],button):visible:first').get(0);
     }
 
     if (FieldToFocus != null) {
@@ -510,4 +510,9 @@ function CorrectCharacters(string) {
     }
 
     return retour;
+}
+
+
+function replaceAll(str, term, replacement) {
+    return str.replace(new RegExp(escapeRegExp(term), 'g'), replacement);
 }

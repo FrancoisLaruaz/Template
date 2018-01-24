@@ -32,6 +32,8 @@ namespace Models.ViewModels
 
         public string LangTagPreference { get; set; }
 
+        public bool ReceiveNews { get; set; }
+
 
         public SignUpViewModel()
         {
