@@ -9,7 +9,7 @@ namespace Models.Class.ExternalAuthentification
 {
     public class ExternalAuthentificationResult
     {
-        public ExternalAuthentificationResult(bool success, string returnUrl, string error, string media, string imageSrc, bool isSignUp, string language)
+        public ExternalAuthentificationResult(bool success, string returnUrl, string error, string media, string imageSrc, bool isSignUp, string language, string redirection = null, string firstName = null, string lastName = null)
         {
             Success = success;
             ReturnUrl = returnUrl;
@@ -18,6 +18,9 @@ namespace Models.Class.ExternalAuthentification
             IsSignUp = isSignUp;
             ImageSrc = imageSrc;
             Language = language;
+            Redirection = redirection;
+            FirstName = firstName;
+            LastName = lastName;
         }
 
         public bool Success { get; set; }
@@ -30,6 +33,12 @@ namespace Models.Class.ExternalAuthentification
         public string Error { get; set; }
 
         public bool IsSignUp { get; set; }
+
+        public string Redirection { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
 
         public string Language { get; set; }
     }

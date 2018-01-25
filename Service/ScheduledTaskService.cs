@@ -26,9 +26,13 @@ namespace Service
         {
             try
             {
+                if(!Utils.IsLocalhost())
+                    Logger.GenerateInfo("SetTasks CALLED");
                 var SchedulerInfo = TaskHelper.GetSchedulerInformation();
                 if (SchedulerInfo.RecurringTaskList.Count==0 && SchedulerInfo.ScheduledTasksNumberInScheduler==0)
                 {
+                    if (!Utils.IsLocalhost())
+                        Logger.GenerateInfo("SetTasks RESET");
                     SetRecurringScheduledTasks();
                     SetScheduledTasks();
                 }

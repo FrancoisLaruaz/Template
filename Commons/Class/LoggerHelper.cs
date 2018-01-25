@@ -147,7 +147,7 @@ namespace Commons
                         Message = "- Form => " + Form;
                     if (!String.IsNullOrEmpty(Details))
                         Message = "- Details => " + Details + " </br></br>" + Message;
-                    Message = "- HttpMethod => " + HttpContext.Current.Request.HttpMethod + " </br></br>" + Message;
+                    Message = "- HttpMethod => " + HttpContext.Current?.Request?.HttpMethod ?? "N/A" + " </br></br>" + Message;
                     if (!String.IsNullOrEmpty(Url) && !String.IsNullOrEmpty(UrlReferrer) && UrlReferrer.Trim().ToLower() != Url.Trim().ToLower())
                         Message = "- Url Referrer => " + UrlReferrer + " </br></br>" + Message;
                     if (!String.IsNullOrEmpty(Url))
@@ -161,7 +161,24 @@ namespace Commons
             { }
             if (LoggeError && Utils.IsLocalhost() && (type != typeof(HttpApplication) || type == null))
             {
-             //   throw Ex;
+                throw Ex;
+            }
+        }
+
+        /// <summary>
+        /// Generate an Info
+        /// </summary>
+        /// <param name="Message"></param>
+        public static void GenerateInfo(string Message)
+        {
+            try
+            {
+                log4net.ILog logger = log4net.LogManager.GetLogger("*** EVENT ***");
+                logger.Info(Message);
+            }
+            catch(Exception e)
+            {
+                Logger.GenerateError(e, typeof(Logger));
             }
         }
 

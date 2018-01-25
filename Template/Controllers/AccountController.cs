@@ -208,13 +208,17 @@ namespace Website.Controllers
             string _Error = "";
             string _Media = "";
             string _ImageSrc = "";
+            string _Language = CurrentLangTag;
+            string _Redirection = "";
+            string _FirstName = "";
+            string _LastName = "";
             try
             {
                 var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
 
                 if (loginInfo == null)
                 {
-                    _Error = "[[[An error occured while logging in.]]]";
+                    _Error = "[[[No login information have been provided.]]]";
                 }
                 else
                 {
@@ -230,6 +234,7 @@ namespace Website.Controllers
                             if (UserSession != null)
                             {
                                 UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
+                                _Language = UserSession.LanguageTag;
                             }
 
 
@@ -270,6 +275,7 @@ namespace Website.Controllers
                                                     if (UserSession != null)
                                                     {
                                                         UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
+                                                        _Language = UserSession.LanguageTag;
                                                     }
 
                                                     break;
@@ -286,7 +292,8 @@ namespace Website.Controllers
                                     }
                                     else
                                     {
-                                        _Error = "[[[The user is not registered. Please sign-up.]]]";
+                                        _Redirection = ExternalAuthentificationRedirection.RedirectToExternalSignUp;
+                                        _Error = "[[[No account exists for that ]]]" + ExternalSignUpInformation.LoginProvider + "[[[ login. Try signing up instead.]]]";
                                     }
                                 }
                                 else
@@ -305,7 +312,8 @@ namespace Website.Controllers
                             }
                             else
                             {
-                                _Error = "[[[The user is not registered. Please sign-up.]]]";
+                                _Redirection = ExternalAuthentificationRedirection.RedirectToExternalSignUp;
+                                _Error = "[[[No account exists for that login. Try signing up instead.]]]";
                             }
                             break;
                     }
@@ -317,7 +325,7 @@ namespace Website.Controllers
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
 
-            return View("~/Views/Account/ExternalAuthentificationResult.cshtml", new ExternalAuthentificationResult(_Result, returnUrl, _Error.Trim(), _Media, _ImageSrc, false, CurrentLangTag));
+            return View("~/Views/Account/ExternalAuthentificationResult.cshtml", new ExternalAuthentificationResult(_Result, returnUrl, _Error.Trim(), _Media, _ImageSrc, false, _Language, _Redirection, _FirstName, _LastName));
         }
 
         #endregion
@@ -342,12 +350,20 @@ namespace Website.Controllers
             string _Error = "";
             string _Media = "";
             string _ImageSrc = "";
+            string _Language = CurrentLangTag;
+            string _Redirection = "";
+            string _FirstName = "";
+            string _LastName = "";
             try
             {
 
 
                 var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-                if (loginInfo != null)
+                if (loginInfo == null)
+                {
+                    _Error = "[[[No login information have been provided.]]]";
+                }
+                else
                 {
 
                     _Media = loginInfo.Login.LoginProvider;
@@ -359,6 +375,7 @@ namespace Website.Controllers
                         if (!String.IsNullOrWhiteSpace(FacebookAccessToken))
                         {
                             ExternalSignUpInformation = SocialMediaHelper.GetFacebookInformation(FacebookAccessToken);
+                            _Language = UserSession.LanguageTag;
                         }
 
                     }
@@ -406,6 +423,11 @@ namespace Website.Controllers
                                     string message = error;
                                     _Error = _Error + " " + message;
                                 }
+                                if (_Error.Contains("is already taken"))
+                                {
+                                    _Error = _Error.Replace("is already taken.", "is already registered on FrontFundr. Please log in.");
+                                    _Redirection = ExternalAuthentificationRedirection.RedirectToLogin;
+                                }
                             }
                             else
                             {
@@ -414,7 +436,10 @@ namespace Website.Controllers
                         }
                         else
                         {
-                            _Error = "[[[You need a ]]]" + loginInfo.Login.LoginProvider + "[[[ account associated to a confirmed email address in order to sign up.]]]";
+                            _Redirection = ExternalAuthentificationRedirection.RedirectToEmailSignUp;
+                            _FirstName = ExternalSignUpInformation.FirstName;
+                            _LastName = ExternalSignUpInformation.LastName;
+                            _Error = "[[[Please review and provide any missing information to finish signing up.]]]";
                         }
 
                     }
@@ -440,7 +465,7 @@ namespace Website.Controllers
             }
 
 
-            return View("~/Views/Account/ExternalAuthentificationResult.cshtml", new ExternalAuthentificationResult(_Result, returnUrl, _Error.Trim(), _Media, _ImageSrc, true, CurrentLangTag));
+            return View("~/Views/Account/ExternalAuthentificationResult.cshtml", new ExternalAuthentificationResult(_Result, returnUrl, _Error.Trim(), _Media, _ImageSrc, true, _Language, _Redirection, _FirstName, _LastName));
         }
         #endregion
 

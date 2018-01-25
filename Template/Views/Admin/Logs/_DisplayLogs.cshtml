@@ -44,6 +44,17 @@
                     <td>@item.Exception</td>
                 </tr>
             }
+            else if(@item.Logger == "*** EVENT ***")
+            {
+                <tr style="color:green">
+                    <td>@item.Id</td>
+                    <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(@item.Date)</td>
+                    <td>@item.UserName</td>
+                    <td>@item.Logger</td>
+                    <td>@Html.Raw(@item.Message)</td>
+                    <td>@item.Exception</td>
+                </tr>
+            }
            else
             {
                 <tr style="color:saddlebrown">

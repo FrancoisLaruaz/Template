@@ -1,53 +1,78 @@
-function externalAuthentificationCallback(success, returnUrl, error, media, isSignUp, imageSrc, language) {
+function externalAuthentificationCallback(success, returnUrl, error, media, isSignUp, imageSrc, language, Redirection, firstName, lastName) {
+    ResetErrors();
+    if (Redirection == Constants.ExternalAuthentificationRedirection.RedirectToEmailSignUp) {
 
- 
+        $("#SignUpChoice").fadeOut(500, function () {
+            $("#SignUpFormDiv").fadeIn(500);
+        });
 
-    if (isSignUp == 'true') {
+        $('#RedirectToEmailSignUpError').html(error);
+        setTimeout(function () { $("#FirstName").val(CorrectCharacters(firstName)); }, 500);
+        setTimeout(function () { $("#LastName").val(CorrectCharacters(lastName)); }, 500);
+        setTimeout(function () { SetSexyCSS(); }, 510);
 
-        $('#ErrorSignUpForm').html('');
-        $('.resultExternalAuthentification').html('');
-        alert('success : ' + success);
-        if (success == 'true') {
-            hideAndShowGuidePg('loginOrSignInModalBody', 'SignUpWelcomePage');
-        } else {
-            SetExternalSignUpForm(media);
-            document.getElementById("SignUpV2Result_" + media).innerHTML = error;
-            HideSpinner();
-        }
+    }
+    else if (Redirection == Constants.ExternalAuthentificationRedirection.RedirectToExternalSignUp ) {
+        $('#GeneralExternalSignUpError').html(error);
+        $("#SignUpFormDiv").hide();
+        $("#SignUpChoice").show();
+        $("#SignUpLink").click();
+    }
+    else if (Redirection == Constants.ExternalAuthentificationRedirection.RedirectToLogin) {
+        $('#GeneralExternalLogInError').html(error);
+        $("#LoginNowLink").click();
     }
     else {
-        ShowSpinner();
-        $('#ErrorLoginForm').html('');
-        $('.resultExternalAuthentification').html('');
-        alert('success : ' + success);
-        if (success == 'true') {
-            var toGo = $('#URLRedirect').val();
 
-            alert('toGo : ' + toGo);
-            if (toGo.length > 0 && toGo.trim() != "/") {
+        if (isSignUp == 'true') {
 
-
-                if (toGo.indexOf("http") == -1 && toGo.indexOf("www.") == -1) {
-
-                    if (language != null && language != "") {
-                        toGo = "/" + language + toGo;
-                    }
-                    var Base = GetHomePageUrl();
-
-                    toGo = Base + toGo;
-                }
-
-                window.location.href = toGo;
+            
+            if (success == 'true') {
+                hideAndShowGuidePg('loginOrSignInModalBody', 'SignUpWelcomePage');
             } else {
-                location.reload();
+                if (error == null || error.trim() == "") {
+                    error = "[[[An unexpected error occured. Please try again.]]]";
+                }
+                SetExternalSignUpForm(media);
+                document.getElementById("SignUpV2Result_" + media).innerHTML = error;
+                HideSpinner();
             }
-        } else {
-            SetExternalLogInForm(media);
-            document.getElementById("LogInResult_" + media).innerHTML = error;
-            HideSpinner();
+        }
+        else {
+            ShowSpinner();
+
+   
+            if (success == 'true') {
+                var toGo = $('#URLRedirect').val();
+
+            
+                if (toGo.length > 0 && toGo.trim() != "/") {
+
+
+                    if (toGo.indexOf("http") == -1 && toGo.indexOf("www.") == -1) {
+
+                        if (language != null && language != "") {
+                            toGo = "/" + language + toGo;
+                        }
+                        var Base = GetHomePageUrl();
+
+                        toGo = Base + toGo;
+                    }
+
+                    window.location.href = toGo;
+                } else {
+                    location.reload();
+                }
+            } else {
+                SetExternalLogInForm(media);
+                if (error == null || error.trim() == "") {
+                    error = "[[[An unexpected error occured. Please try again.]]]";
+                }
+                document.getElementById("LogInResult_" + media).innerHTML = error;
+                HideSpinner();
+            }
         }
     }
-
 
 
 }
@@ -86,20 +111,13 @@ function SetExternalSignUpForm(Media) {
 }
 
 function SetExternalSignUpBtns() {
-    $('.SignUpBtn_js').each(function (index, value) {
-        var Provider = $(this).attr("value");
-        document.getElementById("SignUpSpan_" + Provider).innerHTML =  Provider;
-    });
+
 
 }
 
 function SetExternalLogInBtns() {
 
 
-    $('.LogInBtn_js').each(function (index, value) {
-        var Provider = $(this).attr("value");
-        document.getElementById("LogInSpan_" + Provider).innerHTML =  Provider;
-    });
 
 }
 
@@ -109,5 +127,14 @@ function ExternalLogInFormOnBegin(Media) {
 }
 
 function SetExternalLogInForm(Media) {
-    document.getElementById("LogInSpan_" + Media).innerHTML =  Media;
+
+}
+
+function ResetErrors() {
+    $('.resultExternalAuthentification').html('');
+    $('#ErrorLoginForm').html('');
+    $('#ErrorSignUpForm').html('');
+    $('#RedirectToEmailSignUpError').html('');
+    $('#GeneralExternalSignUpError').html('');
+    $('#GeneralExternalLogInError').html('');
 }
