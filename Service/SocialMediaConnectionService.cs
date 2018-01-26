@@ -15,26 +15,35 @@ namespace Service
     {
 
         /// <summary>
-        /// Insert a connection between user of the website
+        /// Insert connections between users of the website
         /// </summary>
-        /// <param name="Connection"></param>
+        /// <param name="FriendsList"></param>
+        /// <param name="ProviderKey"></param>
+        /// <param name="LoginProvider"></param>
         /// <returns></returns>
-        public static int InsertSocialMediaConnection(SocialMediaConnection Connection)
+        public static bool InsertSocialMediaConnections(List<string> FriendsList,string ProviderKey, string LoginProvider)
         {
-            int Result = -1;
+            bool Result =true;
             try
             {
-                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                Columns.Add("LoginProvider", Connection.LoginProvider);
-                Columns.Add("ProviderKeyUserSignedUp", Connection.ProviderKeyUserSignedUp);
-                Columns.Add("ProviderKeyUserFriend", Connection.ProviderKeyUserFriend);
-                Columns.Add("Date", DateTime.UtcNow);
-                Result = GenericDAL.InsertRow("socialmediaconnection", Columns);
+
+                if (FriendsList != null && FriendsList.Count > 0)
+                {
+                    foreach (string Friend in FriendsList)
+                    {
+                        Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                        Columns.Add("LoginProvider", LoginProvider);
+                        Columns.Add("ProviderKeyUserSignedUp", ProviderKey);
+                        Columns.Add("ProviderKeyUserFriend", Friend);
+                        Columns.Add("Date", DateTime.UtcNow);
+                        Result = Result && (GenericDAL.InsertRow("socialmediaconnection", Columns) >0?true:false);
+                    }
+                }
             }
             catch (Exception e)
             {
-                Result = -1;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                Result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "ProviderKey = "+ ProviderKey+ " and LoginProvider ="+ LoginProvider);
             }
             return Result;
         }

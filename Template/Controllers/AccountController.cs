@@ -26,6 +26,7 @@ using Newtonsoft.Json;
 using Models.Class.ExternalAuthentification;
 using Facebook;
 using CommonsConst;
+using System.Security.Claims;
 
 namespace Website.Controllers
 {
@@ -212,6 +213,7 @@ namespace Website.Controllers
             string _Redirection = "";
             string _FirstName = "";
             string _LastName = "";
+            UserSession userSession = null;
             try
             {
                 var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
@@ -230,11 +232,11 @@ namespace Website.Controllers
                     {
                         case SignInStatus.Success:
                             _Result = true;
-                            UserSession = UserService.GetUserSession(User.Identity.GetUserName());
-                            if (UserSession != null)
+                             userSession = UserService.GetUserSession(User.Identity.GetUserName());
+                            if (userSession != null)
                             {
-                                UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
-                                _Language = UserSession.LanguageTag;
+                                UserIdentityService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
+                                _Language = userSession.LanguageTag;
                             }
 
 
@@ -259,7 +261,7 @@ namespace Website.Controllers
 
                                 if (ExternalSignUpInformation.EmailPermission)
                                 {
-                                    if (UserService.IsUserRegistered(ExternalSignUpInformation.Email))
+                                    if (UserService.IsUserRegistered(EncryptHelper.EncryptToString(ExternalSignUpInformation.Email)))
                                     {
 
                                         bool success = UserLoginsService.CreateExternalLogin(ExternalSignUpInformation);
@@ -271,11 +273,13 @@ namespace Website.Controllers
                                             {
                                                 case SignInStatus.Success:
                                                     _Result = true;
-                                                    UserSession = UserService.GetUserSession(User.Identity.GetUserName());
-                                                    if (UserSession != null)
+                                                    userSession = UserService.GetUserSession(User.Identity.GetUserName());
+                                                    if (userSession != null)
                                                     {
-                                                        UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
-                                                        _Language = UserSession.LanguageTag;
+                                                        UserIdentityService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
+                                                        SocialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
+                                                        _Language = userSession.LanguageTag;
+
                                                     }
 
                                                     break;
@@ -337,7 +341,7 @@ namespace Website.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalSignUp(string provider, string returnUrl)
         {
-            //  AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalSignUpCallback", "Account", new { ReturnUrl = returnUrl }));
         }
@@ -349,7 +353,7 @@ namespace Website.Controllers
             bool _Result = false;
             string _Error = "";
             string _Media = "";
-            string _ImageSrc = "";
+            string _ImageSrc = null;
             string _Language = CurrentLangTag;
             string _Redirection = "";
             string _FirstName = "";
@@ -375,8 +379,26 @@ namespace Website.Controllers
                         if (!String.IsNullOrWhiteSpace(FacebookAccessToken))
                         {
                             ExternalSignUpInformation = SocialMediaHelper.GetFacebookInformation(FacebookAccessToken);
-                            _Language = UserSession.LanguageTag;
                         }
+
+                    }
+                    else if (loginInfo.Login.LoginProvider == "Google")
+                    {
+                        var accessToken = loginInfo.ExternalIdentity.Claims.Where(c => c.Type.Equals("urn:google:accesstoken")).Select(c => c.Value).FirstOrDefault();
+                        Uri apiRequestUri = new Uri("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + accessToken);
+                        //request profile image
+                        using (var webClient = new System.Net.WebClient())
+                        {
+                            var json = webClient.DownloadString(apiRequestUri);
+                            dynamic result = JsonConvert.DeserializeObject(json);
+                           var test = result.picture;
+                        }
+
+                        var externalIdentity = AuthenticationManager.GetExternalIdentityAsync(DefaultAuthenticationTypes.ExternalCookie);
+                        ExternalSignUpInformation.Email = externalIdentity.Result.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
+                        ExternalSignUpInformation.LastName = externalIdentity.Result.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname).Value;
+                        ExternalSignUpInformation.FirstName = externalIdentity.Result.Claims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName).Value;
+                        ExternalSignUpInformation.FacebookLink = externalIdentity.Result.Claims.FirstOrDefault(c => c.Type == ClaimTypes.DateOfBirth).Value;
 
                     }
 
@@ -389,26 +411,26 @@ namespace Website.Controllers
                             string EncryptedUserName = EncryptHelper.EncryptToString(ExternalSignUpInformation.Email);
 
                             int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
-                            var user = new ApplicationUser { UserName = EncryptedUserName, Email = EncryptedUserName, FirstName = ExternalSignUpInformation.FirstName, LastName = ExternalSignUpInformation.LastName, LanguageId = CurrentLanguageId,IsMasculine= ExternalSignUpInformation.IsMasculine, ReceiveNews=false };
-                         
+                            if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.ImageSrc))
+                            {
+                                ExternalSignUpInformation.ImageSrc = FileHelper.SaveAndEncryptFileFromWeb(ExternalSignUpInformation.ImageSrc, "user", ".jpg");
+                                _ImageSrc = ExternalSignUpInformation.ImageSrc;
+                            }
+                            var user = new ApplicationUser { UserName = EncryptedUserName, Email = EncryptedUserName, FirstName = ExternalSignUpInformation.FirstName, LastName = ExternalSignUpInformation.LastName, LanguageId = CurrentLanguageId, IsMasculine = ExternalSignUpInformation.IsMasculine, ReceiveNews = false , PictureSrc= _ImageSrc };
+
                             var result = await UserManager.CreateAsync(user);
                             if (result != null && result.Succeeded)
                             {
                                 result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
                                 if (result.Succeeded)
                                 {
-                                    if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.ImageSrc))
-                                    {
-                                        ExternalSignUpInformation.ImageSrc = FileHelper.SaveAndEncryptFileFromWeb(ExternalSignUpInformation.ImageSrc, "user", ".jpg");
-                                        _ImageSrc = ExternalSignUpInformation.ImageSrc;
-                                    }
-
-                                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                                     if (!String.IsNullOrWhiteSpace(EncryptedUserName))
                                     {
-                                        UserSession = UserService.GetUserSession(EncryptedUserName);
+                                        UserSession userSession = UserService.GetUserSession(EncryptedUserName);
                                         _Result = true;
+                                        _Language = userSession.LanguageTag;
+                                        SocialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
                                         EMailService.SendEMailToUser(EncryptedUserName, CommonsConst.EmailType.UserWelcome);
                                     }
                                     _Result = true;
@@ -425,7 +447,7 @@ namespace Website.Controllers
                                 }
                                 if (_Error.Contains("is already taken"))
                                 {
-                                    _Error = _Error.Replace("is already taken.", "is already registered on FrontFundr. Please log in.");
+                                    _Error = ExternalSignUpInformation.Email+"[[[ is already registered on ]]]" + CommonsConst.Const.WebsiteTitle + " .[[[Please log in. ]]]";
                                     _Redirection = ExternalAuthentificationRedirection.RedirectToLogin;
                                 }
                             }
@@ -511,9 +533,9 @@ namespace Website.Controllers
                             model.Email = Commons.EncryptHelper.EncryptToString(model.Email);
                             int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
                             var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LanguageId = CurrentLanguageId, ReceiveNews = model.ReceiveNews };
-                        
+
                             var result = await UserManager.CreateAsync(user, model.Password);
-                            if (result!=null && result.Succeeded)
+                            if (result != null && result.Succeeded)
                             {
                                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);

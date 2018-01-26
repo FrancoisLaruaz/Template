@@ -3,27 +3,8 @@
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
 }
-<div class="col-md-10 col-xs-12 col-md-offset-1 row" style="text-align:center;margin-top:12px;margin-bottom:12px;">
-    <div class="col-md-2 col-xs-2" style="padding-left:0px;padding-right:0px;">
-        <hr style="display: block;
-        height: 1px;
-        border: 0;
-        border-top: 1px solid #ccc;
-        margin: 1em 0;
-        padding: 0;" />
-    </div>
-    <div class="col-md-8 col-xs-8" style="padding-top:4px;padding-left:0px;padding-right:0px;">
-        [[[Or Continue With]]]
-    </div>
-    <div class="col-md-2. col-xs-2" style="padding-left:0px;padding-right:0px;">
-        <hr style="display: block;
-        height: 1px;
-        border: 0;
-        border-top: 1px solid #ccc;
-        margin: 1em 0;
-        padding: 0;" />
-    </div>
-</div>
+
+@Html.Partial("_OrContinueWith")
 
 <div class="col-md-12 col-xs-12" style="padding-left:0px;padding-right:0px;">
     <form id="ExternalSignUpForm" action="@Url.Action("ExternalSignUp", "Account")" method="POST" target="ExternalSignUpPopUp" onsubmit="invokeExternalAuthentification('ExternalSignUpPopUp');">
@@ -38,9 +19,9 @@
 
         </div>
     </form>
-    <div style="min-height:25px;padding-top:14px;padding-bottom:10px;" class="col-md-10 col-xs-12 col-md-offset-1">
-        <span id="GeneralExternalSignUpError" class="text-danger resultExternalAuthentification" style="min-height:25px;"></span>
+    <div style="padding-top:8px;padding-bottom:8px;" class="col-md-10 col-xs-12 col-md-offset-1">
+        <span id="GeneralExternalSignUpError" class="text-danger resultExternalAuthentification" style="min-height:20px;"></span>
     </div>
 </div>
 
-<script src="~/Scripts/Views/Account/ExternalAuthentification.js"></script>
+

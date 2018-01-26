@@ -24,7 +24,7 @@ namespace Service
             bool result = false;
             try
             {
-                User user = UserService.GetUserByUserName(Info.Email);
+                User user = UserService.GetUserByUserName(EncryptHelper.EncryptToString(Info.Email));
                 if (user != null)
                 {
 
@@ -36,7 +36,7 @@ namespace Service
                     Columns.Add("UserId", UserId);
                     int InsertedId = GenericDAL.InsertRow("userlogins", Columns);
 
-                    if (InsertedId > 0)
+                    if (InsertedId >= 0)
                     {
                         result = true;
                     }

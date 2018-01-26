@@ -49,7 +49,7 @@ namespace Service
             catch (Exception e)
             {
                 result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Language = " + Language+ " and UserName = " + UserName);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Language = " + Language + " and UserName = " + UserName);
             }
             return result;
         }
@@ -83,7 +83,7 @@ namespace Service
                 if (ListResult != null && ListResult.Count > 0)
                 {
                     User UserLogged = ListResult[0];
-                    if(UserLogged!=null)
+                    if (UserLogged != null)
                     {
                         result.FirstNameDecrypt = UserLogged.FirstNameDecrypt;
                         result.LastNameDecrypt = UserLogged.LastNameDecrypt;
@@ -132,17 +132,42 @@ namespace Service
             bool result = false;
             try
             {
-                ScheduledTaskService.CancelTaskByUserId(UserId);
                 User UserToDelete = GetUserById(UserId);
-                if(UserToDelete!=null)
+                if (UserToDelete != null)
                 {
+                    ScheduledTaskService.CancelTaskByUserId(UserId);
                     result = UserDAL.DeleteUserById(UserToDelete);
                 }
             }
             catch (Exception e)
             {
                 result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId.ToString());
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Delete a user by username
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <returns></returns>
+        public static bool DeleteUserByUserName(string UserName)
+        {
+            bool result = false;
+            try
+            {
+                User UserToDelete = GetUserByUserName(UserName);
+                if (UserToDelete != null)
+                {
+                    ScheduledTaskService.CancelTaskByUserId(UserToDelete.Id);
+                    result = UserDAL.DeleteUserById(UserToDelete);
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + UserName);
             }
             return result;
         }

@@ -12,6 +12,8 @@ using Microsoft.AspNet.Identity.Owin;
 using System.Configuration;
 using static Website.Controllers.AccountController;
 using Microsoft.Owin.Security.Google;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Template
 {
@@ -77,11 +79,36 @@ namespace Template
 
                     if (!String.IsNullOrWhiteSpace(GoogleAppId) && !String.IsNullOrWhiteSpace(GoogleAppSecret))
                     {
+
+
+                        var googleOptions = new GoogleOAuth2AuthenticationOptions()
+                        {
+                            ClientId = GoogleAppId,
+                            ClientSecret = GoogleAppSecret,
+                            Provider = new GoogleOAuth2AuthenticationProvider()
+                            {
+                                OnAuthenticated = (context) =>
+                                {
+                                    context.Identity.AddClaim(new Claim("urn:google:name", context.Identity.FindFirstValue(ClaimTypes.Name)));
+                                    context.Identity.AddClaim(new Claim("urn:google:givengame", context.Identity.FindFirstValue(ClaimTypes.GivenName)));
+                                    context.Identity.AddClaim(new Claim("urn:google:surname", context.Identity.FindFirstValue(ClaimTypes.Surname)));
+                                    context.Identity.AddClaim(new Claim("urn:google:email", context.Identity.FindFirstValue(ClaimTypes.Email)));
+                                    context.Identity.AddClaim(new Claim("urn:google:dateofbirth", context.Identity.FindFirstValue(ClaimTypes.DateOfBirth)));
+                                    //This following line is need to retrieve the profile image
+                                    context.Identity.AddClaim(new System.Security.Claims.Claim("urn:google:accesstoken", context.AccessToken, ClaimValueTypes.String, "Google"));
+
+                                    return Task.FromResult(0);
+                                }
+                            }
+                        };
+                        app.UseGoogleAuthentication(googleOptions);
+                        /*
                         app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
                         {
                             ClientId = GoogleAppId,
                             ClientSecret = GoogleAppSecret
                         });
+                        */
                     }
                     #endregion
                 }

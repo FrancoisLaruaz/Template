@@ -64,11 +64,12 @@ function externalAuthentificationCallback(success, returnUrl, error, media, isSi
                     location.reload();
                 }
             } else {
+
                 SetExternalLogInForm(media);
                 if (error == null || error.trim() == "") {
                     error = "[[[An unexpected error occured. Please try again.]]]";
                 }
-                document.getElementById("LogInResult_" + media).innerHTML = error;
+                $('#GeneralExternalLogInError').html(error);
                 HideSpinner();
             }
         }
@@ -123,7 +124,6 @@ function SetExternalLogInBtns() {
 
 function ExternalLogInFormOnBegin(Media) {
     ShowSpinner();
-   // document.getElementById("LogInSpan_" + Media).innerHTML = "[[[Logging In ...]]]";
 }
 
 function SetExternalLogInForm(Media) {

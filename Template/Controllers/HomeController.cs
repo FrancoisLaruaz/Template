@@ -42,10 +42,7 @@ namespace Website.Controllers
             {
                 ViewBag.ShowVideo = true;
 
-              // ScheduledTaskService.ScheduleEMailUserTask(21, CommonsConst.EmailType.UserWelcome, TimeSpan.FromSeconds(200));
-               // ScheduledTaskService.ScheduleEMailUserTask(21, CommonsConst.EmailType.UserWelcome, TimeSpan.FromSeconds(300));
-            //   ScheduledTaskService.ScheduleEMailUserTask(21, CommonsConst.EmailType.UserWelcome, TimeSpan.FromSeconds(400));
-               //    ScheduledTaskService.CancelTaskById(68,true);
+             //   UserService.DeleteUserByUserName("105219076094220162244233018007199054027107200065218206164043207051162253102002183176073026055055");
 
             }
             catch (Exception e)

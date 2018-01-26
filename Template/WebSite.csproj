@@ -481,6 +481,7 @@
     <Content Include="Views\Account\_ExternalLogIn.cshtml" />
     <Content Include="Views\Account\_ExternalSignUp.cshtml" />
     <Content Include="Views\Account\ExternalAuthentificationResult.cshtml" />
+    <Content Include="Views\Account\_OrContinueWith.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

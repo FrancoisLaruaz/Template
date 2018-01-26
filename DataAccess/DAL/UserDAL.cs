@@ -100,16 +100,16 @@ namespace DataAccess
                 if (UserToDelete != null)
                 {
                     int UserId = UserToDelete.Id;
-                    string UserName = MySQLHelper.GetStringToInsert(UserToDelete.UserName);
-                    string UserIdentityId=  MySQLHelper.GetStringToInsert(UserToDelete.UserIdentityId);
+                    string UserName = UserToDelete.UserName;
+                    string UserIdentityId=  UserToDelete.UserIdentityId;
 
                     db = new DBConnect();
                     db.BeginTransaction();
                     Dictionary<string, object> parameters = new Dictionary<string, object>();
-                    string Query = "delete from userrole where UserId=@UserId; ";
-                    Query = Query + "delete from scheduledtask where UserId=@UserId;";
+                    string Query = "delete from scheduledtask where UserId=@UserId;";
                     Query = Query + "update log4net set username=null where username=@UserName;";
                     Query = Query + "update news set LastModificationUserId=null where LastModificationUserId=@UserId;";
+                    Query = Query + "delete from emailaudit where UserId=@UserId;";
                     Query = Query + "delete from user where Id=@UserId;";
                     Query = Query + "delete from userclaims where UserId=@UserIdentityId;";
                     Query = Query + "delete from userroles where UserId=@UserIdentityId;";
@@ -117,15 +117,12 @@ namespace DataAccess
                     Query = Query + "delete from socialmediaconnection where ProviderKeyUserSignedUp in  (select providerKey from userlogins where UserId=@UserIdentityId);";
                     Query = Query + "delete from userlogins where UserId=@UserIdentityId;";
                     Query = Query + "delete from useridentity where Id=@UserIdentityId;";
-                    parameters.Add("@UserIdentityId", UserIdentityId);
+                     parameters.Add("@UserIdentityId", UserIdentityId);
+                   // Query = Query.Replace("@UserIdentityId", MySQLHelper.GetStringToInsert(UserIdentityId));
                     parameters.Add("@UserId", UserId);
                     parameters.Add("@UserName", UserName);
                     result = db.ExecuteQuery(Query, parameters);
 
-                    if (result)
-                        result = db.CommitTransaction();
-                    else
-                        db.RollbackTransaction();
                 }
             }
             catch (Exception e)
@@ -135,6 +132,10 @@ namespace DataAccess
             }
             finally
             {
+                if (result)
+                    result = db.CommitTransaction();
+                else
+                    db.RollbackTransaction();
                 db.Dispose();
             }
             return result;
