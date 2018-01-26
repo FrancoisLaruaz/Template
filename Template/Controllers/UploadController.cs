@@ -186,7 +186,7 @@ namespace Website.Controllers
                                 if (newFile.EncryptFile)
                                 {
                                     bool IsUserPicture = false;
-                                    if (Purpose.Contains("User"))
+                                    if (Purpose.ToLower().Contains("user"))
                                     {
                                         IsUserPicture = true;
                                     }

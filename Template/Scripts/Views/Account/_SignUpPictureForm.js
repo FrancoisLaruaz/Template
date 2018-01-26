@@ -12,7 +12,7 @@ function SetSkipPictureOnClick()
 function SetSignUpPictureForm()
 {
     SetCamera('UserPicture', 'CameraPictureUser', 'PictureSrc', 'CameraPictureUserPreview');
-    SetDragAndDropPicture('CameraPictureUserPreview', 'UserPicture', 'PictureSrc','CameraPictureUserPreview')
+    SetDragAndDropPicture('CameraPictureUserPreview', 'user', 'PictureSrc','CameraPictureUserPreview')
     SetSkipPictureOnClick();
 }
 
