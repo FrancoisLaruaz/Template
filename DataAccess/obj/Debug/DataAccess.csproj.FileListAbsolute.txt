@@ -127,6 +127,7 @@ D:\DEV\Template\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.c
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.dll
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.pdb
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:\DEV\Template_local\DataAccess\bin\Debug\MySql.Web.dll
 =======
 D:\DEV\Template\DataAccess\bin\Debug\Newtonsoft.Json.dll
@@ -135,3 +136,7 @@ C:\DEV\Template_local\DataAccess\bin\Debug\MySql.Web.dll
 C:\DEV\Template_local\DataAccess\bin\Debug\Newtonsoft.Json.dll
 C:\DEV\Template_local\DataAccess\bin\Debug\Newtonsoft.Json.xml
 >>>>>>> dff1cba11d18edc958e85bfaebef43e4bc0fb397
+=======
+D:\DEV\Template\DataAccess\bin\Debug\Newtonsoft.Json.dll
+D:\DEV\Template\DataAccess\bin\Debug\Newtonsoft.Json.xml
+>>>>>>> d678f47... google authenti

@@ -121,5 +121,8 @@ D:\DEV\Template\Service\obj\Debug\Service.dll
 D:\DEV\Template\Service\obj\Debug\Service.pdb
 D:\DEV\Template\Service\bin\Debug\Newtonsoft.Json.dll
 D:\DEV\Template\Service\bin\Debug\Newtonsoft.Json.xml
+<<<<<<< HEAD
 C:\DEV\Template_local\Service\bin\Debug\Newtonsoft.Json.dll
 C:\DEV\Template_local\Service\bin\Debug\Newtonsoft.Json.xml
+=======
+>>>>>>> d678f47... google authenti

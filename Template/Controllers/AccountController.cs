@@ -258,7 +258,11 @@ namespace Website.Controllers
                             else if (loginInfo.Login.LoginProvider == LoginProviders.Google)
                             {
                                 var GoogleAccessToken = loginInfo.ExternalIdentity.Claims.Where(c => c.Type.Equals("urn:google:accesstoken")).Select(c => c.Value).FirstOrDefault();
+<<<<<<< HEAD
                                 if (!String.IsNullOrWhiteSpace(GoogleAccessToken))
+=======
+                                if (!String.IsNullOrWhiteSpace(FacebookAccessToken))
+>>>>>>> d678f47... google authenti
                                 {
                                     ExternalSignUpInformation = SocialMediaHelper.GetGoogleInformation(GoogleAccessToken);
                                 }
@@ -393,7 +397,11 @@ namespace Website.Controllers
                     else if (loginInfo.Login.LoginProvider == LoginProviders.Google)
                     {
                         var GoogleAccessToken = loginInfo.ExternalIdentity.Claims.Where(c => c.Type.Equals("urn:google:accesstoken")).Select(c => c.Value).FirstOrDefault();
+<<<<<<< HEAD
                         if (!String.IsNullOrWhiteSpace(GoogleAccessToken))
+=======
+                        if (!String.IsNullOrWhiteSpace(FacebookAccessToken))
+>>>>>>> d678f47... google authenti
                         {
                             ExternalSignUpInformation = SocialMediaHelper.GetGoogleInformation(GoogleAccessToken);
                         }
