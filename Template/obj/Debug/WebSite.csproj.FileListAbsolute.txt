@@ -294,3 +294,4 @@ D:\DEV\Template\Template\bin\DataAccess.dll.config
 D:\DEV\Template\Template\obj\Debug\WebSite.dll
 D:\DEV\Template\Template\obj\Debug\WebSite.pdb
 D:\DEV\Template\Template\bin\MySql.Data.xml
+C:\DEV\Template_local\Template\bin\MySql.Data.xml

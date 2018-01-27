@@ -126,3 +126,4 @@ D:\DEV\Template\DataAccess\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.dll
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.pdb
+C:\DEV\Template_local\DataAccess\bin\Debug\MySql.Web.dll
