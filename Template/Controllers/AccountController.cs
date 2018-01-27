@@ -250,10 +250,18 @@ namespace Website.Controllers
                         case SignInStatus.Failure:
                         default:
                             ExternalSignUpInformation ExternalSignUpInformation = null;
-                            if (!String.IsNullOrWhiteSpace(FacebookAccessToken))
+                            if (loginInfo.Login.LoginProvider == LoginProviders.Facebook && !String.IsNullOrWhiteSpace(FacebookAccessToken))
                             {
                                 ExternalSignUpInformation = SocialMediaHelper.GetFacebookInformation(FacebookAccessToken);
 
+                            }
+                            else if (loginInfo.Login.LoginProvider == LoginProviders.Google)
+                            {
+                                var GoogleAccessToken = loginInfo.ExternalIdentity.Claims.Where(c => c.Type.Equals("urn:google:accesstoken")).Select(c => c.Value).FirstOrDefault();
+                                if (!String.IsNullOrWhiteSpace(FacebookAccessToken))
+                                {
+                                    ExternalSignUpInformation = SocialMediaHelper.GetGoogleInformation(GoogleAccessToken);
+                                }
                             }
 
                             if (ExternalSignUpInformation != null)
@@ -382,24 +390,13 @@ namespace Website.Controllers
                         }
 
                     }
-                    else if (loginInfo.Login.LoginProvider == "Google")
+                    else if (loginInfo.Login.LoginProvider == LoginProviders.Google)
                     {
-                        var accessToken = loginInfo.ExternalIdentity.Claims.Where(c => c.Type.Equals("urn:google:accesstoken")).Select(c => c.Value).FirstOrDefault();
-                        Uri apiRequestUri = new Uri("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + accessToken);
-                        //request profile image
-                        using (var webClient = new System.Net.WebClient())
+                        var GoogleAccessToken = loginInfo.ExternalIdentity.Claims.Where(c => c.Type.Equals("urn:google:accesstoken")).Select(c => c.Value).FirstOrDefault();
+                        if (!String.IsNullOrWhiteSpace(FacebookAccessToken))
                         {
-                            var json = webClient.DownloadString(apiRequestUri);
-                            dynamic result = JsonConvert.DeserializeObject(json);
-                           var test = result.picture;
+                            ExternalSignUpInformation = SocialMediaHelper.GetGoogleInformation(GoogleAccessToken);
                         }
-
-                        var externalIdentity = AuthenticationManager.GetExternalIdentityAsync(DefaultAuthenticationTypes.ExternalCookie);
-                        ExternalSignUpInformation.Email = externalIdentity.Result.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
-                        ExternalSignUpInformation.LastName = externalIdentity.Result.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname).Value;
-                        ExternalSignUpInformation.FirstName = externalIdentity.Result.Claims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName).Value;
-                        ExternalSignUpInformation.FacebookLink = externalIdentity.Result.Claims.FirstOrDefault(c => c.Type == ClaimTypes.DateOfBirth).Value;
-
                     }
 
 

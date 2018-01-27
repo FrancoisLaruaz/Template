@@ -93,7 +93,7 @@ namespace Template
                                     context.Identity.AddClaim(new Claim("urn:google:givengame", context.Identity.FindFirstValue(ClaimTypes.GivenName)));
                                     context.Identity.AddClaim(new Claim("urn:google:surname", context.Identity.FindFirstValue(ClaimTypes.Surname)));
                                     context.Identity.AddClaim(new Claim("urn:google:email", context.Identity.FindFirstValue(ClaimTypes.Email)));
-                                    context.Identity.AddClaim(new Claim("urn:google:dateofbirth", context.Identity.FindFirstValue(ClaimTypes.DateOfBirth)));
+                                   // context.Identity.AddClaim(new Claim("urn:google:birthday", context.Identity.FindFirstValue(ClaimTypes.DateOfBirth)));
                                     //This following line is need to retrieve the profile image
                                     context.Identity.AddClaim(new System.Security.Claims.Claim("urn:google:accesstoken", context.AccessToken, ClaimValueTypes.String, "Google"));
 

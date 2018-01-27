@@ -119,3 +119,5 @@ D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\DEV\Template\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Service\obj\Debug\Service.dll
 D:\DEV\Template\Service\obj\Debug\Service.pdb
+D:\DEV\Template\Service\bin\Debug\Newtonsoft.Json.dll
+D:\DEV\Template\Service\bin\Debug\Newtonsoft.Json.xml
