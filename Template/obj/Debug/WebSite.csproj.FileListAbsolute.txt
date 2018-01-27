@@ -294,3 +294,4 @@ D:\DEV\Template\Template\bin\MySql.Data.xml
 D:\DEV\Template\Template\obj\Debug\WebSite.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Template\obj\Debug\WebSite.dll
 D:\DEV\Template\Template\obj\Debug\WebSite.pdb
+C:\DEV\Template_local\Template\bin\MySql.Data.xml

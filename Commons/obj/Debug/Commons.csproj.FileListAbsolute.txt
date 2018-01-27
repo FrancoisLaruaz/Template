@@ -117,3 +117,5 @@ D:\DEV\Template\Commons\obj\Debug\Commons.dll
 D:\DEV\Template\Commons\obj\Debug\Commons.pdb
 D:\DEV\Template\Commons\bin\Debug\Newtonsoft.Json.dll
 D:\DEV\Template\Commons\bin\Debug\Newtonsoft.Json.xml
+C:\DEV\Template_local\Commons\bin\Debug\Newtonsoft.Json.dll
+C:\DEV\Template_local\Commons\bin\Debug\Newtonsoft.Json.xml

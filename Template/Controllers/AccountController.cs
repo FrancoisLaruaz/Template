@@ -258,7 +258,7 @@ namespace Website.Controllers
                             else if (loginInfo.Login.LoginProvider == LoginProviders.Google)
                             {
                                 var GoogleAccessToken = loginInfo.ExternalIdentity.Claims.Where(c => c.Type.Equals("urn:google:accesstoken")).Select(c => c.Value).FirstOrDefault();
-                                if (!String.IsNullOrWhiteSpace(FacebookAccessToken))
+                                if (!String.IsNullOrWhiteSpace(GoogleAccessToken))
                                 {
                                     ExternalSignUpInformation = SocialMediaHelper.GetGoogleInformation(GoogleAccessToken);
                                 }
@@ -393,7 +393,7 @@ namespace Website.Controllers
                     else if (loginInfo.Login.LoginProvider == LoginProviders.Google)
                     {
                         var GoogleAccessToken = loginInfo.ExternalIdentity.Claims.Where(c => c.Type.Equals("urn:google:accesstoken")).Select(c => c.Value).FirstOrDefault();
-                        if (!String.IsNullOrWhiteSpace(FacebookAccessToken))
+                        if (!String.IsNullOrWhiteSpace(GoogleAccessToken))
                         {
                             ExternalSignUpInformation = SocialMediaHelper.GetGoogleInformation(GoogleAccessToken);
                         }
@@ -444,7 +444,7 @@ namespace Website.Controllers
                                 }
                                 if (_Error.Contains("is already taken"))
                                 {
-                                    _Error = ExternalSignUpInformation.Email+"[[[ is already registered on ]]]" + CommonsConst.Const.WebsiteTitle + " .[[[Please log in. ]]]";
+                                    _Error = ExternalSignUpInformation.Email+"[[[ is already registered on ]]]" + CommonsConst.Const.WebsiteTitle + ". [[[Please log in. ]]]";
                                     _Redirection = ExternalAuthentificationRedirection.RedirectToLogin;
                                 }
                             }

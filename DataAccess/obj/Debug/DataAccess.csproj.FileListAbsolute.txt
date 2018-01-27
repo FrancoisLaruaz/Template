@@ -128,3 +128,6 @@ D:\DEV\Template\DataAccess\obj\Debug\DataAccess.dll
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.pdb
 D:\DEV\Template\DataAccess\bin\Debug\Newtonsoft.Json.dll
 D:\DEV\Template\DataAccess\bin\Debug\Newtonsoft.Json.xml
+C:\DEV\Template_local\DataAccess\bin\Debug\MySql.Web.dll
+C:\DEV\Template_local\DataAccess\bin\Debug\Newtonsoft.Json.dll
+C:\DEV\Template_local\DataAccess\bin\Debug\Newtonsoft.Json.xml
