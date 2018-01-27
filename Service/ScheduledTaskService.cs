@@ -26,9 +26,11 @@ namespace Service
         {
             try
             {
+                Logger.GenerateInfo("SetTasks CALLED");
                 var SchedulerInfo = TaskHelper.GetSchedulerInformation();
                 if (SchedulerInfo.RecurringTaskList.Count==0 && SchedulerInfo.ScheduledTasksNumberInScheduler==0)
                 {
+                    Logger.GenerateInfo("SetTasks RESET");
                     SetRecurringScheduledTasks();
                     SetScheduledTasks();
                 }

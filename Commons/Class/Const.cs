@@ -51,6 +51,13 @@ namespace CommonsConst
         public const string Admin = "Admin";
     }
 
+    public static class ExternalAuthentificationRedirection
+    {
+        public const string RedirectToEmailSignUp = "RedirectToEmailSignUp";
+        public const string RedirectToLogin = "RedirectToLogin";
+        public const string RedirectToExternalSignUp = "RedirectToExternalSignUp";
+    }
+
     public static class CategoryTypes
     {
         public const int EmailType = 1;

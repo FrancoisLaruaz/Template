@@ -195,7 +195,6 @@ C:\DEV\Template_local\Template\obj\Debug\WebSite.csproj.CoreCompileInputs.cache
 C:\DEV\Template_local\Template\obj\Debug\WebSite.dll
 C:\DEV\Template_local\Template\obj\Debug\WebSite.pdb
 C:\DEV\Template_local\Template\bin\Service.dll.config
-D:\DEV\Template\Template\obj\Debug\WebSite.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Template\bin\WebSite.dll.config
 D:\DEV\Template\Template\bin\WebSite.dll
 D:\DEV\Template\Template\bin\WebSite.pdb
@@ -291,7 +290,12 @@ D:\DEV\Template\Template\bin\log4net.xml
 D:\DEV\Template\Template\bin\Ghostscript.NET.xml
 D:\DEV\Template\Template\bin\DataAccess.pdb
 D:\DEV\Template\Template\bin\DataAccess.dll.config
+D:\DEV\Template\Template\bin\MySql.Data.xml
+D:\DEV\Template\Template\obj\Debug\WebSite.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Template\obj\Debug\WebSite.dll
 D:\DEV\Template\Template\obj\Debug\WebSite.pdb
+<<<<<<< HEAD
 D:\DEV\Template\Template\bin\MySql.Data.xml
+=======
+>>>>>>> dff1cba11d18edc958e85bfaebef43e4bc0fb397
 C:\DEV\Template_local\Template\bin\MySql.Data.xml

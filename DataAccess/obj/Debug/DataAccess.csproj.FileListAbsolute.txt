@@ -126,4 +126,12 @@ D:\DEV\Template\DataAccess\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.dll
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.pdb
+<<<<<<< HEAD
 C:\DEV\Template_local\DataAccess\bin\Debug\MySql.Web.dll
+=======
+D:\DEV\Template\DataAccess\bin\Debug\Newtonsoft.Json.dll
+D:\DEV\Template\DataAccess\bin\Debug\Newtonsoft.Json.xml
+C:\DEV\Template_local\DataAccess\bin\Debug\MySql.Web.dll
+C:\DEV\Template_local\DataAccess\bin\Debug\Newtonsoft.Json.dll
+C:\DEV\Template_local\DataAccess\bin\Debug\Newtonsoft.Json.xml
+>>>>>>> dff1cba11d18edc958e85bfaebef43e4bc0fb397

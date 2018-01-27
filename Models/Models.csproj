@@ -78,7 +78,7 @@
     <Compile Include="BDDObject\User.cs" />
     <Compile Include="Class\ExternalAuthentification\ExternalSignUpInformation.cs" />
     <Compile Include="Class\ExternalAuthentification\FacebookOauthResponse.cs" />
-    <Compile Include="Class\ExternalAuthentification\ExternalAuthentification.cs" />
+    <Compile Include="Class\ExternalAuthentification\ExternalAuthentificationResult.cs" />
     <Compile Include="Class\TaskSchedule\SchedulerInformation.cs" />
     <Compile Include="Class\TaskSchedule\CronInfo.cs" />
     <Compile Include="Class\TaskSchedule\TaskScheduleResult.cs" />

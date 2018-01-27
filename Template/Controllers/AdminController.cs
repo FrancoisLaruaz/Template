@@ -84,7 +84,10 @@ namespace Website.Controllers
             string _Error = "";
             try
             {
-                _success = true;
+                if (ModelState.IsValid)
+                {
+                    _success = true;
+                }
             }
             catch (Exception e)
             {

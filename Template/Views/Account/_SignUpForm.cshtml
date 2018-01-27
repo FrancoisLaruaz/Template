@@ -29,10 +29,12 @@ else
         @using (Ajax.BeginForm("_SignUpForm", "Account", new { }, new AjaxOptions() { HttpMethod = "POST", OnBegin = "handleSignUpBegin", OnSuccess = "SignUpSuccess", OnFailure = "SignUpFailure" }, new { @id = "SignUpForm" }))
         {
             @Html.AntiForgeryToken()
-            <div class="row" style="margin-top:15px;">
+            <div class="row" style="">
 
                 <div class="col-xs-12 col-md-12">
-
+                    <div class="col-md-10 col-xs-12 col-md-offset-1" style="margin-bottom:16px !important;margin-top:10px !important;">
+                        <span id="RedirectToEmailSignUpError" class="text-danger resultExternalAuthentification"></span>
+                    </div>
                     <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
                         @Html.TextBoxFor(model => model.Email, new { @class = "sexyTB", @id = "EmailSignUp" })
                         <label class="labelSexyTb">@Html.DisplayNameFor(m => m.Email)</label>
@@ -54,7 +56,7 @@ else
                         @Html.ValidationMessageFor(m => m.LastName)
                     </div>
 
-                    <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
+                    <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroupShort">
                         @Html.PasswordFor(model => model.Password, new { @class = "sexyTB", @id = "PasswordToCheck" })
                         <label class="labelSexyTb">@Html.DisplayNameFor(m => m.Password)</label>
                         <i class="fa fa-lock SexyField-icons" aria-hidden="true"></i>

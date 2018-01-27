@@ -15,11 +15,45 @@ using Commons;
 using System.Web.Script.Serialization;
 using CommonsConst;
 using Facebook;
+using Newtonsoft.Json;
 
 namespace Commons
 {
     public static class SocialMediaHelper
     {
+
+        public static ExternalSignUpInformation GetGoogleInformation(string Token)
+        {
+            ExternalSignUpInformation Result = new ExternalSignUpInformation();
+            try
+            {
+                Result.LoginProvider = LoginProviders.Google;
+                Result.EmailPermission = true;
+
+                Uri apiRequestUri = new Uri("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + Token);
+                //request profile image
+                using (var webClient = new System.Net.WebClient())
+                {
+                    var json = webClient.DownloadString(apiRequestUri);
+                    if(!String.IsNullOrWhiteSpace(json))
+                    {
+                        dynamic result = JsonConvert.DeserializeObject(json);
+                        Result.ImageSrc = result.picture;
+                        Result.Email = result.email;
+                        Result.FirstName = result.given_name;
+                        Result.LastName = result.family_name;
+                        Result.ProviderKey = result.id;
+                    }
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Token =" + Token);
+            }
+            return Result;
+        }
 
         public static ExternalSignUpInformation GetFacebookInformation(string Token)
         {
@@ -151,6 +185,7 @@ namespace Commons
                         }
                     }
                 }
+            
             }
             catch (Exception e)
             {

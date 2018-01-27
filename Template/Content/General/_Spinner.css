@@ -15,7 +15,7 @@
 
 .spinner {
     text-align: center;
-    z-index: 950;
+    z-index: 5500;
     position: fixed;
 }
 
@@ -62,6 +62,6 @@
     left: 0;
     right: 0;
     margin: auto;
-    z-index: 900;
-    opacity:1 !important;
+    z-index: 5000;
+    opacity: 1 !important;
 }
