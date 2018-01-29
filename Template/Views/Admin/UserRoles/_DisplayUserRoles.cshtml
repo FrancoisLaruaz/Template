@@ -1,0 +1,48 @@
+﻿@model Models.ViewModels.DisplayUserRolesViewModel
+
+
+
+
+<div class="table-responsive">
+    <div class="pull-right">
+        <p style="font-weight:bold">@Model.Count [[[row(s) found]]]</p>
+    </div>
+    <table class="table table-striped" id="userContainer">
+        <thead>
+            <tr style="width:100% !important;">
+                <th style="width:30% !important;">[[[Name]]]</th>
+                <th style="width:25% !important;">[[[User Name]]]</th>
+                <th  style="width:45% !important;">[[[Roles]]]</th>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model.UserRolesList)
+        {
+
+
+            <tr style="width:100% !important;">
+                <td style="width:30% !important;">@item.UserFirstNameDecrypt @item.UserLastNameDecrypt</td>
+                <td style="width:25% !important;">@item.UserNameDecrypt</td>
+                <td id="td_userroles_@item.UseridentityId"  style="width:45% !important;" >
+                    <div id="div_userroles_@item.UseridentityId"  style="width:100% !important;" class="container-fluid noMarginNoPaddingVertical">
+                        @Html.Partial("~/Views/Admin/UserRoles/_DisplayUserRolesModifications.cshtml",item)
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@using (Html.BeginForm("_DisplayUserRoles", "Admin", FormMethod.Post, new { id = "_pager" }))
+{
+    @Html.Partial("_Pager")
+    @Html.HiddenFor(m => m.Pattern)
+}
+
+<script>
+    $(document).ready(function () {
+        HideSpinner();
+    });
+
+</script>

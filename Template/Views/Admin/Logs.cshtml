@@ -1,7 +1,7 @@
 ﻿@model Models.ViewModels.LogsViewModel
 
 
-@Html.Partial("_AdminTitle")
+@Html.Partial("_PageTitle")
 <div>
     <div class="container-fluid">
         <div class="main-content">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-4 col-md-offset-4">
-                        <input id="SearchBox" type="text" style="width:93% !important;height:30px !important;display:inline" class="form-control" />
+                        <input id="SearchBox" type="text"  class="form-control searchTexbox" />
                         <a style="margin-left:5px;" role="button" aria-haspopup="true" aria-expanded="false" title="Refresh logs" id="SearchIcon" onclick="RefreshData(true)"><span class="glyphicon glyphicon-search"></span></a>
                     </div>
                 </div>

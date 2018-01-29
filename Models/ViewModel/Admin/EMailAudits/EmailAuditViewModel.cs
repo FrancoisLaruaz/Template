@@ -9,13 +9,8 @@ using Models.Class;
 
 namespace Models.ViewModels
 {
-    public class EmailAuditViewModel : IAdminViewModel
+    public class EmailAuditViewModel 
     {
-
-
-        public string Title { get; set; }
-
-        public string Description { get; set; }
 
 
         public EmailAuditViewModel()

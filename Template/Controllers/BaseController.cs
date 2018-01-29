@@ -137,13 +137,13 @@ namespace Website.Controllers
                 String ControllerName = filterContext.Controller.ToString();
                 if ( ControllerName== "Website.Controllers.AdminController" && filterContext.ActionDescriptor != null && filterContext.ActionDescriptor.ActionName != "Logs" && filterContext.ActionDescriptor.ActionName != "_DisplayLogs")
                 {
-                    /*
+                  
                     if (!User.Identity.IsAuthenticated)
                         filterContext.Result = RedirectToAction("Login", "Account", new { returnUrl = Request.Url.AbsoluteUri.ToString() });
-                    else if(false && !User.IsInRole(Commons.UserRoles.Admin))
+                    else if(false && !User.IsInRole(CommonsConst.UserRoles.Admin))
                         filterContext.Result = RedirectToAction("Index", "Home");
                     return;
-                    */
+                  
                 }
 
             }

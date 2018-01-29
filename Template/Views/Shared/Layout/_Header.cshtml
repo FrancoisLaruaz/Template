@@ -5,27 +5,31 @@
     @Html.Hidden("CentralGoToUrl")
     <nav class="navbar navbar-default navigation" id="homeNavDefault">
         @Html.Partial("~/Views/Shared/Layout/_BrowserBanner.cshtml")
-        <div class="container-fluid" >
+        <div class="container-fluid">
             <div class="collapse navbar-collapse navigationLink" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-left" id="Logo">
                     <li class="dropdown">
-                        <a   href="/"  >
+                        <a href="/">
                             <img class="brand-logoNav" src="~/Ressources/Files/Images/Logo.png" style="z-index:100 !important" />
                         </a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" id="ulForHomeControl">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[[[Admin]]]</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/Admin/Logs">[[[Logs]]]</a></li>
-                            <li><a href="/Admin/EmailAudits">[[[Email Audits]]]</a></li>
-                            <li><a href="/Admin/News">[[[News]]]</a></li>
-                            <li><a href="/Admin/Tasks">[[[Tasks]]]</a></li>
-                        </ul>
-                    </li>
 
-                    
+                    @if(Request.IsAuthenticated && User.IsInRole(CommonsConst.UserRoles.Admin))
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[[[Admin]]]</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Admin/Logs">[[[Logs]]]</a></li>
+                                <li><a href="/Admin/EmailAudits">[[[Email Audits]]]</a></li>
+                                <li><a href="/Admin/News">[[[News]]]</a></li>
+                                <li><a href="/Admin/Tasks">[[[Tasks]]]</a></li>
+                                <li><a href="/Admin/UserRoles">[[[User Roles]]]</a></li>
+                            </ul>
+                        </li>
+                    }
+
                     @if (CommonsConst.Const.UserManagement)
                     {
                         if (Request.IsAuthenticated)
@@ -34,12 +38,7 @@
                                 <a href="/User/Index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Model.UserFirstName <span class="glyphicon glyphicon-user user-icon-span"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="/Account">@Model.UserNameDecrypt</a></li>
-
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <li><a href="/Admin">[[[Admin Panel]]]</a></li>
-                                    }
-                                    @using (Ajax.BeginForm("LogOff", "Account", new { }, new AjaxOptions() { HttpMethod = "POST",  OnBegin = "LogOffBegin", OnSuccess = "LogOffSuccess", OnFailure = "LogOffFailure" }, new { @id = "logoutForm" , @class = "navbar-right" }))
+                                    @using (Ajax.BeginForm("LogOff", "Account", new { }, new AjaxOptions() { HttpMethod = "POST", OnBegin = "LogOffBegin", OnSuccess = "LogOffSuccess", OnFailure = "LogOffFailure" }, new { @id = "logoutForm", @class = "navbar-right" }))
                                     {
                                         @Html.AntiForgeryToken()
                                     }

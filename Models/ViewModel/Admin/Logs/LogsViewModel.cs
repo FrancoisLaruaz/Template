@@ -9,13 +9,10 @@ using Models.Class;
 
 namespace Models.ViewModels
 {
-    public class LogsViewModel :IAdminViewModel
+    public class LogsViewModel
     {
 
 
-        public string Title { get; set; }
-
-        public string Description { get; set; }
 
         public string InfoConnectionBBD { get; set; }
 

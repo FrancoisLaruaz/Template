@@ -16,10 +16,6 @@ D:\DEV\AspNet.Identity.MySQL\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 D:\DEV\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.dll
 D:\DEV\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.pdb
 D:\DEV\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.csprojResolveAssemblyReference.cache
-C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.csprojResolveAssemblyReference.cache
-C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.csproj.CoreCompileInputs.cache
-C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.dll
-C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.pdb
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\AspNet.Identity.MySQL.dll.config
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\AspNet.Identity.MySQL.dll
 D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\AspNet.Identity.MySQL.pdb
@@ -70,6 +66,7 @@ C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Quartz.dll
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Ghostscript.NET.dll
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Facebook.dll
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\log4net.dll
+C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Newtonsoft.Json.dll
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\System.Web.Mvc.dll
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Common.Logging.Core.dll
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Common.Logging.dll
@@ -86,6 +83,7 @@ C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Quartz.xml
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Ghostscript.NET.xml
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Facebook.xml
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\log4net.xml
+C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Newtonsoft.Json.xml
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\System.Web.Mvc.xml
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Common.Logging.Core.pdb
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Common.Logging.Core.xml
@@ -95,5 +93,7 @@ C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\System.Web.Razor.xml
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\System.Web.WebPages.Razor.xml
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\System.Web.WebPages.xml
 C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\System.Web.WebPages.Deployment.xml
-C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Newtonsoft.Json.dll
-C:\DEV\Template_local\AspNet.Identity.MySQL\bin\Debug\Newtonsoft.Json.xml
+C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.csprojResolveAssemblyReference.cache
+C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.csproj.CoreCompileInputs.cache
+C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.dll
+C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.pdb

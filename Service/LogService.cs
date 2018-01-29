@@ -21,8 +21,7 @@ namespace Service
                 {
                     model.InfoConnectionBBD = db.CheckConnection();
                 }
-                model.Title = "Logs";
-                model.Description = null;
+
             }
             catch(Exception e)
             {

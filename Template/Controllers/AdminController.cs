@@ -27,6 +27,102 @@ namespace Website.Controllers
             return RedirectToAction("Logs");
         }
 
+        #region UserRoles
+
+        [HttpGet]
+        public ActionResult UserRoles()
+        {
+            UserRolesViewModel Model = new UserRolesViewModel();
+
+            try
+            {
+                ViewBag.Title = "[[[User Roles]]]";
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return View(Model);
+        }
+
+        [HttpPost]
+        public ActionResult _DisplayUserRoles(DisplayUserRolesViewModel Model)
+        {
+            try
+            {
+                Model = UserRolesService.GetDisplayUserRolesViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Pattern = " + Model.Pattern);
+                return Content("ERROR");
+            }
+            return PartialView("~/Views/Admin/UserRoles/_DisplayUserRoles.cshtml", Model);
+        }
+
+
+        [HttpPost]
+        public ActionResult AddUserRole(string roleid,string userid)
+        {
+            bool _success = false;
+            string _error = "";
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(roleid) && !String.IsNullOrWhiteSpace(userid))
+                {
+                    _success = UserRolesService.AddUserRole(userid, roleid);
+                }
+            }
+            catch (Exception e)
+            {
+                _success = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "roleid = " + roleid+" and userid = "+userid);
+            }
+            return Json(new { Result = _success, Error =_error });
+        }
+
+        [HttpPost]
+        public ActionResult DeleteUserRole(string roleid, string userid)
+        {
+            bool _success = false;
+            string _error = "";
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(roleid) && !String.IsNullOrWhiteSpace(userid))
+                {
+                    _success = UserRolesService.DeleteUserRoleByUserIdAndRoleId(userid, roleid);
+                }
+            }
+            catch (Exception e)
+            {
+                _success = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "roleid = " + roleid + " and userid = " + userid);
+            }
+            return Json(new { Result = _success, Error = _error });
+        }
+
+
+        [HttpPost]
+        public ActionResult _DisplayUserRolesModifications(string UserIdentityId)
+        {
+            UserRoleItem Model = new UserRoleItem();
+            try
+            {
+                Model.UseridentityId = UserIdentityId;
+                Model = UserRolesService.GetUserRolesByUseridentityId(UserIdentityId);
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserIdentityId = " + UserIdentityId);
+                return Content("ERROR");
+            }
+            return PartialView("~/Views/Admin/UserRoles/_DisplayUserRolesModifications.cshtml", Model);
+        }
+
+
+
+        #endregion
+
         #region NewsLetter
 
         [HttpGet]
@@ -37,7 +133,6 @@ namespace Website.Controllers
             try
             {
                 ViewBag.Title = "[[[News Letter]]]";
-                Model.Title = ViewBag.Title;
                 Model = NewsService.GetNewsViewModel();
             }
             catch (Exception e)
@@ -65,7 +160,6 @@ namespace Website.Controllers
                 }
                 ViewBag.NewsId = Id;
                 Model = NewsService.GetNewsEditViewModel(Id);
-                Model.Title = ViewBag.Title;
                 Model.NewsDescription = "<p style='color:red'>hahah</p>";
             }
             catch (Exception e)
@@ -111,7 +205,7 @@ namespace Website.Controllers
             {
 
                 ViewBag.Title = "Email Audits";
-                model.Title = ViewBag.Title;
+
             }
             catch (Exception e)
             {
@@ -150,7 +244,6 @@ namespace Website.Controllers
             {
                 ViewBag.Title = "Logs";
                 Model = LogService.GetLogsViewModel();
-                Model.Title = ViewBag.Title;
             }
             catch(Exception e)
             {
@@ -191,7 +284,6 @@ namespace Website.Controllers
                 Model.ScheduledTasksNumberInDatabase = ScheduledTaskService.GetActiveScheduledTasksNumber();
                 Model.ScheduledTasksProblemsNumber = ScheduledTaskService.GetNotExecutedTasksNumber();
 
-                Model.Title = ViewBag.Title;
             }
             catch (Exception e)
             {

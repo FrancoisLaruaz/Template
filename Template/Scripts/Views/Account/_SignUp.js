@@ -56,9 +56,9 @@ function SetSignUpForm()
             $("#SignUpChoice").fadeIn(500);
         });
     });
-    SetEnterKey('SubmitButtonSignUp'); 
+
     SetSignUpSubmitForm();
-    //SetValidationForm('SignUpModalForm');
+
 }
 
 function SetSignUpSubmitForm()

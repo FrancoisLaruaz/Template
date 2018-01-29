@@ -48,7 +48,7 @@
     <Compile Include="DAL\NewsDAL.cs" />
     <Compile Include="DAL\SocialMediaConnectionDAL.cs" />
     <Compile Include="DAL\UserIdentityDAL.cs" />
-    <Compile Include="DAL\UserRoleDAL.cs" />
+    <Compile Include="DAL\UserRolesDAL.cs" />
     <Compile Include="DAL\ProvinceDAL.cs" />
     <Compile Include="DAL\EMailDAL.cs" />
     <Compile Include="DAL\GenericDAL.cs" />

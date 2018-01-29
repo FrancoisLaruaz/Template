@@ -10,11 +10,9 @@ using Models.Class.TaskSchedule;
 
 namespace Models.ViewModels
 {
-    public class SchedulerStatusViewModel : IAdminViewModel
+    public class SchedulerStatusViewModel 
     {
-        public string Title { get; set; }
 
-        public string Description { get; set; }
 
         [Display(Name = "Is Scheduler Active")]
         public bool IsSchedulerActive { get; set; }

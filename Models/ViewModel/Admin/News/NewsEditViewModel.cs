@@ -10,13 +10,11 @@ using System.Web.Mvc;
 
 namespace Models.ViewModels
 {
-    public class NewsEditViewModel : IAdminViewModel
+    public class NewsEditViewModel
     {
 
 
-        public string Title { get; set; }
 
-        public string Description { get; set; }
 
 
         public int Id { get; set; }

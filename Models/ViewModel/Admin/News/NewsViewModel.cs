@@ -8,13 +8,9 @@ using Models.BDDObject;
 
 namespace Models.ViewModels
 {
-    public class NewsViewModel : IAdminViewModel
+    public class NewsViewModel 
     {
 
-
-        public string Title { get; set; }
-
-        public string Description { get; set; }
 
         public List<News> NotPublishedNews { get; set; }
 

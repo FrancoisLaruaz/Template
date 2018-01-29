@@ -70,6 +70,7 @@ function ErrorActions() {
 }
 
 function SetEnterKey(IdElement) {
+
     KeyPressAllowed = true;
 
     if (IdElement === undefined) {
@@ -84,9 +85,29 @@ function SetEnterKey(IdElement) {
         KeyPressAllowed = false;
 
         if (e.which == 13) {
+
+            if ($("#loginOrSignInModal").is(":visible") )
+            {
+  
+                if ($("#SubmitButtonSignUp").is(":visible"))
+                {
+                    IdElement = 'SubmitButtonSignUp';
+                }
+                else if ($("#SubmitButtonLogin").is(":visible"))
+                {
+                    IdElement = 'SubmitButtonLogin';
+                }
+                else {
+                    IdElement = null;
+                    e.preventDefault();
+                }
+
+            }
+           
+
             if (IdElement != null) {
                 var Element = $("#" + IdElement);
-
+                
                 if ($("#" + IdElement).length > 0 && $(Element).css("display") != "none" && !$(Element).is(':disabled') && !$(Element).is('.disabled') && $(Element).is(":visible") && !$(e.target).is("textarea")) {
                     e.preventDefault();
                     $(Element).click();

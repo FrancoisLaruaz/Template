@@ -407,6 +407,7 @@
     <Content Include="Scripts\Views\Account\_SignUpProcess.js" />
     <Content Include="Scripts\Views\Account\_SignUpWelcome.js" />
     <Content Include="Scripts\Views\Account\_SignUp.js" />
+    <Content Include="Scripts\Views\Admin\UserRoles.js" />
     <Content Include="Scripts\Views\Admin\EmailAudits.js" />
     <Content Include="Scripts\Views\Admin\News\EditNews.js" />
     <Content Include="Scripts\Views\Admin\News\Index.js" />
@@ -448,7 +449,6 @@
     <Content Include="Scripts\General\SweetAlert.js" />
     <Content Include="Views\Shared\Layout\_Header.cshtml" />
     <Content Include="Views\Admin\Logs.cshtml" />
-    <Content Include="Views\Admin\_AdminTitle.cshtml" />
     <Content Include="Views\Shared\Layout\_Footer.cshtml" />
     <Content Include="Views\Admin\Logs\_DisplayLogs.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -482,6 +482,10 @@
     <Content Include="Views\Account\_ExternalSignUp.cshtml" />
     <Content Include="Views\Account\ExternalAuthentificationResult.cshtml" />
     <Content Include="Views\Account\_OrContinueWith.cshtml" />
+    <Content Include="Views\Admin\UserRoles.cshtml" />
+    <Content Include="Views\Admin\UserRoles\_DisplayUserRoles.cshtml" />
+    <Content Include="Views\Admin\UserRoles\_DisplayUserRolesModifications.cshtml" />
+    <Content Include="Views\Shared\_OldPageTitle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

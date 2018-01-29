@@ -1,7 +1,7 @@
 @WebsiteColor1: #6699ff;
 @WebsiteColor2: #BBD2FF;
 @selectWidth: 100%;
-@bodyColor : #f3f3f3;
+@bodyColor: #f3f3f3;
 
 .main-content {
     margin: 30px 0 0px 0 !important;
@@ -48,6 +48,13 @@
     cursor: pointer !important;
 }
 
+.searchTexbox {
+    width: 93% !important;
+    height: 30px !important;
+    display: inline;
+    border-radius: 50px;
+}
+
 .website-btn:hover {
     background: transparent;
     color: @WebsiteColor1;
@@ -74,7 +81,7 @@
     width: 100%;
     font-family: inherit;
     font-weight: inherit;
-    font-size: 2.3rem;
+    font-size: 2.2rem;
     padding: 15px 30px;
     border: 3px @WebsiteColor1 solid;
     box-shadow: 0 1px 4px rgba(0,0,0,.15)
@@ -107,7 +114,7 @@
     width: 100%;
     font-family: inherit;
     font-weight: inherit;
-    font-size: 2.3rem;
+    font-size: 2.2rem;
     padding: 15px 30px;
     box-shadow: 0 1px 4px rgba(0,0,0,.15)
 }
@@ -184,10 +191,9 @@
     font-size: 19px !important;
 }
 
-.sweet-alert 
-{
-    padding-top:20px !important;
-    padding-bottom:35px !important;
+.sweet-alert {
+    padding-top: 20px !important;
+    padding-bottom: 35px !important;
 }
 
 
@@ -233,7 +239,7 @@ body {
     font-size: 1.55rem;
     line-height: 2.2rem;
     color: #414042;
-    margin-right:0px !important;
+    margin-right: 0px !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: @bodyColor;
@@ -400,11 +406,20 @@ a {
 }
 
 
+
+.noMarginNoPaddingVertical {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+
 .greenButton:hover {
     border-color: rgba(45,191,183, 0.8);
     background-color: rgba(45,191,183, 1);
     color: #fff;
-    width:100px;
+    width: 100px;
 }
 
 .greenButton {
@@ -489,7 +504,6 @@ a {
 .websiteFormGroupLong {
     min-height: 111px;
 }
-
 /* select starting stylings ------------------------------*/
 .select {
     position: relative;
@@ -513,13 +527,11 @@ a {
 .select-text::-ms-expand {
     display: none;
 }
-
 /* Remove focus */
 .select-text:focus {
     outline: none;
     border-bottom: 2px solid @WebsiteColor1;
 }
-
 /* Use custom arrow */
 .select .select-text {
     appearance: none;
@@ -540,8 +552,6 @@ a {
     border-top: 6px solid @WebsiteColor1;
     pointer-events: none;
 }
-
-
 /* LABEL ======================================= */
 .select-label {
     color: @WebsiteColor1;
@@ -553,14 +563,12 @@ a {
     transition: 0.2s ease all;
     font-size: 1.5rem;
 }
-
 /* active state */
 .select-text:focus ~ .select-label, .select-text:valid ~ .select-label {
     color: @WebsiteColor1;
     top: -17px;
     transition: 0.5s ease all;
 }
-
 /* BOTTOM BARS ================================= */
 .select-bar {
     position: relative;
@@ -585,12 +593,10 @@ a {
 .select-bar:after {
     right: 50%;
 }
-
 /* active state */
 .select-text:focus ~ .select-bar:before, .select-text:focus ~ .select-bar:after {
     width: 50%;
 }
-
 /* HIGHLIGHTER ================================== */
 .select-highlight {
     position: absolute;
@@ -601,11 +607,7 @@ a {
     pointer-events: none;
     opacity: 0.5;
 }
-
 /* endsexy select */
-
-
-
 /* form starting stylings ------------------------------- */
 .sexyTBgroup {
     position: relative;
@@ -623,7 +625,6 @@ a {
 .sexyTB:focus {
     outline: none;
 }
-
 /* LABEL ======================================= */
 .labelSexyTb {
     color: #999;
@@ -638,14 +639,12 @@ a {
     -webkit-transition: 0.2s ease all;
     font-size: 1.7rem;
 }
-
 /* active state */
 .sexyTB:focus ~ .labelSexyTb, .sexyTB:not(.empty) ~ .labelSexyTb {
     top: -16px;
     font-size: 1.5rem;
     color: @WebsiteColor1;
 }
-
 /* BOTTOM BARS ================================= */
 .bar {
     position: relative;
@@ -673,12 +672,10 @@ a {
 .bar:after {
     right: 50%;
 }
-
 /* active state */
 .sexyTB:focus ~ .bar:before, .sexyTB:focus ~ .bar:after {
     width: 50%;
 }
-
 /* HIGHLIGHTER ================================== */
 .highlight {
     position: absolute;
@@ -689,14 +686,12 @@ a {
     pointer-events: none;
     opacity: 0.5;
 }
-
 /* active state */
 .sexyTB:focus ~ .highlight {
     -webkit-animation: inputHighlighter 0.3s ease;
     -moz-animation: inputHighlighter 0.3s ease;
     animation: inputHighlighter 0.3s ease;
 }
-
 /* ANIMATIONS ================ */
 @-webkit-keyframes inputHighlighter {
     from {

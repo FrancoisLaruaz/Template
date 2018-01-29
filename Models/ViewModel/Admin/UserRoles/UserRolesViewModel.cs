@@ -5,13 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Models.BDDObject;
+using Models.Class.TaskSchedule;
+
 
 namespace Models.ViewModels
 {
-    public interface IAdminViewModel
-    {
-        string Title { get; set; }
 
-        string Description { get; set; }
-    }
+        public class UserRolesViewModel 
+        {
+
+
+            public UserRolesViewModel()
+            {
+            }
+        }
+    
 }

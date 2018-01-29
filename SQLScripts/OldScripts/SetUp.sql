@@ -376,3 +376,16 @@ CREATE TABLE `SocialMediaConnection` (
   UNIQUE KEY `id_UNIQUE` (`Id`),
   UNIQUE KEY `id_UNIQUE_SocialMediaConnection` (`LoginProvider`,`ProviderKeyUserSignedUp`,`ProviderKeyUserFriend`)
 ) ENGINE=InnoDB AUTO_INCREMENT=580232 DEFAULT CHARSET=utf8;
+
+
+
+delete from category where categorytypeid=2;
+delete from categorytype
+where id=2;
+
+insert INTO `roles`
+(`Id`,
+`Name`)
+VALUES
+('1',
+'Admin');

@@ -60,7 +60,7 @@ function LoginSuccess(Data) {
 
 function SetLoginForm() {
     if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
-        SetEnterKey('SubmitButtonLogin');
+       // SetEnterKey('SubmitButtonLogin');
         SetLoginSubmitForm();
     }
 
