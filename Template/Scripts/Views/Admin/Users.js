@@ -19,7 +19,7 @@ function RefreshData(IsNewResearch)
     ShowSpinner();
     var _Pattern = $('#SearchBox').val().replace("'","''");
     $.ajax({
-        url: "/Admin/_DisplayUserRoles",
+        url: "/Admin/_DisplayUsers",
         type: "POST",
         data: { Pattern: _Pattern, StartAt: StartAt },
         success: function (data) {
@@ -100,7 +100,7 @@ function RefreshUserRoles(UserIdentityId) {
     if (UserIdentityId != null && UserIdentityId != '') {
 
         $.ajax({
-            url: "/Admin/_DisplayUserRolesModifications",
+            url: "/Admin/_DisplayUsersModifications",
             type: "POST",
             data: { UserIdentityId: UserIdentityId },
             success: function (data) {
@@ -122,4 +122,37 @@ function RefreshUserRoles(UserIdentityId) {
     else {
         HideSpinner();
     }
+}
+
+
+
+
+function AskConfirmationToDeleteUser(UserId) {
+    if (UserId > 0) {
+        SweetConfirmation("[[[Are you sure you want to delete this user ?]]]", null, DeleteUser, [UserId]);
+    }
+}
+
+var DeleteUser = function DeleteUser(UserId) {
+    $.ajax({
+        url: "/Admin/DeleteUser",
+        type: "POST",
+        data: { UserId: UserId },
+        success: function (data) {
+
+            if (data == null || !data.Result) {
+                ErrorActions();
+            }
+            else {
+                NotificationOK("[[[The user has been successfully deleted.]]]");
+                var divIdToRemove = "#UserTr_" + UserId;
+                $(divIdToRemove).fadeOut(function () {
+                    $(this).remove();
+                });
+            }
+        },
+        error: function (xhr, error) {
+            ErrorActions();
+        }
+    });
 }

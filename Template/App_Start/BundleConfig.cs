@@ -46,6 +46,7 @@ namespace Template
             "~/Scripts/General/SweetAlert.js",
             "~/Scripts/General/respond.js",
             "~/Scripts/General/DateCompare.js",
+            "~/Scripts/General/CustomValidation.js",
             "~/Scripts/General/modernizr.js",
             "~/Scripts/General/SweetAlertHelper.js",
             "~/Scripts/General/FileDrop.js",

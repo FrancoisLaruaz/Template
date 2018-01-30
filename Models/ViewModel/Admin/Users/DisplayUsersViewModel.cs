@@ -10,14 +10,14 @@ using Models.Class;
 
 namespace Models.ViewModels
 {
-    public class DisplayUserRolesViewModel : BaseModelPager
+    public class DisplayUsersViewModel : BaseModelPager
     {
         public List<UserRoleItem> UserRolesList { get; set; }
 
         public string Pattern { get; set; }
 
 
-        public DisplayUserRolesViewModel()
+        public DisplayUsersViewModel()
         {
             UserRolesList = new List<UserRoleItem>();
         }

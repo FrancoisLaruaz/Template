@@ -11,11 +11,11 @@ using Models.Class.TaskSchedule;
 namespace Models.ViewModels
 {
 
-        public class UserRolesViewModel 
-        {
+        public class UsersViewModel
+    {
 
 
-            public UserRolesViewModel()
+            public UsersViewModel()
             {
             }
         }

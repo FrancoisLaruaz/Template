@@ -263,6 +263,8 @@
     <Content Include="Ressources\Files\Images\SocialMedia\icon_facebook.png" />
     <Content Include="Ressources\Files\Images\SocialMedia\icon_google.png" />
     <Content Include="Ressources\Files\Video\Homepage.mp4" />
+    <Content Include="Scripts\General\CustomValidation.js" />
+    <Content Include="Scripts\General\DateCompare.js" />
     <Content Include="Scripts\General\LoadConsts.js" />
     <Content Include="Scripts\General\SexyCSSHelper.js" />
     <Content Include="Scripts\General\FlashVersion.js" />
@@ -407,7 +409,7 @@
     <Content Include="Scripts\Views\Account\_SignUpProcess.js" />
     <Content Include="Scripts\Views\Account\_SignUpWelcome.js" />
     <Content Include="Scripts\Views\Account\_SignUp.js" />
-    <Content Include="Scripts\Views\Admin\UserRoles.js" />
+    <Content Include="Scripts\Views\Admin\Users.js" />
     <Content Include="Scripts\Views\Admin\EmailAudits.js" />
     <Content Include="Scripts\Views\Admin\News\EditNews.js" />
     <Content Include="Scripts\Views\Admin\News\Index.js" />
@@ -482,9 +484,9 @@
     <Content Include="Views\Account\_ExternalSignUp.cshtml" />
     <Content Include="Views\Account\ExternalAuthentificationResult.cshtml" />
     <Content Include="Views\Account\_OrContinueWith.cshtml" />
-    <Content Include="Views\Admin\UserRoles.cshtml" />
-    <Content Include="Views\Admin\UserRoles\_DisplayUserRoles.cshtml" />
-    <Content Include="Views\Admin\UserRoles\_DisplayUserRolesModifications.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Admin\Users\_DisplayUsers.cshtml" />
+    <Content Include="Views\Admin\Users\_DisplayUsersModifications.cshtml" />
     <Content Include="Views\Shared\_OldPageTitle.cshtml" />
   </ItemGroup>
   <ItemGroup>

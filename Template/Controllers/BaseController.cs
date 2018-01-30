@@ -135,7 +135,7 @@ namespace Website.Controllers
             {
                 base.OnActionExecuting(filterContext);
                 String ControllerName = filterContext.Controller.ToString();
-                if ( ControllerName== "Website.Controllers.AdminController" && filterContext.ActionDescriptor != null && filterContext.ActionDescriptor.ActionName != "Logs" && filterContext.ActionDescriptor.ActionName != "_DisplayLogs")
+                if (ControllerName== "Website.Controllers.AdminController" && filterContext.ActionDescriptor != null && filterContext.ActionDescriptor.ActionName != "Logs" && filterContext.ActionDescriptor.ActionName != "_DisplayLogs")
                 {
                   
                     if (!User.Identity.IsAuthenticated)

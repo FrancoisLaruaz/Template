@@ -137,9 +137,9 @@ namespace DataAccess
         /// <param name="StartAt"></param>
         /// <param name="PageSize"></param>
         /// <returns></returns>
-        public static DisplayUserRolesViewModel GetUserRolesList(string UserIdentityId, string Pattern, int StartAt = -1, int PageSize = -1)
+        public static DisplayUsersViewModel GetUserRolesList(string UserIdentityId, string Pattern, int StartAt = -1, int PageSize = -1)
         {
-            DisplayUserRolesViewModel model = new DisplayUserRolesViewModel();
+            DisplayUsersViewModel model = new DisplayUsersViewModel();
             List<UserRoleItem> ListUserRoles = new List<UserRoleItem>();
             DBConnect db = null;
             try

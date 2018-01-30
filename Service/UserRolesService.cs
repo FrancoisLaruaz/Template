@@ -21,9 +21,9 @@ namespace Service
         /// <param name="StartAt"></param>
         /// <param name="PageSize"></param>
         /// <returns></returns>
-        public static DisplayUserRolesViewModel GetDisplayUserRolesViewModel(string Pattern, int StartAt, int PageSize)
+        public static DisplayUsersViewModel GetDisplayUsersViewModel(string Pattern, int StartAt, int PageSize)
         {
-            DisplayUserRolesViewModel model = new DisplayUserRolesViewModel();
+            DisplayUsersViewModel model = new DisplayUsersViewModel();
             try
             {
                 model = UserRolesDAL.GetUserRolesList(null,Pattern, StartAt, PageSize);
@@ -42,7 +42,7 @@ namespace Service
         /// <returns></returns>
         public static UserRoleItem GetUserRolesByUseridentityId(string UserIdentity)
         {
-            DisplayUserRolesViewModel model = new DisplayUserRolesViewModel();
+            DisplayUsersViewModel model = new DisplayUsersViewModel();
             try
             {
                 model = UserRolesDAL.GetUserRolesList(UserIdentity, null,0,1);

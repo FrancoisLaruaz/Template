@@ -98,8 +98,8 @@
     <Compile Include="ViewModel\Admin\EMailAudits\DisplayEmailAuditViewModel.cs" />
     <Compile Include="ViewModel\Admin\EMailAudits\EmailAuditViewModel.cs" />
     <Compile Include="ViewModel\Admin\News\NewsEditViewModel.cs" />
-    <Compile Include="ViewModel\Admin\UserRoles\DisplayUserRolesViewModel.cs" />
-    <Compile Include="ViewModel\Admin\UserRoles\UserRolesViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Users\DisplayUsersViewModel.cs" />
+    <Compile Include="ViewModel\Admin\Users\UsersViewModel.cs" />
     <Compile Include="ViewModel\Admin\Tasks\DisplayTasksViewModel.cs" />
     <Compile Include="ViewModel\Admin\Logs\DisplayLogsViewModel.cs" />
     <Compile Include="ViewModel\Admin\News\NewsViewModel.cs" />

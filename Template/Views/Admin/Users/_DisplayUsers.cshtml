@@ -1,4 +1,4 @@
-﻿@model Models.ViewModels.DisplayUserRolesViewModel
+﻿@model Models.ViewModels.DisplayUsersViewModel
 
 
 
@@ -20,13 +20,16 @@
         {
 
 
-            <tr style="width:100% !important;">
-                <td style="width:30% !important;">@item.UserFirstNameDecrypt @item.UserLastNameDecrypt</td>
-                <td style="width:25% !important;">@item.UserNameDecrypt</td>
-                <td id="td_userroles_@item.UseridentityId"  style="width:45% !important;" >
+            <tr style="width:100% !important;" id="UserTr_@item.UserId">
+                <td style="width:28% !important;">@item.UserFirstNameDecrypt @item.UserLastNameDecrypt</td>
+                <td style="width:23% !important;">@item.UserNameDecrypt</td>
+                <td id="td_userroles_@item.UseridentityId"  style="width:41% !important;" >
                     <div id="div_userroles_@item.UseridentityId"  style="width:100% !important;" class="container-fluid noMarginNoPaddingVertical">
-                        @Html.Partial("~/Views/Admin/UserRoles/_DisplayUserRolesModifications.cshtml",item)
+                        @Html.Partial("~/Views/Admin/Users/_DisplayUsersModifications.cshtml", item)
                     </div>
+                </td>
+                <td  style="width:8% !important;text-align:center">
+                    <span title="[[[Delete the user]]]" class="glyphicon glyphicon-remove" style="color:red;text-align:center;cursor:pointer;" onclick="AskConfirmationToDeleteUser(@item.UserId)"></span>
                 </td>
             </tr>
         }
@@ -34,7 +37,7 @@
     </table>
 </div>
 
-@using (Html.BeginForm("_DisplayUserRoles", "Admin", FormMethod.Post, new { id = "_pager" }))
+@using (Html.BeginForm("_DisplayUsers", "Admin", FormMethod.Post, new { id = "_pager" }))
 {
     @Html.Partial("_Pager")
     @Html.HiddenFor(m => m.Pattern)

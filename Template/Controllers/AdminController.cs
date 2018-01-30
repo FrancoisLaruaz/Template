@@ -30,9 +30,9 @@ namespace Website.Controllers
         #region UserRoles
 
         [HttpGet]
-        public ActionResult UserRoles()
+        public ActionResult Users()
         {
-            UserRolesViewModel Model = new UserRolesViewModel();
+            UsersViewModel Model = new UsersViewModel();
 
             try
             {
@@ -46,18 +46,18 @@ namespace Website.Controllers
         }
 
         [HttpPost]
-        public ActionResult _DisplayUserRoles(DisplayUserRolesViewModel Model)
+        public ActionResult _DisplayUsers(DisplayUsersViewModel Model)
         {
             try
             {
-                Model = UserRolesService.GetDisplayUserRolesViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
+                Model = UserRolesService.GetDisplayUsersViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
             }
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Pattern = " + Model.Pattern);
                 return Content("ERROR");
             }
-            return PartialView("~/Views/Admin/UserRoles/_DisplayUserRoles.cshtml", Model);
+            return PartialView("~/Views/Admin/Users/_DisplayUsers.cshtml", Model);
         }
 
 
@@ -101,9 +101,27 @@ namespace Website.Controllers
             return Json(new { Result = _success, Error = _error });
         }
 
+        [HttpPost]
+        public ActionResult DeleteUser(int UserId)
+        {
+            bool _success = false;
+            string _error = "";
+            try
+            {
+
+                _success = UserService.DeleteUserById(UserId);
+            }
+            catch (Exception e)
+            {
+                _success = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
+            }
+            return Json(new { Result = _success, Error = _error });
+        }
+
 
         [HttpPost]
-        public ActionResult _DisplayUserRolesModifications(string UserIdentityId)
+        public ActionResult _DisplayUsersModifications(string UserIdentityId)
         {
             UserRoleItem Model = new UserRoleItem();
             try
@@ -116,7 +134,7 @@ namespace Website.Controllers
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserIdentityId = " + UserIdentityId);
                 return Content("ERROR");
             }
-            return PartialView("~/Views/Admin/UserRoles/_DisplayUserRolesModifications.cshtml", Model);
+            return PartialView("~/Views/Admin/Users/_DisplayUsersModifications.cshtml", Model);
         }
 
 
