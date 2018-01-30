@@ -45,6 +45,7 @@ namespace Template
             "~/Scripts/General/jtsage-doc.js",
             "~/Scripts/General/SweetAlert.js",
             "~/Scripts/General/respond.js",
+            "~/Scripts/General/DateCompare.js",
             "~/Scripts/General/modernizr.js",
             "~/Scripts/General/SweetAlertHelper.js",
             "~/Scripts/General/FileDrop.js",

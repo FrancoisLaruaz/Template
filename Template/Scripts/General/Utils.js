@@ -207,7 +207,7 @@ function SetDateTimeFields() {
         var Id = $(this).attr('id');
         $('#' + Id).datetimepicker({
             format: 'MM/DD/YYYY hh:mm:ss',
-            defaultDate: new Date()
+            showTodayButton: true
         });
 
     });
