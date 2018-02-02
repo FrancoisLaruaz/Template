@@ -89,10 +89,17 @@ function ShowSignUpForm() {
 
 function ShowLogInForm() {
     if ($("#loginOrSignInModalBody #SignUpForm").length > 0) {
-        $("#loginOrSignInModal").modal('show');
-        $("#loginOrSignInModalBody #SignUpForm").fadeOut(500, function () {
-            $("#loginOrSignInModalBody #LoginForm").fadeIn(500);
-        });
+
+        if ($("#loginOrSignInModalBody #LoginForm").length > 0) 
+            {
+            $("#loginOrSignInModal").modal('show');
+            $("#loginOrSignInModalBody #SignUpForm").fadeOut(500, function () {
+                $("#loginOrSignInModalBody #LoginForm").fadeIn(500);
+            });
+        }
+        else {
+            $("#loginOrSignInModal").modal('hide');
+        }
     }
 }
 

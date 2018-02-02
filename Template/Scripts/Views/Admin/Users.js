@@ -149,6 +149,8 @@ var DeleteUser = function DeleteUser(UserId) {
                 $(divIdToRemove).fadeOut(function () {
                     $(this).remove();
                 });
+                var NewCount = parseInt($("#numRowCount").html()) - 1;
+                $("#numRowCount").html(NewCount);
             }
         },
         error: function (xhr, error) {

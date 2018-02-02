@@ -36,7 +36,7 @@ namespace Website.Controllers
 
             try
             {
-                ViewBag.Title = "[[[User Roles]]]";
+                ViewBag.Title = "[[[Users]]]";
             }
             catch (Exception e)
             {
