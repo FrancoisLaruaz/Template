@@ -215,6 +215,7 @@
     <Content Include="Content\videos\homepage-video.mp4" />
     <Content Include="Content\Views\Account\_SignUp.css" />
     <Content Include="Content\Views\Account\_SignUpProcess.css" />
+    <Content Include="Content\Views\Admin\News\Edit.css" />
     <Content Include="Content\Views\Experiment\Experiment.css" />
     <Content Include="Content\General\sweetalert.css" />
     <Content Include="Content\General\animate.css" />
@@ -245,7 +246,9 @@
     <Content Include="readme.txt" />
     <Content Include="Ressources\EMails\forgotpassword_en.html" />
     <Content Include="Ressources\EMails\forgotpassword_fr.html" />
+    <Content Include="Ressources\EMails\news_en.html" />
     <Content Include="Ressources\EMails\userwelcome_en.html" />
+    <Content Include="Ressources\EMails\news_fr.html" />
     <Content Include="Ressources\EMails\userwelcome_fr.html" />
     <Content Include="Ressources\EMails\_EndMail_en.html" />
     <Content Include="Ressources\EMails\_EndMail_fr.html" />

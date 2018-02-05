@@ -217,6 +217,7 @@ function SetGenericAjaxForm(FormId, OnSuccess, Onfailure, OnBegin) {
     $("#" + FormId).unbind("submit");
     $("#" + FormId).on("submit", function (e) {
         e.preventDefault();
+
         var Form = $(this);
         var Model = $(Form).serialize();
         var url = $(Form).attr('action');
@@ -253,7 +254,7 @@ function SetGenericAjaxForm(FormId, OnSuccess, Onfailure, OnBegin) {
             ScrollToErrorOrFirstInput(FormId);
         }
     });
-
+    SetValidationForm(FormId);
 }
 
 

@@ -13,6 +13,9 @@ namespace Models.ViewModels
         public string UserFirstName { get; set; }
 
         public string UserNameDecrypt { get; set; }
+
+        public string PictureSrc { get; set; }
+
         public HeaderViewModel()
         {
             UserNameDecrypt = "User Profile";

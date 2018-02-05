@@ -28,6 +28,7 @@ namespace Website.Controllers
                 {
                     model.UserFirstName = UserSession.FirstNameDecrypt;
                     model.UserNameDecrypt = UserSession.UserNameDecrypt;
+                    model.PictureSrc = FileHelper.GetDecryptedFilePath(UserSession.PictureSrc,true);
                 }
             }
             catch (Exception e)

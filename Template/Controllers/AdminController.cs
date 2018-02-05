@@ -178,7 +178,6 @@ namespace Website.Controllers
                 }
                 ViewBag.NewsId = Id;
                 Model = NewsService.GetNewsEditViewModel(Id);
-                Model.NewsDescription = "<p style='color:red'>hahah</p>";
             }
             catch (Exception e)
             {
@@ -194,11 +193,59 @@ namespace Website.Controllers
         {
             bool _success = false;
             string _Error = "";
+            bool _isCreation = false;
             try
             {
-                if (ModelState.IsValid)
+                if (ModelState.IsValid && User.Identity.IsAuthenticated)
                 {
-                    _success = true;
+
+
+                    Model.PublishDate = Model.PublishDate.ToUniversalTime();
+                    Model.LastModificationUserId = UserSession.UserId;
+                    if (Model.TypeId==CommonsConst.NewsType.PublishOnly)
+                    {
+                        Model.MailSubject = null;
+                        Model.TypeUserMailingId = null;
+                    }
+
+                    if (Model.Id <= 0)
+                    {
+
+                        _isCreation = true;
+                        int NewsId = NewsService.CreateNews(Model);
+                        Model.Id = NewsId;
+                        if (NewsId > 0)
+                            _success = true;
+                    }
+                    else
+                    {
+                        _success = NewsService.EditNews(Model);
+                    }
+
+                    // Scehdule
+                    if(_success)
+                    {
+                        if (!Model.HasScheduledTaskBeenExecuted && Model.ScheduledTaskId.HasValue)
+                        {
+                            _success=ScheduledTaskService.CancelTaskById(Model.ScheduledTaskId.Value);
+                        }
+
+                        if(_success && !Model.HasScheduledTaskBeenExecuted)
+                        {
+                            if(Model.PublishDate<DateTime.UtcNow)
+                            {
+                                Model.PublishDate = DateTime.UtcNow.AddSeconds(5);
+                            }
+
+                            _success=ScheduledTaskService.ScheduleNews(Model.Id, Model.PublishDate - DateTime.UtcNow);
+                        }
+                    }
+                }
+
+
+                if (!_success)
+                {
+                    _Error = "[[[Error while saving the update.]]]";
                 }
             }
             catch (Exception e)
@@ -206,7 +253,7 @@ namespace Website.Controllers
                 _success = false;
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Id = " + Model.Id);
             }
-            return Json(new { Result = _success,  Error = _Error});
+            return Json(new { Result = _success,  Error = _Error, IsCreation= _isCreation });
         }
 
 

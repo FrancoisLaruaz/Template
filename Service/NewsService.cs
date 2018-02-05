@@ -14,7 +14,7 @@ namespace Service
     public static class NewsService
     {
 
-   
+
         /// <summary>
         /// Return all the news 
         /// </summary>
@@ -43,7 +43,23 @@ namespace Service
             List<News> result = null;
             try
             {
-                result = NewsDAL.GetNewsList(null,null,false);
+                result = NewsDAL.GetNewsList(null, null, false);
+            }
+            catch (Exception e)
+            {
+                result = null;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return result;
+        }
+
+
+        public static List<News> GetPublishedNewsList()
+        {
+            List<News> result = null;
+            try
+            {
+                result = NewsDAL.GetNewsList(null, null, true);
             }
             catch (Exception e)
             {
@@ -70,8 +86,9 @@ namespace Service
                 Columns.Add("MailSubject", model.MailSubject);
                 Columns.Add("TypeId", model.TypeId);
                 Columns.Add("TypeUserMailingId", model.TypeUserMailingId);
-              //  Columns.Add("TypeUserMailingId", model.mo);
                 Columns.Add("ModificationDate", DateTime.UtcNow);
+                Columns.Add("Active", model.Active);
+                Columns.Add("LastModificationUserId", model.LastModificationUserId);
                 Columns.Add("CreationDate", DateTime.UtcNow);
                 InsertedId = GenericDAL.InsertRow("news", Columns);
             }
@@ -81,6 +98,37 @@ namespace Service
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
             return InsertedId;
+        }
+
+
+        /// <summary>
+        /// Edit an existing news
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool EditNews(NewsEditViewModel model)
+        {
+            bool Result = false;
+            try
+            {
+                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                Columns.Add("PublishDate", model.PublishDate);
+                Columns.Add("Title", model.NewsTitle);
+                Columns.Add("Description", model.NewsDescription);
+                Columns.Add("MailSubject", model.MailSubject);
+                Columns.Add("TypeId", model.TypeId);
+                Columns.Add("LastModificationUserId", model.LastModificationUserId);
+                Columns.Add("Active", model.Active);
+                Columns.Add("TypeUserMailingId", model.TypeUserMailingId);
+                Columns.Add("ModificationDate", DateTime.UtcNow);
+                Result = GenericDAL.UpdateById("news", model.Id, Columns);
+            }
+            catch (Exception e)
+            {
+                Result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return Result;
         }
 
         /// <summary>
@@ -94,7 +142,7 @@ namespace Service
             try
             {
                 // Creation
-                if(NewsId==null || NewsId <= 0)
+                if (NewsId == null || NewsId <= 0)
                 {
                     model.Id = -1;
                     model.Active = false;
@@ -105,7 +153,7 @@ namespace Service
                 {
                     News RealNews = GetNewsById(NewsId.Value);
                     model.Id = NewsId.Value;
-                    if (RealNews!=null)
+                    if (RealNews != null)
                     {
                         model.NewsTitle = RealNews.Title;
                         model.NewsDescription = RealNews.Description;
@@ -114,6 +162,8 @@ namespace Service
                         model.TypeId = RealNews.TypeId;
                         model.Active = RealNews.Active;
                         model.PublishDate = RealNews.PublishDate;
+                        model.ScheduledTaskId = RealNews.ScheduledTaskId;
+                        model.HasScheduledTaskBeenExecuted = RealNews.HasScheduledTaskBeenExecuted ?? false;
                     }
                 }
 
@@ -134,6 +184,7 @@ namespace Service
             try
             {
                 model.NotPublishedNews = GetNotPublishedNewsList();
+                model.NotPublishedNews = GetPublishedNewsList();
             }
             catch (Exception e)
             {
@@ -142,6 +193,82 @@ namespace Service
             return model;
         }
 
+        /// <summary>
+        /// Send a news to the users
+        /// </summary>
+        /// <param name="NewsId"></param>
+        /// <returns></returns>
+        public static bool SendNews(int NewsId)
+        {
+            bool result = false;
+            try
+            {
+                News news = GetNewsById(NewsId);
+                if (news != null && (news.HasScheduledTaskBeenExecuted == null || news.HasScheduledTaskBeenExecuted.Value == false))
+                {
+                    List<int> MailingList = GetNewsMailList(news.TypeUserMailingId.Value);
+
+                    foreach (int UserId in MailingList)
+                    {
+
+                        Email Email = new Email();
+                        Email.UserId = UserId;
+                        Email.EMailTypeId = CommonsConst.EmailTypes.News;
+                        Email.RootPathDefault = FileHelper.GetRootPathDefault() + @"\";
+                        List<Tuple<string, string>> EmailContent = new List<Tuple<string, string>>();
+                        EmailContent.Add(new Tuple<string, string>("#Description#", news.Description));
+                        EmailContent.Add(new Tuple<string, string>("#Title#", news.Title));
+
+                        Email.Subject = news.MailSubject;
+                        Email.EmailContent = EmailContent;
+
+
+                        result = EMailService.SendMail(Email);
+
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "NewsId = " + NewsId);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get the list of the user to send the mail
+        /// </summary>
+        /// <param name="TypeUserMailingId"></param>
+        /// <returns></returns>
+        public static List<int> GetNewsMailList(int TypeUserMailingId)
+        {
+            List<int> result = new List<int>();
+            try
+            {
+                List<User> UserList = UserService.GeListUsers();
+                foreach (var User in UserList)
+                {
+                    switch (TypeUserMailingId)
+                    {
+                        case CommonsConst.TypeUserMailing.AllUsers:
+                            result.Add(User.Id);
+                            break;
+                        case CommonsConst.TypeUserMailing.ConfirmedUsers:
+                            if (User.EmailConfirmed)
+                                {
+                                result.Add(User.Id);
+                                }
+                            break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "TypeUserMailingId = " + TypeUserMailingId);
+            }
+            return result;
+        }
 
         /// <summary>
         /// Get a news By Id

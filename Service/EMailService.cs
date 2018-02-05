@@ -203,11 +203,11 @@ namespace Service
                     List<Tuple<string, string>> EmailContent = new List<Tuple<string, string>>();
                     switch (EMailTypeId)
                     {
-                        case CommonsConst.EmailType.Forgotpassword:
+                        case CommonsConst.EmailTypes.Forgotpassword:
                             string ResetPasswordUrl = WebsiteURL + "/ResetPassword?UserId=" + UserMail.Id + "&Token=" + Commons.HashHelpers.HashEncode(UserMail.ResetPasswordToken);
                             EmailContent.Add(new Tuple<string, string>("#ResetPasswordUrl#", ResetPasswordUrl));
                             break;
-                        case CommonsConst.EmailType.UserWelcome:
+                        case CommonsConst.EmailTypes.UserWelcome:
                             string ConfirmEmailUrl = WebsiteURL + "/ConfirmEmail?UserId=" + UserMail.Id + "&Token=" + Commons.HashHelpers.HashEncode(UserMail.EmailConfirmationToken);
                             EmailContent.Add(new Tuple<string, string>("#ConfirmEmailUrl#", ConfirmEmailUrl));
                             break;

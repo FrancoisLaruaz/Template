@@ -40,6 +40,13 @@ namespace Models.ViewModels
         [Display(Name = "[[[Type]]]")]
         public int TypeId { get; set; }
 
+        public int? ScheduledTaskId { get; set; }
+
+        public bool HasScheduledTaskBeenExecuted { get; set; }
+
+
+        public int? LastModificationUserId { get; set; }
+
 
         [Display(Name = "[[[Active]]]")]
         public bool Active { get; set; }

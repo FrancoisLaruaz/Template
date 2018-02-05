@@ -92,6 +92,7 @@ namespace Service
                         result.UserIdentityId = UserLogged.UserIdentityId;
                         result.UserId = UserLogged.Id;
                         result.LanguageTag = UserLogged.LanguageCode;
+                        result.PictureSrc = UserLogged.PictureSrc;
                     }
                 }
             }

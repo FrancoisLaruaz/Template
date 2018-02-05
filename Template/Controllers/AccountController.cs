@@ -430,7 +430,7 @@ namespace Website.Controllers
                                         _Result = true;
                                         _Language = userSession.LanguageTag;
                                         SocialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
-                                        EMailService.SendEMailToUser(EncryptedUserName, CommonsConst.EmailType.UserWelcome);
+                                        EMailService.SendEMailToUser(EncryptedUserName, CommonsConst.EmailTypes.UserWelcome);
                                     }
                                     _Result = true;
 
@@ -543,7 +543,7 @@ namespace Website.Controllers
                                     UserSession = UserService.GetUserSession(model.Email);
                                     _Result = true;
                                     string UserName = model.Email;
-                                    EMailService.SendEMailToUser(UserName, CommonsConst.EmailType.UserWelcome);
+                                    EMailService.SendEMailToUser(UserName, CommonsConst.EmailTypes.UserWelcome);
                                 }
                             }
                             else
@@ -726,8 +726,8 @@ namespace Website.Controllers
             try
             {
                 Session[CommonsConst.Const.UserSession] = null;
-                //  Session.Clear();
-                // Session.Abandon();
+                Session.Clear();
+                Session.Abandon();
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
             }

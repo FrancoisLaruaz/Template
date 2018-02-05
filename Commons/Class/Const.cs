@@ -40,10 +40,11 @@ namespace CommonsConst
         public const string ColorWebsite = "#6699ff";
     }
 
-    public static class EmailType
+    public static class EmailTypes
     {
         public const int Forgotpassword = 1001;
         public const int UserWelcome = 1002;
+        public const int News = 1003;
     }
 
     public static class UserRoles
@@ -115,6 +116,7 @@ namespace CommonsConst
     public static class ScheduledTaskTypes
     {
         public const string SendEMailToUser = "SendEMailToUser";
+        public const string SendNews = "SendNews";
     }
 
     public static class TaskLogTypes

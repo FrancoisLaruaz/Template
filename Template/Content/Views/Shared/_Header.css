@@ -65,3 +65,10 @@
     margin-bottom: 0px !important;
     padding: 10px !important;
 }
+
+.UserPic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /*don't forget prefixes*/
+    margin: 0px 5px 3px 0px;
+}

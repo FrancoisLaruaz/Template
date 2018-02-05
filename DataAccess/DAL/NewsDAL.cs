@@ -84,16 +84,16 @@ namespace DataAccess
                     element.TypeUserMailingId = Commons.MySQLHelper.GetIntFromMySQL(dr["TypeUserMailingId"]);
                     element.TypeName = Convert.ToString(dr["TypeName"]);
                     element.TypeUserMailingName = Convert.ToString(dr["TypeUserMailingName"]);
-                    element.PublishDate = Commons.MySQLHelper.GetDateFromMySQL(dr["PublishDate"]).Value;
-                    element.ModificationDate = Commons.MySQLHelper.GetDateFromMySQL(dr["ModificationDate"]).Value;
-                    element.CreationDate = Commons.MySQLHelper.GetDateFromMySQL(dr["CreationDate"]).Value;
+                    element.PublishDate = Commons.MySQLHelper.GetDateFromMySQL(dr["PublishDate"]).Value.ToLocalTime();
+                    element.ModificationDate = Commons.MySQLHelper.GetDateFromMySQL(dr["ModificationDate"]).Value.ToLocalTime();
+                    element.CreationDate = Commons.MySQLHelper.GetDateFromMySQL(dr["CreationDate"]).Value.ToLocalTime();
                     element.LastModificationUserId = Commons.MySQLHelper.GetIntFromMySQL(dr["LastModificationUserId"]);
                     if(element.LastModificationUserId!=null)
                     {
                         element.LastModificationUserFullNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["FirstName"]))+" " + EncryptHelper.DecryptString(Convert.ToString(dr["LastName"])); ;
                     }
 
-                    element.Active = Commons.MySQLHelper.GetBoolFromMySQL(dr["LockoutEnabled"]).Value;
+                    element.Active = Commons.MySQLHelper.GetBoolFromMySQL(dr["Active"]).Value;
                     element.ScheduledTaskId = Commons.MySQLHelper.GetIntFromMySQL(dr["ScheduledTaskId"]);
                     element.HasScheduledTaskBeenExecuted = element.ScheduledTaskId!=null?( Commons.MySQLHelper.GetDateFromMySQL(dr["Executiondate"])==null?false:true):false;
 

@@ -136,6 +136,10 @@ namespace Service
                         {
                             result = result && ScheduledTaskService.ScheduleEMailUserTask(Task.UserId.Value, Task.EmailTypeId.Value, Delay, Task.CreationDate, Task.ExpectedExecutionDate);
                         }
+                        else if(Task.GroupName== CommonsConst.ScheduledTaskTypes.SendNews)
+                        {
+                            result = result && ScheduledTaskService.ScheduleNews(Task.NewsId.Value, Delay, Task.CreationDate, Task.ExpectedExecutionDate);
+                        }
                     }
                 }
             }
@@ -147,6 +151,51 @@ namespace Service
             return result;
         }
 
+
+        /// <summary>
+        /// Schedule a news mail
+        /// </summary>
+        /// <param name="NewsId"></param>
+        /// <param name="callbackDelay"></param>
+        /// <param name="CreationDate"></param>
+        /// <param name="ExpectedExecutionDate"></param>
+        /// <returns></returns>
+        public static bool ScheduleNews(int NewsId, TimeSpan callbackDelay, DateTime? CreationDate = null, DateTime? ExpectedExecutionDate = null)
+        {
+            bool Result = false;
+            try
+            {
+
+                if (CreationDate == null)
+                {
+                    CreationDate = DateTime.UtcNow;
+                    ExpectedExecutionDate = CreationDate.Value.Add(callbackDelay);
+                }
+
+
+                Dictionary<string, object> Parameters = new Dictionary<string, object>();
+                Parameters.Add("NewsId", NewsId);
+                TaskScheduleResult ResultSchedule = TaskHelper.ScheduleTask(JobBuilder.Create<SendNews>(), callbackDelay, Parameters);
+
+                if (ResultSchedule != null && ResultSchedule.Result)
+                {
+                    ScheduledTask Task = new ScheduledTask();
+                    Task.NewsId = NewsId;
+                    Task.CreationDate = CreationDate.Value;
+                    Task.ExpectedExecutionDate = ExpectedExecutionDate.Value;
+                    Task.CallbackId = ResultSchedule.Id;
+                    Task.GroupName = ResultSchedule.GroupName;
+                    Result = InsertScheduledTask(Task);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "NewsId = " + NewsId);
+            }
+            return Result;
+        }
 
         /// <summary>
         /// Schedule a mail for a user
@@ -356,6 +405,7 @@ namespace Service
                 Columns.Add("ExpectedExecutionDate", Task.ExpectedExecutionDate);
                 Columns.Add("EmailTypeId", Task.EmailTypeId);
                 Columns.Add("CreationDate", Task.CreationDate);
+                Columns.Add("NewsId", Task.NewsId);
                 Result = GenericDAL.InsertRow("scheduledtask", Columns) > 0 ? true : false;
             }
             catch (Exception e)

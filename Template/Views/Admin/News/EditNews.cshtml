@@ -1,21 +1,24 @@
 ﻿@model Models.ViewModels.NewsEditViewModel
 
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+<link href="~/Content/Views/Admin/News/Edit.css" rel="stylesheet">
 
 @Html.Partial("_PageTitle")
 <div>
     <div class="container-fluid">
         <div class="main-content">
-            <div class="col-md-12">
+            <div class="col-md-12" style="padding-bottom:30px;">
                 <div class="col-md-8 col-md-offset-2 col-xs-12 row">
-                    @using (Ajax.BeginForm("EditNews", "Admin", new { }, new AjaxOptions() { HttpMethod = "POST" }, new { @id = "EditNewsForm", @class = "sexyForm" }))
-                    {
+                    <form id="EditNewsForm" class="sexyForm" action="/Admin/EditNews">
+
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.Id)
-
+                        @Html.HiddenFor(m => m.LastModificationUserId)
+                        @Html.HiddenFor(m => m.ScheduledTaskId)
+                        @Html.HiddenFor(m => m.HasScheduledTaskBeenExecuted)
 
                         <div class="websiteFormGroup col-md-12  col-xs-12">
-                            <a href="News">
+                            <a href="News" id="BackToList">
                                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 [[[Go back to the list]]]
                             </a>
@@ -51,16 +54,19 @@
                         </div>
 
 
-                        <div class="col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
-                            @Html.LabelFor(model => model.NewsDescription, htmlAttributes: new { @class = "control-label"  })
-                            <div>
+                        <div class="col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup" style="padding-bottom:25px;">
+                            <div class="col-md-12 col-xs-12 noMarginNoPaddingHorizontal">
+                                @Html.LabelFor(model => model.NewsDescription, htmlAttributes: new { @class = "control-label" })
+                                <a id="MailPreview" style="padding-right:20px;font-size:16px;cursor:pointer;" class="pull-right RelatedToNewsMail"><span class="glyphicon glyphicon-envelope" style="margin-right:6px;"></span>[[[Mail Preview]]]</a>
+                            </div>
+                            <div class="col-md-12 col-xs-12 noMarginNoPaddingHorizontal">
                                 @Html.TextAreaFor(m => Model.NewsDescription, new { @class = "form-control summernote input-lg" })
                                 @Html.ValidationMessageFor(m => m.NewsDescription)
                             </div>
 
                         </div>
 
-                        <div class="col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup" style="padding-top:25px;">
+                        <div class="col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup RelatedToNewsMail">
                             <div class="select">
                                 @Html.DropDownListFor(model => model.TypeUserMailingId, new SelectList(Model.TypeUserMailingList, "Id", "Name"), "--- [[[Select a User Mailing Type]]] ---", new { @class = "select-text" })
                                 <span class="select-label">@Html.DisplayNameFor(m => m.TypeUserMailingId)</span>
@@ -69,7 +75,7 @@
 
                         </div>
 
-                        <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup">
+                        <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup RelatedToNewsMail">
                             @Html.TextBoxFor(model => model.MailSubject, new { @class = "sexyTB" })
                             <label class="labelSexyTb">@Html.DisplayNameFor(m => m.MailSubject)</label>
                             <i class="fa fa-envelope-o SexyField-icons" aria-hidden="true"></i>
@@ -91,7 +97,7 @@
                         <div class="col-md-6 col-md-offset-3 col-xs-12">
                             <input type="submit" value="[[[Save]]]" class="btn website-btn" id="SubmitNews" />
                         </div>
-                    }
+                    </form>
                 </div>
 
 

@@ -11,13 +11,14 @@ namespace Models.ViewModels
     public class NewsViewModel 
     {
 
-
+        public List<News> PublishedNews { get; set; }
         public List<News> NotPublishedNews { get; set; }
 
 
         public NewsViewModel()
         {
             NotPublishedNews = new List<News>();
+            PublishedNews = new List<News>();
         }
     }
 }
