@@ -6,10 +6,60 @@
     <div class="container-fluid">
         <div class="main-content">
             <div class="col-md-12 no-gutter">
-                <div class="col-md-2 col-xs-12 pull-right">
-                    <a  class="btn website-btn" id="AddNews" href="/Admin/EditNews" ><span class="glyphicon glyphicon-plus paddingGlyph"></span>[[[Add a News]]]</a>
+                <div class="col-md-3 col-xs-12 pull-right">
+                    <div style="padding-right:25px;padding-left:25px;">
+                        <a class="btn website-btn" id="AddNews"  href="/Admin/EditNews"><span class="glyphicon glyphicon-plus paddingGlyph"></span>[[[Add a News]]]</a>
+                    </div>
                 </div>
+                <div class="col-md-12 col-xs-12">
+                    <div class="col-xs-12 col-md-12" style="padding-left:25px;padding-right:25px;">
+                        <h2>[[[Up coming News]]]</h2>
+                    </div>
 
+                    <div>
+                        @foreach (var news in Model.NotPublishedNews)
+                        {
+                            <div id="elementWrap_@news.Id">
+                                <div class="col-xs-12 col-md-12 element-col">
+                                    <div class="element-card col-xs-12 col-md-12" data-news_id="@news.Id" style="cursor: pointer;">
+                                        <div class="col-xs-12 col-md-2">
+                                            @if (news.TypeId != CommonsConst.NewsType.MailOnly)
+                                            {
+                                                <i class="fa fa-newspaper-o element-icon" aria-hidden="true"></i>
+                                            }
+                                            @if (news.TypeId != CommonsConst.NewsType.PublishOnly)
+                                            {
+                                                <i class="fa fa-envelope-open-o element-icon" aria-hidden="true"></i>
+                                            }
+                                        </div>
+                                        <div class="col-xs-12 col-md-5">
+                                            <span style="font-size:16px"><strong>@news.Title</strong></span>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <span style="font-size:14px">@news.PublishDate.ToLocalTime().ToString("MMM dd, yyyy hh:mm tt")</span>
+                                        </div>
+                                        <div class="col-xs-6 col-md-1">
+                                            @if (news.Active)
+                                            {
+                                                <span title="[[[Active]]]" class="glyphicon glyphicon-ok" style="color:green"></span>
+                                            }
+                                            else
+                                            {
+                                                <span title="[[[Disabled]]]" class="glyphicon glyphicon-remove" style="color:red"></span>
+                                            }
+                                        </div>
+                                        <div class="col-xs-6 col-md-1">
+                                            <span title="[[[Delete]]]" data-news_id="@news.Id" class="delnewsBtn glyphicon glyphicon-trash pointercursor dangerRed pull-right">
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                </div>
 
             </div>
         </div>

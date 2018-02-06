@@ -184,13 +184,39 @@ namespace Service
             try
             {
                 model.NotPublishedNews = GetNotPublishedNewsList();
-                model.NotPublishedNews = GetPublishedNewsList();
+                model.PublishedNews = GetPublishedNewsList();
             }
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
             return model;
+        }
+
+        /// <summary>
+        /// Delete a news
+        /// </summary>
+        /// <param name="NewsId"></param>
+        /// <returns></returns>
+        public static bool DeleteNews(int NewsId)
+        {
+            bool result = false;
+            try
+            {
+                News news = GetNewsById(NewsId);
+                if (news != null)
+                {
+                    if(news.ScheduledTaskId!=null)
+                         ScheduledTaskService.CancelTaskById(news.ScheduledTaskId.Value);
+                    result = GenericDAL.DeleteById("news", NewsId);
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "NewsId = " + NewsId);
+            }
+            return result;
         }
 
         /// <summary>

@@ -161,7 +161,7 @@ namespace DataAccess
                 Query = Query + ", c.Name as 'EMailTypeName', u.FirstName, u.LastName, ui.EMail ";
                 Query = Query + ", n.Id as NewsId, n.PublishDate as NewsPublishDate,n.Title as NewsTitle ";
                 Query = Query + "from scheduledtask t ";
-                Query = Query + "inner join category c on c.Id=t.EmailTypeId ";
+                Query = Query + "left join category c on c.Id=t.EmailTypeId ";
                 Query = Query + "left join news n on n.Id=t.NewsId ";
                 Query = Query + "left join user u on u.Id=t.UserId ";
                 Query = Query + "left join useridentity ui on ui.username=u.username ";

@@ -256,7 +256,35 @@ namespace Website.Controllers
             return Json(new { Result = _success,  Error = _Error, IsCreation= _isCreation });
         }
 
+        /// <summary>
+        /// Delete a news by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DeleteNews(int id)
+        {
 
+            bool success = false;
+            string err = "";
+            int _id = id;
+            try
+            {
+                success = NewsService.DeleteNews(id);
+                if (!success)
+                {
+                    err = "[[[Error while deleting the update.]]]";
+                    _id = -1;
+                }
+
+            }
+            catch (Exception e)
+            {
+                success = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Id = " + id);
+            }
+            return Json(new { Success = success, Err = err, Id = _id });
+        }
 
         #endregion
 

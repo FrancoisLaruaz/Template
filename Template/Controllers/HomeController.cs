@@ -12,6 +12,7 @@ using Commons;
 using i18n;
 using System.Configuration;
 using Models.Class;
+using System.Web.Hosting;
 
 
 namespace Website.Controllers
@@ -29,6 +30,11 @@ namespace Website.Controllers
                     model.UserFirstName = UserSession.FirstNameDecrypt;
                     model.UserNameDecrypt = UserSession.UserNameDecrypt;
                     model.PictureSrc = FileHelper.GetDecryptedFilePath(UserSession.PictureSrc,true);
+                    if (!System.IO.File.Exists(HostingEnvironment.MapPath(model.PictureSrc)))
+                    {
+                        model.PictureSrc = CommonsConst.Const.DefaultImageUser;
+                    }
+                    model.PictureSrc = model.PictureSrc.Replace("~", "");
                 }
             }
             catch (Exception e)

@@ -259,7 +259,7 @@ namespace Commons
         public static bool CancelTask(ScheduledTask Task)
         {
   
-            bool result = false;
+            bool result = true;
             try
             {
                 if (Task != null && Task.CancellationDate==null && Task.ExecutionDate==null)
