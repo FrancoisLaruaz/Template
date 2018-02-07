@@ -48,6 +48,9 @@ $(document).ready(function () {
 
 });
 
+
+
+
 function RefreshData(IsNewResearch) {
 
     if (IsNewResearch === undefined) {

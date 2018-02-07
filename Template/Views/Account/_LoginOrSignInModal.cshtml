@@ -17,11 +17,14 @@
                     </div>
                     @if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
                     {
+                        
                         <div id="LoginForm" style="display:none">
+                            <div class="authTitle">[[[Log In]]]</div>
                             @Html.Action("_LoginForm", "Account")
                         </div>
                     }
                     <div id="SignUpForm" style="display:none">
+                        <div class="authTitle">[[[Sign Up]]]</div>
                         @Html.Action("_SignUpForm", "Account")
                     </div>
                 </div>

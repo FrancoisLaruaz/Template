@@ -19,7 +19,7 @@
                     <div>
                         @foreach (var news in Model.NotPublishedNews)
                         {
-                            <div id="elementWrap_@news.Id">
+                            <div id="elementWrap_@news.Id" >
                                 <div class="col-xs-12 col-md-12 element-col">
                                     <div class="element-card col-xs-12 col-md-12" data-news_id="@news.Id" style="cursor: pointer;">
                                         <div class="col-xs-12 col-md-2">
@@ -57,6 +57,10 @@
                                 </div>
 
                             </div>
+                        }
+                        @if (Model.NotPublishedNews == null || Model.NotPublishedNews.Count == 0)
+                        {
+                            <h3>[[[No news ...]]]</h3>
                         }
                     </div>
                 </div>
