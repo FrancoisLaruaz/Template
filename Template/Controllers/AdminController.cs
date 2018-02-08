@@ -230,7 +230,7 @@ namespace Website.Controllers
                             _success=ScheduledTaskService.CancelTaskById(Model.ScheduledTaskId.Value);
                         }
 
-                        if(_success && !Model.HasScheduledTaskBeenExecuted)
+                        if(_success && !Model.HasScheduledTaskBeenExecuted && Model.TypeId != CommonsConst.NewsType.PublishOnly && Model.Active)
                         {
                             if(Model.PublishDate<DateTime.UtcNow)
                             {

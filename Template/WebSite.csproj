@@ -491,6 +491,8 @@
     <Content Include="Views\Admin\Users\_DisplayUsers.cshtml" />
     <Content Include="Views\Admin\Users\_DisplayUsersModifications.cshtml" />
     <Content Include="Views\Shared\_OldPageTitle.cshtml" />
+    <Content Include="Views\Admin\News\_DisplayNotPublishedNews.cshtml" />
+    <Content Include="Views\Admin\News\_DisplayPublishedNews.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

@@ -73,3 +73,20 @@
     .loginBtn--google:focus {
         background: #E74B37;
     }
+
+
+
+
+
+.loginPart .loginBtn:before {
+    left: 30px;
+}
+
+.loginPart .loginBtn--facebook, .loginPart .div--facebook {
+    margin-right: 0px !important;
+}
+
+.loginPart .loginBtn--google, .loginPart .div--google {
+
+    margin-left: 0px !important;
+}

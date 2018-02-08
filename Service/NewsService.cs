@@ -184,7 +184,6 @@ namespace Service
             try
             {
                 model.NotPublishedNews = GetNotPublishedNewsList();
-                model.PublishedNews = GetPublishedNewsList();
             }
             catch (Exception e)
             {
@@ -230,7 +229,7 @@ namespace Service
             try
             {
                 News news = GetNewsById(NewsId);
-                if (news != null && (news.HasScheduledTaskBeenExecuted == null || news.HasScheduledTaskBeenExecuted.Value == false))
+                if (news != null )
                 {
                     List<int> MailingList = GetNewsMailList(news.TypeUserMailingId.Value);
 

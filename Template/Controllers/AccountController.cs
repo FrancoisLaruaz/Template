@@ -227,7 +227,7 @@ namespace Website.Controllers
                     var externalIdentity = HttpContext.GetOwinContext().Authentication.GetExternalIdentityAsync(DefaultAuthenticationTypes.ExternalCookie);
                     _Media = loginInfo.Login.LoginProvider;
                     // Sign in the user with this external login provider if the user already has a login
-                    var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+                    var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: true);
                     switch (result)
                     {
                         case SignInStatus.Success:
