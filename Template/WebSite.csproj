@@ -226,7 +226,7 @@
     <Content Include="Content\General\_Spinner.css" />
     <Content Include="Content\Views\Account\_PasswordPolicy.css" />
     <Content Include="Content\Views\Home\_VideoHomePage.css" />
-    <Content Include="Content\Views\Shared\_LoginModal.css" />
+    <None Include="Content\Views\Shared\_LoginModal.less" />
     <Content Include="Content\Views\Shared\_Header.css" />
     <Content Include="Content\Views\Shared\_PageTitle.css" />
     <Content Include="docs\MySqlCommand.xml" />

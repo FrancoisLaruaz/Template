@@ -4,14 +4,14 @@
     box-sizing: border-box;
     position: relative;
     /* width: 13em;  - apply for fixed size */
-    margin: 0;
-    padding: 8px 15px 8px 46px;
+    margin: 10px 0 10px 0;
+    padding: 8px 20px 8px 46px;
     border: none;
     text-align: left;
     line-height: 34px;
     white-space: nowrap;
-    border-radius: 0.2em;
-    font-size: 19px;
+    border-radius: 50px;
+    font-size: 21px;
     color: #FFF;
     text-align: center;
     width: 100%;
@@ -43,7 +43,7 @@
 }
 
     .loginBtn--facebook:before {
-        background: url('../Content/images/icons/icon_facebook.png') 6px 6px no-repeat;
+        background: url('../../Ressources/Files/Images/SocialMedia/icon_facebook.png') -5px 6px no-repeat;
     }
 
     .loginBtn--facebook:hover,
@@ -66,7 +66,7 @@
     }
 
     .loginBtn--google:before {
-        background: url('../../Ressources/Files/Images/SocialMedia/icon_google.png') 6px 6px no-repeat;
+        background: url('../../Ressources/Files/Images/SocialMedia/icon_google.png') -5px 6px no-repeat;
     }
 
     .loginBtn--google:hover,

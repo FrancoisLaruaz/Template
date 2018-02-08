@@ -4,23 +4,24 @@
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
 }
 @Html.Partial("_OrContinueWith")
-
-<div class="col-md-10 col-md-offset-1 col-xs-12 row" style="">
+<div class="col-md-10 col-xs-12 loginPart col-md-offset-1" >
+    
     <form id="ExternalSignUpForm" action="@Url.Action("ExternalLogIn", "Account")" method="POST" target="ExternalLogInPopUp" onsubmit="invokeExternalAuthentification('ExternalLogInPopUp');">
         @Html.AntiForgeryToken()
-        <div id="socialLoginList" class="col-md-12 col-xs-12 noMarginNoPaddingHorizontal" >
 
-            @foreach (AuthenticationDescription p in loginProviders)
+
+        @foreach (AuthenticationDescription p in loginProviders)
             {
-                <div class="col-md-6 col-xs-12 noMarginNoPaddingHorizontal" >
-                    <button id="LogInButton_@p.AuthenticationType" type="submit" onclick="ExternalLogInFormOnBegin('@p.AuthenticationType')" class="loginBtn loginBtn--@p.AuthenticationType.ToLower() LogInBtn_js" name="provider" value="@p.AuthenticationType" title="[[[Log In using your ]]]@p.Caption [[[account]]]"><span id="LogInSpan_@p.AuthenticationType">@p.AuthenticationType</span></button>
-                </div>
-            }
+            <div class="col-md-6 col-xs-12 div--@p.AuthenticationType.ToLower()" style="text-align:right;" >
+                <button id="LogInButton_@p.AuthenticationType" type="submit" onclick="ExternalLogInFormOnBegin('@p.AuthenticationType')" class="loginBtn loginBtn--@p.AuthenticationType.ToLower() LogInBtn_js" name="provider" value="@p.AuthenticationType" title="[[[Log In using your ]]]@p.Caption [[[account]]]"><span id="LogInSpan_@p.AuthenticationType">@p.AuthenticationType</span></button>
+            </div>
+        }
 
-        </div>
+
     </form>
-    <div  class="col-md-12 col-xs-12">
+    <div class="col-md-12 col-xs-12">
         <span id="GeneralExternalLogInError" class="text-danger resultExternalAuthentification" style="min-height:20px;"></span>
     </div>
+
 </div>
 
