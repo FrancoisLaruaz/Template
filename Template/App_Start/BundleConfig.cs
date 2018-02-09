@@ -52,7 +52,7 @@ namespace Template
             "~/Scripts/General/FileDrop.js",
             "~/Scripts/General/FileDropHelper.js",
              "~/Scripts/General/FlashVersion.js",
-            "~/Scripts/General/WebcamHelper.js",
+            "~/Scripts/General/WebcamHelper.js"
            // "~/Scripts/General/Highcharts.js",
           //  "~/Scripts/General/HighchartsExporting.js",
           //  "~/Scripts/General/HighchartsHelper.js"
