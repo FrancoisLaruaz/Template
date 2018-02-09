@@ -286,6 +286,21 @@ namespace Website.Controllers
             return Json(new { Success = success, Err = err, Id = _id });
         }
 
+        [HttpPost]
+        public ActionResult _DisplayPublishedNews(DisplayPublishedNewsViewModel Model)
+        {
+            try
+            {
+                Model = NewsService.GetDisplayPublishedNewsViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Model.Pattern = " + Model.Pattern);
+                return Content("ERROR");
+            }
+            return PartialView("~/Views/Admin/News/_DisplayPublishedNews.cshtml", Model);
+        }
+
         #endregion
 
         #region EmailAudits

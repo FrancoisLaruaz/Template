@@ -97,3 +97,5 @@ C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.cspr
 C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.csproj.CoreCompileInputs.cache
 C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.dll
 C:\DEV\Template_local\AspNet.Identity.MySQL\obj\Debug\AspNet.Identity.MySQL.pdb
+D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Newtonsoft.Json.dll
+D:\DEV\Template\AspNet.Identity.MySQL\bin\Debug\Newtonsoft.Json.xml

@@ -2,21 +2,21 @@
 
 
 @Html.Partial("_PageTitle")
-<div>
-    <div class="container-fluid">
-        <div class="main-content">
-            <div class="col-md-12 no-gutter">
-                <div class="col-md-12 col-xs-12" id="NotPublishedNewsDiv">
-                    @Html.Partial("~/Views/Admin/News/_DisplayNotPublishedNews.cshtml", Model)
-                </div>
-                <div class="col-md-12 col-xs-12" id="PublishedNewsDiv">
-                    @Html.Partial("~/Views/Admin/News/_DisplayPublishedNews.cshtml")
-                </div>
 
+<div class="container-fluid">
+    <div class="main-content noMarginNoPaddingHorizontal">
+        <div class="col-md-12 noMarginNoPaddingHorizontal">
+            <div class="col-md-12 col-xs-12 noMarginNoPaddingHorizontal" id="NotPublishedNewsDiv">
+                @Html.Partial("~/Views/Admin/News/_NotPublishedNews.cshtml", Model)
             </div>
+            <div class="col-md-12 col-xs-12 noMarginNoPaddingHorizontal" id="PublishedNewsDiv">
+                @Html.Partial("~/Views/Admin/News/_PublishedNews.cshtml")
+            </div>
+
         </div>
     </div>
 </div>
+
 
 
 @section scripts {

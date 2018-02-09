@@ -53,9 +53,9 @@ namespace Template
             "~/Scripts/General/FileDropHelper.js",
              "~/Scripts/General/FlashVersion.js",
             "~/Scripts/General/WebcamHelper.js",
-            "~/Scripts/General/Highcharts.js",
-            "~/Scripts/General/HighchartsExporting.js",
-            "~/Scripts/General/HighchartsHelper.js"
+           // "~/Scripts/General/Highcharts.js",
+          //  "~/Scripts/General/HighchartsExporting.js",
+          //  "~/Scripts/General/HighchartsHelper.js"
           , "~/Scripts/General/summernote.js"
            , "~/Scripts/General/summernoteHelper.js"
             , "~/Scripts/General/SexyCSSHelper.js"

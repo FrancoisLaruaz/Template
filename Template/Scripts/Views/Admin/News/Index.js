@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  //  RefreshData(true);
+    RefreshData(true);
     SetEnterKey("SearchIcon");
 
 

@@ -1,17 +1,33 @@
-﻿<div class="col-xs-12 col-md-12" style="padding-left:25px;padding-right:50px;margin-top:30px;">
-    <div class="col-md-12 col-xs-12  no-gutter">
-        <h2>[[[Past News]]]</h2>
-    </div>
-    <div class="col-md-12 col-xs-12  no-gutter">
-        <div class="row">
-            <div class="col-xs-12 col-md-4 col-md-offset-4">
-                <input id="SearchBox" type="text" style="width:93% !important;height:30px !important;display:inline;border-radius:50px; " class="form-control" />
-                <a role="button" style="margin-left:5px;" aria-haspopup="true" aria-expanded="false" title="Refresh news" id="SearchIcon" onclick="RefreshData(true)"><span class="glyphicon glyphicon-search"></span></a>
-            </div>
-        </div>
-        <div id="targetContainer" style="padding-top:20px">
+﻿@model Models.ViewModels.DisplayPublishedNewsViewModel
 
-        </div>
 
+
+
+<div class="table-responsive noMarginNoPaddingHorizontal col-xs-12 col-md-12">
+    <div class="pull-right">
+        <p style="font-weight:bold">@Model.Count [[[row(s) found]]]</p>
     </div>
+    @foreach (var news in Model.NewsList)
+    {
+        @Html.Partial("~/Views/Admin/News/_News.cshtml", news)
+    }
+    @if (Model.NewsList == null || Model.NewsList.Count == 0)
+    {
+        <div class="col-xs-12 col-md-12 noMarginNoPaddingHorizontal">
+            <h3>[[[No news ...]]]</h3>
+        </div>
+    }
 </div>
+
+@using (Html.BeginForm("_DisplayPublishedNews", "Admin", FormMethod.Post, new { id = "_pager" }))
+{
+    @Html.Partial("_Pager")
+    @Html.HiddenFor(m => m.Pattern)
+}
+
+<script>
+    $(document).ready(function () {
+        HideSpinner();
+    });
+
+</script>

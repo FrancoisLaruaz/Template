@@ -261,6 +261,20 @@ namespace Service
             return result;
         }
 
+        public static DisplayPublishedNewsViewModel GetDisplayPublishedNewsViewModel(string Pattern, int StartAt, int PageSize)
+        {
+            DisplayPublishedNewsViewModel model = new DisplayPublishedNewsViewModel();
+            try
+            {
+                model = NewsDAL.GetPublishedNewsList(Pattern, StartAt, PageSize);
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Pattern = " + Pattern);
+            }
+            return model;
+        }
+
         /// <summary>
         /// Get the list of the user to send the mail
         /// </summary>
