@@ -426,3 +426,14 @@ null);
 
 INSERT INTO `emailtypelanguage` VALUES (5,1003,3001,'','news_en'),
 (6,1003,3002,'','news_fr');
+
+
+alter table emailaudit
+add ScheduledTaskId int  null;
+
+
+ALTER TABLE `template`.`scheduledtask` 
+DROP INDEX `Id_UNIQUE` ;
+
+alter table emailaudit
+add foreign key FK_emailaudit_schedultedtask  (`ScheduledTaskId`) REFERENCES `scheduledtask` (`Id`)

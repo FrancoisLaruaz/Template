@@ -5,13 +5,17 @@ $(document).ready(function () {
         document.getElementById('logoutForm').submit();
     });
 
-    $('ul.nav li.dropdown').hover(function () {
+    $('ul.nav li.dropdown').addClass('open');
+    $('ul.nav li.dropdown').hover(function (e) {
+        // $(this).find('.dropdown-menu').first().stop(true, true).fadeToggle(500); 
         if ($(window).width() > 1070) {
-            $(this).addClass('open');
+            $('ul.nav li.dropdown').addClass('open');
+
+            $(this).addClass('li_hover');
         }
-    }, function () {
+    }, function (e) {
         if ($(window).width() > 1070) {
-            $(this).removeClass('open');
+            $(this).removeClass('li_hover');
         }
     });
 

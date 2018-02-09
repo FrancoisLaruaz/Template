@@ -246,7 +246,7 @@ namespace Service
 
                         Email.Subject = news.MailSubject;
                         Email.EmailContent = EmailContent;
-
+                        Email.RelatedScheduledTaskId = news.ScheduledTaskId;
 
                         result = EMailService.SendMail(Email);
 

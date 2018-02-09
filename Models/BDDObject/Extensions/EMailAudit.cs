@@ -20,9 +20,27 @@ namespace Models.BDDObject
 
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
-        public string EMailFromDecrypt { get; set; }    
+        public string EMailFromDecrypt { get; set; }
         public string EMailTypeName { get; set; }
         public string EMailToDecrypt { get; set; }
+
+        public int? NewsId { get; set; }
+        public string NewsTitle { get; set; }
+
+        public string Comment
+        {
+            get
+            {
+                string Result = "";
+
+                if(!String.IsNullOrWhiteSpace(NewsTitle))
+                {
+                    Result = "[[[News : ]]]" + NewsTitle;
+                }
+
+                return Result;
+            }
+        }
 
     }
 }

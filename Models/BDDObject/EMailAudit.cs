@@ -19,5 +19,7 @@ namespace Models.BDDObject
         public int CCUsersNumber { get; set; }
         public int EMailTypeLanguageId { get; set; }
 
+        public int? ScheduledTaskId { get; set; }
+
     }
 }

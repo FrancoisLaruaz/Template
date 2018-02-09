@@ -743,6 +743,7 @@ namespace Website.Controllers
             LoginViewModel model = new LoginViewModel();
             try
             {
+
                 if (User.Identity.IsAuthenticated)
                 {
                     if (String.IsNullOrWhiteSpace(returnUrl))

@@ -35,6 +35,8 @@ namespace Models.Class
 
         public int? UserId { get; set; }
 
+        public int? RelatedScheduledTaskId { get; set; }
+
         public string BasePathFile { get; set; }
 
         public List<Tuple<string,string>> EmailContent { get; set; }

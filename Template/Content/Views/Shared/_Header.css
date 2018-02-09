@@ -72,3 +72,180 @@
     border-radius: 50%; /*don't forget prefixes*/
     margin: 0px 5px 3px 0px;
 }
+
+
+@media (max-width: 1070px) {
+    .sub-nav .user-icon-span {
+        border-color: #fff;
+    }
+}
+
+
+
+@media (max-width: 1070px) {
+    .sub-nav .navbar-default .navbar-nav > li > a {
+        color: #fff;
+    }
+
+        .sub-nav .navbar-default .navbar-nav > li > a:hover {
+            color: #fff;
+        }
+}
+
+.sub-nav .navbar {
+    z-index: 500;
+}
+
+@media (max-width: 1070px) {
+    .sub-nav .navbar-nav .open .dropdown-menu {
+        position: static;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+    .sub-nav .navbar-header {
+        float: none;
+    }
+
+    .sub-nav .navbar-left, .navbar-right {
+        float: none !important;
+    }
+
+    .sub-nav .navbar-toggle {
+        display: block;
+    }
+
+    .sub-nav .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+
+    .sub-nav .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+
+    .sub-nav .navbar-collapse.collapse {
+        display: none !important;
+    }
+
+    .sub-nav .navbar-nav {
+        float: none !important;
+        margin-top: 7.5px;
+    }
+
+        .sub-nav .navbar-nav > li {
+            float: none;
+        }
+
+            .sub-nav .navbar-nav > li > a {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+    .sub-nav .collapse.in {
+        display: block !important;
+    }
+}
+
+@media (max-width: 1070px) {
+    .sub-nav .navbar-default li {
+        background-color: #222;
+    }
+
+    .sub-nav .navbar-default .navbar-nav > li > a {
+        border-bottom: 1px solid #999;
+    }
+
+    .sub-nav .navigation .spacer {
+        display: none;
+    }
+
+    .sub-nav .navbar-nav .dropdown-menu {
+        padding: 0px;
+    }
+
+    .sub-nav .navbar-default .navbar-nav > .open > a {
+        background-color: #222;
+    }
+
+        .sub-nav .navbar-default .navbar-nav > .open > a:hover {
+            background-color: #111;
+        }
+
+    .sub-nav .nav .open > a, .nav .open > a:hover, .sub-nav .nav .open > a:focus {
+        border-color: #fff;
+    }
+
+    .sub-nav .navbar-default .navbar-nav .open .dropdown-menu > li {
+        border-bottom: 1px solid #999;
+    }
+
+        .sub-nav .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+            color: #fff;
+            padding-top: 10px;
+            line-height: 40px;
+            padding-bottom: 10px;
+            padding-left: 35px;
+            background-color: #333;
+        }
+
+    .sub-nav .navbar-default .navbar-nav > .open > a, .sub-nav .navbar-default .navbar-nav > .open > a:hover, .sub-nav .navbar-default .navbar-nav > .open > a:focus {
+        color: #fff;
+        background-color: #222;
+        border-bottom: 1px solid #999;
+    }
+
+    .sub-nav .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .sub-nav .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: #fff;
+        background-color: #111;
+    }
+}
+
+.transaction-page-table td {
+    padding: 0px 30px 5px 5px;
+}
+/*when squeezed nav end*/
+/*END from 2017-08-25*/
+
+.navbar-nav li .dropdown-menu {
+    margin-top: 40px;
+    visibility: hidden;
+}
+
+
+.navbar-nav li:hover .dropdown-menu {
+    margin-top: 0px;
+    visibility: visible;
+    border-radius: 0;
+    font-weight: bold;
+    transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.15);
+    -moz-box-shadow: 0 1px 6px rgba(0,0,0,.15);
+    box-shadow: 0 1px 6px rgba(0,0,0,.15);
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -ms-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+
+
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: transparent !important;
+}
+
+.navMenuItem {
+    font-size: 1.9rem;
+}
+
+
+

@@ -13,9 +13,9 @@
                 <th>[[[Id]]]</th>
                 <th>[[[Date]]]</th>
                 <th>[[[Type]]]</th>
-                <th>[[[From]]]</th>
                 <th>[[[To]]]</th>
                 <th>[[[User]]]</th>
+                <th>[[[Comment]]]</th>
                 <th>[[[Language]]]</th>
                 <th>[[[Attachments]]]</th>
                 <th>[[[CC]]]</th>
@@ -30,9 +30,9 @@
                 <td>@item.Id</td>
                 <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(@item.Date)</td>
                 <td>@item.EMailTypeName</td>
-                <td>@item.EMailFromDecrypt</td>
-                <td>@item.EMailToDecrypt</td>
+                <td><span title="[[[Email from ]]]@item.EMailFromDecrypt">@item.EMailToDecrypt</span></td>
                 <td title="UserId : @item.UserId">@item.UserFirstNameDecrypt @item.UserLastNameDecrypt</td>
+                <td>@item.Comment</td>
                 <td>@item.LanguageName</td>
                 <td>@item.AttachmentNumber</td>
                 <td>@item.CCUsersNumber</td>

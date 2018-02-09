@@ -86,11 +86,14 @@ namespace DataAccess
                 string Query = "select a.Id, a.UserId, a.EMailFrom, a.EMailTo ,a.Date ";
                 Query = Query + ",a.AttachmentNumber,a.EMailTypeLanguageId,u.FirstName, u.LastName,c.Name ";
                 Query = Query + ",l.EMailTypeId, l.LanguageId,cl.Name as 'LanguageName'  ";
+                Query = Query + ",n.Id as NewsId, n.Title as Newstitle, a.ScheduledTaskId ";
                 Query = Query + "from emailaudit a ";
                 Query = Query + " inner join emailtypelanguage l on l.id=a.EMailTypeLanguageId ";
                 Query = Query + " left join user u on u.Id=a.UserId  ";
                 Query = Query + " left join category c on c.Id=l.EMailTypeId ";
                 Query = Query + " left join category cl on cl.Id=l.LanguageId ";
+                Query = Query + " left join scheduledtask st on st.Id=a.ScheduledTaskId ";
+                Query = Query + " left join news n on n.Id=st.newsid ";
                 Query = Query + "where 1=1 ";
                 Query = Query + "order by a.Id desc";
                 if (String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
@@ -117,7 +120,9 @@ namespace DataAccess
                     Audit.Date = MySQLHelper.GetDateFromMySQL(dr["Date"]).Value.ToLocalTime();
                     Audit.EMailTypeName = Convert.ToString(dr["Name"]);
                     Audit.AttachmentNumber = Convert.ToInt32(dr["AttachmentNumber"]);
-
+                    Audit.ScheduledTaskId = MySQLHelper.GetIntFromMySQL(dr["ScheduledTaskId"]);
+                    Audit.NewsId = MySQLHelper.GetIntFromMySQL(dr["NewsId"]);
+                    Audit.NewsTitle = MySQLHelper.GetStringFromMySQL(dr["NewsTitle"]);
                     Audit.EMailFromDecrypt = EncryptHelper.DecryptString(Audit.EMailFrom)?.ToLower().Trim();
                     Audit.EMailToDecrypt = EncryptHelper.DecryptString(Audit.EMailTo)?.ToLower().Trim();
                     Audit.UserFirstNameDecrypt = EncryptHelper.DecryptString(Audit.UserFirstName)?.ToLower().Trim();
@@ -128,7 +133,7 @@ namespace DataAccess
                 if(!String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
                 {
                     IEnumerable<EMailAudit> resultIEnumerable = ListAudits as IEnumerable<EMailAudit>;
-                    resultIEnumerable = resultIEnumerable.Where(a => (a.UserFirstNameDecrypt!=null && a.UserFirstNameDecrypt.Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.EMailTypeName.Contains(Pattern) || (a.EMailToDecrypt != null && a.EMailToDecrypt.Contains(Pattern)) ||  (a.EMailFromDecrypt!=null && a.EMailFromDecrypt.Contains(Pattern)) || (a.UserLastNameDecrypt!=null && a.UserLastNameDecrypt.Contains(Pattern)));
+                    resultIEnumerable = resultIEnumerable.Where(a => (a.EMailTypeName != null && a.EMailTypeName.Contains(Pattern)) || (a.NewsTitle!=null && a.NewsTitle.Contains(Pattern)) || (a.UserFirstNameDecrypt!=null && a.UserFirstNameDecrypt.Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.EMailTypeName.Contains(Pattern) || (a.EMailToDecrypt != null && a.EMailToDecrypt.Contains(Pattern)) ||  (a.EMailFromDecrypt!=null && a.EMailFromDecrypt.Contains(Pattern)) || (a.UserLastNameDecrypt!=null && a.UserLastNameDecrypt.Contains(Pattern)));
                     model.Count = resultIEnumerable.ToList().Count;
                     ListAudits = resultIEnumerable.Take(PageSize).Skip(StartAt).OrderByDescending(a => a.Id).ToList();
                 }
@@ -159,7 +164,7 @@ namespace DataAccess
             {
                 db = new DBConnect();
                 string Query = "insert into emailaudit (";
-                Query += "UserId, EMailFrom, EMailTo, AttachmentNumber, Date, EMailTypeLanguageId, CCUsersNumber ) ";
+                Query += "UserId, EMailFrom, EMailTo, AttachmentNumber, Date, EMailTypeLanguageId, CCUsersNumber,ScheduledTaskId ) ";
                 Query += " values (";
                 Query += MySQLHelper.GetIntToInsert(EMail.UserId);
                 Query += ","+ MySQLHelper.GetStringToInsert(EMail.EMailFrom);
@@ -168,6 +173,7 @@ namespace DataAccess
                 Query += "," + MySQLHelper.GetDateTimeToInsert(EMail.Date);
                 Query += "," + MySQLHelper.GetIntToInsert(EMail.EMailTypeLanguageId);
                 Query += "," + MySQLHelper.GetIntToInsert(EMail.CCUsersNumber);
+                Query += "," + MySQLHelper.GetIntToInsert(EMail.ScheduledTaskId);
                 Query += " )";
 
                 result = db.ExecuteQuery(Query);
