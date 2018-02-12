@@ -257,6 +257,7 @@
     <Content Include="Ressources\Files\Audio\Camera-sound.mp3" />
     <Content Include="Ressources\Files\Images\Banner.jpg" />
     <Content Include="Ressources\Files\Images\DefaultImage.jpg" />
+    <Content Include="Ressources\Files\Images\DefaultThumbnailUser.jpg" />
     <Content Include="Ressources\Files\Images\DefaultUser.jpg" />
     <Content Include="Ressources\Files\Images\homepage-mobile-cover.jpg" />
     <Content Include="Ressources\Files\Images\homepagevideo.jpg" />

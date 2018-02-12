@@ -12,57 +12,68 @@ $(document).ready(function () {
     })
     //END get edit update form
 
-    $(document).on("click", ".delnewsBtn", function (e) {
+    $(document).on("click", ".delPastnewsBtn", function (e) {
         e.stopPropagation();
         var elementId = $(this).data("news_id");
-        console.log("elementId to del->", elementId);
-        SweetConfirmation("[[[Are you sure about deleting this news ?]]]", null, function () {
-            $("#spinner").fadeIn();
-            //BEGIN ajax delete
-            $.ajax({
-                url: "/Admin/DeleteNews",
-                type: "POST",
-                data: { id: elementId },
-                success: function (data) {
-                    if (data.Success) {
-                        NotificationOK("[[[The news has been successfully deleted.]]]");
-                        var divIdToRemove = "#elementWrap_" + data.Id;
-                        $(divIdToRemove).fadeOut(function () {
-                            $(this).remove();
-                        });
-                    } else {
-                        NotificationKO(data.Err);
-                       
-                    }
-                },
-                error: function (xhr, error) {
-                    console.log(" : error" + error);
-                    NotificationKO("[[[Error occured, please try again later.]]]");
-                }
-            });
-            //END ajax delete
-        });
+        DeleteNews(elementId, true);
+    });
 
+    $(document).on("click", ".delFuturenewsBtn", function (e) {
+        e.stopPropagation();
+        var elementId = $(this).data("news_id");
+        DeleteNews(elementId, false);
     });
     //END delete update
 
 });
 
 
+function DeleteNews(elementId, isPast) {
+    console.log("elementId to del->", elementId);
+    SweetConfirmation("[[[Are you sure about deleting this news ?]]]", null, function () {
+        $("#spinner").fadeIn();
+        //BEGIN ajax delete
+        $.ajax({
+            url: "/Admin/DeleteNews",
+            type: "POST",
+            data: { id: elementId },
+            success: function (data) {
+                if (data.Success) {
+                    NotificationOK("[[[The news has been successfully deleted.]]]");
+                    var divIdToRemove = "#elementWrap_" + data.Id;
+                    $(divIdToRemove).fadeOut(function () {
+                        $(this).remove();
+                    });
 
+                    if (isPast) {
+                        var NewCount = parseInt($("#numPastRowCount").html()) - 1;
+                        $("#numPastRowCount").html(NewCount);
+                    }
+                } else {
+                    NotificationKO(data.Err);
+
+                }
+            },
+            error: function (xhr, error) {
+                console.log(" : error" + error);
+                NotificationKO("[[[Error occured, please try again later.]]]");
+            }
+        });
+        //END ajax delete
+    });
+}
 
 function RefreshData(IsNewResearch) {
 
     if (IsNewResearch === undefined) {
         IsNewResearch = true;
     }
-    if (IsNewResearch)
-    {
+    if (IsNewResearch) {
         $('#StartAt').val(0);
     }
     StartAt = parseInt($('#StartAt').val());
     ShowSpinner();
-    var _Pattern = $('#SearchBox').val().replace("'","''");
+    var _Pattern = $('#SearchBox').val().replace("'", "''");
     $.ajax({
         url: "/Admin/_DisplayPublishedNews",
         type: "POST",
@@ -73,7 +84,7 @@ function RefreshData(IsNewResearch) {
                 ErrorActions();
             }
             else {
-                $("#targetContainer").fadeOut(500,function () {
+                $("#targetContainer").fadeOut(500, function () {
                     $("#targetContainer").html(data).fadeIn(500);
                 });
             }

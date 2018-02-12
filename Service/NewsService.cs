@@ -207,7 +207,7 @@ namespace Service
                 {
                     if(news.ScheduledTaskId!=null)
                          ScheduledTaskService.CancelTaskById(news.ScheduledTaskId.Value);
-                    result = GenericDAL.DeleteById("news", NewsId);
+                    result = NewsDAL.DeleteNewsById(NewsId);
                 }
             }
             catch (Exception e)

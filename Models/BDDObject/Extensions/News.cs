@@ -18,6 +18,8 @@ namespace Models.BDDObject
 
         public bool? HasScheduledTaskBeenExecuted { get; set; }
 
+        public int MailSentNumber { get; set; }
+
 
         public string LastModificationUserFullNameDecrypt { get; set; }
 

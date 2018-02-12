@@ -437,3 +437,7 @@ DROP INDEX `Id_UNIQUE` ;
 
 alter table emailaudit
 add foreign key FK_emailaudit_schedultedtask  (`ScheduledTaskId`) REFERENCES `scheduledtask` (`Id`)
+
+
+alter table user
+add PictureThumbnailSrc varchar(256)  null

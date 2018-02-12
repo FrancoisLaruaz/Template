@@ -29,7 +29,11 @@ namespace Service
                 string FileName = "";
                 DateTime DateToCompare = DateTime.UtcNow.AddDays(-2);
 
-                List<string> ListUsedFiles = UserService.GeListUsers()?.Select(u => u.PictureSrc)?.ToList();
+                var UsersList = UserService.GeListUsers();
+                List<string> ListUsedFilesPictureSrc = UsersList.Select(u => u.PictureSrc)?.ToList();
+                List<string> ListUsedFilesPictureThumbnailSrc = UsersList.Select(u => u.PictureThumbnailSrc)?.ToList();
+
+                List<string> ListUsedFiles = ListUsedFilesPictureSrc.Concat(ListUsedFilesPictureThumbnailSrc).ToList();
 
                 if (ListUsedFiles != null && ListUsedFiles.Count > 0)
                 {

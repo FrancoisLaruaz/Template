@@ -17,6 +17,47 @@ namespace DataAccess
         }
 
         /// <summary>
+        /// Delete a specific scheduled task
+        /// </summary>
+        /// <param name="ScheduledTaskId"></param>
+        /// <returns></returns>
+        public static bool DeleteScheduledTaskById(int ScheduledTaskId)
+        {
+            bool result = true;
+            DBConnect db = null;
+            try
+            {
+                if (ScheduledTaskId > 0)
+                {
+
+
+                    db = new DBConnect();
+                    db.BeginTransaction();
+                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    string Query = "delete from emailaudit where scheduledtaskid = @ScheduledTaskId;";
+                    Query = Query + "delete from scheduledtask where id =@ScheduledTaskId;";
+                    parameters.Add("@ScheduledTaskId", ScheduledTaskId);
+                    result = db.ExecuteQuery(Query, parameters);
+
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "ScheduledTaskId = " + ScheduledTaskId);
+            }
+            finally
+            {
+                if (result)
+                    result = db.CommitTransaction();
+                else
+                    db.RollbackTransaction();
+                db.Dispose();
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Return the number of problems in the databse for the scheduled tasks
         /// </summary>
         /// <returns></returns>

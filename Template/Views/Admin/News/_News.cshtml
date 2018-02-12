@@ -16,11 +16,14 @@
                     <i class="fa fa-envelope-open-o element-icon" aria-hidden="true"></i>
                 }
             </div>
-            <div class="col-xs-12 col-md-5">
+            <div class="col-xs-12 col-md-4">
                 <span style="font-size:16px"><strong>@Model.Title</strong></span>
             </div>
             <div class="col-xs-12 col-md-3">
                 <span style="font-size:14px">@Model.PublishDate.ToLocalTime().ToString("MMM dd, yyyy hh:mm tt")</span>
+            </div>
+            <div class="col-xs-12 col-md-1">
+                <span style="font-size:14px" title="[[[Email(s) sent]]]"><strong>@Model.MailSentNumber</strong></span>
             </div>
             <div class="col-xs-12 col-md-1">
                 @if (Model.Active)
@@ -33,8 +36,16 @@
                 }
             </div>
             <div class="col-xs-12 col-md-1">
-                <span title="[[[Delete]]]" data-news_id="@Model.Id" class="delnewsBtn glyphicon glyphicon-trash pointercursor dangerRed pull-right">
-                </span>
+                @if (Model.PublishDate > DateTime.UtcNow)
+                {
+                    <span title="[[[Delete]]]" data-news_id="@Model.Id" class="delFuturenewsBtn glyphicon glyphicon-trash pointercursor dangerRed pull-right">
+                    </span>
+                }
+                else
+                {
+                    <span title="[[[Delete]]]" data-news_id="@Model.Id" class="delPastnewsBtn glyphicon glyphicon-trash pointercursor dangerRed pull-right">
+                    </span>
+                }
             </div>
 
         </div>

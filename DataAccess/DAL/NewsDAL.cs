@@ -44,12 +44,13 @@ namespace DataAccess
                 Query = Query + ", t.Name as TypeName ";
                 Query = Query + ", m.Name as TypeUserMailingName ";
                 Query = Query + ", s.Id as ScheduledTaskId, s.Executiondate ";
+                Query = Query + ", (select count(*) from emailaudit ea, scheduledtask st where st.NewsId=n.Id and ea.scheduledtaskid=st.id) as MailSentNumber ";
                 Query = Query + "from news n ";
                 Query = Query + "inner join category t on t.Id=n.TypeId ";
                 Query = Query + "left join  category m on m.Id=n.TypeUserMailingId ";
                 Query = Query + "left join user U on U.Id=n.LastModificationUserId ";
                 Query = Query + "left join scheduledtask s on s.NewsId=n.Id ";
-                Query = Query + " where 1=1 ";
+                Query = Query + " where PublishDate < "+MySQLHelper.GetDateTimeToInsert(DateTime.UtcNow);
 
                 Query = Query + " order by n.PublishDate desc, n.id desc";
                 if (String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
@@ -63,6 +64,7 @@ namespace DataAccess
                     DataRow dr = data.Rows[i];
                     News element = new News();
                     element.Id = Convert.ToInt32(dr["Id"]);
+                    element.MailSentNumber = Commons.MySQLHelper.GetIntFromMySQL(dr["MailSentNumber"]).Value;
                     element.Title = Convert.ToString(dr["Title"]);
                     element.Description = Convert.ToString(dr["Description"]);
                     element.MailSubject = Convert.ToString(dr["MailSubject"]);
@@ -105,6 +107,49 @@ namespace DataAccess
                 db.Dispose();
             }
             return model;
+        }
+
+
+        /// <summary>
+        /// Delete a specific news
+        /// </summary>
+        /// <param name="NewsId"></param>
+        /// <returns></returns>
+        public static bool DeleteNewsById(int NewsId)
+        {
+            bool result = true;
+            DBConnect db = null;
+            try
+            {
+                if (NewsId>0)
+                {
+
+
+                    db = new DBConnect();
+                    db.BeginTransaction();
+                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    string Query = "delete from emailaudit where scheduledtaskid in  (select id from scheduledtask where newsId =@NewsId);";
+                    Query = Query + "delete from scheduledtask where newsId =@NewsId;";
+                    Query = Query + "delete from news where Id=@NewsId;";
+                    parameters.Add("@NewsId", NewsId);
+                    result = db.ExecuteQuery(Query, parameters);
+
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "NewsId = " + NewsId);
+            }
+            finally
+            {
+                if (result)
+                    result = db.CommitTransaction();
+                else
+                    db.RollbackTransaction();
+                db.Dispose();
+            }
+            return result;
         }
 
         /// <summary>

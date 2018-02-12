@@ -29,8 +29,8 @@ namespace Website.Controllers
                 {
                     model.UserFirstName = UserSession.FirstNameDecrypt;
                     model.UserNameDecrypt = UserSession.UserNameDecrypt;
-                    model.PictureSrc = FileHelper.GetDecryptedFilePath(UserSession.PictureSrc,true);
-                    model.PictureSrc = model.PictureSrc.Replace("~", "");
+                    model.PictureThumbnailSrc = FileHelper.GetDecryptedFilePath(UserSession.PictureThumbnailSrc, true,true);
+                    model.PictureThumbnailSrc = model.PictureThumbnailSrc.Replace("~", "");
                 }
             }
             catch (Exception e)
@@ -44,8 +44,6 @@ namespace Website.Controllers
             try
             {
                 ViewBag.ShowVideo = true;
-
-             //   UserService.DeleteUserByUserName("105219076094220162244233018007199054027107200065218206164043207051162253102002183176073026055055");
 
             }
             catch (Exception e)

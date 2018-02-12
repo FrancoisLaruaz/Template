@@ -5,7 +5,7 @@
 
 <div class="table-responsive noMarginNoPaddingHorizontal col-xs-12 col-md-12">
     <div class="pull-right">
-        <p style="font-weight:bold">@Model.Count [[[row(s) found]]]</p>
+        <p style="font-weight:bold"><span id="numPastRowCount">@Model.Count</span> [[[row(s) found]]]</p>
     </div>
     @foreach (var news in Model.NewsList)
     {

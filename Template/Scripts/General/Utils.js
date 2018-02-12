@@ -107,8 +107,8 @@ function SetEnterKey(IdElement) {
 
             if (IdElement != null) {
                 var Element = $("#" + IdElement);
-                
-                if ($("#" + IdElement).length > 0 && $(Element).css("display") != "none" && !$(Element).is(':disabled') && !$(Element).is('.disabled') && $(Element).is(":visible") && !$(e.target).is("textarea")) {
+
+                if ($("#" + IdElement).length > 0 && $(Element).css("display") != "none" && !$(Element).is(':disabled') && !$(Element).is('.disabled') && $(Element).is(":visible") && !$(e.target).is("textarea") && !$(e.target).hasClass("note-editable")) {
                     e.preventDefault();
                     $(Element).click();
                     return false;

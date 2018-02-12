@@ -87,9 +87,9 @@ namespace DataAccess
 
 
         /// <summary>
-        /// Delete a user
+        ///  Delete a user
         /// </summary>
-        /// <param name="UserId"></param>
+        /// <param name="UserToDelete"></param>
         /// <returns></returns>
         public static bool DeleteUserById(User UserToDelete)
         {
@@ -155,7 +155,7 @@ namespace DataAccess
             try
             {
                 db = new DBConnect();
-                string Query = "select U.Id, U.PictureSrc, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, UI.DateLastConnection ";
+                string Query = "select U.Id, U.PictureSrc, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, UI.DateLastConnection, U.PictureThumbnailSrc ";
                 Query = Query + ", U.ReceiveNews,U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, UI.PasswordHash, UI.Email, U.CountryId ";
                 Query = Query + ", C.Name as CountryName, UI.EmailConfirmationToken ";
                 Query = Query + ", UI.UserName, UI.Id as UserIdentityId, UI.ResetPasswordToken,UI.EmailConfirmed,UI.AccessFailedCount,UI.LockoutEnabled,UI.LockoutEndDateUtc ";
@@ -201,6 +201,7 @@ namespace DataAccess
                     User.EmailConfirmed = Commons.MySQLHelper.GetBoolFromMySQL(dr["EmailConfirmed"]).Value;
                     User.Adress1 = MySQLHelper.GetStringFromMySQL(dr["Adress1"]);
                     User.PictureSrc = MySQLHelper.GetStringFromMySQL(dr["PictureSrc"]);
+                    User.PictureThumbnailSrc = MySQLHelper.GetStringFromMySQL(dr["PictureThumbnailSrc"]);
                     User.Adress2 = MySQLHelper.GetStringFromMySQL(dr["Adress2"]);
                     User.Adress3 = MySQLHelper.GetStringFromMySQL(dr["Adress3"]);
                     User.PasswordHash = Convert.ToString(dr["PasswordHash"]);

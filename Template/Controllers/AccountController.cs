@@ -626,6 +626,10 @@ namespace Website.Controllers
                     if (UserId > 0 && !String.IsNullOrWhiteSpace(model.PictureSrc))
                     {
                         _Result = UserService.UpdateProfilePicture(UserId, model.PictureSrc);
+                        if(_Result)
+                        {
+                            UserSession = UserService.GetUserSession(UserSession.UserName);
+                        }
                     }
                 }
             }

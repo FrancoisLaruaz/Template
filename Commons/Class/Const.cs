@@ -30,6 +30,8 @@ namespace CommonsConst
 
         public const string DefaultImage = BasePathImages + "/DefaultImage.jpg";
         public const string DefaultImageUser = BasePathImages + "/DefaultUser.jpg";
+        public const string DefaultThumbnailUser = BasePathImages + "/DefaultThumbnailUser.jpg";
+
 
         public const string i18nlangtag = "i18n.langtag";
 

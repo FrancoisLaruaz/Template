@@ -40,5 +40,7 @@ namespace Models.BDDObject
 
         public bool ReceiveNews { get; set; }
 
+        public string PictureThumbnailSrc { get; set; }
+
     }
 }

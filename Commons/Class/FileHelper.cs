@@ -8,6 +8,8 @@ using System.Configuration;
 using CommonsConst;
 using Models.Class.FileUpload;
 using System.Net;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace Commons
 {
@@ -111,7 +113,7 @@ namespace Commons
                 byte[] data = myWebClient.DownloadData(url);
 
                 string FileName = GetFileName(Purpose, Extension);
-                string DiskPath = GetStorageRoot(Const.BasePathUploadEncrypted) + "/" + FileName;
+                string DiskPath = GetStorageRoot(Const.BasePathUploadEncrypted) + "\\" + FileName;
   
                 if(EncryptWriteBytes(DiskPath,data))
                 {
@@ -362,7 +364,7 @@ namespace Commons
         /// <param name="path"></param>
         /// <param name="IsUserPicture"></param>
         /// <returns></returns>
-        public static string GetDecryptedFilePath(string path, bool IsUserPicture = false)
+        public static string GetDecryptedFilePath(string path, bool IsUserPicture = false,bool IsThumbnail=false)
         {
             string fileSrc = Const.DefaultImage;
             try
@@ -394,11 +396,21 @@ namespace Commons
 
             if (IsUserPicture && fileSrc == Const.DefaultImage.Replace("~", ""))
             {
-                fileSrc = Const.DefaultImageUser.Replace("~", "");
+                if (IsThumbnail)
+                {
+                    fileSrc = Const.DefaultThumbnailUser.Replace("~", "");
+                }
+                else
+                {
+                    fileSrc = Const.DefaultImageUser.Replace("~", "");
+                }
             }
 
             return fileSrc;
         }
+
+
+
 
         /// <summary>
         /// Transform a string to a bytes array
@@ -427,6 +439,17 @@ namespace Commons
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.BaseType, "strInput = " + strInput);
             }
             return bytes;
+        }
+
+        public static void CreateEncryptThumbnail(Stream file, int width)
+        {
+            Image image = Image.FromStream(file);
+            // Image image = Image.FromFile(path);
+            float ratio = image.Width / width;
+            int height = (int)((float)image.Height / ratio);
+            Image thumb = image.GetThumbnailImage(width, height, () => false, IntPtr.Zero);
+            string Path = string.Format("{0}\\{1}_thumb.png", Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path)), ImageFormat.Png;
+            thumb.Save(string.Format("{0}\\{1}_thumb.png", Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path)), ImageFormat.Png);
         }
 
         /// <summary>

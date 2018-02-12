@@ -24,7 +24,7 @@ namespace Models.Class
 
         public string LanguageTag { get; set; }
 
-        public string PictureSrc { get; set; }
+        public string PictureThumbnailSrc { get; set; }
 
 
         public UserSession()

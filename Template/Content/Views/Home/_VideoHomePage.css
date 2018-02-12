@@ -236,3 +236,10 @@
     #videoPlayerClose:hover {
         opacity: 1;
     }
+
+
+
+.bodyMainclass .li_hover .dropdown-toggle {
+    color: white !important;
+}
+

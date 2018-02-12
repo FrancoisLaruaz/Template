@@ -14,7 +14,7 @@ namespace Models.ViewModels
 
         public string UserNameDecrypt { get; set; }
 
-        public string PictureSrc { get; set; }
+        public string PictureThumbnailSrc { get; set; }
 
         public HeaderViewModel()
         {

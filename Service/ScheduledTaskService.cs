@@ -349,7 +349,7 @@ namespace Service
                     }
                     else
                     {
-                        Result = GenericDAL.DeleteById("scheduledtask", Id);
+                        Result = ScheduledTaskDAL.DeleteScheduledTaskById(Id);
                     }
                 }
 
