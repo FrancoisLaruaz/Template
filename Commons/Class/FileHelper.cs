@@ -31,7 +31,7 @@ namespace Commons
             {
                 if (!String.IsNullOrEmpty(FilePath))
                 {
-                    var TabUrl= FilePath.Split(new[] { "/Ressources" }, StringSplitOptions.None);
+                    var TabUrl = FilePath.Split(new[] { "/Ressources" }, StringSplitOptions.None);
                     if (TabUrl.Length > 1)
                     {
                         FilePath = "~/Ressources" + TabUrl[1];
@@ -114,8 +114,8 @@ namespace Commons
 
                 string FileName = GetFileName(Purpose, Extension);
                 string DiskPath = GetStorageRoot(Const.BasePathUploadEncrypted) + "\\" + FileName;
-  
-                if(EncryptWriteBytes(DiskPath,data))
+
+                if (EncryptWriteBytes(DiskPath, data))
                 {
                     result = Const.BasePathUploadEncrypted + "/" + FileName;
                 }
@@ -202,7 +202,7 @@ namespace Commons
             {
                 if (!String.IsNullOrWhiteSpace(url))
                 {
-                    string StorageRoot= GetRootPathDefault() + url.Replace("~/", "").Replace("/", @"\");
+                    string StorageRoot = GetRootPathDefault() + url.Replace("~/", "").Replace("/", @"\");
                     return StorageRoot;
                 }
             }
@@ -353,8 +353,47 @@ namespace Commons
             }
             catch (Exception e)
             {
-                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "path = " + path );
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "path = " + path);
             }
+            return null;
+        }
+
+        /// <summary>
+        /// Get an image from a 64 base
+        /// </summary>
+        /// <param name="Src64base"></param>
+        /// <returns></returns>
+        public static Image GetImageFrom64Base(string Src64base)
+        {
+            try
+            {
+                Image image;
+                if (Src64base.Contains("data:image"))
+                    {
+                    foreach (var ext in AcceptedImageTypes)
+                    {
+                        Src64base = Src64base.Replace("data:image/"+ ext.Replace(".","").ToLower() + ";base64,", "");
+                    }
+
+                    byte[] bytes = Convert.FromBase64String(Src64base);
+
+                    
+                    using (MemoryStream ms = new MemoryStream(bytes))
+                    {
+                        image = Image.FromStream(ms);
+                    }
+                }
+                else
+                {
+                    image= image = Image.FromFile(Src64base);
+                }
+                return image;
+            }
+            catch (Exception e)
+            {
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType,null);
+            }
+
             return null;
         }
 
@@ -364,7 +403,7 @@ namespace Commons
         /// <param name="path"></param>
         /// <param name="IsUserPicture"></param>
         /// <returns></returns>
-        public static string GetDecryptedFilePath(string path, bool IsUserPicture = false,bool IsThumbnail=false)
+        public static string GetDecryptedFilePath(string path, bool IsUserPicture = false, bool IsThumbnail = false)
         {
             string fileSrc = Const.DefaultImage;
             try
@@ -383,7 +422,7 @@ namespace Commons
                         }
                         else
                         {
-                            fileSrc = path.Replace("~","");
+                            fileSrc = path.Replace("~", "");
                         }
                     }
                 }
@@ -441,15 +480,35 @@ namespace Commons
             return bytes;
         }
 
-        public static void CreateEncryptThumbnail(Stream file, int width)
+        public static string CreateEncryptThumbnail(string pathFile, int width)
         {
-            Image image = Image.FromStream(file);
-            // Image image = Image.FromFile(path);
-            float ratio = image.Width / width;
-            int height = (int)((float)image.Height / ratio);
-            Image thumb = image.GetThumbnailImage(width, height, () => false, IntPtr.Zero);
-            string Path = string.Format("{0}\\{1}_thumb.png", Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path)), ImageFormat.Png;
-            thumb.Save(string.Format("{0}\\{1}_thumb.png", Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path)), ImageFormat.Png);
+            try
+            {
+                string decryptedPath = GetDecryptedFilePath(pathFile);
+                Image image = GetImageFrom64Base(decryptedPath);
+                float ratio = image.Width / width;
+                int height = (int)((float)image.Height / ratio);
+                Image thumb = image.GetThumbnailImage(width, height, () => false, IntPtr.Zero);
+
+                if (thumb != null)
+                {
+                    string ext = ".png";
+                    string fileName = GetFileName("UserThumbnail", ext);
+                    var path = FileHelper.GetStorageRoot(Const.BasePathUploadEncrypted) + "/" + fileName;
+
+                    using (var ms = new MemoryStream())
+                    {
+                        thumb.Save(ms, thumb.RawFormat);
+                        EncryptWriteBytes(path, ms.ToArray());
+                    }
+                    return Const.BasePathUploadEncrypted + "/" + fileName;
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.BaseType);
+            }
+            return null;
         }
 
         /// <summary>

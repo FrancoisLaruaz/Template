@@ -174,6 +174,37 @@ namespace Service
         }
 
         /// <summary>
+        /// Create a thumnail for the user
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public static bool CreateThumbnailUserPicture(int UserId)
+        {
+            bool result = false;
+            try
+            {
+                User user = GetUserById(UserId);
+
+                if (user != null)
+                {
+                    string PictureThumbnailSrc = FileHelper.CreateEncryptThumbnail(user.PictureSrc, 42);
+                    if (!String.IsNullOrWhiteSpace(PictureThumbnailSrc))
+                    {
+                        Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                        Columns.Add("PictureThumbnailSrc", PictureThumbnailSrc);
+                        result = GenericDAL.UpdateById("user", UserId, Columns);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId.ToString());
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Update the path of the profile picture of the user
         /// </summary>
         /// <param name="UserId"></param>
@@ -184,9 +215,16 @@ namespace Service
             bool result = false;
             try
             {
+
+                
+
                 Dictionary<string, Object> Columns = new Dictionary<string, Object>();
                 Columns.Add("PictureSrc", PictureSrc);
                 result = GenericDAL.UpdateById("user", UserId, Columns);
+                if(result)
+                {
+                    result=CreateThumbnailUserPicture(UserId);
+                }
             }
             catch (Exception e)
             {

@@ -431,8 +431,10 @@ namespace Website.Controllers
                                         _Language = userSession.LanguageTag;
                                         SocialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
                                         EMailService.SendEMailToUser(EncryptedUserName, CommonsConst.EmailTypes.UserWelcome);
+                                        _Result = UserService.CreateThumbnailUserPicture(userSession.UserId);
                                     }
                                     _Result = true;
+
 
                                 }
 
