@@ -160,6 +160,24 @@ namespace Website.Controllers
             return View(Model);
         }
 
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult _PreviewNewsMail(string Title, string Description)
+        {
+            PreviewNewsMailViewModel model = new PreviewNewsMailViewModel();
+            try
+            {
+
+                model = NewsService.GetPreviewNewsMailViewModel(Title, Description, UserSession);
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                return null;
+            }
+            return PartialView("~/Views/Admin/News/_PreviewNewsMail.cshtml", model);
+        }
+
 
         [HttpGet]
         public ActionResult EditNews(int? Id)

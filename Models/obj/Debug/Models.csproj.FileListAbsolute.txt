@@ -37,7 +37,6 @@ D:\DEV\Template\Models\bin\Debug\System.Web.Razor.xml
 D:\DEV\Template\Models\bin\Debug\System.Web.WebPages.xml
 D:\DEV\Template\Models\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\DEV\Template\Models\bin\Debug\System.Web.WebPages.Razor.xml
-D:\DEV\Template\Models\obj\Debug\Models.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Models\obj\Debug\Models.dll
 D:\DEV\Template\Models\obj\Debug\Models.pdb
 C:\DEV\Template_local\Models\bin\Debug\Models.dll
@@ -78,3 +77,4 @@ C:\DEV\Template\Models\obj\Debug\Models.csprojResolveAssemblyReference.cache
 C:\DEV\Template\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
 C:\DEV\Template\Models\obj\Debug\Models.dll
 C:\DEV\Template\Models\obj\Debug\Models.pdb
+D:\DEV\Template\Models\obj\Debug\Models.csprojResolveAssemblyReference.cache

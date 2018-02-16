@@ -10,7 +10,7 @@ function SetLoginFormLinks() {
         if ($('#loginOrSignInModal').length > 0) {
             $('#loginOrSignInModal').click();
         }
-        var newUrl = GetHomePageUrl() + "/ResetPassword";
+        var newUrl = GetHomePageUrl() + "/ForgotPassword";
         window.location.href = newUrl;
     });
 

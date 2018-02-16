@@ -187,7 +187,7 @@ namespace Service
 
                 if (user != null)
                 {
-                    string PictureThumbnailSrc = FileHelper.CreateEncryptThumbnail(user.PictureSrc, 42);
+                    string PictureThumbnailSrc = FileHelper.CreateEncryptThumbnail(user.PictureSrc, 40);
                     if (!String.IsNullOrWhiteSpace(PictureThumbnailSrc))
                     {
                         Dictionary<string, Object> Columns = new Dictionary<string, Object>();

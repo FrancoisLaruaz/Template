@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Models.ViewModels;
+using CommonsConst;
 
 namespace Service
 {
@@ -259,6 +260,48 @@ namespace Service
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "NewsId = " + NewsId);
             }
             return result;
+        }
+
+        public static PreviewNewsMailViewModel GetPreviewNewsMailViewModel(string Title, string Description, UserSession user)
+        {
+            PreviewNewsMailViewModel model = new PreviewNewsMailViewModel();
+            try
+            {
+                if (Title == null)
+                    Title = "";
+                if (Description == null)
+                    Description = "";
+
+                List<Tuple<string, string>> GenericEmailContent = EMailHelper.GetGenericEmailContent();
+                GenericEmailContent.Add(new Tuple<string, string>("#UserFirstName#", user.FirstNameDecrypt));
+                GenericEmailContent.Add(new Tuple<string, string>("#UserFullName#", user.UserFullNameDecrypt));
+                GenericEmailContent.Add(new Tuple<string, string>("#RealUserEMail#", ""));
+                GenericEmailContent.Add(new Tuple<string, string>("#WebSiteURL#", Utils.Website));
+
+                string BasePathFile = FileHelper.GetRootPathDefault() + @"\"+  Const.BasePathTemplateEMails.Replace("~/", "\\");
+                string PathHeaderOnServer = BasePathFile + "\\_HeaderMail.html";
+                string PathFooterOnServer = BasePathFile + "\\_FooterMail.html";
+                string PathEndMailOnServer = BasePathFile + "\\_EndMail_en.html";
+                string PathTemplateOnServer = BasePathFile + "\\news_en.html";
+                string headerTemplate = System.IO.File.ReadAllText(PathHeaderOnServer);
+                string bodyTemplate = System.IO.File.ReadAllText(PathTemplateOnServer);
+                string footerTemplate = System.IO.File.ReadAllText(PathFooterOnServer);
+                string endMailTemplate = System.IO.File.ReadAllText(PathEndMailOnServer);
+                model.Body = headerTemplate + bodyTemplate + endMailTemplate + footerTemplate;
+
+                foreach (var content in GenericEmailContent)
+                {
+                    model.Body = model.Body.Replace(content.Item1, content.Item2);
+                }
+                model.Body = model.Body.Replace("#Title#", Title).Replace("#Description#", Description);
+
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Title = " + Title);
+            }
+
+            return model;
         }
 
         public static DisplayPublishedNewsViewModel GetDisplayPublishedNewsViewModel(string Pattern, int StartAt, int PageSize)

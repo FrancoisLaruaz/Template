@@ -6,10 +6,8 @@ $(document).ready(function () {
             $('.hero-video-container').addClass('blur-container');
             $('.hero-inner').addClass('blur');
         }, function () {
-            if (!$(".dropdown-menu:visible").length) {
                 $('.hero-video-container').removeClass('blur-container');
                 $('.hero-inner').removeClass('blur');
-            }
         });
 
         $('.home-nav a').on('click', function () {

@@ -369,15 +369,15 @@ namespace Commons
             {
                 Image image;
                 if (Src64base.Contains("data:image"))
-                    {
+                {
                     foreach (var ext in AcceptedImageTypes)
                     {
-                        Src64base = Src64base.Replace("data:image/"+ ext.Replace(".","").ToLower() + ";base64,", "");
+                        Src64base = Src64base.Replace("data:image/" + ext.Replace(".", "").ToLower() + ";base64,", "");
                     }
 
                     byte[] bytes = Convert.FromBase64String(Src64base);
 
-                    
+
                     using (MemoryStream ms = new MemoryStream(bytes))
                     {
                         image = Image.FromStream(ms);
@@ -385,13 +385,13 @@ namespace Commons
                 }
                 else
                 {
-                    image= image = Image.FromFile(Src64base);
+                    image = image = Image.FromFile(Src64base);
                 }
                 return image;
             }
             catch (Exception e)
             {
-                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType,null);
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, null);
             }
 
             return null;
@@ -480,6 +480,21 @@ namespace Commons
             return bytes;
         }
 
+        public static byte[] ConvertImageToBytesArray(Image x)
+        {
+            try
+            {
+                ImageConverter _imageConverter = new ImageConverter();
+                byte[] xByte = (byte[])_imageConverter.ConvertTo(x, typeof(byte[]));
+                return xByte;
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.BaseType);
+            }
+            return null;
+        }
+
         public static string CreateEncryptThumbnail(string pathFile, int width)
         {
             try
@@ -496,11 +511,8 @@ namespace Commons
                     string fileName = GetFileName("UserThumbnail", ext);
                     var path = FileHelper.GetStorageRoot(Const.BasePathUploadEncrypted) + "/" + fileName;
 
-                    using (var ms = new MemoryStream())
-                    {
-                        thumb.Save(ms, thumb.RawFormat);
-                        EncryptWriteBytes(path, ms.ToArray());
-                    }
+                    EncryptWriteBytes(path, ConvertImageToBytesArray(thumb));
+
                     return Const.BasePathUploadEncrypted + "/" + fileName;
                 }
             }

@@ -44,7 +44,7 @@ function EditNewsSuccess(data) {
             window.location.href = GetHomePageUrl() + '/Admin/News';
         }
         else {
-            NotificationOK('[[[The news has been successfully created.]]]');
+            NotificationOK('[[[The news has been successfully saved.]]]');
             BackToTop();
             HideSpinner();
         }
@@ -56,8 +56,31 @@ function EditNewsSuccess(data) {
 
 
 function  PreviewMailOnClick() {
-   // $("#spinner").fadeIn();
-    alert('PreviewMailOnClick ');
+
+    ShowSpinner();
+
+    var _Title = $("#NewsTitle").val();
+    var _Description = $("#NewsDescription").val();
+
+    $.ajax({
+        url: "/Admin/_PreviewNewsMail",
+        type: "POST",
+        data: { Title: _Title, Description: _Description},
+        success: function (data) {
+            if (data == null || data.trim() == "") {
+                NotificationKO("[[[Unknown retrieval error]]]");
+            }
+            else {
+                $("#_PreviewMailModalDiv").html(data);
+                $('#PreviewMailModal').animate({ scrollTop: 0 }, 'slow');
+                $('#PreviewMailModal').modal('show');
+            }
+            HideSpinner();
+        },
+        error: function (xhr, error) {
+            ErrorActions();
+        }
+    });
 }
 
 

@@ -33,6 +33,11 @@ namespace Website.Controllers
     public class AccountController : BaseController
     {
 
+        public AccountController()
+        {
+        }
+
+        #region loginstuff
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -61,9 +66,7 @@ namespace Website.Controllers
             }
         }
 
-        public AccountController()
-        {
-        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -187,6 +190,12 @@ namespace Website.Controllers
         {
             get;
             set;
+        }
+
+    #endregion
+        public ActionResult Index()
+        {
+            return RedirectToAction("Login");
         }
 
         #region ExternalLogin
@@ -725,6 +734,7 @@ namespace Website.Controllers
         }
         #endregion
 
+        #region Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
@@ -777,9 +787,6 @@ namespace Website.Controllers
             return View(model);
         }
 
-        #region Login
-
-
         /// <summary>
         /// Terms and conditions of the website
         /// </summary>
@@ -820,9 +827,17 @@ namespace Website.Controllers
 
 
         #endregion
-        public ActionResult Index()
+
+        #region forgotpassword
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
         {
-            return RedirectToAction("Login");
+            ViewBag.Title = "[[[Forgot Password]]]";
+            return View(new ForgotPasswordViewModel());
         }
+
+        #endregion
+
     }
 }

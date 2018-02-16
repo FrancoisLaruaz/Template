@@ -44,7 +44,6 @@ namespace Website.Controllers
             try
             {
                 ViewBag.ShowVideo = true;
-                UserService.CreateThumbnailUserPicture(22);
             }
             catch (Exception e)
             {

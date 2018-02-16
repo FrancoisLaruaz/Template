@@ -26,6 +26,7 @@ namespace Models.Class
 
         public string PictureThumbnailSrc { get; set; }
 
+        public string UserFullNameDecrypt { get { return (FirstNameDecrypt + " " + LastNameDecrypt).Trim(); } }
 
         public UserSession()
         {

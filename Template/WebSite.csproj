@@ -496,6 +496,8 @@
     <Content Include="Views\Admin\News\_PublishedNews.cshtml" />
     <Content Include="Views\Admin\News\_NotPublishedNews.cshtml" />
     <Content Include="Views\Admin\News\_News.cshtml" />
+    <Content Include="Views\Admin\News\_PreviewNewsMail.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">
