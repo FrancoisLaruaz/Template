@@ -192,7 +192,7 @@ namespace Website.Controllers
             set;
         }
 
-    #endregion
+        #endregion
         public ActionResult Index()
         {
             return RedirectToAction("Login");
@@ -241,7 +241,7 @@ namespace Website.Controllers
                     {
                         case SignInStatus.Success:
                             _Result = true;
-                             userSession = UserService.GetUserSession(User.Identity.GetUserName());
+                            userSession = UserService.GetUserSession(User.Identity.GetUserName());
                             if (userSession != null)
                             {
                                 UserIdentityService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
@@ -424,7 +424,7 @@ namespace Website.Controllers
                                 ExternalSignUpInformation.ImageSrc = FileHelper.SaveAndEncryptFileFromWeb(ExternalSignUpInformation.ImageSrc, "user", ".jpg");
                                 _ImageSrc = ExternalSignUpInformation.ImageSrc;
                             }
-                            var user = new ApplicationUser { UserName = EncryptedUserName, Email = EncryptedUserName, FirstName = ExternalSignUpInformation.FirstName, LastName = ExternalSignUpInformation.LastName, LanguageId = CurrentLanguageId, IsMasculine = ExternalSignUpInformation.IsMasculine, ReceiveNews = false , PictureSrc= _ImageSrc };
+                            var user = new ApplicationUser { UserName = EncryptedUserName, Email = EncryptedUserName, FirstName = ExternalSignUpInformation.FirstName, LastName = ExternalSignUpInformation.LastName, LanguageId = CurrentLanguageId, IsMasculine = ExternalSignUpInformation.IsMasculine, ReceiveNews = false, PictureSrc = _ImageSrc };
 
                             var result = await UserManager.CreateAsync(user);
                             if (result != null && result.Succeeded)
@@ -457,7 +457,7 @@ namespace Website.Controllers
                                 }
                                 if (_Error.Contains("is already taken"))
                                 {
-                                    _Error = ExternalSignUpInformation.Email+"[[[ is already registered on ]]]" + CommonsConst.Const.WebsiteTitle + ". [[[Please log in. ]]]";
+                                    _Error = ExternalSignUpInformation.Email + "[[[ is already registered on ]]]" + CommonsConst.Const.WebsiteTitle + ". [[[Please log in. ]]]";
                                     _Redirection = ExternalAuthentificationRedirection.RedirectToLogin;
                                 }
                             }
@@ -637,7 +637,7 @@ namespace Website.Controllers
                     if (UserId > 0 && !String.IsNullOrWhiteSpace(model.PictureSrc))
                     {
                         _Result = UserService.UpdateProfilePicture(UserId, model.PictureSrc);
-                        if(_Result)
+                        if (_Result)
                         {
                             UserSession = UserService.GetUserSession(UserSession.UserName);
                         }
@@ -828,6 +828,88 @@ namespace Website.Controllers
 
         #endregion
 
+        #region resetpassword
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ResetPassword(int UserId, string Token)
+        {
+            ResetPasswordViewModel model = new ResetPasswordViewModel();
+            try
+            {
+                User user = UserService.GetUserById(model.UserId);
+                if (user == null || String.IsNullOrWhiteSpace(user.ResetPasswordToken) || !Token.Equals(HashHelpers.HashEncode(user.ResetPasswordToken)))
+                {
+                    return View("InvalidToken");
+                }
+
+                model.Token = Token;
+                model.UserId = UserId;
+
+                ViewBag.Title = "[[[Reset Password]]]";
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            bool _Result = false;
+            string _Error = "";
+            string _Langtag = CommonsConst.Const.DefaultCulture;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    User user = UserService.GetUserById(model.UserId);
+                    if (user != null)
+                    {
+                        _Langtag = user.LanguageCode;
+                        var applicationUser = UserManager.FindByName(user.UserName);
+                        UserManager.RemovePassword(user.UserIdentityId);
+                        UserManager.AddPassword(user.UserIdentityId, model.Password);
+                        var result = await SignInManager.PasswordSignInAsync(user.UserName, model.Password, true, shouldLockout: false);
+                        switch (result)
+                        {
+                            case SignInStatus.Success:
+                                _Result = true;
+                                UserSession = UserService.GetUserSession(user.UserName);
+                                if (UserSession != null)
+                                {
+                                    UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
+                                }
+                                break;
+                            default:
+                                _Error = "[[[Invalid login attempt.]]]";
+                                break;
+                        }
+                        _Result = UserIdentityService.SetPasswordToken(user.UserIdentityId, null);
+
+                        if (_Result)
+                        {
+                            _Result = EMailService.SendEMailToUser(user.Id, EmailTypes.ResetPassword);
+                        }
+                    }
+                    else
+                    {
+                        _Error = "[[[Sorry, the user has not been found.]]]";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + model.UserId);
+            }
+            return Json(new { Result = _Result, Error = _Error, Langtag= _Langtag });
+        }
+
+        #endregion
+
         #region forgotpassword
         [HttpGet]
         [AllowAnonymous]
@@ -835,6 +917,48 @@ namespace Website.Controllers
         {
             ViewBag.Title = "[[[Forgot Password]]]";
             return View(new ForgotPasswordViewModel());
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(ForgotPasswordViewModel model)
+        {
+            bool _Result = false;
+            string _Error = "";
+            string _UserMail = "";
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    User user = UserService.GetUserByUserName(EncryptHelper.EncryptToString(model.UserName.Trim().ToLower()));
+                    if (user != null)
+                    {
+                        if (String.IsNullOrWhiteSpace(user.ResetPasswordToken))
+                        {
+                            _Result = UserIdentityService.SetPasswordToken(user.UserIdentityId, HashHelpers.RandomString(32));
+                        }
+                        else
+                        {
+                            _Result = true;
+                        }
+                        if (_Result)
+                        {
+                            _Result = EMailService.SendEMailToUser(user.Id, EmailTypes.Forgotpassword);
+                            _UserMail = user.EMailDecrypt;
+                        }
+                    }
+                    else
+                    {
+                        _Error = "[[[Sorry, this user has not been found.]]]";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + model.UserName);
+            }
+            return Json(new { Result = _Result, Error = _Error, UserMail = _UserMail });
         }
 
         #endregion

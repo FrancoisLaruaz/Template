@@ -35,6 +35,31 @@ namespace Service
         }
 
 
+    /// <summary>
+    /// Set the token of a user 
+    /// </summary>
+    /// <param name="UserIdentityId"></param>
+    /// <param name="Passcode"></param>
+    /// <returns></returns>
+        public static bool SetPasswordToken(string UserIdentityId,string Token)
+        {
+            bool result = false;
+            try
+            {
+                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                Columns.Add("ResetPasswordToken", Token);
+
+                Task.Factory.StartNew(() => GenericDAL.UpdateById("useridentity", UserIdentityId, Columns));
+                result = true;
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserIdentityId = " + UserIdentityId);
+            }
+            return result;
+        }
+
         /// <summary>
         /// Update the user after a successfull login
         /// </summary>

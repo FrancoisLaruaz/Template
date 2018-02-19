@@ -436,8 +436,40 @@ ALTER TABLE `template`.`scheduledtask`
 DROP INDEX `Id_UNIQUE` ;
 
 alter table emailaudit
-add foreign key FK_emailaudit_schedultedtask  (`ScheduledTaskId`) REFERENCES `scheduledtask` (`Id`)
+add foreign key FK_emailaudit_schedultedtask  (`ScheduledTaskId`) REFERENCES `scheduledtask` (`Id`);
 
 
 alter table user
-add PictureThumbnailSrc varchar(256)  null
+add PictureThumbnailSrc varchar(256)  null;
+
+INSERT INTO `template`.`category`
+(`Id`,
+`Name`,
+`Code`,
+`Order`,
+`Active`,
+`CategoryTypeId`,
+`DateModification`,
+`Field1`,
+`Field2`)
+VALUES
+(1004,
+'ResetPassword',
+null,
+1004,
+1,
+1,
+now(),
+null,
+null);
+
+
+INSERT INTO `emailtypelanguage` VALUES (7,1004,3001,'','resetpassword_en'),
+(8,1004,3002,'','resetpassword_fr');
+
+update emailtypelanguage
+set Subject='Your password has been reset'
+where id=7;
+update emailtypelanguage
+set Subject='Votre mot de passe a été réinitialisé'
+where id=8;

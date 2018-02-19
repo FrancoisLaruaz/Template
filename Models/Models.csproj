@@ -92,6 +92,7 @@
     <Compile Include="Class\SelectionListItem.cs" />
     <Compile Include="BDDObject\Extensions\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Account\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModel\Account\ForgotPasswordViewModel.cs" />
     <Compile Include="ViewModel\Account\SignUpPictureViewModel.cs" />
     <Compile Include="ViewModel\Account\SignUpViewModel.cs" />

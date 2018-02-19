@@ -58,6 +58,7 @@ C:\DEV\Template_local\Models\obj\Debug\Models.csprojResolveAssemblyReference.cac
 C:\DEV\Template_local\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
 C:\DEV\Template_local\Models\obj\Debug\Models.dll
 C:\DEV\Template_local\Models\obj\Debug\Models.pdb
+D:\DEV\Template\Models\obj\Debug\Models.csprojResolveAssemblyReference.cache
 C:\DEV\Template\Models\bin\Debug\Models.dll
 C:\DEV\Template\Models\bin\Debug\Models.pdb
 C:\DEV\Template\Models\bin\Debug\Microsoft.Web.Infrastructure.dll
@@ -77,4 +78,3 @@ C:\DEV\Template\Models\obj\Debug\Models.csprojResolveAssemblyReference.cache
 C:\DEV\Template\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
 C:\DEV\Template\Models\obj\Debug\Models.dll
 C:\DEV\Template\Models\obj\Debug\Models.pdb
-D:\DEV\Template\Models\obj\Debug\Models.csprojResolveAssemblyReference.cache

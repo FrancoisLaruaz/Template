@@ -204,12 +204,16 @@ namespace Service
                     switch (EMailTypeId)
                     {
                         case CommonsConst.EmailTypes.Forgotpassword:
-                            string ResetPasswordUrl = WebsiteURL + "/ResetPassword?UserId=" + UserMail.Id + "&Token=" + Commons.HashHelpers.HashEncode(UserMail.ResetPasswordToken);
+                            string ResetPasswordUrl = WebsiteURL + "/ResetPassword/" + UserMail.Id + "/" + Commons.HashHelpers.HashEncode(UserMail.ResetPasswordToken);
                             EmailContent.Add(new Tuple<string, string>("#ResetPasswordUrl#", ResetPasswordUrl));
                             break;
                         case CommonsConst.EmailTypes.UserWelcome:
                             string ConfirmEmailUrl = WebsiteURL + "/ConfirmEmail?UserId=" + UserMail.Id + "&Token=" + Commons.HashHelpers.HashEncode(UserMail.EmailConfirmationToken);
                             EmailContent.Add(new Tuple<string, string>("#ConfirmEmailUrl#", ConfirmEmailUrl));
+                            break;
+                        case CommonsConst.EmailTypes.ResetPassword:
+                            string ChangePasswordUrl = WebsiteURL + "/ResetPassword";
+                            EmailContent.Add(new Tuple<string, string>("#ChangePasswordUrl#", ChangePasswordUrl));
                             break;
                     }
                     Email.EmailContent = EmailContent;
