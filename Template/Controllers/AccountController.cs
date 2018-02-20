@@ -860,8 +860,7 @@ namespace Website.Controllers
 
                 ViewBag.Title = "[[[Reset Password]]]";
                 User user = UserService.GetUserById(model.UserId);
-                string EncodeUserToken = HashHelpers.HashEncode(user.ResetPasswordToken);
-                if (user == null || String.IsNullOrWhiteSpace(user.ResetPasswordToken) || Token!= EncodeUserToken)
+                if (user == null || String.IsNullOrWhiteSpace(user.ResetPasswordToken) || Token != HashHelpers.HashEncode(user.ResetPasswordToken))
                 {
                     return View("InvalidToken");
                 }
