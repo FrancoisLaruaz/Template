@@ -15,7 +15,10 @@ $(document).ready(function () {
         });
     });
 
+    $(".BackToHomePageButton_js").unbind("click");
+    $(".BackToHomePageButton_js").on("click", function (e) { e.preventDefault(); GoBackToHomePage(); });
 
+    
 
 
 
@@ -60,8 +63,8 @@ function ShowSignUpFormNow() {
         $("#loginOrSignInModalBody #SignUpForm").show();
         if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
             $("#div_SignUpFormLinks").show();
-            setTimeout(function () { SetPasswordForm(); }, 1000);
-            SetPasswordForm();
+           // setTimeout(function () { SetPasswordForm(); }, 1000);
+          //  SetPasswordForm();
         }
         else {
             $("#div_SignUpFormLinks").hide();

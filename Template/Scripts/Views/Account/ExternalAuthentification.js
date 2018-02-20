@@ -43,8 +43,18 @@ function externalAuthentificationCallback(success, returnUrl, error, media, isSi
 
    
             if (success == 'true') {
-                var toGo = $('#URLRedirect').val();
+                var URLRedirect = $('#URLRedirect').val();
 
+                var CentralGoToUrl = $('#CentralGoToUrl').val();
+                alert('Data.URLRedirect : ' + URLRedirect);
+                alert('CentralGoToUrl : ' + CentralGoToUrl);
+                var toGo = '';
+                if (URLRedirect != null && URLRedirect != "") {
+                    toGo = URLRedirect;
+                }
+                else if (CentralGoToUrl != null && CentralGoToUrl != "") {
+                    toGo = CentralGoToUrl;
+                }
             
                 if (toGo.length > 0 && toGo.trim() != "/") {
 

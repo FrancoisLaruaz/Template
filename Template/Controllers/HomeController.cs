@@ -39,18 +39,24 @@ namespace Website.Controllers
             }
             return PartialView("~/Views/Shared/Layout/_Header.cshtml", model);
         }
-        public ActionResult Index()
+        public ActionResult Index(bool SignUp = false,
+            bool PromptLogin = false,
+            string RedirectTo = "/")
         {
+            var model = new HomeViewModel();
             try
             {
                 ViewBag.ShowVideo = true;
+                model.SignUp = SignUp;
+                model.PromptLogin = PromptLogin;
+                model.RedirectTo = RedirectTo;
             }
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
    
-            return View();
+            return View(model);
         }
 
         /// <summary>

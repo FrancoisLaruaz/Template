@@ -274,7 +274,6 @@
     <Content Include="Ressources\Files\Video\Homepage.mp4" />
     <Content Include="Scripts\General\CustomValidation.js" />
     <Content Include="Scripts\General\DateCompare.js" />
-    <Content Include="Scripts\General\LoadConsts.js" />
     <Content Include="Scripts\General\SexyCSSHelper.js" />
     <Content Include="Scripts\General\FlashVersion.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -413,7 +412,6 @@
     <Content Include="Scripts\OtherFormats\jscam_canvas_only.swf" />
     <Content Include="Scripts\Views\Account\ResetPassword.js" />
     <Content Include="Scripts\Views\Account\ForgotPassword.js" />
-    <Content Include="Scripts\Views\Account\Login.js" />
     <Content Include="Scripts\Views\Account\_PasswordPolicy.js" />
     <Content Include="Scripts\Views\Account\_SignUpPictureForm.js" />
     <Content Include="Scripts\Views\Account\ExternalAuthentification.js" />
@@ -464,7 +462,6 @@
     <Content Include="Views\Admin\Logs.cshtml" />
     <Content Include="Views\Shared\Layout\_Footer.cshtml" />
     <Content Include="Views\Admin\Logs\_DisplayLogs.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_PageTitle.cshtml" />
     <Content Include="Views\Admin\EmailAudits.cshtml" />
     <Content Include="Views\Admin\EMailAudits\_DisplayEmailAudits.cshtml" />

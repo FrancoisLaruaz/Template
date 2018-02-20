@@ -6,6 +6,15 @@ $(document).ready(function () {
         ShowSignUpFormNow();
     });
 
+    if ($("#PromptLogin").prop("checked")) {
+        recordGoToUrl($("#hidden_RedirectTo").val());
+        ShowLogInForm();
+    }
+    else if ($("#SignUp").prop("checked"))
+    {
+        ShowSignUpFormNow();
+    }
+
     HideSpinner();
 
 

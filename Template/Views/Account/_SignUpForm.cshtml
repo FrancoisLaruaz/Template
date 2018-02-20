@@ -57,7 +57,7 @@ else
                     </div>
 
                     <div class="sexyTBgroup col-md-10 col-xs-12 col-md-offset-1 websiteFormGroupShort">
-                        @Html.PasswordFor(model => model.Password, new { @class = "sexyTB", @id = "PasswordToCheck" })
+                        @Html.PasswordFor(model => model.Password, new { @class = "sexyTB PasswordToCheck", @id = "PasswordToCheck" })
                         <label class="labelSexyTb">@Html.DisplayNameFor(m => m.Password)</label>
                         <i class="fa fa-lock SexyField-icons" aria-hidden="true"></i>
                         @Html.ValidationMessageFor(m => m.Password)

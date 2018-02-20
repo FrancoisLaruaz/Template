@@ -34,33 +34,57 @@ function handleLoginBegin() {
 }
 
 function LoginSuccess(Data) {
-    
+
     if (Data) {
         $('#ErrorLoginForm').html(Data.Error);
         if (Data.Result) {
             if ($('#loginOrSignInModal').length > 0) {
                 $('#loginOrSignInModal').click();
             }
-         
+            var language = Data.LangTag;
+            var CentralGoToUrl = $('#CentralGoToUrl').val();
+            alert('Data.URLRedirect : ' + Data.URLRedirect);
+            alert('CentralGoToUrl : ' + CentralGoToUrl);
+            var toGo = '';
             if (Data.URLRedirect != null && Data.URLRedirect != "") {
-                window.location.href = Data.URLRedirect;
+                toGo = Data.URLRedirect;
             }
-            else {
-                window.location.href = GetHomePageUrl();
+            else if (CentralGoToUrl != null && CentralGoToUrl != "") {
+                toGo = CentralGoToUrl;
             }
-        }
-        else {
-            SetLoginSubmitForm();
+
+            if (toGo.length > 0 && toGo.trim() != "/") {
+
+
+                if (toGo.indexOf("http") == -1 && toGo.indexOf("www.") == -1) {
+
+                    if (language != null && language != "") {
+                        toGo = "/" + language + toGo;
+                    }
+                    var Base = GetHomePageUrl();
+
+                    toGo = Base + toGo;
+                }
+
+                window.location.href = toGo;
+            } else {
+                location.reload();
+            }
+
         }
     }
     else {
         SetLoginSubmitForm();
     }
 }
+    else {
+    SetLoginSubmitForm();
+}
+}
 
 function SetLoginForm() {
     if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
-       // SetEnterKey('SubmitButtonLogin');
+        // SetEnterKey('SubmitButtonLogin');
         SetLoginSubmitForm();
     }
 

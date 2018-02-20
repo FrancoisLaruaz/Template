@@ -1,12 +1,19 @@
 $(function () {
 
-    $("#PasswordToCheck").on("propertychange change keyup paste input keypress change keydown", function () {
-        SetPasswordForm();
+    $(".PasswordToCheck").on("propertychange change keyup paste input keypress change keydown", function () {
+        SetPasswordForm(this);
     });
 
-    setTimeout(function () { SetPasswordForm(); }, 1000);
+    setTimeout(function () {
+        $('.PasswordToCheck').each(function (index, value) {
+            SetPasswordForm(this);
+        });
+    }, 1000);
 
-    SetPasswordForm();
+    $('.PasswordToCheck').each(function (index, value) {
+        SetPasswordForm(this);
+    });
+
 
 });
 
@@ -15,14 +22,17 @@ $(function () {
 
 
 
-function SetPasswordForm() {
+function SetPasswordForm(passwordElement) {
 
-    $(".PasswordButton").show();
+
     var disabledSubmitButton = false;
-    
+    var form = $(passwordElement).closest("form");
+    alert($(form).attr('id'));
+    var passWordButton = $(form).find(".PasswordButton");
+    $(passWordButton).show();
 
-    if ($("#PasswordToCheck").length > 0) {
-        var Password = $("#PasswordToCheck").val();
+    if ($(passwordElement).length > 0 && $(form).length > 0) {
+        var Password = $(passwordElement).val();
         var upperCase = new RegExp('[A-Z]');
         var lowerCase = new RegExp('[a-z]');
         var numbers = new RegExp('[0-9]');
@@ -37,7 +47,7 @@ function SetPasswordForm() {
             SetIconOK("EightCharacters");
         }
 
-        if (Password == null || typeof Password == "undefined"  || !Password.match(lowerCase)) {
+        if (Password == null || typeof Password == "undefined" || !Password.match(lowerCase)) {
             disabledSubmitButton = true;
             SetIconKO("LowerCaseLetter");
         }
@@ -45,7 +55,7 @@ function SetPasswordForm() {
             SetIconOK("LowerCaseLetter");
         }
 
-        if (Password == null || typeof Password == "undefined"  || !Password.match(upperCase)) {
+        if (Password == null || typeof Password == "undefined" || !Password.match(upperCase)) {
             disabledSubmitButton = true;
             SetIconKO("UpperCaseLetter");
         }
@@ -53,7 +63,7 @@ function SetPasswordForm() {
             SetIconOK("UpperCaseLetter");
         }
 
-        if (Password == null || typeof Password == "undefined"  || !Password.match(numbers)) {
+        if (Password == null || typeof Password == "undefined" || !Password.match(numbers)) {
             disabledSubmitButton = true;
             SetIconKO("OneNumber");
         }
@@ -73,15 +83,15 @@ function SetPasswordForm() {
         }
 
 
-        SetPasswordStrengthScore(PasswordStrengthScore);
-        $(".PasswordButton").toggleClass("disabled", disabledSubmitButton);
+        SetPasswordStrengthScore(PasswordStrengthScore, form);
+        $(passWordButton).toggleClass("disabled", disabledSubmitButton);
         if (!disabledSubmitButton)
-            $(".PasswordButton").removeAttr('disabled');
+            $(passWordButton).removeAttr('disabled');
     }
 
 }
 
-function SetPasswordStrengthScore(Score) {
+function SetPasswordStrengthScore(Score, form) {
     var color = "red";
     var text = "Very weak";
     if (Score >= 13) {
@@ -105,9 +115,9 @@ function SetPasswordStrengthScore(Score) {
         var text = "Weak";
     }
 
-    $("#ScorePasswordStrength").html(text);
-    $("#textPasswordStrength").removeClass();
-    $("#textPasswordStrength").addClass(color);
+    $(form).find(".ScorePasswordStrength").html(text);
+    $(form).find(".textPasswordStrength").removeClass();
+    $(form).find(".textPasswordStrength").addClass(color);
 }
 
 function SetIconOK(Element) {

@@ -679,7 +679,7 @@ namespace Website.Controllers
             bool _Result = false;
             string _Error = "";
             string _UserFirstName = "";
-
+            string _LangTag = CommonsConst.Const.DefaultCulture;
             try
             {
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
@@ -698,6 +698,7 @@ namespace Website.Controllers
                                 _UserFirstName = UserSession.FirstNameDecrypt;
                                 UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
                                 model.LanguageTag = UserSession.LanguageTag;
+                                _LangTag= UserSession.LanguageTag; ;
                             }
                             break;
                         case SignInStatus.LockedOut:
@@ -730,7 +731,7 @@ namespace Website.Controllers
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Email = " + model.Email);
             }
 
-            return Json(new { Result = _Result, Error = _Error, UserFirstName = _UserFirstName, URLRedirect = model.URLRedirect });
+            return Json(new { Result = _Result, Error = _Error, UserFirstName = _UserFirstName, URLRedirect = model.URLRedirect, LangTag= _LangTag });
         }
         #endregion
 
@@ -756,10 +757,8 @@ namespace Website.Controllers
 
         public ActionResult Login(string returnUrl = null)
         {
-            LoginViewModel model = new LoginViewModel();
             try
             {
-
                 if (User.Identity.IsAuthenticated)
                 {
                     if (String.IsNullOrWhiteSpace(returnUrl))
@@ -771,20 +770,13 @@ namespace Website.Controllers
                         return RedirectToLocal(returnUrl);
                     }
                 }
-
-                model.URLRedirect = returnUrl;
-                ViewBag.Title = "[[[Login]]]";
-
-
-
-
             }
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "returnUrl = " + returnUrl);
             }
 
-            return View(model);
+            return RedirectToAction("Index", "Home", new { SignUp = false, PromptLogin = true, RedirectTo = returnUrl });
         }
 
         /// <summary>
