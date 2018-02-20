@@ -213,6 +213,8 @@
     <Content Include="Content\General\DragAndDrop.css" />
     <Content Include="Content\General\summernote.css" />
     <Content Include="Content\videos\homepage-video.mp4" />
+    <Content Include="Content\Views\Account\PasswordChanged.css" />
+    <Content Include="Content\Views\Account\InvalidToken.css" />
     <Content Include="Content\Views\Account\_ForgotPassword.css" />
     <Content Include="Content\Views\Account\_SignUp.css" />
     <Content Include="Content\Views\Account\_SignUpProcess.css" />
@@ -409,6 +411,7 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\OtherFormats\jscam.swf" />
     <Content Include="Scripts\OtherFormats\jscam_canvas_only.swf" />
+    <Content Include="Scripts\Views\Account\ResetPassword.js" />
     <Content Include="Scripts\Views\Account\ForgotPassword.js" />
     <Content Include="Scripts\Views\Account\Login.js" />
     <Content Include="Scripts\Views\Account\_PasswordPolicy.js" />
@@ -503,6 +506,9 @@
     <Content Include="Views\Admin\News\_PreviewNewsMail.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Shared\_ConfirmationCheck.cshtml" />
+    <Content Include="Views\Account\InvalidToken.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\PasswordChanged.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

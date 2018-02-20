@@ -828,6 +828,25 @@ namespace Website.Controllers
 
         #endregion
 
+        #region PasswordChanged
+
+        public ActionResult PasswordChanged()
+        {
+
+            try
+            {
+                ViewBag.Title = "[[[Password Changed]]]";
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
+            return View();
+        }
+
+        #endregion
+
         #region resetpassword
         [HttpGet]
         [AllowAnonymous]
@@ -836,16 +855,17 @@ namespace Website.Controllers
             ResetPasswordViewModel model = new ResetPasswordViewModel();
             try
             {
-                User user = UserService.GetUserById(model.UserId);
-                if (user == null || String.IsNullOrWhiteSpace(user.ResetPasswordToken) || !Token.Equals(HashHelpers.HashEncode(user.ResetPasswordToken)))
-                {
-                    return View("InvalidToken");
-                }
-
                 model.Token = Token;
                 model.UserId = UserId;
 
                 ViewBag.Title = "[[[Reset Password]]]";
+                User user = UserService.GetUserById(model.UserId);
+                string EncodeUserToken = HashHelpers.HashEncode(user.ResetPasswordToken);
+                if (user == null || String.IsNullOrWhiteSpace(user.ResetPasswordToken) || Token!= EncodeUserToken)
+                {
+                    return View("InvalidToken");
+                }
+
             }
             catch (Exception e)
             {

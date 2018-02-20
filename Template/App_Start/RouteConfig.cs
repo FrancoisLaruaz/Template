@@ -18,6 +18,13 @@ namespace Template
             );
 
             routes.MapRoute(
+                "PasswordChanged",
+                "PasswordChanged",
+                new { controller = "Account", action = "PasswordChanged" },
+                namespaces: new[] { "Website.Controllers" }
+            );
+
+            routes.MapRoute(
                 "ResetPassword",
                 "ResetPassword/{UserId}/{Token}",
                 new { controller = "Account", action = "ResetPassword", UserId = UrlParameter.Optional, Token = UrlParameter.Optional },

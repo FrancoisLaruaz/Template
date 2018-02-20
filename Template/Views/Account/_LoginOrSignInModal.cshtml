@@ -1,7 +1,7 @@
 ﻿
 @if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
 {
-    <li><a href="" data-toggle="modal" data-target="#loginOrSignInModal" onclick="ShowSecretlyLogInForm();recordGoToUrl(null)">Log In</a></li>
+    <li class="dropdown"><a href="" data-toggle="modal" data-target="#loginOrSignInModal" onclick="ShowSecretlyLogInForm();recordGoToUrl(null)">Log In</a></li>
 }
 <script src="~/Scripts/Views/Account/_SignUp.js?@CommonsConst.StaticFileVersion.StaticFileVersionString"></script>
 <link href="~/Content/Views/Shared/_LoginModal.less" rel="stylesheet">

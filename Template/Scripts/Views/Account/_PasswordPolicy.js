@@ -17,10 +17,10 @@ $(function () {
 
 function SetPasswordForm() {
 
-    $("#SubmitButtonSignUp").show();
+    $(".PasswordButton").show();
     var disabledSubmitButton = false;
     
-    // alert('Password : ' + Password);
+
     if ($("#PasswordToCheck").length > 0) {
         var Password = $("#PasswordToCheck").val();
         var upperCase = new RegExp('[A-Z]');
@@ -29,27 +29,6 @@ function SetPasswordForm() {
 
         var PasswordStrengthScore = 0;
 
-        /*
-        if (ContainSpecialCharacter(Password)) {
-            PasswordStrengthScore = PasswordStrengthScore + 3;
-        }
-
-        if (Password.trim().length >= 8) {
-            PasswordStrengthScore = PasswordStrengthScore + 5;
-        }
-        else if (Password.trim().length >= 8) {
-            PasswordStrengthScore = PasswordStrengthScore + 4;
-        }
-        else if (Password.trim().length >= 6) {
-            PasswordStrengthScore = PasswordStrengthScore + 3;
-        }
-        else if (Password.trim().length >= 4) {
-            PasswordStrengthScore = PasswordStrengthScore + 2;
-        }
-        else if (Password.trim().length >= 2) {
-            PasswordStrengthScore = PasswordStrengthScore + 1;
-        }
-        */
         if (Password == null || typeof Password == "undefined" || Password.trim().length < 8) {
             disabledSubmitButton = true;
             SetIconKO("EightCharacters");
@@ -64,8 +43,6 @@ function SetPasswordForm() {
         }
         else {
             SetIconOK("LowerCaseLetter");
-            //  PasswordStrengthScore++;
-
         }
 
         if (Password == null || typeof Password == "undefined"  || !Password.match(upperCase)) {
@@ -74,8 +51,6 @@ function SetPasswordForm() {
         }
         else {
             SetIconOK("UpperCaseLetter");
-            //   PasswordStrengthScore++;
-            //  PasswordStrengthScore++;
         }
 
         if (Password == null || typeof Password == "undefined"  || !Password.match(numbers)) {
@@ -84,7 +59,6 @@ function SetPasswordForm() {
         }
         else {
             SetIconOK("OneNumber");
-            //   PasswordStrengthScore = PasswordStrengthScore + 3;
         }
 
 
@@ -100,9 +74,9 @@ function SetPasswordForm() {
 
 
         SetPasswordStrengthScore(PasswordStrengthScore);
-        $("#SubmitButtonSignUp").toggleClass("disabled", disabledSubmitButton);
+        $(".PasswordButton").toggleClass("disabled", disabledSubmitButton);
         if (!disabledSubmitButton)
-            $("#SubmitButtonSignUp").removeAttr('disabled');
+            $(".PasswordButton").removeAttr('disabled');
     }
 
 }
