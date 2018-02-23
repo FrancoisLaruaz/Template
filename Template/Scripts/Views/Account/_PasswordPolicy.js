@@ -1,8 +1,6 @@
 $(function () {
 
-    $(".PasswordToCheck").on("propertychange change keyup paste input keypress change keydown", function () {
-        SetPasswordForm(this);
-    });
+
 
     setTimeout(function () {
         $('.PasswordToCheck').each(function (index, value) {
@@ -12,6 +10,11 @@ $(function () {
 
     $('.PasswordToCheck').each(function (index, value) {
         SetPasswordForm(this);
+        $(this).unbind("propertychange change keyup paste input keypress change keydown");
+        $(this).on("propertychange change keyup paste input keypress change keydown", function (e) {
+         //   e.preventDefault();
+            SetPasswordForm(this);
+        });
     });
 
 
@@ -27,48 +30,51 @@ function SetPasswordForm(passwordElement) {
 
     var disabledSubmitButton = false;
     var form = $(passwordElement).closest("form");
-    alert($(form).attr('id'));
+    //alert('SetPasswordForm : :'+$(form).attr('id'));
     var passWordButton = $(form).find(".PasswordButton");
+   // alert('passWordButton : :' + $(passWordButton).attr('id'));
     $(passWordButton).show();
 
     if ($(passwordElement).length > 0 && $(form).length > 0) {
+        var FormId = $(form).attr('id');
+
         var Password = $(passwordElement).val();
         var upperCase = new RegExp('[A-Z]');
         var lowerCase = new RegExp('[a-z]');
         var numbers = new RegExp('[0-9]');
-
+   
         var PasswordStrengthScore = 0;
 
         if (Password == null || typeof Password == "undefined" || Password.trim().length < 8) {
             disabledSubmitButton = true;
-            SetIconKO("EightCharacters");
+            SetIconKO("EightCharacters", FormId);
         }
         else {
-            SetIconOK("EightCharacters");
+            SetIconOK("EightCharacters", FormId);
         }
 
         if (Password == null || typeof Password == "undefined" || !Password.match(lowerCase)) {
             disabledSubmitButton = true;
-            SetIconKO("LowerCaseLetter");
+            SetIconKO("LowerCaseLetter", FormId);
         }
         else {
-            SetIconOK("LowerCaseLetter");
+            SetIconOK("LowerCaseLetter", FormId);
         }
 
         if (Password == null || typeof Password == "undefined" || !Password.match(upperCase)) {
             disabledSubmitButton = true;
-            SetIconKO("UpperCaseLetter");
+            SetIconKO("UpperCaseLetter", FormId);
         }
         else {
-            SetIconOK("UpperCaseLetter");
+            SetIconOK("UpperCaseLetter", FormId);
         }
 
         if (Password == null || typeof Password == "undefined" || !Password.match(numbers)) {
             disabledSubmitButton = true;
-            SetIconKO("OneNumber");
+            SetIconKO("OneNumber", FormId);
         }
         else {
-            SetIconOK("OneNumber");
+            SetIconOK("OneNumber", FormId);
         }
 
 
@@ -116,27 +122,28 @@ function SetPasswordStrengthScore(Score, form) {
     }
 
     $(form).find(".ScorePasswordStrength").html(text);
-    $(form).find(".textPasswordStrength").removeClass();
+    $(form).find(".textPasswordStrength").removeClass("green").removeClass("blue").removeClass("yellow").removeClass("red");
     $(form).find(".textPasswordStrength").addClass(color);
 }
 
-function SetIconOK(Element) {
-    var IconElement = $("#Icon" + Element);
+function SetIconOK(Element, FormId) {
+
+    var IconElement = $("#" + FormId +" .Icon" + Element);
     if (IconElement) {
         $(IconElement).removeClass("red").removeClass("glyphicon-remove").addClass("glyphicon-ok").addClass("green");
     }
-    var TextElement = $("#text" + Element);
+    var TextElement = $("#" + FormId +" .text" + Element);
     if (TextElement) {
         $(TextElement).removeClass("red").addClass("green");
     }
 }
 
-function SetIconKO(Element) {
-    var IconElement = $("#Icon" + Element);
+function SetIconKO(Element, FormId) {
+    var IconElement = $("#"+FormId+" .Icon" + Element);
     if (IconElement) {
         $(IconElement).removeClass("glyphicon-ok").removeClass("green").addClass("red").addClass("glyphicon-remove");
     }
-    var TextElement = $("#text" + Element);
+    var TextElement = $("#" + FormId +" .text" + Element);
     if (TextElement) {
         $(TextElement).removeClass("green").addClass("red");
     }

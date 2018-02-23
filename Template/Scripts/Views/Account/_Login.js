@@ -7,11 +7,7 @@ function SetLoginFormLinks() {
     $("#PasswordForgotLink").unbind("click");
     $("#PasswordForgotLink").on("click", function (e) {
         e.preventDefault();
-        if ($('#loginOrSignInModal').length > 0) {
-            $('#loginOrSignInModal').click();
-        }
-        var newUrl = GetHomePageUrl() + "/ForgotPassword";
-        window.location.href = newUrl;
+
     });
 
 
@@ -43,8 +39,7 @@ function LoginSuccess(Data) {
             }
             var language = Data.LangTag;
             var CentralGoToUrl = $('#CentralGoToUrl').val();
-            alert('Data.URLRedirect : ' + Data.URLRedirect);
-            alert('CentralGoToUrl : ' + CentralGoToUrl);
+
             var toGo = '';
             if (Data.URLRedirect != null && Data.URLRedirect != "") {
                 toGo = Data.URLRedirect;
@@ -77,10 +72,8 @@ function LoginSuccess(Data) {
         SetLoginSubmitForm();
     }
 }
-    else {
-    SetLoginSubmitForm();
-}
-}
+
+
 
 function SetLoginForm() {
     if ($("#loginOrSignInModalBody #LoginForm").length > 0) {

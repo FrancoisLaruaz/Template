@@ -46,8 +46,7 @@ function externalAuthentificationCallback(success, returnUrl, error, media, isSi
                 var URLRedirect = $('#URLRedirect').val();
 
                 var CentralGoToUrl = $('#CentralGoToUrl').val();
-                alert('Data.URLRedirect : ' + URLRedirect);
-                alert('CentralGoToUrl : ' + CentralGoToUrl);
+
                 var toGo = '';
                 if (URLRedirect != null && URLRedirect != "") {
                     toGo = URLRedirect;

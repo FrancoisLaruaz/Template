@@ -4,3 +4,9 @@
     left: 30px;
     cursor: pointer;
 }
+
+#divSubmitButtonLogin
+{
+    margin-left:15px;
+    margin-right:15px !important;
+}
