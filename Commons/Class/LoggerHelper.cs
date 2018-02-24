@@ -52,8 +52,10 @@ namespace Commons
                 }
 
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                Logger.GenerateInfo("Error while creating a javascript Log : " + ex.ToString());
+            }
         }
 
         public static bool IsErrorLogged(string Url, string Message)
@@ -147,7 +149,7 @@ namespace Commons
                         Message = "- Form => " + Form;
                     if (!String.IsNullOrEmpty(Details))
                         Message = "- Details => " + Details + " </br></br>" + Message;
-                    Message = "- HttpMethod => " + HttpContext.Current?.Request?.HttpMethod ?? "N/A" + " </br></br>" + Message;
+                    Message = "- HttpMethod => " + (HttpContext.Current?.Request?.HttpMethod ?? "N/A") + " </br></br>" + Message;
                     if (!String.IsNullOrEmpty(Url) && !String.IsNullOrEmpty(UrlReferrer) && UrlReferrer.Trim().ToLower() != Url.Trim().ToLower())
                         Message = "- Url Referrer => " + UrlReferrer + " </br></br>" + Message;
                     if (!String.IsNullOrEmpty(Url))
@@ -157,8 +159,11 @@ namespace Commons
                 }
 
             }
-            catch
-            { }
+            catch (Exception ex2)
+            {
+                Logger.GenerateInfo("Error while creating a Log : " + ex2.ToString());
+            }
+
             if (LoggeError && Utils.IsLocalhost() && (type != typeof(HttpApplication) || type == null))
             {
                 throw Ex;

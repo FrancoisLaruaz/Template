@@ -7,7 +7,7 @@ function SetLoginFormLinks() {
     $("#PasswordForgotLink").unbind("click");
     $("#PasswordForgotLink").on("click", function (e) {
         e.preventDefault();
-
+        ShowPasswordForgotForm();
     });
 
 

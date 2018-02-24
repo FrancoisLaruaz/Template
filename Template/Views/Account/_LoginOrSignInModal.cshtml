@@ -27,6 +27,10 @@
                         <div class="authTitle">[[[Sign Up]]]</div>
                         @Html.Action("_SignUpForm", "Account")
                     </div>
+                    <div id="ForgotPassword" style="display: none;">
+                        <div class="authTitle">[[[Forgot Password]]]</div>
+                        @Html.Action("_ForgotPasswordForm", "Account")
+                    </div>
                 </div>
                 <div id="SignUpProcessPages" style="display: none;">
                     @Html.Partial("~/Views/Account/_SignUpProcessPages.cshtml")

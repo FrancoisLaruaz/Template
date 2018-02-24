@@ -501,11 +501,11 @@
     <Content Include="Views\Admin\News\_NotPublishedNews.cshtml" />
     <Content Include="Views\Admin\News\_News.cshtml" />
     <Content Include="Views\Admin\News\_PreviewNewsMail.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Shared\_ConfirmationCheck.cshtml" />
     <Content Include="Views\Account\InvalidToken.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\PasswordChanged.cshtml" />
+    <Content Include="Views\Account\_ForgotPasswordForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

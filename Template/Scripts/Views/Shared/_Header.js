@@ -68,6 +68,20 @@ function LogOffFailure() {
     window.location.href = GetHomePageUrl();
 }
 
+function ShowPasswordForgotForm()
+{
+
+    if ($("#loginOrSignInModalBody").length > 0) {
+
+        $("#DivConfirmationForgotPassword").hide();
+        $("#DivFormForgotPassword").show();
+        $("#loginOrSignInModal").modal('show');
+        $("#loginOrSignInModalBody #LoginForm").fadeOut(500, function () {
+            $("#loginOrSignInModalBody #ForgotPassword").fadeIn(500);
+        });
+    }
+}
+
 function ShowSignUpForm() {
     if ($("#loginOrSignInModalBody").length > 0) {
 

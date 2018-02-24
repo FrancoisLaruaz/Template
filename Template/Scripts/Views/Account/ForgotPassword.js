@@ -1,5 +1,12 @@
 $(document).ready(function () {
 
+    $("#GoBackToLogInBtn").unbind("click");
+    $("#GoBackToLogInBtn").on("click", function (e) {
+        e.preventDefault();
+        $("#ForgotPassword").fadeOut(500, function () {
+            $("#LoginForm").fadeIn(500);
+        });
+    });
 
     HideSpinner();
 });

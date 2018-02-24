@@ -735,7 +735,7 @@ namespace Website.Controllers
         }
         #endregion
 
-        #region Login
+        #region Login / Logoff
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
@@ -750,10 +750,22 @@ namespace Website.Controllers
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + User.Identity.Name);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType,null);
             }
             return RedirectToAction("Index", "Home");
         }
+
+        /// <summary>
+        /// Usd in the case where the last action of the user is Account/LogOff and redirected here
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult LogOff(int a = 0)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
 
         public ActionResult Login(string returnUrl = null)
         {
@@ -924,16 +936,15 @@ namespace Website.Controllers
         #region forgotpassword
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ForgotPassword()
+        public ActionResult _ForgotPasswordForm()
         {
-            ViewBag.Title = "[[[Forgot Password]]]";
-            return View(new ForgotPasswordViewModel());
+            return PartialView(new ForgotPasswordViewModel());
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ForgotPassword(ForgotPasswordViewModel model)
+        public ActionResult _ForgotPasswordForm(ForgotPasswordViewModel model)
         {
             bool _Result = false;
             string _Error = "";
