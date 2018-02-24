@@ -54,7 +54,14 @@ namespace Commons
             }
             catch (Exception ex)
             {
-                Logger.GenerateInfo("Error while creating a javascript Log : " + ex.ToString());
+                if (ex == null)
+                {
+                    Logger.GenerateInfo("Error while creating a javascript Log.");
+                }
+                else
+                {
+                    Logger.GenerateInfo("Error while creating a javascript Log : " + ex?.ToString());
+                }
             }
         }
 
@@ -161,7 +168,14 @@ namespace Commons
             }
             catch (Exception ex2)
             {
-                Logger.GenerateInfo("Error while creating a Log : " + ex2.ToString());
+                if (ex2 == null)
+                {
+                    Logger.GenerateInfo("Error while creating a Log.");
+                }
+                else
+                {
+                    Logger.GenerateInfo("Error while creating a Log : " + ex2?.ToString());
+                }
             }
 
             if (LoggeError && Utils.IsLocalhost() && (type != typeof(HttpApplication) || type == null))
@@ -179,6 +193,10 @@ namespace Commons
             try
             {
                 log4net.ILog logger = log4net.LogManager.GetLogger("*** EVENT ***");
+                if (String.IsNullOrWhiteSpace(Message))
+                {
+                    Message = "N/A";
+                }
                 logger.Info(Message);
             }
             catch(Exception e)
