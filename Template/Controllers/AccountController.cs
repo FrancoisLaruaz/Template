@@ -715,7 +715,7 @@ namespace Website.Controllers
                             else
                             {
                                 UserIdentityService.UpdateUserIdentityLoginFailure(model.Email);
-                                _Error = "[[[Invalid login attempt.]]]";
+                                _Error = "[[[Incorrect password.]]]";
                             }
                             break;
                         default:
@@ -832,6 +832,87 @@ namespace Website.Controllers
 
         #endregion
 
+        #region changepassword
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            ChangePasswordViewModel model = new ChangePasswordViewModel();
+            try
+            {
+                ViewBag.Title = "[[[Change My Password]]]";
+                if (User.Identity.IsAuthenticated)
+                {
+                    return View(model);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            bool _Result = false;
+            string _Error = "";
+            string _Langtag = CommonsConst.Const.DefaultCulture;
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        if (UserSession != null)
+                        {
+                            _Langtag = UserSession.LanguageTag;
+                            IdentityResult result = await UserManager.ChangePasswordAsync(UserSession.UserIdentityId, model.OldPassword, model.NewPassword);
+                            if (result.Succeeded)
+                            {
+                                _Result = EMailService.SendEMailToUser(UserSession.UserId, EmailTypes.ResetPassword);
+                            }
+                            else
+                            {
+                                foreach (var error in result.Errors)
+                                {
+                                    string displayedError = error;
+                                    if(error== "Incorrect password.")
+                                    {
+                                        displayedError = "[[[The old password is incorrect.]]]";
+                                    }
+                                    _Error = _Error + displayedError + " ";
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            _Error = "[[[Sorry, the user has not been found.]]]";
+                        }
+                    }
+                    else
+                    {
+                        _Error = "[[[The form contains errors..]]]";
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + model.UserId);
+            }
+            return Json(new { Result = _Result, Error = _Error.Trim(), Langtag = _Langtag });
+        }
+
+        #endregion
+
         #region PasswordChanged
 
         public ActionResult PasswordChanged()
@@ -851,7 +932,7 @@ namespace Website.Controllers
 
         #endregion
 
-        #region resetpassword
+        #region Resetpassword
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ResetPassword(int UserId, string Token)
@@ -862,7 +943,7 @@ namespace Website.Controllers
                 model.Token = Token;
                 model.UserId = UserId;
 
-                ViewBag.Title = "[[[Reset Password]]]";
+                ViewBag.Title = "[[[Reset My Password]]]";
                 User user = UserService.GetUserById(model.UserId);
                 if (user == null || String.IsNullOrWhiteSpace(user.ResetPasswordToken) || Token != HashHelpers.HashEncode(user.ResetPasswordToken))
                 {

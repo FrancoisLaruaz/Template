@@ -33,6 +33,7 @@ function LoginSuccess(Data) {
 
     if (Data) {
         $('#ErrorLoginForm').html(Data.Error);
+
         if (Data.Result) {
             if ($('#loginOrSignInModal').length > 0) {
                 $('#loginOrSignInModal').click();
@@ -67,6 +68,9 @@ function LoginSuccess(Data) {
             }
 
         }
+        else {
+            SetLoginSubmitForm();
+        }
     }
     else {
         SetLoginSubmitForm();
@@ -84,6 +88,7 @@ function SetLoginForm() {
 }
 
 function SetLoginSubmitForm() {
+ 
     $('#SubmitButtonLogin').show();
     $('#SubmitButtonLogin').val("[[[Log In]]]");
     $('#SubmitButtonLogin').removeAttr('disabled');

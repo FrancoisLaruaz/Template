@@ -4,12 +4,12 @@ $(document).ready(function () {
     HideSpinner();
 });
 
-function ResetPasswordFailure() {
+function ChangePasswordFailure() {
     ErrorActions();
 }
 
-function ResetPasswordSuccess(data) {
-    $("#ErrorResetPasswordForm").html('');
+function ChangePasswordSuccess(data) {
+    $("#ErrorChangePasswordForm").html('');
 
     if (data != null && data.Result) {
 
@@ -17,13 +17,13 @@ function ResetPasswordSuccess(data) {
     }
     else if(data.Error!=null && data.Error.trim()!='')
     {
-        $("#ErrorResetPasswordForm").html(data.Error);
+        $("#ErrorChangePasswordForm").html(data.Error);
     }
     else {
-        ResetPasswordFailure();
+        ChangePasswordFailure();
     }
 }
 
-function handleResetPasswordBegin() {
+function handleChangePasswordBegin() {
 
 }

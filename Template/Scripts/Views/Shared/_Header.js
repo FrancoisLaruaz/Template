@@ -1,6 +1,17 @@
 $(document).ready(function () {
 
 
+    $('#LogInHeader').on('click', function (e) {
+        e.preventDefault();
+        $("#loginOrSignInModalBody #SignUpForm").hide();
+        ShowLogInForm();
+    });
+
+    $('#SignUpHeader').on('click', function (e) {
+        e.preventDefault();
+        ShowSignUpFormNow();
+    });
+
     $('#LinkLogOff').on('click', function () {
         document.getElementById('logoutForm').submit();
     });
@@ -75,6 +86,9 @@ function ShowPasswordForgotForm()
 
         $("#DivConfirmationForgotPassword").hide();
         $("#DivFormForgotPassword").show();
+        
+        $(".SignUpProcessPages_js").hide();
+        $("#loginOrSignInModalBody #SignUpForm").hide();
         $("#loginOrSignInModal").modal('show');
         $("#loginOrSignInModalBody #LoginForm").fadeOut(500, function () {
             $("#loginOrSignInModalBody #ForgotPassword").fadeIn(500);
@@ -84,9 +98,11 @@ function ShowPasswordForgotForm()
 
 function ShowSignUpForm() {
     if ($("#loginOrSignInModalBody").length > 0) {
-
+        recordGoToUrl(null);
+        
+        $(".SignUpProcessPages_js").hide();
+        $("#loginOrSignInModalBody #ForgotPassword").hide();
         $("#loginOrSignInModal").modal('show');
-
         $("#loginOrSignInModalBody #LoginForm").fadeOut(500, function () {
             $("#loginOrSignInModalBody #SignUpForm").fadeIn(500);
             
@@ -103,15 +119,33 @@ function ShowSignUpForm() {
     }
 }
 
+function ShowSignUpFormNow() {
+    if ($("#loginOrSignInModalBody").length > 0) {
+        $(".SignUpProcessPages_js").hide();
+        recordGoToUrl(null);
+        $("#loginOrSignInModalBody #ForgotPassword").hide();
+        $("#loginOrSignInModal").modal('show');
+        $("#loginOrSignInModalBody #LoginForm").hide();
+        $("#loginOrSignInModalBody #SignUpForm").show();
+        if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
+            $("#div_SignUpFormLinks").show();
+        }
+        else {
+            $("#div_SignUpFormLinks").hide();
+        }
+    }
+}
 
 
 
 
 function ShowLogInForm() {
     if ($("#loginOrSignInModalBody #SignUpForm").length > 0) {
-
+        recordGoToUrl(null);
         if ($("#loginOrSignInModalBody #LoginForm").length > 0) 
-            {
+        {
+            $(".SignUpProcessPages_js").hide();
+            $("#loginOrSignInModalBody #ForgotPassword").hide();
             $("#loginOrSignInModal").modal('show');
             $("#loginOrSignInModalBody #SignUpForm").fadeOut(500, function () {
                 $("#loginOrSignInModalBody #LoginForm").fadeIn(500);
@@ -155,6 +189,7 @@ function recordGoToUrl(shouldGoTo) {
 function ShowSecretlyLogInForm() {
 
     if ($("#loginOrSignInModalBody #LoginForm").length > 0) {
+        $("#loginOrSignInModalBody #ForgotPassword").hide();
         $("#loginOrSignInModalBody #SignUpForm").hide();
         $("#loginOrSignInModalBody #LoginForm").show();
     }

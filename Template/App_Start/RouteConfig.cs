@@ -10,10 +10,12 @@ namespace Template
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             #region Account
+
+
             routes.MapRoute(
-                "ForgotPassword",
-                "ForgotPassword",
-                new { controller = "Account", action = "ForgotPassword" },
+                "ChangePassword",
+                "ChangePassword",
+                new { controller = "Account", action = "ChangePassword" },
                 namespaces: new[] { "Website.Controllers" }
             );
 
