@@ -110,6 +110,7 @@
     <Compile Include="ViewModel\Admin\News\NewsViewModel.cs" />
     <Compile Include="ViewModel\Admin\Tasks\SchedulerStatusViewModel.cs" />
     <Compile Include="ViewModel\Admin\Logs\LogsViewModel.cs" />
+    <Compile Include="ViewModel\Home\ContactUsViewModel.cs" />
     <Compile Include="ViewModel\Home\HomeViewModel.cs" />
     <Compile Include="ViewModel\Shared\HeaderViewModel.cs" />
   </ItemGroup>

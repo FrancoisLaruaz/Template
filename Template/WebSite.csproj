@@ -428,6 +428,7 @@
     <Content Include="Scripts\Views\Admin\Logs.js" />
     <Content Include="Scripts\Views\Account\_Login.js" />
     <Content Include="Scripts\Views\Experiment\Index.js" />
+    <Content Include="Scripts\Views\Home\ContactUs.js" />
     <Content Include="Scripts\Views\Home\_VideoHomePage.js" />
     <Content Include="Scripts\Views\Home\Index.js" />
     <Content Include="Scripts\Views\Shared\_Header.js" />
@@ -509,6 +510,7 @@
     <Content Include="Views\Account\PasswordChanged.cshtml" />
     <Content Include="Views\Account\_ForgotPasswordForm.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Home\ContactUs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

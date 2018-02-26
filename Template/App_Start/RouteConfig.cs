@@ -9,6 +9,17 @@ namespace Template
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            #region Home
+
+            routes.MapRoute(
+                "ContactUs",
+                "ContactUs",
+                new { controller = "Home", action = "ContactUs" },
+                namespaces: new[] { "Website.Controllers" }
+            );
+
+            #endregion
+
             #region Account
 
 

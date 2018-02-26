@@ -29,7 +29,7 @@ namespace Website.Controllers
                 {
                     model.UserFirstName = UserSession.FirstNameDecrypt;
                     model.UserNameDecrypt = UserSession.UserNameDecrypt;
-                    model.PictureThumbnailSrc = FileHelper.GetDecryptedFilePath(UserSession.PictureThumbnailSrc, true,true);
+                    model.PictureThumbnailSrc = FileHelper.GetDecryptedFilePath(UserSession.PictureThumbnailSrc, true, true);
                     model.PictureThumbnailSrc = model.PictureThumbnailSrc.Replace("~", "");
                 }
             }
@@ -39,6 +39,44 @@ namespace Website.Controllers
             }
             return PartialView("~/Views/Shared/Layout/_Header.cshtml", model);
         }
+
+        #region contactUs
+        [HttpGet]
+        public ActionResult ContactUs()
+        {
+            ViewBag.Title = "[[[Contact Us]]]";
+            return View(new ContactUsViewModel());
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ContactUs(ContactUsViewModel model)
+        {
+            bool _Result = false;
+            string _Error = "";
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+
+                }
+                else
+                {
+                    _Error = "[[[Sorry, an error has been detected in the form :(.]]]";
+                }
+
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return Json(new { Result = _Result, Error = _Error.Trim() });
+        }
+
+        #endregion
+
         public ActionResult Index(bool SignUp = false,
             bool PromptLogin = false,
             string RedirectTo = "/")
@@ -55,7 +93,7 @@ namespace Website.Controllers
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
-   
+
             return View(model);
         }
 
@@ -110,9 +148,9 @@ namespace Website.Controllers
                 }
                 // Redirect user agent as approp.
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType,"Lanuguage = "+langtag+" and url = "+returnUrl);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Lanuguage = " + langtag + " and url = " + returnUrl);
             }
             if (returnUrl != "")
                 return this.Redirect(returnUrl);

@@ -18,7 +18,7 @@
                         @Html.HiddenFor(m => m.HasScheduledTaskBeenExecuted)
 
                         <div class="websiteFormGroup col-md-10 col-xs-12 col-md-offset-1">
-                            <a href="../../Admin/News" id="BackToList">
+                            <a href="../../Admin/News" id="BackToList" class="applicationLink">
                                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 [[[Go back to the list]]]
                             </a>
@@ -57,7 +57,7 @@
                         <div class="col-md-10 col-xs-12 col-md-offset-1 websiteFormGroup" style="padding-bottom:25px;">
                             <div class="col-md-12 col-xs-12 noMarginNoPaddingHorizontal">
                                 @Html.LabelFor(model => model.NewsDescription, htmlAttributes: new { @class = "control-label" })
-                                <a id="MailPreview" style="padding-right:20px;font-size:16px;cursor:pointer;" class="pull-right RelatedToNewsMail"><span class="glyphicon glyphicon-envelope" style="margin-right:6px;"></span>[[[Mail Preview]]]</a>
+                                <a id="MailPreview" style="padding-right:20px;font-size:16px;cursor:pointer;" class="pull-right RelatedToNewsMail applicationLink"><span class="glyphicon glyphicon-envelope" style="margin-right:6px;"></span>[[[Mail Preview]]]</a>
                             </div>
                             <div class="col-md-12 col-xs-12 noMarginNoPaddingHorizontal">
                                 @Html.TextAreaFor(m => Model.NewsDescription, new { @class = "form-control summernote input-lg" })
