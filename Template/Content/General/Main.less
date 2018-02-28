@@ -55,8 +55,21 @@
     border-radius: 50px;
 }
 
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: @WebsiteColor1 !important;
+    border-color: @WebsiteColor1 !important;
+}
+
 .applicationLink {
     color: @WebsiteColor1 !important;
+}
+
+.btn-primary {
+    background-color: @WebsiteColor1 !important;
+    border-color: @WebsiteColor1 !important;
 }
 
 .website-btn:hover {

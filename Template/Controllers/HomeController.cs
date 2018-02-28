@@ -60,7 +60,23 @@ namespace Website.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    if (Utils.IsValidMail(model.Email.Trim().ToLower()))
+                    {
 
+                        Email email = new Email();
+                        email.Subject = "Contact : " + model.Subject+" from "+ model.Name;
+                        email.ToEmail = ConfigurationManager.AppSettings["ContactMail"];
+                        email.EmailContent.Add(new Tuple<string, string>("#Subject#", model.Subject));
+                        email.EmailContent.Add(new Tuple<string, string>("#Name#", model.Name));
+                        email.EmailContent.Add(new Tuple<string, string>("#PhoneNumber#", model.PhoneNumber??""));
+                        email.EmailContent.Add(new Tuple<string, string>("#Question#", model.Question));
+                        email.EmailContent.Add(new Tuple<string, string>("#Email#", model.Email));
+                        _Result = EMailService.SendMail(email);
+                    }
+                    else
+                    {
+                        _Error = "[[[Please enter a valid email address.]]]";
+                    }
                 }
                 else
                 {

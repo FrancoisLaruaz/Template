@@ -48,6 +48,7 @@ namespace CommonsConst
         public const int UserWelcome = 1002;
         public const int News = 1003;
         public const int ResetPassword = 1004;
+        public const int Contact = 1005;
     }
 
     public static class UserRoles

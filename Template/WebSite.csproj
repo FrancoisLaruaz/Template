@@ -258,6 +258,7 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="readme.txt" />
     <Content Include="Ressources\EMails\forgotpassword_en_testhover.html" />
+    <Content Include="Ressources\EMails\contact_en.html" />
     <Content Include="Ressources\EMails\resetpassword_en.html" />
     <Content Include="Ressources\EMails\forgotpassword_en.html" />
     <Content Include="Ressources\EMails\resetpassword_fr.html" />

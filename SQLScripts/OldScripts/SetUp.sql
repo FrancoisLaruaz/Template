@@ -473,3 +473,29 @@ where id=7;
 update emailtypelanguage
 set Subject='Votre mot de passe a été réinitialisé'
 where id=8;
+
+
+INSERT INTO `template`.`category`
+(`Id`,
+`Name`,
+`Code`,
+`Order`,
+`Active`,
+`CategoryTypeId`,
+`DateModification`,
+`Field1`,
+`Field2`)
+VALUES
+(1005,
+'Contact',
+null,
+1005,
+1,
+1,
+now(),
+null,
+null);
+
+
+INSERT INTO `emailtypelanguage` VALUES (9,1005,3001,'','contact_en'),
+(10,1005,3002,'','contact_fr');

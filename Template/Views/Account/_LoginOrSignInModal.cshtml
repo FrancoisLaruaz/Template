@@ -4,9 +4,8 @@
     <li class="dropdown marginLeftHeader"><a href="" id="LogInHeader" class="loginSignUpHeader">[[[Log In]]]</a></li>
     <li class="dropdown"><a href="" id="SignUpHeader"  class="loginSignUpHeader">[[[Sign Up]]]</a></li>
 }
-<script src="~/Scripts/Views/Account/_SignUp.js?@CommonsConst.StaticFileVersion.StaticFileVersionString"></script>
-<link href="~/Content/Views/Shared/_LoginModal.less" rel="stylesheet">
 
+<link href="~/Content/Views/Shared/_LoginModal.less" rel="stylesheet">
 
 <div class="modal fade" id="loginOrSignInModal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="vertical-alignment-helper">
@@ -41,5 +40,5 @@
 </div>
 
 
-
-<script src="~/Scripts/Views/Account/ExternalAuthentification.js" charset="ISO-8859-1"></script>
+@Html.ScriptImportContent("~/Scripts/Views/Account/ExternalAuthentification.js")
+@Html.ScriptImportContent("~/Scripts/Views/Account/_SignUp.js")

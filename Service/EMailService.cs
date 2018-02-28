@@ -33,7 +33,8 @@ namespace Service
                 int LanguageId = CommonsConst.Languages.English;
                 string LangTag = CommonsConst.Languages.ToString(LanguageId);
 
-
+                if(String.IsNullOrWhiteSpace(Email.RootPathDefault))
+                    Email.RootPathDefault = FileHelper.GetRootPathDefault() + @"\";
 
 
                 if (Email.EmailContent == null)
@@ -118,7 +119,7 @@ namespace Service
                 else
                 {
                     result = false;
-                    Commons.Logger.GenerateError(new Exception("No emailtypelanguage found"), System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserMail = " + Email.ToEmail + " and Language = " + Email.LanguageId + " and EMailTypeId = " + Email.EMailTypeId);
+                    Commons.Logger.GenerateInfo("No emailtypelanguage found : UserMail = " + Email.ToEmail + " and Language = " + Email.LanguageId + " and EMailTypeId = " + Email.EMailTypeId);
                 }
 
             }
