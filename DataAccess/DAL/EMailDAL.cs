@@ -81,10 +81,10 @@ namespace DataAccess
                 model.StartAt = StartAt;
                 if (Pattern == null)
                     Pattern = "";
-                Pattern = Pattern.ToLower();
+                Pattern = Pattern.ToLower().Trim();
                 db = new DBConnect();
                 string Query = "select a.Id, a.UserId, a.EMailFrom, a.EMailTo ,a.Date ";
-                Query = Query + ",a.AttachmentNumber,a.EMailTypeLanguageId,u.FirstName, u.LastName,c.Name ";
+                Query = Query + ",a.AttachmentNumber,a.EMailTypeLanguageId,u.FirstName, u.LastName,c.Name, a.Comment ";
                 Query = Query + ",l.EMailTypeId, l.LanguageId,cl.Name as 'LanguageName'  ";
                 Query = Query + ",n.Id as NewsId, n.Title as Newstitle, a.ScheduledTaskId ";
                 Query = Query + "from emailaudit a ";
@@ -117,6 +117,7 @@ namespace DataAccess
                     Audit.UserFirstName = Convert.ToString(dr["FirstName"]);
                     Audit.EMailTo = Convert.ToString(dr["EMailTo"]);
                     Audit.UserLastName = Convert.ToString(dr["LastName"]);
+                    Audit.Comment = Convert.ToString(dr["Comment"]);
                     Audit.Date = MySQLHelper.GetDateFromMySQL(dr["Date"]).Value.ToLocalTime();
                     Audit.EMailTypeName = Convert.ToString(dr["Name"]);
                     Audit.AttachmentNumber = Convert.ToInt32(dr["AttachmentNumber"]);
@@ -133,7 +134,7 @@ namespace DataAccess
                 if(!String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
                 {
                     IEnumerable<EMailAudit> resultIEnumerable = ListAudits as IEnumerable<EMailAudit>;
-                    resultIEnumerable = resultIEnumerable.Where(a => (a.EMailTypeName != null && a.EMailTypeName.Contains(Pattern)) || (a.NewsTitle!=null && a.NewsTitle.Contains(Pattern)) || (a.UserFirstNameDecrypt!=null && a.UserFirstNameDecrypt.Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.EMailTypeName.Contains(Pattern) || (a.EMailToDecrypt != null && a.EMailToDecrypt.Contains(Pattern)) ||  (a.EMailFromDecrypt!=null && a.EMailFromDecrypt.Contains(Pattern)) || (a.UserLastNameDecrypt!=null && a.UserLastNameDecrypt.Contains(Pattern)));
+                    resultIEnumerable = resultIEnumerable.Where(a => (a.EMailTypeName != null && a.EMailTypeName.ToLower().Contains(Pattern)) || (a.NewsTitle!=null && a.NewsTitle.ToLower().Contains(Pattern)) || (a.UserFirstNameDecrypt!=null && a.UserFirstNameDecrypt.ToLower().Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.EMailTypeName.Contains(Pattern) || (a.EMailToDecrypt != null && a.EMailToDecrypt.ToLower().Contains(Pattern)) ||  (a.EMailFromDecrypt!=null && a.EMailFromDecrypt.ToLower().Contains(Pattern)) || (a.UserLastNameDecrypt!=null && a.UserLastNameDecrypt.ToLower().Contains(Pattern)));
                     model.Count = resultIEnumerable.ToList().Count;
                     ListAudits = resultIEnumerable.Take(PageSize).Skip(StartAt).OrderByDescending(a => a.Id).ToList();
                 }
@@ -164,7 +165,7 @@ namespace DataAccess
             {
                 db = new DBConnect();
                 string Query = "insert into emailaudit (";
-                Query += "UserId, EMailFrom, EMailTo, AttachmentNumber, Date, EMailTypeLanguageId, CCUsersNumber,ScheduledTaskId ) ";
+                Query += "UserId, EMailFrom, EMailTo, AttachmentNumber, Date, EMailTypeLanguageId, CCUsersNumber,ScheduledTaskId,Comment ) ";
                 Query += " values (";
                 Query += MySQLHelper.GetIntToInsert(EMail.UserId);
                 Query += ","+ MySQLHelper.GetStringToInsert(EMail.EMailFrom);
@@ -174,6 +175,7 @@ namespace DataAccess
                 Query += "," + MySQLHelper.GetIntToInsert(EMail.EMailTypeLanguageId);
                 Query += "," + MySQLHelper.GetIntToInsert(EMail.CCUsersNumber);
                 Query += "," + MySQLHelper.GetIntToInsert(EMail.ScheduledTaskId);
+                Query += "," + MySQLHelper.GetStringToInsert(EMail.Comment);
                 Query += " )";
 
                 result = db.ExecuteQuery(Query);

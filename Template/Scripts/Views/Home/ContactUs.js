@@ -13,7 +13,9 @@ function ContactUsSuccess(data) {
 
     if (data != null && data.Result) {
 
-        alert('success');
+        $("#DivFormContactUs").fadeOut(500, function () {
+            $("#DivConfirmationContactUs").fadeIn(500);
+        });
     }
     else if(data.Error!=null && data.Error.trim()!='')
     {

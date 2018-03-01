@@ -272,6 +272,7 @@ namespace Service
                 Audit.AttachmentNumber = AttachmentNumber;
                 Audit.CCUsersNumber = CCUsersNumber;
                 Audit.ScheduledTaskId = EMail.RelatedScheduledTaskId;
+                Audit.Comment = EMail.Comment;
                 result = EMailDAL.InsertAudit(Audit);
             }
             catch (Exception e)

@@ -21,5 +21,7 @@ namespace Models.BDDObject
 
         public int? ScheduledTaskId { get; set; }
 
+        public string Comment { get; set; }
+
     }
 }

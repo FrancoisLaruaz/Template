@@ -27,13 +27,17 @@ namespace Models.BDDObject
         public int? NewsId { get; set; }
         public string NewsTitle { get; set; }
 
-        public string Comment
+        public string CommentToDisplay
         {
             get
             {
                 string Result = "";
 
-                if(!String.IsNullOrWhiteSpace(NewsTitle))
+                if(!String.IsNullOrWhiteSpace(this.Comment))
+                {
+                    Result = Comment.Trim();
+                }
+                else if (!String.IsNullOrWhiteSpace(NewsTitle))
                 {
                     Result = "[[[News : ]]]" + NewsTitle;
                 }
@@ -41,6 +45,8 @@ namespace Models.BDDObject
                 return Result;
             }
         }
+
+
 
     }
 }

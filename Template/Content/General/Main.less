@@ -55,16 +55,21 @@
     border-radius: 50px;
 }
 
+.pagination > li > a {
+    color: black !important;
+}
+
+
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
     z-index: 2;
-    color: #fff;
+    color: #fff !important;
     cursor: default;
     background-color: @WebsiteColor1 !important;
     border-color: @WebsiteColor1 !important;
 }
 
 .applicationLink {
-    color: @WebsiteColor1 !important;
+    color: @WebsiteColor2 !important;
 }
 
 .btn-primary {
@@ -469,7 +474,7 @@ a {
     right: 50px;
     text-align: right;
     padding-top: 13px;
-    background: @WebsiteColor1;
+    background: grey !important;
     display: none;
 }
 
@@ -877,9 +882,8 @@ a {
     border-top: 4px solid @WebsiteColor1;
 }
 
-.modal-backdrop
-{
-    z-index:450 !important;
+.modal-backdrop {
+    z-index: 450 !important;
 }
 
 .IndicationTxt {
@@ -891,9 +895,8 @@ a {
     display: none;
 }
 
-.fade.in
-{
-    padding-left:17px !important;
+.fade.in {
+    padding-left: 17px !important;
 }
 
 
@@ -901,3 +904,7 @@ a {
     background: rgba(0,0,0,0.9);
     opacity: 1;
 }
+
+
+
+

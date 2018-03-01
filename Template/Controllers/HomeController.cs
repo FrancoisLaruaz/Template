@@ -66,6 +66,8 @@ namespace Website.Controllers
                         Email email = new Email();
                         email.Subject = "Contact : " + model.Subject+" from "+ model.Name;
                         email.ToEmail = ConfigurationManager.AppSettings["ContactMail"];
+                        email.EMailTypeId = CommonsConst.EmailTypes.Contact;
+                        email.Comment= "'"+model.Subject + "' from " + model.Email;
                         email.EmailContent.Add(new Tuple<string, string>("#Subject#", model.Subject));
                         email.EmailContent.Add(new Tuple<string, string>("#Name#", model.Name));
                         email.EmailContent.Add(new Tuple<string, string>("#PhoneNumber#", model.PhoneNumber??""));

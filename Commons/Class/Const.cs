@@ -39,7 +39,7 @@ namespace CommonsConst
         public const string WebcamCaptureSession = "WebcamCaptureSession";
         public const string JsonConstantsSession = "JsonConstantsSession";
 
-        public const string ColorWebsite = "rgba(45,191,183, 0.8)";
+        public const string ColorWebsite = "rgba(45,191,183, 1)";
     }
 
     public static class EmailTypes
