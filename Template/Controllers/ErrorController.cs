@@ -25,7 +25,7 @@ namespace Website.Controllers
         }
 
 
-        public JsonResult LogJavascriptError(string errorMsg, string url, string lineNumber, string col, string error, string browser)
+        public JsonResult LogJavascriptError(string errorMsg, string url, string lineNumber, string col, string error, string browser, bool custom)
         {
             bool _success = true;
 
@@ -43,7 +43,7 @@ namespace Website.Controllers
                     error = "";
                 if (browser == null)
                     browser = "";
-                Logger.GenerateJavascriptError(errorMsg, url, lineNumber, col, error, browser);
+                Logger.GenerateJavascriptError(errorMsg, url, lineNumber, col, error, browser, custom);
             }
             catch(Exception e)
             {

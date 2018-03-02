@@ -1,6 +1,13 @@
 
 window.onerror = function (_errorMsg, _url, _lineNumber, _col, _error) {
+    LogJsError(_errorMsg, _url, _lineNumber, _col, _error, false);
+};
+
+
+
+function LogJsError(_errorMsg, _url, _lineNumber, _col, _error, _custom) {
     try {
+
         var strError = "";
         var _browser = GetFullBrowserName();
         if (typeof _error == "undefined" || _error == null) {
@@ -9,10 +16,19 @@ window.onerror = function (_errorMsg, _url, _lineNumber, _col, _error) {
         else {
             strError = _error.toString();
         }
+
+        if (typeof _custom == "undefined" || _custom == null) {
+            _custom = true;
+        }
+
+        if (typeof _url == "undefined" || _url == null || _url == '') {
+            _url = window.location.href;
+        }
+
         $.ajax({
             url: '/Error/LogJavascriptError',
             type: 'POST',
-            data: { errorMsg: _errorMsg, url: _url, lineNumber: _lineNumber, col: _col, error: strError, browser: _browser },
+            data: { errorMsg: _errorMsg, url: _url, lineNumber: _lineNumber, col: _col, error: strError, browser: _browser, custom: _custom },
             success: function (data) {
                 HideSpinner(); 
                 if (IsTestEnvironment()) {
@@ -34,7 +50,7 @@ window.onerror = function (_errorMsg, _url, _lineNumber, _col, _error) {
         HideSpinner(); 
         JSCaughtException(err);
     }
-};
+}
 
 function IsTestEnvironment()
 {

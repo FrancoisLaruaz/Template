@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
 
     Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
 }
@@ -6,16 +6,15 @@
 
 @Html.Partial("_PageTitle")
 <div>
-    <div class="container-fluid">
-        <div class="main-content" style="text-align:center;padding-bottom:40px;">
-            <h2>[[[Oups...An error has occured]]] :(</h2>
-            @{
-                if (!String.IsNullOrEmpty(ViewBag.ErrorType) && !Commons.Utils.IsProductionWebsite())
-                {
-                    <h5>@ViewBag.ErrorType</h5>
-                }
+
+    <div class="main-content" style="text-align:center;padding-bottom:40px;">
+        <h2>[[[Oups...An error has occured]]] :(</h2>
+        @{
+            if (!String.IsNullOrEmpty(ViewBag.ErrorType) && !Commons.Utils.IsProductionWebsite())
+            {
+                <h5>@ViewBag.ErrorType</h5>
             }
-        </div>
+        }
     </div>
 </div>
 

@@ -51,10 +51,7 @@ namespace Website.Controllers
                             contentHash = hashAlgorithm.ComputeHash(fileStream);
                         urlHash = hashAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(contentPath));
                     }
-                    var sb = new StringBuilder(32);
-                    for (var i = 0; i < contentHash.Length; i++)
-                        sb.Append((contentHash[i] ^ urlHash[i]).ToString("x2"));
-                    hash = sb.ToString();
+                    hash = contentUrl.Replace("~", "").Replace("/", "_").Replace("\\", "_").Replace("?", "_");
 
                     _lock.EnterWriteLock();
                     try

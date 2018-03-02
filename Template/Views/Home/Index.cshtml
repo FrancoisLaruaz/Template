@@ -1,27 +1,26 @@
 ﻿@model Models.ViewModels.HomeViewModel
 
-<div>
-    <div class="container-fluid">
-        <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
 
-            <div class="nodisplay">
-                @Html.CheckBoxFor(m => m.PromptLogin)
-                @Html.CheckBoxFor(m => m.SignUp)
-            </div>
-            <input id="hidden_RedirectTo" type="hidden" value="@Model.RedirectTo" />
+<div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
 
-            @if (!User.Identity.IsAuthenticated)
-            {
-            <div class="col-md-4 col-md-offset-4 col-xs-12">
-                <input type="button"  value="[[[Start now for free]]]" class="btn website-btn"  id="StartNowHomePage" />
-            </div>
-            }
-        </div>
+    <div class="nodisplay">
+        @Html.CheckBoxFor(m => m.PromptLogin)
+        @Html.CheckBoxFor(m => m.SignUp)
     </div>
+    <input id="hidden_RedirectTo" type="hidden" value="@Model.RedirectTo" />
+
+    @if (!User.Identity.IsAuthenticated)
+            {
+        <div class="col-md-4 col-md-offset-4 col-xs-12">
+            <input type="button" value="[[[Start now for free]]]" class="btn website-btn" id="StartNowHomePage" />
+        </div>
+    }
 </div>
 
-<link href="~/Content/Views/Home/_VideoHomePage.css" rel="stylesheet" />
 
+
+
+@Html.CssImportContent("~/Content/Views/Home/_VideoHomePage.css")
 
 
 @section scripts {

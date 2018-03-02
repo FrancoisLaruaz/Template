@@ -1,6 +1,8 @@
 var LoggedUserName = "";
 
 
+
+
 $(document).ready(function () {
     DisplayBrowserBanner();
 

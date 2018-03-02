@@ -24,7 +24,8 @@ namespace Commons
         /// <param name="col"></param>
         /// <param name="error"></param>
         /// <param name="browser"></param>
-        public static void GenerateJavascriptError(string Message = "", string URLError = "", string lineNumber = "", string col = "", string error = "", string browser = "")
+        /// <param name="custom"></param>
+        public static void GenerateJavascriptError(string Message = "", string URLError = "", string lineNumber = "", string col = "", string error = "", string browser = "",bool custom=false)
         {
             try
             {
@@ -35,20 +36,29 @@ namespace Commons
 
                 if (LoggeError && (!String.IsNullOrEmpty(Message) || !String.IsNullOrEmpty(UrlReferrer) || !String.IsNullOrEmpty(URLError) || !String.IsNullOrEmpty(error)))
                 {
-                    Message = "- Message => " + Message;
+                    string MessageToLog = "";
+                    if (custom)
+                    {
+                        MessageToLog = MessageToLog + "*** Custom Error ***";
+                        MessageToLog = MessageToLog + " </br></br>- Message => " + Message;
+                    }
+                    else
+                    {
+                        MessageToLog = MessageToLog + "- Message => " + Message;
+                    }
                     if (!String.IsNullOrEmpty(URLError))
-                        Message = Message + " </br></br>- URL Error => " + URLError;
+                        MessageToLog = MessageToLog + " </br></br>- URL Error => " + URLError;
                     if (!String.IsNullOrEmpty(UrlReferrer) && (String.IsNullOrEmpty(URLError) || URLError.Trim().ToLower() != UrlReferrer.Trim().ToLower()))
-                        Message = Message + " </br></br>- URL Referrer => " + UrlReferrer;
+                        MessageToLog = MessageToLog + " </br></br>- URL Referrer => " + UrlReferrer;
                     if (!String.IsNullOrEmpty(lineNumber))
-                        Message = Message + " </br></br>- Line Number => " + lineNumber;
+                        MessageToLog = MessageToLog + " </br></br>- Line Number => " + lineNumber;
                     if (!String.IsNullOrEmpty(col))
-                        Message = Message + " </br></br>- Col => " + col;
+                        MessageToLog = MessageToLog + " </br></br>- Col => " + col;
                     if (!String.IsNullOrEmpty(browser))
-                        Message = Message + " </br></br>- Browser => " + browser;
+                        MessageToLog = MessageToLog + " </br></br>- Browser => " + browser;
                     if (!String.IsNullOrEmpty(error))
-                        Message = Message + " </br></br>- Error => " + error;
-                    logger.Error(Message);
+                        MessageToLog = MessageToLog + " </br></br>- Error => " + error;
+                    logger.Error(MessageToLog);
                 }
 
             }

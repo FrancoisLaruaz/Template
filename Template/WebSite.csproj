@@ -238,6 +238,7 @@
     <Content Include="Content\General\jtsage-datebox.min.css" />
     <Content Include="Content\General\_Spinner.css" />
     <Content Include="Content\Views\Account\_PasswordPolicy.css" />
+    <Content Include="Content\Views\Shared\_Footer.css" />
     <Content Include="Content\Views\Home\_VideoHomePage.css" />
     <None Include="Content\Views\Shared\_LoginModal.less" />
     <Content Include="Content\Views\Shared\_Header.css" />
@@ -551,7 +552,6 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Shared\_Pager.cshtml" />
     <Content Include="Views\Shared\Layout\_MetaTags.cshtml" />
-    <Content Include="Views\Shared\Layout\_StyleSheets.cshtml" />
     <Content Include="Views\Shared\Layout\_Spinner.cshtml" />
     <Content Include="Views\Shared\Layout\_GoogleAnalytics.cshtml" />
     <Content Include="Views\Shared\Layout\_PartialBackToTop.cshtml" />
