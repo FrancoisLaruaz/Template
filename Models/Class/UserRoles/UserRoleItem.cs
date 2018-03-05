@@ -15,6 +15,7 @@ namespace Models.Class
         public string UserNameDecrypt { get; set; }
         public int UserId { get; set; }
         public string UseridentityId { get; set; }
+        public DateTime DateLastConnection { get; set; }
 
         public List<UserRoles> UserRolesList { get; set; }
 

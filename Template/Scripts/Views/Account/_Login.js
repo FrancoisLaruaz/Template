@@ -30,7 +30,7 @@ function handleLoginBegin() {
 }
 
 function LoginSuccess(Data) {
-
+    alert('login end');
     if (Data) {
         $('#ErrorLoginForm').html(Data.Error);
 
@@ -40,7 +40,8 @@ function LoginSuccess(Data) {
             }
             var language = Data.LangTag;
             var CentralGoToUrl = $('#CentralGoToUrl').val();
-
+            alert('CentralGoToUrl : ' + CentralGoToUrl);
+            alert('Data.URLRedirect : ' + Data.URLRedirect);
             var toGo = '';
             if (Data.URLRedirect != null && Data.URLRedirect != "") {
                 toGo = Data.URLRedirect;

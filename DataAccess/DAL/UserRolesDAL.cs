@@ -154,7 +154,7 @@ namespace DataAccess
                 List<Roles> AllRoles = GetRolesList();
 
                 db = new DBConnect();
-                string Query = "select u.username, u.firstname,u.lastname, ui.id as useridentityid, u.id ";
+                string Query = "select u.username, u.firstname,u.lastname, ui.id as useridentityid, u.id, ui.DateLastConnection  ";
                 Query = Query + "from user u ";
                 Query = Query + " inner join useridentity ui on ui.username=u.username ";
                 Query = Query + "where 1=1 ";
@@ -176,6 +176,7 @@ namespace DataAccess
                     UserRoleItem Item = new UserRoleItem();
 
                     Item.UserId = Convert.ToInt32(dr["id"]);
+                    Item.DateLastConnection = MySQLHelper.GetDateFromMySQL(dr["DateLastConnection"]).Value.ToLocalTime();
                     Item.UseridentityId = Convert.ToString(dr["useridentityid"]);
                     Item.UserNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["userName"]))?.ToLower().Trim();
                     Item.UserFirstNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["FirstName"]))?.ToLower().Trim();
@@ -207,7 +208,7 @@ namespace DataAccess
                 if (!String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
                 {
                     IEnumerable<UserRoleItem> resultIEnumerable = ListUserRoles as IEnumerable<UserRoleItem>;
-                    resultIEnumerable = resultIEnumerable.Where(a => (a.UserRolesList.ToList().Where(r => r.RoleName.ToLower().Contains(Pattern.ToLower())).Any()) || (a.UserFirstNameDecrypt != null && a.UserFirstNameDecrypt.Contains(Pattern)) || a.UserLastNameDecrypt.Contains(Pattern) || (a.UserNameDecrypt != null && a.UserNameDecrypt.Contains(Pattern)));
+                    resultIEnumerable = resultIEnumerable.Where(a => a.DateLastConnection.ToString("MMM dd, yyyy hh:mm tt").ToLower().Contains(Pattern) || (a.UserRolesList.ToList().Where(r => r.RoleName.ToLower().Contains(Pattern.ToLower())).Any()) || (a.UserFirstNameDecrypt != null && a.UserFirstNameDecrypt.Contains(Pattern)) || a.UserLastNameDecrypt.Contains(Pattern) || (a.UserNameDecrypt != null && a.UserNameDecrypt.Contains(Pattern)));
                     model.Count = resultIEnumerable.ToList().Count;
                     ListUserRoles = resultIEnumerable.Take(PageSize).Skip(StartAt).OrderByDescending(a => a.UserFirstNameDecrypt).OrderByDescending(a => a.UserLastNameDecrypt).ToList();
                 }

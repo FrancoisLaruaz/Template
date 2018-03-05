@@ -1,7 +1,7 @@
 .footerLink
 {
     color:white !important;
-    font-size:17px;
+    font-size:16px;
 }
 
 #MainFooter {
@@ -23,4 +23,11 @@
     font-size: 1.5em;
     margin-left:10px;
     margin-right:10px;
+    color:white !important;
+}
+
+
+.socialIconLink:hover {
+
+    color: black !important;
 }

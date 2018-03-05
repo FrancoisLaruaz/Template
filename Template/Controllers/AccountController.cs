@@ -246,9 +246,8 @@ namespace Website.Controllers
                             {
                                 UserIdentityService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
                                 _Language = userSession.LanguageTag;
+                                UserSession = userSession;
                             }
-
-
                             break;
                         case SignInStatus.LockedOut:
                             _Error = "[[[The user is currently locked out.]]]";
@@ -297,7 +296,7 @@ namespace Website.Controllers
                                                         UserIdentityService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
                                                         SocialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
                                                         _Language = userSession.LanguageTag;
-
+                                                        UserSession = userSession;
                                                     }
 
                                                     break;
@@ -692,13 +691,14 @@ namespace Website.Controllers
                     {
                         case SignInStatus.Success:
                             _Result = true;
-                            UserSession = UserService.GetUserSession(model.Email);
-                            if (UserSession != null)
+                             UserSession userSession = UserService.GetUserSession(model.Email);
+                            if (userSession != null)
                             {
-                                _UserFirstName = UserSession.FirstNameDecrypt;
-                                UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
-                                model.LanguageTag = UserSession.LanguageTag;
-                                _LangTag= UserSession.LanguageTag; ;
+                                _UserFirstName = userSession.FirstNameDecrypt;
+                                UserIdentityService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
+                                model.LanguageTag = userSession.LanguageTag;
+                                _LangTag= userSession.LanguageTag; ;
+                                UserSession = userSession;
                             }
                             break;
                         case SignInStatus.LockedOut:
@@ -982,10 +982,11 @@ namespace Website.Controllers
                         {
                             case SignInStatus.Success:
                                 _Result = true;
-                                UserSession = UserService.GetUserSession(user.UserName);
-                                if (UserSession != null)
+                                UserSession userSession = UserService.GetUserSession(user.UserName);
+                                if (userSession != null)
                                 {
                                     UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
+                                    UserSession = userSession;
                                 }
                                 break;
                             default:

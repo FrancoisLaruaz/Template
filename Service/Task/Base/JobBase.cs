@@ -35,6 +35,10 @@ namespace Service.TaskClasses
                 {
                     ScheduledTaskService.SetTaskAsExecuted(CallBackId);
                 }
+                else
+                {
+                    Logger.GenerateInfo("Task not active triggered :  "+ CallBackId);
+                }
             }
             catch (Exception e)
             {

@@ -140,7 +140,7 @@ namespace Website.Controllers
                   
                     if (!User.Identity.IsAuthenticated)
                         filterContext.Result = RedirectToAction("Login", "Account", new { returnUrl = Request.Url.AbsoluteUri.ToString() });
-                    else if(false && !User.IsInRole(CommonsConst.UserRoles.Admin))
+                    else if(!User.IsInRole(CommonsConst.UserRoles.Admin))
                         filterContext.Result = RedirectToAction("Index", "Home");
                     return;
                   

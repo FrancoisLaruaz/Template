@@ -73,6 +73,6 @@ function SetSignUpFormLinks() {
     $(".LoginNowLink").unbind("click");
     $(".LoginNowLink").on("click", function (e) {
         e.preventDefault();    
-        ShowLogInForm();
+        ShowLogInForm(true);
     });
 }
