@@ -11,10 +11,17 @@
     font-size: 1.85rem;
 }
 
-.marginLeftHeader 
-{
-    margin-left:60px;
 
+
+.marginLeftHeader {
+    margin-left: 0px;
+}
+
+@media (min-width: 992px) {
+
+    .marginLeftHeader {
+        margin-left: 60px;
+    }
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a::after {

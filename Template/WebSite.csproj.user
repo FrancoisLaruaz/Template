@@ -27,7 +27,7 @@
           <SQLDebugging>False</SQLDebugging>
           <ExternalProgram>
           </ExternalProgram>
-          <StartExternalURL>http://localhost:54808/Admin/Users</StartExternalURL>
+          <StartExternalURL>http://localhost:54808/MyProfile</StartExternalURL>
           <StartCmdLineArguments>
           </StartCmdLineArguments>
           <StartWorkingDirectory>

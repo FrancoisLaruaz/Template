@@ -1,0 +1,31 @@
+﻿@model Models.ViewModels.MyProfileViewModel
+
+    @Html.Partial("_PageTitle")
+
+
+
+    <div class="col-md-10 col-xs-12 col-md-offset-1 row" style="padding-top:20px;">
+        <div class="col-xs-12 col-md-3">
+            <ul>
+                <li class="navVerticalList">
+                    <a class="navVerticalItem" id="EditProfilLink">[[[Edit Profile]]]</a>
+                </li>
+                <li class="navVerticalList">
+                    <a class="navVerticalItem" id="PhotosLink">[[[Photos]]]</a>
+                </li>
+                <li class="navVerticalList">
+                    <a class="navVerticalItem" id="TrustAndVerificationLink">[[[Trust and Verification]]]</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xs-12 col-md-9">
+            2
+        </div>
+    </div>
+    @section scripts {
+        @Html.ScriptImportContent("~/Scripts/Views/Account/MyProfile.js")
+    }
+
+
+
+

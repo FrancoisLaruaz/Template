@@ -31,3 +31,34 @@
 
     color: black !important;
 }
+
+
+.linkFooter {
+    text-align:center;
+}
+
+@media (min-width: 992px) {
+
+    .linkFooter {
+        text-align: left;
+    }
+}
+
+.mainContainerFooter {
+    margin-top: 35px;
+    margin-bottom: 10px;
+}
+
+#divSocialLink {
+    text-align: center;
+    padding-bottom:10px;
+}
+
+@media (min-width: 992px) {
+
+    #divSocialLink {
+        text-align: left;
+        padding-bottom:0px;
+        padding-top:80px;
+    }
+}

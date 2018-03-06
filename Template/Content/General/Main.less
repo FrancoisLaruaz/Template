@@ -463,6 +463,17 @@ a {
 }
 
 .back-to-top {
+    display: none !important;
+}
+
+@media (min-width: 992px) {
+
+    .back-to-top {
+        display: inherit;
+    }
+}
+
+.back-to-top {
     z-index: 999;
     cursor: pointer;
     position: fixed;
@@ -905,6 +916,25 @@ a {
     opacity: 1;
 }
 
+.navVerticalItem[aria-selected="true"] {
+    text-decoration: none;
+    color: #484848;
+    font-weight: bold;
+}
 
 
+.navVerticalItem:hover, .navVerticalItem:focus {
+    text-decoration: none;
+    color: #bbb;
+}
 
+.navVerticalItem {
+    display: block;
+    padding: 6px 0;
+    font-size: 16px;
+    color: #767676;
+}
+
+.navVerticalList {
+    list-style: none;
+}

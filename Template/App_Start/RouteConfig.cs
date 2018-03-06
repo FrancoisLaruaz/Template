@@ -22,7 +22,6 @@ namespace Template
 
             #region Account
 
-
             routes.MapRoute(
                 "ChangePassword",
                 "ChangePassword",
@@ -66,6 +65,21 @@ namespace Template
                 new { controller = "Account", action = "Login" },
                 namespaces: new[] { "Website.Controllers" }
             );
+
+            routes.MapRoute(
+            "MyProfile",
+            "MyProfile",
+            new { controller = "Account", action = "MyProfile" },
+            namespaces: new[] { "Website.Controllers" }
+            );
+
+            routes.MapRoute(
+            "UserProfile",
+            "MyProfile/{id}",
+            new { controller = "Account", action = "MyProfile", id = UrlParameter.Optional },
+            namespaces: new[] { "Website.Controllers" }
+            );
+
             #endregion
 
             routes.MapRoute(

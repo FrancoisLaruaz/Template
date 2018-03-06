@@ -430,6 +430,7 @@
     <Content Include="Scripts\OtherFormats\jscam.swf" />
     <Content Include="Scripts\OtherFormats\jscam_canvas_only.swf" />
     <Content Include="Scripts\Views\Account\ChangePassword.js" />
+    <Content Include="Scripts\Views\Account\MyProfile.js" />
     <Content Include="Scripts\Views\Account\ResetPassword.js" />
     <Content Include="Scripts\Views\Account\ForgotPassword.js" />
     <Content Include="Scripts\Views\Account\_PasswordPolicy.js" />
@@ -529,6 +530,7 @@
     <Content Include="Views\Account\_ForgotPasswordForm.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Home\ContactUs.cshtml" />
+    <Content Include="Views\Account\MyProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

@@ -39,12 +39,12 @@
                         if (Request.IsAuthenticated)
                         {
                             <li class="dropdown marginLeftHeader">
-                                <a href="/User/Index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <a href="/MyProFile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                     <img src="@Model.PictureThumbnailSrc" id="UserPic" class="UserPic" />
                                 @Model.UserFirstName 
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/Account">[[[My Account]]]</a></li>
+                                    <li><a href="/MyProFile">[[[My Account]]]</a></li>
                                     @using (Ajax.BeginForm("LogOff", "Account", new { }, new AjaxOptions() { HttpMethod = "POST", OnBegin = "LogOffBegin", OnSuccess = "LogOffSuccess", OnFailure = "LogOffFailure" }, new { @id = "logoutForm", @class = "navbar-right" }))
                                     {
                                         @Html.AntiForgeryToken()

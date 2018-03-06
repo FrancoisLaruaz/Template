@@ -193,9 +193,33 @@ namespace Website.Controllers
         }
 
         #endregion
+        public ActionResult MyProfile(int? userId=null)
+        {
+            try
+            {
+                if(User.Identity.IsAuthenticated)
+                {
+                    ViewBag.Title = "[[[My Profile]]]";
+                    MyProfileViewModel model = new MyProfileViewModel();
+                    int UserIdToCheck = UserSession.UserId;
+                    if(userId != null && User.IsInRole(CommonsConst.UserRoles.Admin))
+                    {
+                        UserIdToCheck = userId.Value;
+                    }
+                    model.UserId = UserIdToCheck;
+                    return View(model);
+                }
+            }
+            catch(Exception e)
+            {
+                Logger.GenerateError(e,  System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + userId);
+            }
+            return RedirectToAction("Login", "Account", new { returnUrl = Request.Url.AbsoluteUri.ToString() });
+        }
+
         public ActionResult Index()
         {
-            return RedirectToAction("Login");
+            return RedirectToAction("MyProfile");
         }
 
         #region ExternalLogin
