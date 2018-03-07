@@ -24,7 +24,7 @@
                 var actionUrl = Url.Action(
                     actionName: "SetLanguage",
                     controllerName: "Home",
-                    routeValues: new { langtag = @langtag, returnUrl = Request.Url });
+                    routeValues: new { langtag = @langtag, returnUrl = Request.Url, @area="" });
 
                 <option style="text-align:center" value="@actionUrl" @selected>@nativelangname</option>
             }

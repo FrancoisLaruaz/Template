@@ -9,6 +9,13 @@ namespace Template
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+            "ContentHash",
+            "c/{hash}",
+            new { controller = "ContentFile", action = "Get", area="" },
+            new { hash = @"^[0-9a-zA-Z]+$" } // constraint
+            );
+
             #region Home
 
             routes.MapRoute(

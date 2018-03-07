@@ -65,7 +65,7 @@ namespace Website.Controllers
                     }
                 }
 
-                return urlHelper.Action("Get", "ContentFile", new { hash });
+                return urlHelper.Action("Get", "ContentFile", new { hash=hash, area="" });
             }
             catch (Exception e)
             {

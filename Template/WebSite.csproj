@@ -180,6 +180,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Ressources\Upload\" />
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +189,8 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ContentFileController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -212,6 +216,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Content\News\Edit.css" />
+    <Content Include="Areas\Admin\Scripts\Views\Users\Index.js" />
     <Content Include="Content\General\fakeSocialMediaStyle.css" />
     <Content Include="Content\General\webcam.css" />
     <Content Include="Content\General\mainscss.min.css" />
@@ -240,6 +246,10 @@
     <Content Include="Content\Views\Account\_PasswordPolicy.css" />
     <Content Include="Content\Views\Shared\_Footer.css" />
     <Content Include="Content\Views\Home\_VideoHomePage.css" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Users\_DisplayUsersModifications.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\_DisplayUsers.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
     <None Include="Content\Views\Shared\_LoginModal.less" />
     <Content Include="Content\Views\Shared\_Header.css" />
     <Content Include="Content\Views\Shared\_PageTitle.css" />

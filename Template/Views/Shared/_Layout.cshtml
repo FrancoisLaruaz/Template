@@ -24,7 +24,7 @@
 
     <div id="divHeader">
 
-        @Html.Action("_Header", "Home")
+        @Html.Action("_Header", "Home",new { @area="" })
         @if (ViewBag.ShowVideo != null && ViewBag.ShowVideo)
         {
             <div id="VideoHomePageDiv">
