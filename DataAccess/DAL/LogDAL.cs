@@ -63,6 +63,10 @@ namespace DataAccess
             DBConnect db = null;
             try
             {
+                if (String.IsNullOrWhiteSpace(Pattern))
+                    Pattern = "";
+                Pattern = Pattern.Trim().ToLower();
+
                 model.Pattern = Pattern;
                 model.StartAt = StartAt;
                 model.PageSize = PageSize;
@@ -97,7 +101,7 @@ namespace DataAccess
                 if (!String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
                 {
                     IEnumerable<Log4Net> resultIEnumerable = LogList as IEnumerable<Log4Net>;
-                    resultIEnumerable = resultIEnumerable.Where(a => (a.UserName != null && a.UserName.Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.Level.Contains(Pattern) || (a.Exception != null && a.Exception.Contains(Pattern)) || (a.Logger != null && a.Logger.Contains(Pattern)) || (a.Message != null && a.Message.Contains(Pattern) || (a.Thread != null && a.Message.Contains(Pattern))));
+                    resultIEnumerable = resultIEnumerable.Where(a => (a.UserName != null && a.UserName.ToLower().Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.Level.ToLower().Contains(Pattern) || (a.Exception != null && a.Exception.ToLower().Contains(Pattern)) || (a.Logger != null && a.Logger.ToLower().Contains(Pattern)) || (a.Message != null && a.Message.ToLower().Contains(Pattern) || (a.Thread != null && a.Message.Contains(Pattern))));
                     model.Count = resultIEnumerable.ToList().Count;
                     LogList = resultIEnumerable.Take(PageSize).Skip(StartAt).OrderByDescending(a => a.Id).ToList();
                 }

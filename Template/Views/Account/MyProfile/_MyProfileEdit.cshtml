@@ -1,0 +1,33 @@
+﻿@model Models.ViewModels.MyProfileEditViewModel
+
+
+
+<div class="row divMyProfile" >
+    <div class="MyProfilePanel col-xs-12 col-md-12">
+        <div class="MyProfilePanel-header noMarginHorizontal col-xs-12 col-md-12">
+            [[[Edit Profile]]]
+        </div>
+        <div class="col-xs-12 col-md-12 MyProfilePanel-Body">
+            @using (Ajax.BeginForm("_MyProfileEdit", "Account", new { }, new AjaxOptions() { HttpMethod = "POST", OnBegin = "handleMyProfileEditBegin", OnSuccess = "MyProfileEditSuccess", OnFailure = "MyProfileEditFailure" }, new { @id = "MyProfileEditModalForm" }))
+            {
+                @Html.AntiForgeryToken()
+
+
+
+
+
+
+                <div class="col-md-10 col-xs-12 col-md-offset-1">
+                    <div class="col-md-6 col-xs-12 col-md-offset-3">
+                        <input type="submit" value="[[[save]]]" class="btn website-btn" />
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@Html.ScriptImportContent("~/Scripts/Views/Account/MyProfile/_MyProfileEdit.js")
+

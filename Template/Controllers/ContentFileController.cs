@@ -51,7 +51,21 @@ namespace Website.Controllers
                             contentHash = hashAlgorithm.ComputeHash(fileStream);
                         urlHash = hashAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(contentPath));
                     }
-                    hash = contentUrl.Replace("~", "").Replace("/", "_").Replace("\\", "_").Replace("?", "_");
+                    hash = contentUrl.Replace("~", "").Replace("~/", "").Replace("/", "_").Replace("\\", "_").Split('?')[0];
+
+                    string FileVersion = CommonsConst.StaticFileVersion.StaticFileVersionString;
+                    if (Utils.IsLocalhost())
+                    {
+                        FileVersion = DateTime.UtcNow.ToString("yyyyMMddhhmmssffftt");
+                    }
+                    if (hash.Split('.').Length > 1)
+                    {
+                        hash = hash.Split('.')[0] + "_" + FileVersion + "." + hash.Split('.')[1];
+                    }
+                    else
+                    {
+                        hash = hash + "_" + FileVersion;
+                    }
 
                     _lock.EnterWriteLock();
                     try

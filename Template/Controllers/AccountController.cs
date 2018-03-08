@@ -193,6 +193,88 @@ namespace Website.Controllers
         }
 
         #endregion
+
+        #region My Profile
+
+
+        public ActionResult _MyProfileTrustAndVerifications(int userId)
+        {
+            _MyProfileTrustAndVerificationsViewModel model = new _MyProfileTrustAndVerificationsViewModel();
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    int UserIdToCheck = UserSession.UserId;
+                    if (userId > 0 && User.IsInRole(CommonsConst.UserRoles.Admin))
+                    {
+                        UserIdToCheck = userId;
+                    }
+                }
+                else
+                {
+                    return Content("NotLoggedIn");
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + userId);
+                return Content("ERROR");
+            }
+            return PartialView("~/Views/Account/MyProfile/_MyProfileTrustAndVerifications.cshtml", model);
+        }
+
+        public ActionResult _MyProfilePhotos(int userId)
+        {
+            MyProfilePhotosViewModel model = new MyProfilePhotosViewModel();
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    int UserIdToCheck = UserSession.UserId;
+                    if (userId > 0 && User.IsInRole(CommonsConst.UserRoles.Admin))
+                    {
+                        UserIdToCheck = userId;
+                    }
+                }
+                else
+                {
+                    return Content("NotLoggedIn");
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + userId);
+                return Content("ERROR");
+            }
+            return PartialView("~/Views/Account/MyProfile/_MyProfilePhotos.cshtml", model);
+        }
+
+        public ActionResult _MyProfileEdit(int userId)
+        {
+            MyProfileEditViewModel model = new MyProfileEditViewModel();
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    int UserIdToCheck = UserSession.UserId;
+                    if (userId > 0 && User.IsInRole(CommonsConst.UserRoles.Admin))
+                    {
+                        UserIdToCheck = userId;
+                    }
+                }
+                else
+                {
+                    return Content("NotLoggedIn");
+                }
+            }
+            catch(Exception e)
+            {
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + userId);
+                return Content("ERROR");
+            }
+            return PartialView("~/Views/Account/MyProfile/_MyProfileEdit.cshtml", model);
+        }
+
         public ActionResult MyProfile(int? userId=null)
         {
             try
@@ -221,7 +303,7 @@ namespace Website.Controllers
         {
             return RedirectToAction("MyProfile");
         }
-
+        #endregion
         #region ExternalLogin
 
         [HttpPost]
@@ -537,7 +619,7 @@ namespace Website.Controllers
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
 
-            return PartialView(model);
+            return PartialView("~/Views/Account/SignUp/_SignUpForm.cshtml", model);
         }
 
 

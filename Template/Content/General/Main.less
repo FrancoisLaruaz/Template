@@ -427,6 +427,12 @@ a {
     padding-right: 0px !important;
 }
 
+.noMarginHorizontal {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+
+
 .pageTitle {
     color: black;
     font-size: 43px
@@ -923,18 +929,26 @@ a {
 }
 
 
-.navVerticalItem:hover, .navVerticalItem:focus {
+.navVerticalItem:hover:not(.navActive), .navVerticalItem:focus:not(.navActive) {
     text-decoration: none;
     color: #bbb;
 }
 
 .navVerticalItem {
     display: block;
-    padding: 6px 0;
-    font-size: 16px;
+    padding: 8px 0;
+    font-size: 17px;
     color: #767676;
+    text-decoration: none;
 }
 
 .navVerticalList {
     list-style: none;
+}
+
+.navActive, .navActive:hover, navActive:focus {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    cursor:default;
 }

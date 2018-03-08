@@ -145,7 +145,7 @@ namespace CommonsConst
 
     public static class StaticFileVersion
     {
-        public const string StaticFileVersionString = "20171206";
+        public const string StaticFileVersionString = "20180206";
     }
 
 }

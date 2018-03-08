@@ -1,0 +1,36 @@
+.iconListNav
+{
+    margin-right:8px;
+}
+
+
+.divMyProfile {
+    margin: 0;
+    padding: 0;
+    display: inline;
+}
+
+.MyProfilePanel-header {
+    color: #484848;
+    font-size: 18px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 40px;
+    border-bottom: 1px solid #dce0e0;
+    font-weight: bold;
+    background-color: #DEE3DE;
+}
+
+.MyProfilePanel-Body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.MyProfilePanel {
+    border-radius: 0;
+    border: 1px solid #dce0e0;
+    padding-left: 0px;
+    padding-right: 0px;
+}

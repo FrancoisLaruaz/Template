@@ -107,7 +107,7 @@ namespace Website.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home",new { area=""});
             }
         }
 
@@ -135,13 +135,13 @@ namespace Website.Controllers
             {
                 base.OnActionExecuting(filterContext);
                 String ControllerName = filterContext.Controller.ToString();
-                if (ControllerName== "Website.Controllers.AdminController" && filterContext.ActionDescriptor != null && filterContext.ActionDescriptor.ActionName != "Logs" && filterContext.ActionDescriptor.ActionName != "_DisplayLogs")
+                if (ControllerName.Contains("Website.Areas.Admin.Controllers") && filterContext.ActionDescriptor != null && filterContext.ActionDescriptor.ActionName != "Logs" && filterContext.ActionDescriptor.ActionName != "_DisplayLogs")
                 {
                   
                     if (!User.Identity.IsAuthenticated)
-                        filterContext.Result = RedirectToAction("Login", "Account", new { returnUrl = Request.Url.AbsoluteUri.ToString() });
+                        filterContext.Result = RedirectToAction("Login", "Account", new { returnUrl = Request.Url.AbsoluteUri.ToString(), area = "" });
                     else if(!User.IsInRole(CommonsConst.UserRoles.Admin))
-                        filterContext.Result = RedirectToAction("Index", "Home");
+                        filterContext.Result = RedirectToAction("Index", "Home", new {  area = "" });
                     return;
                   
                 }
