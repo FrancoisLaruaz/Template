@@ -2,6 +2,7 @@
 using DataAccess;
 using Models.BDDObject;
 using Models.Class;
+using Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,6 +105,11 @@ namespace Service
             return result;
         }
 
+        /// <summary>
+        /// Get a user b y his username
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <returns></returns>
         public static User GetUserByUserName(string UserName)
         {
             User result = null;
@@ -121,6 +127,37 @@ namespace Service
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + UserName);
             }
             return result;
+        }
+
+
+        public static MyProfileEditViewModel GetMyProfileEditViewModel(int UserId)
+        { 
+            MyProfileEditViewModel model = new MyProfileEditViewModel();
+            try
+            {
+                User user = GetUserById(UserId);
+                if (user != null )
+                {
+                    model.UserId = user.Id;
+                    model.UserName = user.UserNameDecrypt;
+                    model.FirstName = user.FirstNameDecrypt;
+                    model.LastName = user.LastNameDecrypt;
+                    model.ReceiveNews = user.ReceiveNews;
+                    model.LanguageId = user.LanguageId;
+                    model.Description = user.Description;
+                    model.DateOfBirth = user.DateOfBirth;
+                    model.CountryId = user.CountryId;
+                    model.ProvinceId = user.ProvinceId;
+                    model.Adress1 = user.Adress1;
+                    model.Adress2 = user.Adress2;
+                    model.Adress3 = user.Adress3;
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
+            }
+            return model;
         }
 
         /// <summary>

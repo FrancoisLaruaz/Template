@@ -8,10 +8,11 @@ using Models.BDDObject;
 
 namespace Models.ViewModels
 {
-    public class _MyProfileTrustAndVerificationsViewModel
+    public class MyProfileTrustAndVerificationsViewModel
     {
+        public int UserId { get; set; }
 
-        public _MyProfileTrustAndVerificationsViewModel()
+        public MyProfileTrustAndVerificationsViewModel()
         {
             
         }

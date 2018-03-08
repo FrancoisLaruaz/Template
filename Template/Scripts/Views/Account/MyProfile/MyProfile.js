@@ -3,7 +3,6 @@ var actionActive = '';
 $(document).ready(function () {
 
     SetNavActions();
-    HideSpinner();
 });
 
 

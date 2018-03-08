@@ -196,10 +196,48 @@ namespace Website.Controllers
 
         #region My Profile
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult _MyProfileTrustAndVerifications(MyProfileTrustAndVerificationsViewModel model)
+        {
+            bool _Result = false;
+            string _Error = "";
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        if (model.UserId > 0 && (UserSession.UserId == model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
+                        {
+
+                        }
+                        else
+                        {
+                            _Error = "[[[You don't have the rights to edit this user.]]]";
+                        }
+                    }
+                    else
+                    {
+                        _Error = "[[[Please log in to perform the action.]]]";
+                    }
+                }
+                else
+                {
+                    _Error = "[[[An error occured while saving yhe profile. Please try again .]]]";
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + model.UserId);
+            }
+            return Json(new { Result = _Result, Error = _Error });
+        }
 
         public ActionResult _MyProfileTrustAndVerifications(int userId)
         {
-            _MyProfileTrustAndVerificationsViewModel model = new _MyProfileTrustAndVerificationsViewModel();
+            MyProfileTrustAndVerificationsViewModel model = new MyProfileTrustAndVerificationsViewModel();
             try
             {
                 if (User.Identity.IsAuthenticated)
@@ -221,6 +259,45 @@ namespace Website.Controllers
                 return Content("ERROR");
             }
             return PartialView("~/Views/Account/MyProfile/_MyProfileTrustAndVerifications.cshtml", model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult _MyProfilePhotos(MyProfilePhotosViewModel model)
+        {
+            bool _Result = false;
+            string _Error = "";
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        if (model.UserId > 0 && (UserSession.UserId == model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
+                        {
+
+                        }
+                        else
+                        {
+                            _Error = "[[[You don't have the rights to edit this user.]]]";
+                        }
+                    }
+                    else
+                    {
+                        _Error = "[[[Please log in to perform the action.]]]";
+                    }
+                }
+                else
+                {
+                    _Error = "[[[An error occured while saving yhe profile. Please try again .]]]";
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + model.UserId);
+            }
+            return Json(new { Result = _Result, Error = _Error });
         }
 
         public ActionResult _MyProfilePhotos(int userId)
@@ -249,6 +326,45 @@ namespace Website.Controllers
             return PartialView("~/Views/Account/MyProfile/_MyProfilePhotos.cshtml", model);
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult _MyProfileEdit(MyProfileEditViewModel model)
+        {
+            bool _Result = false;
+            string _Error = "";
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        if (model.UserId > 0 && (UserSession.UserId==model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
+                        {
+                            _Result = true;
+                        }
+                        else
+                        {
+                            _Error = "[[[You don't have the rights to edit this user.]]]";
+                        }
+                    }
+                    else
+                    {
+                        _Error = "[[[Please log in to perform the action.]]]";
+                    }
+                }
+                else
+                {
+                    _Error = "[[[An error occured while saving yhe profile. Please try again .]]]";
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + model.UserId);
+            }
+            return Json(new { Result = _Result, Error = _Error });
+        }
+
         public ActionResult _MyProfileEdit(int userId)
         {
             MyProfileEditViewModel model = new MyProfileEditViewModel();
@@ -261,6 +377,7 @@ namespace Website.Controllers
                     {
                         UserIdToCheck = userId;
                     }
+                    model = UserService.GetMyProfileEditViewModel(userId);
                 }
                 else
                 {
@@ -304,6 +421,7 @@ namespace Website.Controllers
             return RedirectToAction("MyProfile");
         }
         #endregion
+
         #region ExternalLogin
 
         [HttpPost]

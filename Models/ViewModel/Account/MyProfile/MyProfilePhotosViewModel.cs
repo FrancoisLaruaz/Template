@@ -10,7 +10,7 @@ namespace Models.ViewModels
 {
     public class MyProfilePhotosViewModel
     {
-
+        public int UserId { get; set; }
 
         public MyProfilePhotosViewModel()
         {
