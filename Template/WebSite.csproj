@@ -548,6 +548,7 @@
     <Content Include="Views\Account\MyProfile\_MyProfileEdit.cshtml" />
     <Content Include="Views\Account\MyProfile\_MyProfilePhotos.cshtml" />
     <Content Include="Views\Account\MyProfile\_MyProfileTrustAndVerifications.cshtml" />
+    <Content Include="Views\Shared\Layout\_TawkTo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">
