@@ -130,6 +130,36 @@ namespace Service
         }
 
 
+
+        public static bool SaveMyProfileEdit(MyProfileEditViewModel model)
+        {
+            bool result = false;
+            try
+            {
+                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                Columns.Add("FirstName", EncryptHelper.EncryptToString(model.FirstName));
+                Columns.Add("LastName", EncryptHelper.EncryptToString(model.LastName));
+                Columns.Add("DateOfBirth", model.DateOfBirth);
+                Columns.Add("Description", model.Description);
+                Columns.Add("GenderId", model.GenderId);
+                Columns.Add("Adress1", model.Adress1);
+                Columns.Add("Adress2", model.Adress2);
+                Columns.Add("Adress3", model.Adress3);
+                Columns.Add("CountryId", model.CountryId);
+                Columns.Add("ProvinceId", model.ProvinceId);
+                Columns.Add("ReceiveNews", model.ReceiveNews);
+                Columns.Add("LanguageId", model.LanguageId);
+
+                result = GenericDAL.UpdateById("user", model.UserId, Columns);
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "model.UserId = " + model.UserId);
+            }
+            return result;
+        }
+
         public static MyProfileEditViewModel GetMyProfileEditViewModel(int UserId)
         { 
             MyProfileEditViewModel model = new MyProfileEditViewModel();

@@ -341,7 +341,7 @@ namespace Website.Controllers
                     {
                         if (model.UserId > 0 && (UserSession.UserId==model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
                         {
-                            _Result = true;
+                            _Result = UserService.SaveMyProfileEdit(model);
                         }
                         else
                         {
