@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Models.BDDObject;
+using Models.Class;
 
 namespace Models.ViewModels
 {
@@ -54,9 +55,16 @@ namespace Models.ViewModels
         [Display(Name = "[[[Province]]]")]
         public int? ProvinceId { get; set; }
 
+        public List<SelectionListItem> GenderList { get; set; }
+        public List<SelectionListItem> CountryList { get; set; }
+        public List<SelectionListItem> ProvinceList { get; set; }
+
+
         public MyProfileEditViewModel()
         {
-            
+            GenderList = new List<SelectionListItem>();
+            CountryList= new List<SelectionListItem>();
+            ProvinceList = new List<SelectionListItem>();
         }
     }
 }

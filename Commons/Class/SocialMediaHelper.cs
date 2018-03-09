@@ -149,18 +149,18 @@ namespace Commons
                             var BirthDay = Utils.DoesPropertyExist(jsondata, "birthday") ? jsondata["birthday"].ToString() : null;
                             Result.ProviderKey = Result.FacebookId != null ? Result.FacebookId.ToString() : null;
 
-
-                            if(Utils.DoesPropertyExist(jsondata, "gender"))
+                            Result.GenderId = null;
+                            if (Utils.DoesPropertyExist(jsondata, "gender"))
                             {
                                 string Gender = jsondata["gender"].ToString();
 
                                 if(Gender.ToLower()=="male")
                                 {
-                                    Result.IsMasculine = true;
+                                    Result.GenderId = CommonsConst.Genders.Male; 
                                 }
                                 else if (Gender.ToLower() == "female")
                                 {
-                                    Result.IsMasculine = false;
+                                    Result.GenderId = CommonsConst.Genders.Female;
                                 }
                             }
 

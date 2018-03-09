@@ -75,5 +75,6 @@ D:\DEV\Template\Models\bin\Debug\System.Web.Razor.xml
 D:\DEV\Template\Models\bin\Debug\System.Web.WebPages.xml
 D:\DEV\Template\Models\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\DEV\Template\Models\bin\Debug\System.Web.WebPages.Razor.xml
+D:\DEV\Template\Models\obj\Debug\Models.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Models\obj\Debug\Models.dll
 D:\DEV\Template\Models\obj\Debug\Models.pdb

@@ -71,6 +71,7 @@ namespace CommonsConst
         public const int TaskLogType = 4;
         public const int NewsType = 5;
         public const int TypeUserMailing = 6;
+        public const int Gender = 7;
     }
 
     public static class LoginProviders
@@ -133,6 +134,14 @@ namespace CommonsConst
     {
         public const int AllUsers = 6001;
         public const int ConfirmedUsers = 6002;
+    }
+
+
+    public static class Genders
+    {
+        public const int Female = 7001;
+        public const int Male = 7002;
+        public const int DoNotWantToAnswer = 7003;
     }
 
     public static class NewsType

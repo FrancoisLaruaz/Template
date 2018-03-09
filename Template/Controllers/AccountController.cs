@@ -647,7 +647,7 @@ namespace Website.Controllers
                                 ExternalSignUpInformation.ImageSrc = FileHelper.SaveAndEncryptFileFromWeb(ExternalSignUpInformation.ImageSrc, "user", ".jpg");
                                 _ImageSrc = ExternalSignUpInformation.ImageSrc;
                             }
-                            var user = new ApplicationUser { UserName = EncryptedUserName, Email = EncryptedUserName, FirstName = ExternalSignUpInformation.FirstName, LastName = ExternalSignUpInformation.LastName, LanguageId = CurrentLanguageId, IsMasculine = ExternalSignUpInformation.IsMasculine, ReceiveNews = false, PictureSrc = _ImageSrc };
+                            var user = new ApplicationUser { UserName = EncryptedUserName, Email = EncryptedUserName, FirstName = ExternalSignUpInformation.FirstName, LastName = ExternalSignUpInformation.LastName, LanguageId = CurrentLanguageId, GenderId = ExternalSignUpInformation.GenderId, ReceiveNews = false, PictureSrc = _ImageSrc };
 
                             var result = await UserManager.CreateAsync(user);
                             if (result != null && result.Succeeded)

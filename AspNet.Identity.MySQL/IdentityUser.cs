@@ -51,7 +51,7 @@ namespace AspNet.Identity.MySQL
 
         public int LanguageId { get; set; }
 
-        public bool? IsMasculine { get; set; }
+        public int? GenderId { get; set; }
 
         public bool ReceiveNews { get; set; }
 

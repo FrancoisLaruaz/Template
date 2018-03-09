@@ -502,3 +502,21 @@ INSERT INTO `emailtypelanguage` VALUES (9,1005,3001,'','contact_en'),
 
 alter table emailaudit
 add Comment varchar(2000)
+
+
+alter table user
+drop column IsMasculine
+
+alter table User
+add GenderId int  null;
+
+alter table User
+add foreign key FK_user_gender  (`GenderId`) REFERENCES `category` (`Id`);
+
+INSERT INTO `categorytype` VALUES (7,'Gender');
+
+INSERT INTO `category` VALUES (7001,'Female','F',7001,1,7,now(),NULL,NULL);
+INSERT INTO `category` VALUES (7002,'Male','M',7002,1,7,now(),NULL,NULL);
+INSERT INTO `category` VALUES (7003,'Do not want to answer','N/A',7003,1,7,now(),NULL,NULL);
+
+

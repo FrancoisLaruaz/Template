@@ -30,7 +30,7 @@ namespace Models.Class.ExternalAuthentification
 
         public List<string> FriendsList { get; set; }
 
-        public bool? IsMasculine { get; set; }
+        public int? GenderId { get; set; }
 
 
 

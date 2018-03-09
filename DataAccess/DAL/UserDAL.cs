@@ -156,7 +156,7 @@ namespace DataAccess
             {
                 db = new DBConnect();
                 string Query = "select U.Id, U.PictureSrc, U.FirstName, U.LastName ,U.DateOfBirth, U.DateCreation, U.DateModification, UI.DateLastConnection, U.PictureThumbnailSrc ";
-                Query = Query + ", U.ReceiveNews,U.IsMasculine,U.Adress1,U.Adress2,U.Adress3,U.Description, UI.PasswordHash, UI.Email, U.CountryId ";
+                Query = Query + ", U.ReceiveNews,U.GenderId,U.Adress1,U.Adress2,U.Adress3,U.Description, UI.PasswordHash, UI.Email, U.CountryId ";
                 Query = Query + ", C.Name as CountryName, UI.EmailConfirmationToken ";
                 Query = Query + ", UI.UserName, UI.Id as UserIdentityId, UI.ResetPasswordToken,UI.EmailConfirmed,UI.AccessFailedCount,UI.LockoutEnabled,UI.LockoutEndDateUtc ";
                 Query = Query + ",P.Id as ProvinceId, P.Name as ProvinceName ";
@@ -215,7 +215,7 @@ namespace DataAccess
                     User.LanguageId = MySQLHelper.GetIntFromMySQL(dr["LanguageId"]).Value;
                     User.LanguageCode = MySQLHelper.GetStringFromMySQL(dr["LanguageCode"]);
                     User.LanguageName = MySQLHelper.GetStringFromMySQL(dr["LanguageName"]);
-                    User.IsMasculine = MySQLHelper.GetBoolFromMySQL(dr["IsMasculine"]);
+                    User.GenderId = MySQLHelper.GetIntFromMySQL(dr["GenderId"]);
                     User.ReceiveNews = MySQLHelper.GetBoolFromMySQL(dr["ReceiveNews"]).Value;
                     User.FirstNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["FirstName"]));
                     User.LastNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["LastName"]));
