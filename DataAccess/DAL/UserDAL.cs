@@ -53,6 +53,38 @@ namespace DataAccess
             return result;
         }
 
+
+        /// <summary>
+        /// Indicates if a user exist
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public static bool DoesUserExist(int UserId)
+        {
+            bool result = false;
+            DBConnect db = null;
+            try
+            {
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                db = new DBConnect();
+                string Query = "select count(*) ";
+                Query = Query + "from User where id=@UserId ";
+                parameters.Add("@UserId", @UserId);
+                result = GenericDAL.GetSingleNumericData(Query, parameters).Value > 0 ? true : false;
+
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return result;
+        }
+
         /// <summary>
         /// Check if the user is registered
         /// </summary>

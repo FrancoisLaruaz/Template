@@ -44,7 +44,7 @@
                                 @Model.UserFirstName 
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/MyProFile">[[[My Profile]]]</a></li>
+                                    <li><a href="/MyProfile">[[[My Profile]]]</a></li>
                                     @using (Ajax.BeginForm("LogOff", "Account", new { }, new AjaxOptions() { HttpMethod = "POST", OnBegin = "LogOffBegin", OnSuccess = "LogOffSuccess", OnFailure = "LogOffFailure" }, new { @id = "logoutForm", @class = "navbar-right" }))
                                     {
                                         @Html.AntiForgeryToken()

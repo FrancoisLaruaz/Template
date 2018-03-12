@@ -501,11 +501,11 @@ INSERT INTO `emailtypelanguage` VALUES (9,1005,3001,'','contact_en'),
 (10,1005,3002,'','contact_fr');
 
 alter table emailaudit
-add Comment varchar(2000)
+add Comment varchar(2000);
 
 
 alter table user
-drop column IsMasculine
+drop column IsMasculine;
 
 alter table User
 add GenderId int  null;

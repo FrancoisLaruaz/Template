@@ -40,31 +40,14 @@ namespace Models.ViewModels
         [Display(Name = "[[[Date Of Birth]]]")]
         public DateTime? DateOfBirth { get; set; }
 
-        [Display(Name = "[[[Address]]]")]
-        public string Adress1 { get; set; }
-
-        [Display(Name = "[[[Address]]]")]
-        public string Adress2 { get; set; }
-
-        [Display(Name = "[[[Address]]]")]
-        public string Adress3 { get; set; }
-
-        [Display(Name = "[[[Country]]]")]
-        public int? CountryId { get; set; }
-
-        [Display(Name = "[[[Province]]]")]
-        public int? ProvinceId { get; set; }
 
         public List<SelectionListItem> GenderList { get; set; }
-        public List<SelectionListItem> CountryList { get; set; }
-        public List<SelectionListItem> ProvinceList { get; set; }
-
+        public List<SelectionListItem> LanguageList { get; set; }
 
         public MyProfileEditViewModel()
         {
             GenderList = new List<SelectionListItem>();
-            CountryList= new List<SelectionListItem>();
-            ProvinceList = new List<SelectionListItem>();
+            LanguageList = new List<SelectionListItem>();
         }
     }
 }

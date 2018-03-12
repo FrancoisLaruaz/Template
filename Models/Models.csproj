@@ -92,6 +92,7 @@
     <Compile Include="Class\SelectionListItem.cs" />
     <Compile Include="BDDObject\Extensions\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Account\MyProfile\MyProfileAddressViewModel.cs" />
     <Compile Include="ViewModel\Account\MyProfile\MyProfileEditViewModel.cs" />
     <Compile Include="ViewModel\Account\MyProfile\MyProfilePhotosViewModel.cs" />
     <Compile Include="ViewModel\Account\MyProfile\MyProfileTrustAndVerificationsViewModel.cs" />

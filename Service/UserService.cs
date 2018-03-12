@@ -35,7 +35,26 @@ namespace Service
             return result;
         }
 
+        /// <summary>
+        /// Indicate if the user exist or not
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public static bool DoesUserExist(int UserId)
+        {
+            bool result = false;
+            try
+            {
+                result = UserDAL.DoesUserExist(UserId);
 
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
+            }
+            return result;
+        }
 
 
 
@@ -130,6 +149,53 @@ namespace Service
         }
 
 
+        public static MyProfileAddressViewModel GetMyProfileAddressViewModel(int UserId)
+        {
+            MyProfileAddressViewModel model = new MyProfileAddressViewModel();
+            try
+            {
+                User user = GetUserById(UserId);
+                if (user != null)
+                {
+                    model.UserId = user.Id;
+                    model.CountryId = user.CountryId;
+                    model.ProvinceId = user.ProvinceId;
+                    model.Adress1 = user.Adress1;
+                    model.Adress2 = user.Adress2;
+                    model.Adress3 = user.Adress3;
+                }
+                model.ProvinceList = ProvinceService.GetProvinceList(model.CountryId);
+                model.CountryList = CountryService.GetCountryList();
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
+            }
+            return model;
+        }
+
+        public static bool SaveMyProfileAddress(MyProfileAddressViewModel model)
+        {
+            bool result = false;
+            try
+            {
+                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                Columns.Add("Adress1", model.Adress1);
+                Columns.Add("Adress2", model.Adress2);
+                Columns.Add("Adress3", model.Adress3);
+                Columns.Add("CountryId", model.CountryId);
+                Columns.Add("ProvinceId", model.ProvinceId);
+
+                result = GenericDAL.UpdateById("user", model.UserId, Columns);
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "model.UserId = " + model.UserId);
+            }
+            return result;
+        }
+
 
         public static bool SaveMyProfileEdit(MyProfileEditViewModel model)
         {
@@ -142,11 +208,6 @@ namespace Service
                 Columns.Add("DateOfBirth", model.DateOfBirth);
                 Columns.Add("Description", model.Description);
                 Columns.Add("GenderId", model.GenderId);
-                Columns.Add("Adress1", model.Adress1);
-                Columns.Add("Adress2", model.Adress2);
-                Columns.Add("Adress3", model.Adress3);
-                Columns.Add("CountryId", model.CountryId);
-                Columns.Add("ProvinceId", model.ProvinceId);
                 Columns.Add("ReceiveNews", model.ReceiveNews);
                 Columns.Add("LanguageId", model.LanguageId);
 
@@ -159,6 +220,7 @@ namespace Service
             }
             return result;
         }
+
 
         public static MyProfileEditViewModel GetMyProfileEditViewModel(int UserId)
         { 
@@ -176,12 +238,10 @@ namespace Service
                     model.LanguageId = user.LanguageId;
                     model.Description = user.Description;
                     model.DateOfBirth = user.DateOfBirth;
-                    model.CountryId = user.CountryId;
-                    model.ProvinceId = user.ProvinceId;
-                    model.Adress1 = user.Adress1;
-                    model.Adress2 = user.Adress2;
-                    model.Adress3 = user.Adress3;
+                    model.GenderId = user.GenderId;
                 }
+                model.LanguageList = CategoryService.GetSelectionList(CommonsConst.CategoryTypes.Language);
+                model.GenderList = CategoryService.GetSelectionList(CommonsConst.CategoryTypes.Gender);
             }
             catch (Exception e)
             {

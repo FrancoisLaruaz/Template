@@ -226,7 +226,7 @@
     height: 0;
     border-left: 35px solid transparent;
     border-right: 35px solid transparent;
-    border-top: 30px solid #f3f3f3;
+    border-top: 30px solid @bodyColor;
     left: 50%;
     margin-left: -35px;
     margin-top: -11px;
@@ -548,6 +548,12 @@ a {
 .websiteFormGroupLong {
     min-height: 111px;
 }
+
+
+.websiteFormGroupExtraLong {
+    min-height: 122px;
+}
+
 /* select starting stylings ------------------------------*/
 .select {
     position: relative;
@@ -951,4 +957,33 @@ a {
     font-weight: bold;
     text-decoration: none;
     cursor:default;
+}
+
+
+.paddingHorizontalOnlyFullScreen
+{
+    padding-left:0px;
+    padding-right:0px;
+}
+
+@media (min-width: 992px) {
+
+    .paddingHorizontalOnlyFullScreen {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+
+@media (max-width: 992px) {
+
+    .ulAlignLeft {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+.inputHint {
+    color: grey;
+    padding: 7px 0;
 }

@@ -159,7 +159,7 @@ function ShowLogInForm(RecordUrl) {
 function RefreshHeader() {
 
     $.ajax({
-        url: "/Home/_Header",
+        url: "/Home/RefreshHeader",
         success: function (data) {
             if (data == null) {
                 ErrorActions();

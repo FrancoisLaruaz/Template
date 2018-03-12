@@ -24,9 +24,21 @@
 .MyProfilePanel-Body {
     padding-top: 20px;
     padding-bottom: 20px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
+
+@media (min-width: 992px) {
+
+    .MyProfilePanel-Body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+}
+
 
 .MyProfilePanel {
     border-radius: 0;
@@ -39,4 +51,10 @@
     padding-top: 30px;
     padding-right: 0px;
     padding-left: 30px;
+}
+
+#divDeleteProfile {
+    text-align: center;
+    padding-top: 7px;
+    padding-bottom: 10px;
 }

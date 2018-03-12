@@ -20,6 +20,22 @@ namespace Website.Controllers
     public class HomeController : BaseController
     {
 
+        public ActionResult RefreshHeader()
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    UserSession = UserService.GetUserSession(User.Identity.Name);
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return RedirectToAction("_Header");
+        }
+
         public ActionResult _Header()
         {
             HeaderViewModel model = new HeaderViewModel();

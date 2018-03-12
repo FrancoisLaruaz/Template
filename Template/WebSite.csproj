@@ -195,6 +195,7 @@
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TasksController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
+    <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ContentFileController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -250,6 +251,7 @@
     <Content Include="Content\General\jtsage-datebox.min.css" />
     <Content Include="Content\General\_Spinner.css" />
     <Content Include="Content\Views\Account\_PasswordPolicy.css" />
+    <Content Include="Content\Views\Shared\_LanguageSelector.css" />
     <Content Include="Content\Views\Shared\_Footer.css" />
     <Content Include="Content\Views\Home\_VideoHomePage.css" />
     <Content Include="Areas\Admin\Views\web.config" />
@@ -446,6 +448,7 @@
     <Content Include="Scripts\OtherFormats\jscam.swf" />
     <Content Include="Scripts\OtherFormats\jscam_canvas_only.swf" />
     <Content Include="Scripts\Views\Account\ChangePassword.js" />
+    <Content Include="Scripts\Views\Account\MyProfile\_MyProfileAddress.js" />
     <Content Include="Scripts\Views\Account\MyProfile\_MyProfilePhotos.js" />
     <Content Include="Scripts\Views\Account\MyProfile\_MyProfileTrustAndVerifications.js" />
     <Content Include="Scripts\Views\Account\MyProfile\_MyProfileEdit.js" />
@@ -549,6 +552,7 @@
     <Content Include="Views\Account\MyProfile\_MyProfilePhotos.cshtml" />
     <Content Include="Views\Account\MyProfile\_MyProfileTrustAndVerifications.cshtml" />
     <Content Include="Views\Shared\Layout\_TawkTo.cshtml" />
+    <Content Include="Views\Account\MyProfile\_MyProfileAddress.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">

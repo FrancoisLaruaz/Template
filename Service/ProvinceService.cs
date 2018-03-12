@@ -24,9 +24,12 @@ namespace Service
             try
             {
                 List<Province> provinces = GeListProvinces(CountryId);
-                foreach (var item in provinces)
+                if (provinces != null && provinces.Count > 0)
                 {
-                    newList.Add(new SelectionListItem(item.Id, item.Name));
+                    foreach (var item in provinces)
+                    {
+                        newList.Add(new SelectionListItem(item.Id, item.Name));
+                    }
                 }
             }
             catch (Exception e)

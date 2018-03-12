@@ -12,11 +12,11 @@ function SetNavActions()
     $(".navVerticalItem").unbind("click");
     $(".navVerticalItem").on("click", function (e) {
         var SelectedNav = $(this);
-
-        var action = $(this).data("action");
+     
+        var action = $(this).data("actiontogo");
         var _UserId = $("#HiddenUserId").val();
-   
-        if (actionActive != action && _UserId>0)
+
+        if (actionActive != action && _UserId > 0 && typeof action != "undefined")
         {
             
             $.ajax({

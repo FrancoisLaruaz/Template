@@ -25,8 +25,8 @@ namespace DataAccess
             try
             {
                 db = new DBConnect();
-                string Query = "select Id, Code, Name ,Order ";
-                Query = Query + "from country order by Order, Name ";
+                string Query = "select c.Id, c.Code, c.Name ,c.Order ";
+                Query = Query + "from country c  order by c.Order, c.Name ";
 
 
                 DataTable data = db.GetData(Query);

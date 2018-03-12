@@ -40,6 +40,8 @@ namespace CommonsConst
         public const string JsonConstantsSession = "JsonConstantsSession";
 
         public const string ColorWebsite = "rgba(45,191,183, 1)";
+
+        public const string DefaultSelect = "--- [[[Select]]] ---";
     }
 
     public static class MonthsOfYear

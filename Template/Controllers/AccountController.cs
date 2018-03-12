@@ -326,22 +326,28 @@ namespace Website.Controllers
             return PartialView("~/Views/Account/MyProfile/_MyProfilePhotos.cshtml", model);
         }
 
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult _MyProfileEdit(MyProfileEditViewModel model)
+        public ActionResult _MyProfileAddress(MyProfileAddressViewModel model)
         {
             bool _Result = false;
             string _Error = "";
             try
             {
+                if(model.ProvinceId==0)
+                {
+                    model.ProvinceId = null;
+                }
+
                 if (ModelState.IsValid)
                 {
                     if (User.Identity.IsAuthenticated)
                     {
-                        if (model.UserId > 0 && (UserSession.UserId==model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
+                        if (model.UserId > 0 && (UserSession.UserId == model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
                         {
-                            _Result = UserService.SaveMyProfileEdit(model);
+                            _Result = UserService.SaveMyProfileAddress(model);
                         }
                         else
                         {
@@ -363,6 +369,81 @@ namespace Website.Controllers
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + model.UserId);
             }
             return Json(new { Result = _Result, Error = _Error });
+        }
+
+        public ActionResult _MyProfileAddress(int userId)
+        {
+            MyProfileAddressViewModel model = new MyProfileAddressViewModel();
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    int UserIdToCheck = UserSession.UserId;
+                    if (userId > 0 && User.IsInRole(CommonsConst.UserRoles.Admin))
+                    {
+                        UserIdToCheck = userId;
+                    }
+                    model = UserService.GetMyProfileAddressViewModel(userId);
+                }
+                else
+                {
+                    return Content("NotLoggedIn");
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + userId);
+                return Content("ERROR");
+            }
+            return PartialView("~/Views/Account/MyProfile/_MyProfileAddress.cshtml", model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult _MyProfileEdit(MyProfileEditViewModel model)
+        {
+            bool _Result = false;
+            string _Error = "";
+            string _LanguageRedirect = null;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        if (model.UserId > 0 && (UserSession.UserId==model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
+                        {
+
+
+                            _Result = UserService.SaveMyProfileEdit(model);
+                            if (_Result && UserSession.LanguageTag != CommonsConst.Languages.ToString(model.LanguageId) && UserSession.UserId == model.UserId)
+                            {
+                                _LanguageRedirect = CommonsConst.Languages.ToString(model.LanguageId);
+                                UserSession = UserService.GetUserSession(User.Identity.Name);
+                            }
+
+                        }
+                        else
+                        {
+                            _Error = "[[[You don't have the rights to edit this user.]]]";
+                        }
+                    }
+                    else
+                    {
+                        _Error = "[[[Please log in to perform the action.]]]";
+                    }
+                }
+                else
+                {
+                    _Error = "[[[An error occured while saving yhe profile. Please try again .]]]";
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + model.UserId);
+            }
+            return Json(new { Result = _Result, Error = _Error, LanguageRedirect = _LanguageRedirect });
         }
 
         public ActionResult _MyProfileEdit(int userId)
@@ -392,7 +473,30 @@ namespace Website.Controllers
             return PartialView("~/Views/Account/MyProfile/_MyProfileEdit.cshtml", model);
         }
 
-        public ActionResult MyProfile(int? userId=null)
+        /// <summary>
+        /// Delete a profile
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DeleteProfile(int UserId)
+        {
+            bool _success = false;
+            try
+            {
+                if (User.Identity.IsAuthenticated && UserId > 0 && (UserSession.UserId == UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
+                {
+                    _success = UserService.DeleteUserById(UserId);
+                }
+            }
+            catch (Exception e)
+            {
+                _success = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return Json(new { Result = _success });
+        }
+
+        public ActionResult MyProfile(int? id = null)
         {
             try
             {
@@ -401,17 +505,24 @@ namespace Website.Controllers
                     ViewBag.Title = "[[[My Profile]]]";
                     MyProfileViewModel model = new MyProfileViewModel();
                     int UserIdToCheck = UserSession.UserId;
-                    if(userId != null && User.IsInRole(CommonsConst.UserRoles.Admin))
+                    if(id != null && User.IsInRole(CommonsConst.UserRoles.Admin))
                     {
-                        UserIdToCheck = userId.Value;
+                        UserIdToCheck = id.Value;
+
+                        if(!UserService.DoesUserExist(UserIdToCheck))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                     model.UserId = UserIdToCheck;
+
+
                     return View(model);
                 }
             }
             catch(Exception e)
             {
-                Logger.GenerateError(e,  System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + userId);
+                Logger.GenerateError(e,  System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + id);
             }
             return RedirectToAction("Login", "Account", new { returnUrl = Request.Url.AbsoluteUri.ToString() });
         }

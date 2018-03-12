@@ -25,11 +25,11 @@ namespace DataAccess
             try
             {
                 db = new DBConnect();
-                string Query = "select Id, Code, Name ,Order, CountryId ";
-                Query = Query + "from province";
+                string Query = "select p.Id, p.Code, p.Name ,p.Order, p.CountryId ";
+                Query = Query + "from province p ";
                 if(CountryId!=null && CountryId.Value>0)
-                    Query = Query + " where CountryId="+CountryId.Value;
-                Query = Query + " order by Order, Name ";
+                    Query = Query + " where p.CountryId=" + CountryId.Value;
+                Query = Query + " order by p.Order, p.Name ";
 
 
                 DataTable data = db.GetData(Query);

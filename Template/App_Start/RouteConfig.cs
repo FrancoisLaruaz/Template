@@ -73,17 +73,18 @@ namespace Template
                 namespaces: new[] { "Website.Controllers" }
             );
 
-            routes.MapRoute(
-            "MyProfile",
-            "MyProfile",
-            new { controller = "Account", action = "MyProfile" },
-            namespaces: new[] { "Website.Controllers" }
-            );
 
             routes.MapRoute(
             "UserProfile",
             "MyProfile/{id}",
             new { controller = "Account", action = "MyProfile", id = UrlParameter.Optional },
+            namespaces: new[] { "Website.Controllers" }
+            );
+
+            routes.MapRoute(
+            "MyProfile",
+            "MyProfile",
+            new { controller = "Account", action = "MyProfile" },
             namespaces: new[] { "Website.Controllers" }
             );
 
