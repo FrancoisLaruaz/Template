@@ -174,6 +174,47 @@ namespace Service
             return model;
         }
 
+        public static MyProfilePhotosViewModel GetMyProfilePhotosViewModel(int UserId)
+        {
+            MyProfilePhotosViewModel model = new MyProfilePhotosViewModel();
+            try
+            {
+                User user = GetUserById(UserId);
+                if (user != null)
+                {
+                    model.UserId = user.Id;
+                    model.PictureSrc = user.PictureSrc;
+                    model.PictureThumbnailSrc = user.PictureThumbnailSrc;
+                    model.PictureDecryptSrc = FileHelper.GetDecryptedFilePath(model.PictureSrc).Replace("~","");
+                }
+
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
+            }
+            return model;
+        }
+
+        public static bool SaveMyProfilePhotos(MyProfilePhotosViewModel model)
+        {
+            bool result = false;
+            try
+            {
+                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                Columns.Add("PictureThumbnailSrc", model.PictureThumbnailSrc);
+                Columns.Add("PictureSrc", model.PictureSrc);
+
+                result = GenericDAL.UpdateById("user", model.UserId, Columns);
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "model.UserId = " + model.UserId);
+            }
+            return result;
+        }
+
         public static bool SaveMyProfileAddress(MyProfileAddressViewModel model)
         {
             bool result = false;

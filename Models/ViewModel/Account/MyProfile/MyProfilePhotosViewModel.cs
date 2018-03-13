@@ -12,6 +12,13 @@ namespace Models.ViewModels
     {
         public int UserId { get; set; }
 
+        public string PictureSrc { get; set; }
+
+        public string PictureThumbnailSrc { get; set; }
+
+        public string PictureDecryptSrc { get; set; }
+
+
         public MyProfilePhotosViewModel()
         {
             

@@ -276,7 +276,7 @@ namespace Website.Controllers
                     {
                         if (model.UserId > 0 && (UserSession.UserId == model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
                         {
-
+                            _Result = UserService.SaveMyProfilePhotos(model);
                         }
                         else
                         {
@@ -312,6 +312,7 @@ namespace Website.Controllers
                     {
                         UserIdToCheck = userId;
                     }
+                    model = UserService.GetMyProfilePhotosViewModel(userId);
                 }
                 else
                 {
@@ -323,6 +324,7 @@ namespace Website.Controllers
                 Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + userId);
                 return Content("ERROR");
             }
+            
             return PartialView("~/Views/Account/MyProfile/_MyProfilePhotos.cshtml", model);
         }
 
@@ -486,6 +488,13 @@ namespace Website.Controllers
                 if (User.Identity.IsAuthenticated && UserId > 0 && (UserSession.UserId == UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
                 {
                     _success = UserService.DeleteUserById(UserId);
+                    if (UserSession.UserId == UserId)
+                    {
+                        Session[CommonsConst.Const.UserSession] = null;
+                        Session.Clear();
+                        Session.Abandon();
+                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                    }
                 }
             }
             catch (Exception e)

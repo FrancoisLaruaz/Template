@@ -58,3 +58,12 @@
     padding-top: 7px;
     padding-bottom: 10px;
 }
+
+#PictureDiv {
+    width: 250px;
+    height: 250px;
+    border: 5px #f2f2f2 solid;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+}
