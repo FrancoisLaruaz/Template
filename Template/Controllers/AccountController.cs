@@ -27,6 +27,7 @@ using Models.Class.ExternalAuthentification;
 using Facebook;
 using CommonsConst;
 using System.Security.Claims;
+using Models.Class.FileUpload;
 
 namespace Website.Controllers
 {
@@ -261,44 +262,95 @@ namespace Website.Controllers
             return PartialView("~/Views/Account/MyProfile/_MyProfileTrustAndVerifications.cshtml", model);
         }
 
+
+
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult _MyProfilePhotos(MyProfilePhotosViewModel model)
+        public ActionResult UpdateMyProfilePicture(int UserId)
         {
-            bool _Result = false;
+            bool _success = false;
             string _Error = "";
+            string _PathFile = "";
             try
             {
-                if (ModelState.IsValid)
+                for (int i = 0; i < Request.Files.Count; i++)
                 {
-                    if (User.Identity.IsAuthenticated)
+                    var portraitInputFile = Request.Files[i];
+                    // legacy portrait image upload
+                    if (portraitInputFile != null)
                     {
-                        if (model.UserId > 0 && (UserSession.UserId == model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
+                        if (ModelState.IsValid)
                         {
-                            _Result = UserService.SaveMyProfilePhotos(model);
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                if (UserId > 0 && (UserSession.UserId == UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
+                                {
+                                    var fileName = Path.GetFileName(portraitInputFile.FileName);
+
+
+                                    string ext = Path.GetExtension(fileName);
+                                    fileName = FileHelper.GetFileName("UserPicture", ext);
+
+                                    FileUpload newFile = new FileUpload()
+                                    {
+                                        File = portraitInputFile,
+                                        UploadName = fileName,
+                                        IsImage = true,
+                                        EncryptFile = true
+                                    };
+                                    if (FileHelper.IsValidImage(portraitInputFile))
+                                    {
+                                        string PictureSrc = FileHelper.UploadFile(newFile);
+                                        if (PictureSrc != "KO")
+                                        {
+                                            string PictureThumbnailSrc = "";
+                                            _success = UserService.SaveMyProfilePhotos(UserId, PictureSrc, PictureThumbnailSrc);
+                                            if(_success)
+                                            {
+                                                _success= UserService.CreateThumbnailUserPicture(UserId);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            _Error = "[[[An error occured while uploading the image.]]]";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        _Error = "[[[Please upload an image.]]]";
+                                    }
+                                }
+                                else
+                                {
+                                    _Error = "[[[You don't have the rights to edit this user.]]]";
+                                }
+                            }
+                            else
+                            {
+                                _Error = "[[[Please log in to perform the action.]]]";
+                            }
                         }
                         else
                         {
-                            _Error = "[[[You don't have the rights to edit this user.]]]";
+                            _Error = "[[[An error occured while saving yhe profile. Please try again .]]]";
                         }
                     }
                     else
                     {
-                        _Error = "[[[Please log in to perform the action.]]]";
+                        _Error = "[[[The file is empty. Please upload another file.]]]";
                     }
                 }
-                else
-                {
-                    _Error = "[[[An error occured while saving yhe profile. Please try again .]]]";
-                }
+
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + model.UserId);
+                _success = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = "+ UserId);
             }
-            return Json(new { Result = _Result, Error = _Error });
+            return Json(new { Result = _success, PathFile = _PathFile, Error = _Error });
         }
+
+
+
 
         public ActionResult _MyProfilePhotos(int userId)
         {

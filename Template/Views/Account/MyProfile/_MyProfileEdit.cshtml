@@ -7,7 +7,7 @@
         <div class="MyProfilePanel-header noMarginHorizontal col-xs-12 col-md-12">
             [[[Profile]]]
         </div>
-        <div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1 MyProfilePanel-Body" style="margin-top:25px;">
+        <div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1 MyProfilePanel-Body">
             @using (Ajax.BeginForm("_MyProfileEdit", "Account", new { }, new AjaxOptions() { HttpMethod = "POST", OnBegin = "handleMyProfileEditBegin", OnSuccess = "MyProfileEditSuccess", OnFailure = "MyProfileEditFailure" }, new { @id = "MyProfileEditForm" }))
     {
         @Html.AntiForgeryToken()

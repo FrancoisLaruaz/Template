@@ -13,7 +13,13 @@
                 </div>
             </div>
             <div class="col-xs-12 col-xs-offset-0 col-md-6">
-
+                <input id="HiddenPic" name="Pic" type="file" accept="image/bmp, image/jpeg, image/png, image/gif" style="display:none;" />
+                <div class="col-xs-12 col-md-10 col-md-offset-1 divButtonMyProfilePhoto divButtonMyProfilePhotoHaut" >
+                    <input type="submit" value="[[[Upload a file]]]"  onclick="$('#HiddenPic').click();" class="btn website-btn" />
+                </div>
+                <div class="col-xs-12 col-md-10 col-md-offset-1 divButtonMyProfilePhoto">
+                    <input type="submit" value="[[[Use my webcam]]]" class="btn website-btn" />
+                </div>
             </div>
         </div>
     </div>

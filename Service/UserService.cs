@@ -196,21 +196,21 @@ namespace Service
             return model;
         }
 
-        public static bool SaveMyProfilePhotos(MyProfilePhotosViewModel model)
+        public static bool SaveMyProfilePhotos(int UserId,string PictureSrc,string PictureThumbnailSrc)
         {
             bool result = false;
             try
             {
                 Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                Columns.Add("PictureThumbnailSrc", model.PictureThumbnailSrc);
-                Columns.Add("PictureSrc", model.PictureSrc);
+                Columns.Add("PictureThumbnailSrc", PictureThumbnailSrc);
+                Columns.Add("PictureSrc", PictureSrc);
 
-                result = GenericDAL.UpdateById("user", model.UserId, Columns);
+                result = GenericDAL.UpdateById("user", UserId, Columns);
             }
             catch (Exception e)
             {
                 result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "model.UserId = " + model.UserId);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
             }
             return result;
         }
