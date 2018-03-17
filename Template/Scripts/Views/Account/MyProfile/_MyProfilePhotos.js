@@ -1,11 +1,36 @@
 $(document).ready(function () {
     SetInputFile();
+    SetBtnActions();
+    SetCamera('UserPicture', 'MyProfileCameraPictureUser', 'MyProfilePictureSrc', 'MyProfileCameraPictureUserPreview', 'showWithWebCamPicture');
     HideSpinner();
 });
 
 
-function SetInputFile()
-{
+function SetBtnActions() {
+    $("#UserUploadFileBtn").unbind("click");
+    $("#UserUploadFileBtn").on("click", function (e) {
+        e.preventDefault();
+        $('#HiddenPic').click();
+    });
+
+
+
+    $("#UserWebcamBtn").unbind("click");
+    $("#UserWebcamBtn").on("click", function (e) {
+        e.preventDefault();
+        $("#WebcamModal").modal('show');
+    });
+
+
+    $("#UserWebcamBtn").unbind("click");
+    $("#UserWebcamBtn").on("click", function (e) {
+        e.preventDefault();
+        $("#WebcamModal").modal('show');
+    });
+
+}
+
+function SetInputFile() {
     $('#HiddenPic').change(function (event) {
 
         if (event.target != null && event.target.files.length > 0) {
@@ -53,3 +78,34 @@ function SetInputFile()
     });
 }
 
+function handleMyProfilePhotosBegin() {
+
+}
+
+
+
+
+function MyProfilePhotosFailure() {
+    ErrorActions();
+}
+
+
+
+function MyProfilePhotosSuccess(data) {
+    $("#ErrorMyProfilePhotosForm").html('');
+
+    if (data != null && data.Result) {
+
+        RefreshHeader();
+        $("#PictureDiv" ).css('backgroundImage', 'url(' + data.PreviewPath + ')');
+        NotificationOK('[[[Your picture has been successfully saved.]]]');
+        $("#CloseModalPhotoX").click();
+    }
+    else if (data.Error != null && data.Error.trim() != '') {
+        $("#ErrorMyProfilePhotosForm").html(data.Error);
+    }
+    else {
+        MyProfilePhotosFailure();
+    }
+    BackToTop();
+}

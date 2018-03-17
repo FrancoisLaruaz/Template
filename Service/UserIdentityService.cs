@@ -60,6 +60,8 @@ namespace Service
             return result;
         }
 
+
+
         /// <summary>
         /// Update the user after a successfull login
         /// </summary>

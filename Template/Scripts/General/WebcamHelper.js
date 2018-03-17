@@ -1,4 +1,4 @@
-function SetCamera(Purpose, IdCamera, IdFileToSave, IdPicturePreview) {
+function SetCamera(Purpose, IdCamera, IdFileToSave, IdPicturePreview, showWithWebCamPicture) {
 
 
     if (IdPicturePreview === undefined) {
@@ -52,6 +52,9 @@ function SetCamera(Purpose, IdCamera, IdFileToSave, IdPicturePreview) {
                                     if (IdFileToSave != null && $("#" + IdFileToSave).length > 0 && data.PathFile != null) {
                                         $("#" + IdFileToSave).val(data.PathFile);
                                     }
+
+                                    if (showWithWebCamPicture != null && typeof showWithWebCamPicture != "undefined")
+                                        $("." + showWithWebCamPicture).fadeIn();
                                 }
                             }
                             HideSpinner();
@@ -77,7 +80,7 @@ function SetCamera(Purpose, IdCamera, IdFileToSave, IdPicturePreview) {
             debug: function () {
             },
             onLoad: function () {
-              
+           
                 if (!CanUserTakeWebcamPicture()) {
                     $("#" + IdCamera).hide();
                     if ($("#CameraNotFound").length > 0) {
@@ -86,6 +89,7 @@ function SetCamera(Purpose, IdCamera, IdFileToSave, IdPicturePreview) {
                     $(".webcamBtn").hide();
                 }
                 else {
+         
                     if ($("#CameraNotFound").length > 0) {
                         $("#CameraNotFound").hide();
                     }
@@ -111,6 +115,8 @@ function WebcamCapture() {
 
 
 function CanUserTakeWebcamPicture() {
+
+
     var cams = webcam.getCameraList();
 
     var isFlashExists = swfobject.hasFlashPlayerVersion('1') ? true : false;

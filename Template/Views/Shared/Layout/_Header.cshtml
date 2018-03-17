@@ -40,8 +40,9 @@
                         {
                             <li class="dropdown marginLeftHeader">
                                 <a href="/MyProFile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <img src="@Model.PictureThumbnailSrc" id="UserPic" class="UserPic" />
-                                @Model.UserFirstName 
+                                    <div id="UserPic" class="circular UserPic" for="Pic" style="background-image:  url(@Model.PictureThumbnailSrc.Replace("~",""))">
+                                    </div>
+                                    @Model.UserFirstName
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="/MyProfile">[[[My Profile]]]</a></li>

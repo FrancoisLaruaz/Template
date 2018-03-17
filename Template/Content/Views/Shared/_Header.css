@@ -90,10 +90,12 @@
 }
 
 .UserPic {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%; /*don't forget prefixes*/
-    margin: 0px 5px 5px 0px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background-size: cover;
+    margin: 0px 15px 5px 0px;
+    float:left;
 }
 
 

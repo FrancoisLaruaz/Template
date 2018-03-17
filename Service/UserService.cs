@@ -174,6 +174,30 @@ namespace Service
             return model;
         }
 
+
+
+
+        public static MyProfileTrustAndVerificationsViewModel GetMyProfileTrustAndVerificationsViewModel(int UserId)
+        {
+            MyProfileTrustAndVerificationsViewModel model = new MyProfileTrustAndVerificationsViewModel();
+            try
+            {
+                User user = GetUserById(UserId);
+                if (user != null)
+                {
+                    model.UserId = user.Id;
+                    model.EmailConfirmed = user.EmailConfirmed;
+                    model.Email = user.EMailDecrypt;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
+            }
+            return model;
+        }
+
         public static MyProfilePhotosViewModel GetMyProfilePhotosViewModel(int UserId)
         {
             MyProfilePhotosViewModel model = new MyProfilePhotosViewModel();
@@ -196,6 +220,33 @@ namespace Service
             return model;
         }
 
+
+
+        /// <summary>
+        /// Save the new email of the user
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="Email"></param>
+        /// <returns></returns>
+        public static bool SaveMyProfileEmail(int UserId, string Email)
+        {
+            bool result = false;
+            try
+            {
+                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
+                Columns.Add("Email", Email);
+                Columns.Add("EmailConfirmed", false);
+
+                result = GenericDAL.UpdateById("useridentity", UserId, Columns);
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
+            }
+            return result;
+        }
+
         public static bool SaveMyProfilePhotos(int UserId,string PictureSrc,string PictureThumbnailSrc)
         {
             bool result = false;
@@ -214,6 +265,9 @@ namespace Service
             }
             return result;
         }
+
+
+
 
         public static bool SaveMyProfileAddress(MyProfileAddressViewModel model)
         {

@@ -248,6 +248,7 @@ namespace Website.Controllers
                     {
                         UserIdToCheck = userId;
                     }
+                    model = UserService.GetMyProfileTrustAndVerificationsViewModel(userId);
                 }
                 else
                 {
@@ -349,6 +350,51 @@ namespace Website.Controllers
             return Json(new { Result = _success, PathFile = _PathFile, Error = _Error });
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult _MyProfilePhotos(MyProfilePhotosViewModel model)
+        {
+            bool _Result = false;
+            string _Error = "";
+            string _PreviewPath = "";
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        if (model.UserId > 0 && (UserSession.UserId == model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
+                        {
+                            _Result = UserService.SaveMyProfilePhotos(model.UserId, model.PictureSrc, model.PictureThumbnailSrc);
+                            if (_Result)
+                            {
+                                _Result = UserService.CreateThumbnailUserPicture(model.UserId);
+                                _PreviewPath = FileHelper.GetDecryptedFilePath(model.PictureSrc);
+                            }
+                        }
+                        else
+                        {
+                            _Error = "[[[You don't have the rights to edit this user.]]]";
+                        }
+                    }
+                    else
+                    {
+                        _Error = "[[[Please log in to perform the action.]]]";
+                    }
+                }
+                else
+                {
+                    _Error = "[[[An error occured while saving yhe profile. Please try again .]]]";
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + model.UserId);
+            }
+            return Json(new { Result = _Result, Error = _Error, PreviewPath = _PreviewPath });
+        }
 
 
 
@@ -1005,7 +1051,7 @@ namespace Website.Controllers
                     {
                         model.PictureSrc = userLogged.PictureSrc;
                         model.PicturePreviewSrc = FileHelper.GetDecryptedFilePath(model.PictureSrc, true);
-                        return PartialView(model);
+                        return PartialView("~/Views/Account/SignUp/_SignUpPictureForm.cshtml", model);
                     }
                 }
             }

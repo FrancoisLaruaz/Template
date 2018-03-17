@@ -99,3 +99,9 @@
         margin-top:30px;
     }
 }
+
+#divBtnWebcam {
+    display: none;
+    margin-top: 25px;
+    height: 80px;
+}

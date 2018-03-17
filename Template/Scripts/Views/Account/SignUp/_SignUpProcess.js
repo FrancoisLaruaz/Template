@@ -14,7 +14,7 @@ $(document).ready(function () {
     $("#CompleteProfileBtn").unbind("click");
     $("#CompleteProfileBtn").on("click", function (e) {
         e.preventDefault();
-        window.location.href = GetHomePageUrl()+'/Account/Profile';
+        window.location.href = GetHomePageUrl()+'/MyProfile';
     });
 
 
