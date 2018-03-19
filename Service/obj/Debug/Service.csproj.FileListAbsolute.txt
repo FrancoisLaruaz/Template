@@ -172,3 +172,9 @@ C:\DEV\Template\Service\bin\Debug\System.Web.WebPages.xml
 C:\DEV\Template\Service\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\DEV\Template\Service\obj\Debug\Service.dll
 C:\DEV\Template\Service\obj\Debug\Service.pdb
+D:\DEV\Template\Service\bin\Debug\DataEntities.dll
+D:\DEV\Template\Service\bin\Debug\EntityFramework.dll
+D:\DEV\Template\Service\bin\Debug\Z.EntityFramework.Plus.EF6.dll
+D:\DEV\Template\Service\bin\Debug\DataEntities.pdb
+D:\DEV\Template\Service\bin\Debug\DataEntities.dll.config
+D:\DEV\Template\Service\bin\Debug\EntityFramework.xml

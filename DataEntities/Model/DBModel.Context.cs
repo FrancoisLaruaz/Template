@@ -26,5 +26,21 @@ namespace DataEntities.Model
         }
     
         public virtual DbSet<Log4Net> Log4Net { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<CategoryType> CategoryTypes { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<EmailAudit> EmailAudits { get; set; }
+        public virtual DbSet<EmailTypeLanguage> EmailTypeLanguages { get; set; }
+        public virtual DbSet<News> News { get; set; }
+        public virtual DbSet<Province> Provinces { get; set; }
+        public virtual DbSet<ScheduledTask> ScheduledTasks { get; set; }
+        public virtual DbSet<SocialMediaConnection> SocialMediaConnections { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Tasklog> Tasklogs { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

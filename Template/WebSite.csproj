@@ -570,6 +570,12 @@
     <Content Include="Views\Account\MyProfile\_MyProfileTrustAndVerifications.cshtml" />
     <Content Include="Views\Shared\Layout\_TawkTo.cshtml" />
     <Content Include="Views\Account\MyProfile\_MyProfileAddress.cshtml" />
+    <None Include="Web.config.perso">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.config.work">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commons\Commons.csproj">
