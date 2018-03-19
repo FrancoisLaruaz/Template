@@ -6,11 +6,11 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.Identity;
-using AspNet.Identity.MySQL;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Identity.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Identity
 {
@@ -42,9 +42,7 @@ namespace Identity
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new ApplicationUserManager(
-                 new UserStore<ApplicationUser>(
-                 context.Get<ApplicationDbContext>() as MySQLDatabase));
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {

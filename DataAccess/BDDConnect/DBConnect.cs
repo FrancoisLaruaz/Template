@@ -328,7 +328,7 @@ namespace DataAccess
         {
             try
             {
-                connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString();
+                connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["MySQLDefaultConnection"].ToString();
                 MyAdapter = new MySqlDataAdapter();
                 mySqlConnection = new MySqlConnection();
                 mySqlConnection.ConnectionString = connectionString;

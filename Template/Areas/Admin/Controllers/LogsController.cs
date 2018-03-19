@@ -14,12 +14,22 @@ using Service.TaskClasses;
 using Quartz.Impl.Matchers;
 using Models.Class.TaskSchedule;
 using Website.Controllers;
+using Service.Admin.Interface;
 
 namespace Website.Areas.Admin.Controllers
 {
     public class LogsController : BaseController
     {
-    
+
+        private ILogService _logService;
+
+        public LogsController(
+            ILogService logService
+            )
+        {
+            _logService = logService;
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -28,7 +38,7 @@ namespace Website.Areas.Admin.Controllers
             try
             {
                 ViewBag.Title = "Logs";
-                Model = LogService.GetLogsViewModel();
+                Model = _logService.GetLogsViewModel();
             }
             catch (Exception e)
             {
@@ -42,7 +52,7 @@ namespace Website.Areas.Admin.Controllers
         {
             try
             {
-                Model = LogService.GetDisplayLogsViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
+                Model = _logService.GetDisplayLogsViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
             }
             catch (Exception e)
             {

@@ -13,12 +13,22 @@ using i18n;
 using System.Configuration;
 using Models.Class;
 using System.Web.Hosting;
+using Service.Admin.Interface;
 
 
 namespace Website.Controllers
 {
     public class HomeController : BaseController
     {
+        private ILogService _logService;
+
+        public HomeController(
+            ILogService logService
+            )
+        {
+            _logService = logService;
+        }
+
 
         public ActionResult RefreshHeader()
         {
@@ -41,6 +51,7 @@ namespace Website.Controllers
             HeaderViewModel model = new HeaderViewModel();
             try
             {
+
                 if (User.Identity.IsAuthenticated)
                 {
                     model.UserFirstName = UserSession.FirstNameDecrypt;
@@ -80,13 +91,13 @@ namespace Website.Controllers
                     {
 
                         Email email = new Email();
-                        email.Subject = "Contact : " + model.Subject+" from "+ model.Name;
+                        email.Subject = "Contact : " + model.Subject + " from " + model.Name;
                         email.ToEmail = ConfigurationManager.AppSettings["ContactMail"];
                         email.EMailTypeId = CommonsConst.EmailTypes.Contact;
-                        email.Comment= "'"+model.Subject + "' from " + model.Email;
+                        email.Comment = "'" + model.Subject + "' from " + model.Email;
                         email.EmailContent.Add(new Tuple<string, string>("#Subject#", model.Subject));
                         email.EmailContent.Add(new Tuple<string, string>("#Name#", model.Name));
-                        email.EmailContent.Add(new Tuple<string, string>("#PhoneNumber#", model.PhoneNumber??""));
+                        email.EmailContent.Add(new Tuple<string, string>("#PhoneNumber#", model.PhoneNumber ?? ""));
                         email.EmailContent.Add(new Tuple<string, string>("#Question#", model.Question));
                         email.EmailContent.Add(new Tuple<string, string>("#Email#", model.Email));
                         _Result = EMailService.SendMail(email);

@@ -7,12 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Models.ViewModels;
+using DataEntities.Repositories;
+using DataEntities.Model;
+using Service.Admin.Interface;
 
-namespace Service
+namespace Service.Admin
 {
-    public static class LogService
+    public  class LogService : ILogService
     {
-        public static LogsViewModel GetLogsViewModel()
+        private readonly IGenericRepository<Log4Net> _logRepo;
+
+        public LogService(IGenericRepository<Log4Net> logRepo)
+        {
+            _logRepo = logRepo;
+        }
+
+        public LogService()
+        {
+            var context = new TemplateEntities();
+            _logRepo = new GenericRepository<Log4Net>(context);
+        }
+
+        public  LogsViewModel GetLogsViewModel()
         {
             LogsViewModel model = new LogsViewModel();
             try
@@ -35,12 +51,19 @@ namespace Service
         /// Delete old logs
         /// </summary>
         /// <returns></returns>
-        public static bool DeleteLogs()
+        public bool DeleteLogs()
         {
             bool result = false;
             try
             {
-                result = LogDAL.DeleteLogs();
+
+                DateTime DateToCompare = DateTime.UtcNow.AddMonths(-3);
+                List<Log4Net> List = _logRepo.FindAllBy(l => l.Date < DateToCompare).ToList();
+                foreach (Log4Net Log in List)
+                {
+                    _logRepo.Delete(Log.Id);
+                }
+                result=_logRepo.Save();
             }
             catch (Exception e)
             {
@@ -51,7 +74,7 @@ namespace Service
         }
 
        
-        public static DisplayLogsViewModel GetDisplayLogsViewModel(string Pattern,int StartAt,int  PageSize)
+        public  DisplayLogsViewModel GetDisplayLogsViewModel(string Pattern,int StartAt,int  PageSize)
         {
             DisplayLogsViewModel model = new DisplayLogsViewModel();
             try

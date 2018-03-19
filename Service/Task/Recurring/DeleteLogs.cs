@@ -10,20 +10,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Service.Admin;
 
 namespace Service.TaskClasses
 {
     public class DeleteLogs : RecurringJobBase
     {
+        LogService _LogService { get; set; }
 
-        
+        public DeleteLogs()
+        {
+             _LogService = new LogService();
+        }
 
         public override void Execute(IJobExecutionContext context)
         {
             try
             {
                 base.Execute(context);
-                bool Result=LogService.DeleteLogs();
+                bool Result= _LogService.DeleteLogs();
                 TaskLog Log = new TaskLog();
                 Log.Id = LogId;
                 Log.Result = Result;
