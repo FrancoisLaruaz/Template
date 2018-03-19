@@ -23,6 +23,7 @@ namespace DataEntities.Model
             this.ScheduledTasks = new HashSet<ScheduledTask>();
             this.Users = new HashSet<User>();
             this.Users1 = new HashSet<User>();
+            this.EmailTypeLanguages1 = new HashSet<EmailTypeLanguage>();
         }
     
         public int Id { get; set; }
@@ -48,5 +49,7 @@ namespace DataEntities.Model
         public virtual ICollection<User> Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmailTypeLanguage> EmailTypeLanguages1 { get; set; }
     }
 }

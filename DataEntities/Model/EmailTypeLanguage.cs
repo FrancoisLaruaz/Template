@@ -29,5 +29,6 @@ namespace DataEntities.Model
         public virtual Category EmailType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmailAudit> EmailAudits { get; set; }
+        public virtual Category Language { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace DataEntities.Model
         public System.DateTime CreationDate { get; set; }
         public Nullable<int> NewsId { get; set; }
     
-        public virtual Category Category { get; set; }
+        public virtual Category EmailType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmailAudit> EmailAudits { get; set; }
         public virtual News News { get; set; }

@@ -27,13 +27,12 @@ namespace DataEntities.Model
         public string LastName { get; set; }
         public string Description { get; set; }
         public Nullable<int> CountryId { get; set; }
-        public System.DateTime DateOfBirth { get; set; }
+        public Nullable<System.DateTime> DateOfBirth { get; set; }
         public string Adress1 { get; set; }
         public string Adress2 { get; set; }
         public string Adress3 { get; set; }
         public int LanguageId { get; set; }
         public Nullable<int> ProvinceId { get; set; }
-        public string UserName { get; set; }
         public string PictureSrc { get; set; }
         public bool ReceiveNews { get; set; }
         public string PictureThumbnailSrc { get; set; }

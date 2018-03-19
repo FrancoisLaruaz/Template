@@ -40,7 +40,7 @@ namespace DataEntities.Model
         public virtual DbSet<ScheduledTask> ScheduledTasks { get; set; }
         public virtual DbSet<SocialMediaConnection> SocialMediaConnections { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<Tasklog> Tasklogs { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<TaskLog> TaskLogs { get; set; }
     }
 }

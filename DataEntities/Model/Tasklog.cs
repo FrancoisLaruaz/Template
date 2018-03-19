@@ -12,7 +12,7 @@ namespace DataEntities.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Tasklog
+    public partial class TaskLog
     {
         public int Id { get; set; }
         public System.DateTime StartDate { get; set; }

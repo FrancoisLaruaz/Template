@@ -184,7 +184,7 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <EntityType Name="Tasklog">
+        <EntityType Name="TaskLog">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -205,13 +205,12 @@
           <Property Name="LastName" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="CountryId" Type="int" />
-          <Property Name="DateOfBirth" Type="datetime" Nullable="false" />
+          <Property Name="DateOfBirth" Type="datetime" />
           <Property Name="Adress1" Type="nvarchar" MaxLength="255" />
           <Property Name="Adress2" Type="nvarchar" MaxLength="255" />
           <Property Name="Adress3" Type="nvarchar" MaxLength="255" />
           <Property Name="LanguageId" Type="int" Nullable="false" />
           <Property Name="ProvinceId" Type="int" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="PictureSrc" Type="nvarchar" MaxLength="256" />
           <Property Name="ReceiveNews" Type="bit" Nullable="false" />
           <Property Name="PictureThumbnailSrc" Type="nvarchar" MaxLength="256" />
@@ -336,6 +335,18 @@
             </Principal>
             <Dependent Role="EmailTypeLanguage">
               <PropertyRef Name="EMailTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailTypeLanguage_Language">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="EmailTypeLanguage" Type="Self.EmailTypeLanguage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailTypeLanguage">
+              <PropertyRef Name="LanguageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -500,7 +511,7 @@
           <EntitySet Name="ScheduledTask" EntityType="Self.ScheduledTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialMediaConnection" EntityType="Self.SocialMediaConnection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Tasklog" EntityType="Self.Tasklog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskLog" EntityType="Self.TaskLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Category_CategoryTypeId" Association="Self.FK_Category_CategoryTypeId">
             <End Role="CategoryType" EntitySet="CategoryType" />
@@ -535,6 +546,10 @@
             <End Role="EmailAudit" EntitySet="EmailAudit" />
           </AssociationSet>
           <AssociationSet Name="FK_EmailTypeLanguage_EMailTypeId" Association="Self.FK_EmailTypeLanguage_EMailTypeId">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="EmailTypeLanguage" EntitySet="EmailTypeLanguage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailTypeLanguage_Language" Association="Self.FK_EmailTypeLanguage_Language">
             <End Role="Category" EntitySet="Category" />
             <End Role="EmailTypeLanguage" EntitySet="EmailTypeLanguage" />
           </AssociationSet>
@@ -620,7 +635,6 @@
           <EntitySet Name="ScheduledTasks" EntityType="TemplateModel.ScheduledTask" />
           <EntitySet Name="SocialMediaConnections" EntityType="TemplateModel.SocialMediaConnection" />
           <EntitySet Name="sysdiagrams" EntityType="TemplateModel.sysdiagram" />
-          <EntitySet Name="Tasklogs" EntityType="TemplateModel.Tasklog" />
           <EntitySet Name="Users" EntityType="TemplateModel.User" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id" Association="TemplateModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
@@ -702,6 +716,11 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_EmailTypeLanguage_Language" Association="TemplateModel.FK_EmailTypeLanguage_Language">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="EmailTypeLanguage" EntitySet="EmailTypeLanguages" />
+          </AssociationSet>
+          <EntitySet Name="TaskLogs" EntityType="TemplateModel.TaskLog" />
         </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -773,6 +792,7 @@
           <NavigationProperty Name="ScheduledTasks" Relationship="TemplateModel.FK_ScheduledTask_EmailType" FromRole="Category" ToRole="ScheduledTask" />
           <NavigationProperty Name="Users" Relationship="TemplateModel.FK_User_Gender" FromRole="Category" ToRole="User" />
           <NavigationProperty Name="Users1" Relationship="TemplateModel.FK_User_Language" FromRole="Category" ToRole="User" />
+          <NavigationProperty Name="EmailTypeLanguages1" Relationship="TemplateModel.FK_EmailTypeLanguage_Language" FromRole="Category" ToRole="EmailTypeLanguage" />
         </EntityType>
         <EntityType Name="CategoryType">
           <Key>
@@ -822,6 +842,7 @@
           <Property Name="TemplateName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EmailType" Relationship="TemplateModel.FK_EmailTypeLanguage_EMailTypeId" FromRole="EmailTypeLanguage" ToRole="Category" />
           <NavigationProperty Name="EmailAudits" Relationship="TemplateModel.FK_EmailAudit_EMailTypeLanguageId" FromRole="EmailTypeLanguage" ToRole="EmailAudit" />
+          <NavigationProperty Name="Language" Relationship="TemplateModel.FK_EmailTypeLanguage_Language" FromRole="EmailTypeLanguage" ToRole="Category" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -869,7 +890,7 @@
           <Property Name="EmailTypeId" Type="Int32" />
           <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="NewsId" Type="Int32" />
-          <NavigationProperty Name="Category" Relationship="TemplateModel.FK_ScheduledTask_EmailType" FromRole="ScheduledTask" ToRole="Category" />
+          <NavigationProperty Name="EmailType" Relationship="TemplateModel.FK_ScheduledTask_EmailType" FromRole="ScheduledTask" ToRole="Category" />
           <NavigationProperty Name="EmailAudits" Relationship="TemplateModel.FK_EmailAudit_ScheduledTaskId" FromRole="ScheduledTask" ToRole="EmailAudit" />
           <NavigationProperty Name="News" Relationship="TemplateModel.FK_ScheduledTask_News" FromRole="ScheduledTask" ToRole="News" />
           <NavigationProperty Name="User" Relationship="TemplateModel.FK_ScheduledTask_User" FromRole="ScheduledTask" ToRole="User" />
@@ -893,18 +914,6 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <EntityType Name="Tasklog">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <Property Name="Result" Type="Boolean" />
-          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="GroupName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CallbackId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -914,13 +923,12 @@
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CountryId" Type="Int32" />
-          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="3" />
           <Property Name="Adress1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Adress2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Adress3" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="LanguageId" Type="Int32" Nullable="false" />
           <Property Name="ProvinceId" Type="Int32" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="PictureSrc" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="ReceiveNews" Type="Boolean" Nullable="false" />
           <Property Name="PictureThumbnailSrc" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
@@ -1176,6 +1184,30 @@
           <End Type="TemplateModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="TemplateModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
+        <Association Name="FK_EmailTypeLanguage_Language">
+          <End Type="TemplateModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="TemplateModel.EmailTypeLanguage" Role="EmailTypeLanguage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailTypeLanguage">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TaskLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="Result" Type="Boolean" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GroupName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CallbackId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1366,19 +1398,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Tasklogs">
-            <EntityTypeMapping TypeName="TemplateModel.Tasklog">
-              <MappingFragment StoreEntitySet="Tasklog">
-                <ScalarProperty Name="CallbackId" ColumnName="CallbackId" />
-                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="TemplateModel.User">
               <MappingFragment StoreEntitySet="User">
@@ -1392,7 +1411,6 @@
                 <ScalarProperty Name="PictureThumbnailSrc" ColumnName="PictureThumbnailSrc" />
                 <ScalarProperty Name="ReceiveNews" ColumnName="ReceiveNews" />
                 <ScalarProperty Name="PictureSrc" ColumnName="PictureSrc" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="ProvinceId" ColumnName="ProvinceId" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="Adress3" ColumnName="Adress3" />
@@ -1415,6 +1433,19 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="TaskLogs">
+            <EntityTypeMapping TypeName="TemplateModel.TaskLog">
+              <MappingFragment StoreEntitySet="TaskLog">
+                <ScalarProperty Name="CallbackId" ColumnName="CallbackId" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
