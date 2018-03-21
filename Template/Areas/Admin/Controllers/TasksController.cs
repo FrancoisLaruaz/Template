@@ -14,11 +14,23 @@ using Service.TaskClasses;
 using Quartz.Impl.Matchers;
 using Models.Class.TaskSchedule;
 using Website.Controllers;
+using Service.UserArea.Interface;
 
 namespace Website.Areas.Admin.Controllers
 {
     public class TasksController : BaseController
     {
+
+
+
+        public TasksController(
+            IUserService userService
+            ) : base(userService)
+        {
+
+        }
+
+
         [HttpGet]
         public ActionResult Index()
         {

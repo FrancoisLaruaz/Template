@@ -8,7 +8,7 @@ using Models.BDDObject;
 using Models.Class;
 using System.Web.Mvc;
 
-namespace Models.ViewModels
+namespace Models.ViewModels.Admin.News
 {
     public class NewsEditViewModel
     {

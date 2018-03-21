@@ -1,5 +1,5 @@
 ﻿
-@model Models.ViewModels.SignUpPictureViewModel
+@model Models.ViewModels.Account.SignUpPictureViewModel
 @using (Ajax.BeginForm("_SignUpPictureForm", "Account", new { }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "SignUpPictureSuccess", OnFailure = "SignUpPictureFailure" }, new { @id = "SignUpPictureForm" }))
 {
     @Html.AntiForgeryToken()

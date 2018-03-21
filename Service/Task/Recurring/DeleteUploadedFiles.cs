@@ -11,20 +11,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Models.Class.FileUpload;
+using Service.Admin.Interface;
+using Service.Admin;
 
 namespace Service.TaskClasses
 {
     public class DeleteUploadedFile : RecurringJobBase
     {
+        FileUploadService _fileUploadServiceService { get; set; }
 
-        
+        public DeleteUploadedFile()
+        {
+            _fileUploadServiceService = new FileUploadService();
+        }
+
 
         public override void Execute(IJobExecutionContext context)
         {
             try
             {
                 base.Execute(context);
-                FileUploadDeleteResult ObjectResult = FileUploadService.DeleteUploadFiles();
+                FileUploadDeleteResult ObjectResult = _fileUploadServiceService.DeleteUploadFiles();
                 TaskLog Log = new TaskLog();
                 Log.Id = LogId;
                 if (ObjectResult != null)

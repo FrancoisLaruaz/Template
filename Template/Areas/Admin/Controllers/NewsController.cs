@@ -14,11 +14,26 @@ using Service.TaskClasses;
 using Quartz.Impl.Matchers;
 using Models.Class.TaskSchedule;
 using Website.Controllers;
+using Service.UserArea.Interface;
+using Service.Admin.Interface;
+using Models.ViewModels.Admin.News;
 
 namespace Website.Areas.Admin.Controllers
 {
     public class NewsController : BaseController
     {
+        private INewsService _newsService;
+
+
+        public NewsController(
+            IUserService userService,
+            INewsService newsService
+            ) : base(userService)
+        {
+            _newsService = newsService;
+        }
+
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -27,7 +42,7 @@ namespace Website.Areas.Admin.Controllers
             try
             {
                 ViewBag.Title = "[[[News Letter]]]";
-                Model = NewsService.GetNewsViewModel();
+                Model = _newsService.GetNewsViewModel();
             }
             catch (Exception e)
             {
@@ -44,7 +59,7 @@ namespace Website.Areas.Admin.Controllers
             try
             {
 
-                model = NewsService.GetPreviewNewsMailViewModel(Title, Description, UserSession);
+                model = _newsService.GetPreviewNewsMailViewModel(Title, Description, UserSession);
             }
             catch (Exception e)
             {
@@ -71,7 +86,7 @@ namespace Website.Areas.Admin.Controllers
                     ViewBag.Title = "[[[News Letter Creation]]]";
                 }
                 ViewBag.NewsId = Id;
-                Model = NewsService.GetNewsEditViewModel(Id);
+                Model = _newsService.GetNewsEditViewModel(Id);
             }
             catch (Exception e)
             {
@@ -106,14 +121,14 @@ namespace Website.Areas.Admin.Controllers
                     {
 
                         _isCreation = true;
-                        int NewsId = NewsService.CreateNews(Model);
+                        int NewsId = _newsService.CreateNews(Model);
                         Model.Id = NewsId;
                         if (NewsId > 0)
                             _success = true;
                     }
                     else
                     {
-                        _success = NewsService.EditNews(Model);
+                        _success = _newsService.EditNews(Model);
                     }
 
                     // Scehdule
@@ -164,7 +179,7 @@ namespace Website.Areas.Admin.Controllers
             int _id = id;
             try
             {
-                success = NewsService.DeleteNews(id);
+                success = _newsService.DeleteNews(id);
                 if (!success)
                 {
                     err = "[[[Error while deleting the update.]]]";
@@ -185,7 +200,7 @@ namespace Website.Areas.Admin.Controllers
         {
             try
             {
-                Model = NewsService.GetDisplayPublishedNewsViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
+                Model = _newsService.GetDisplayPublishedNewsViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
             }
             catch (Exception e)
             {

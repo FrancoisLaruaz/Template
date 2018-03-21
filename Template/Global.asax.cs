@@ -5,7 +5,6 @@ using System;
 using System.Web.Optimization;
 using i18n;
 using System.Threading;
-using Models.BDDObject;
 using Service;
 using Commons;
 using System.Transactions;
@@ -13,6 +12,8 @@ using Quartz;
 using Quartz.Impl;
 using Service.TaskClasses;
 using System.Threading.Tasks;
+using Service.UserArea.Interface;
+using Service.UserArea;
 
 namespace Template
 {
@@ -129,10 +130,10 @@ namespace Template
             {
                 if (Request.IsAuthenticated)
                 {
-                    User ConnectedUser = UserService.GetUserByUserName(User.Identity.Name);
+                    UserService _userService = new UserService();
+                    var ConnectedUser = _userService.GetUserByUserName(User.Identity.Name);
                     if (ConnectedUser != null)
-                        languageBrowser = ConnectedUser.LanguageCode;
-
+                        languageBrowser = ConnectedUser.Language?.Code;
                 }
                 else
                 {
@@ -146,7 +147,8 @@ namespace Template
                     {
                         string Favoritelanguage = languages[0];
                         languageBrowser = CommonsConst.Const.DefaultCulture;
-                        var ListLanguages = CategoryService.GetSelectionList(CommonsConst.CategoryTypes.Language);
+                        CategoryService _categoryService = new CategoryService();
+                        var ListLanguages = _categoryService.GetSelectionList(CommonsConst.CategoryTypes.Language);
                         if (ListLanguages != null && ListLanguages.Count > 0)
                         {
                             foreach (var Language in ListLanguages)

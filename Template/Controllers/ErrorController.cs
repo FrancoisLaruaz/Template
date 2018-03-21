@@ -5,11 +5,20 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using Commons;
+using Service.UserArea.Interface;
 
 namespace Website.Controllers
 {
     public class ErrorController : BaseController
     {
+    
+
+        public ErrorController(
+            IUserService userService
+            ) : base(userService)
+        {
+
+        }
 
         public ActionResult Index()
         {

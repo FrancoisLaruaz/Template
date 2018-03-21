@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Service.UserArea;
 
 namespace Service.TaskClasses
 {
@@ -19,6 +20,13 @@ namespace Service.TaskClasses
         public int UserId { get; set; }
 
         public int EmailType { get; set; }
+
+        EMailService _emailService { get; set; }
+
+        public SendEMailToUser()
+        {
+            _emailService = new EMailService();
+        }
 
         public override void Execute(IJobExecutionContext context)
         {
@@ -31,7 +39,7 @@ namespace Service.TaskClasses
                     EmailType = Convert.ToInt32(context.MergedJobDataMap.Get("EMailTypeId"));
 
 
-                    EMailService.SendEMailToUser(UserId, EmailType);
+                    _emailService.SendEMailToUser(UserId, EmailType);
                 }
             }
             catch (Exception e)

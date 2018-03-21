@@ -14,11 +14,24 @@ using Service.TaskClasses;
 using Quartz.Impl.Matchers;
 using Models.Class.TaskSchedule;
 using Website.Controllers;
+using Service.UserArea.Interface;
 
 namespace Website.Areas.Admin.Controllers
 {
     public class EmailAuditsController : BaseController
     {
+
+  
+        private IEMailService _emailService;
+
+        public EmailAuditsController(
+            IUserService userService,
+             IEMailService emailService
+            ) : base(userService)
+        {
+            emailService = _emailService;
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -41,7 +54,7 @@ namespace Website.Areas.Admin.Controllers
         {
             try
             {
-                Model = EMailService.GetDisplayEmailAuditViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
+                Model = _emailService.GetDisplayEmailAuditViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
             }
             catch (Exception e)
             {

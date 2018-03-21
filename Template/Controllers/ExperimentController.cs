@@ -12,12 +12,20 @@ using Commons;
 using i18n;
 using System.Configuration;
 using System.IO;
+using Service.UserArea.Interface;
 
 namespace Website.Controllers
 {
     public class ExperimentController : BaseController
     {
 
+
+        public ExperimentController(
+            IUserService userService
+            ) : base(userService)
+        {
+
+        }
         public ActionResult Index()
         {
 

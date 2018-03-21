@@ -15,6 +15,7 @@ using Quartz.Impl.Matchers;
 using Models.Class.TaskSchedule;
 using Website.Controllers;
 using Service.Admin.Interface;
+using Service.UserArea.Interface;
 
 namespace Website.Areas.Admin.Controllers
 {
@@ -24,11 +25,14 @@ namespace Website.Areas.Admin.Controllers
         private ILogService _logService;
 
         public LogsController(
-            ILogService logService
-            )
+            ILogService logService,
+            IUserService userService
+            ) : base(userService)
         {
             _logService = logService;
         }
+
+
 
         [HttpGet]
         public ActionResult Index()

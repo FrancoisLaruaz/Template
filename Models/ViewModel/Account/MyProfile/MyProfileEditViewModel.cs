@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using Models.BDDObject;
 using Models.Class;
 
-namespace Models.ViewModels
+namespace Models.ViewModels.Account
 {
     public class MyProfileEditViewModel
     {

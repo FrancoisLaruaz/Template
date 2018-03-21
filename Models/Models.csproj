@@ -80,16 +80,17 @@
     <Compile Include="Class\ExternalAuthentification\ExternalSignUpInformation.cs" />
     <Compile Include="Class\ExternalAuthentification\FacebookOauthResponse.cs" />
     <Compile Include="Class\ExternalAuthentification\ExternalAuthentificationResult.cs" />
+    <Compile Include="Class\SignUp\UserSignUp.cs" />
     <Compile Include="Class\TaskSchedule\SchedulerInformation.cs" />
     <Compile Include="Class\TaskSchedule\CronInfo.cs" />
     <Compile Include="Class\TaskSchedule\TaskScheduleResult.cs" />
     <Compile Include="Class\FileUpload\FileUploadDeleteResult.cs" />
     <Compile Include="Class\UserRoles\UserRoleItem.cs" />
-    <Compile Include="Class\UserSession.cs" />
+    <Compile Include="Class\Shared\UserSession.cs" />
     <Compile Include="Class\FileUpload\FileUpload.cs" />
-    <Compile Include="Class\Email.cs" />
-    <Compile Include="Class\BaseModelPager.cs" />
-    <Compile Include="Class\SelectionListItem.cs" />
+    <Compile Include="Class\Email\Email.cs" />
+    <Compile Include="Class\Shared\BaseModelPager.cs" />
+    <Compile Include="Class\Shared\SelectionListItem.cs" />
     <Compile Include="BDDObject\Extensions\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\Account\MyProfile\MyProfileAddressViewModel.cs" />
@@ -122,5 +123,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

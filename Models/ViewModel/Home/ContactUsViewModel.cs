@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Models.BDDObject;
 
-namespace Models.ViewModels
+namespace Models.ViewModels.Home
 {
     public class ContactUsViewModel
     {

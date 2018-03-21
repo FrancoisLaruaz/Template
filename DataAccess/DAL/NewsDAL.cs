@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using Models.ViewModels;
+using Models.ViewModels.Admin.News;
 
 namespace DataAccess
 {

@@ -13,21 +13,24 @@ using i18n;
 using System.Configuration;
 using Models.Class;
 using System.Web.Hosting;
-using Service.Admin.Interface;
+using Service.UserArea.Interface;
+using Models.ViewModels.Home;
+using Models.Class.Email;
 
 
 namespace Website.Controllers
 {
     public class HomeController : BaseController
     {
-        private ILogService _logService;
+        private IEMailService _emailService;
 
         public HomeController(
-            ILogService logService
-            )
+            IUserService userService,
+            IEMailService emailService
+            ) : base(userService)
         {
-            _logService = logService;
-        }
+            _emailService=emailService;
+    }
 
 
         public ActionResult RefreshHeader()
@@ -36,7 +39,7 @@ namespace Website.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    UserSession = UserService.GetUserSession(User.Identity.Name);
+                    UserSession = _userService.GetUserSession(User.Identity.Name);
                 }
             }
             catch (Exception e)
@@ -100,7 +103,7 @@ namespace Website.Controllers
                         email.EmailContent.Add(new Tuple<string, string>("#PhoneNumber#", model.PhoneNumber ?? ""));
                         email.EmailContent.Add(new Tuple<string, string>("#Question#", model.Question));
                         email.EmailContent.Add(new Tuple<string, string>("#Email#", model.Email));
-                        _Result = EMailService.SendMail(email);
+                        _Result = _emailService.SendMail(email);
                     }
                     else
                     {
@@ -167,7 +170,7 @@ namespace Website.Controllers
 
                     if (User.Identity.IsAuthenticated)
                     {
-                        UserService.UpdateLanguageUser(langtag, User.Identity.Name);
+                        _userService.UpdateLanguageUser(langtag, User.Identity.Name);
                         UserSession LoggedUser = UserSession;
                         LoggedUser.LanguageTag = langtag;
                         UserSession = LoggedUser;

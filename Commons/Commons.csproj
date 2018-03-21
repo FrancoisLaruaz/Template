@@ -90,8 +90,8 @@
     <Compile Include="Class\SocialMediaHelper.cs" />
     <Compile Include="Class\Utils.cs" />
     <Compile Include="Class\LoggerHelper.cs" />
-    <Compile Include="Extensions\DateTimeExtension.cs" />
-    <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Extensions\Generic\DateTimeExtension.cs" />
+    <Compile Include="Extensions\Generic\StringExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Class\Const.cs" />
     <Compile Include="Class\FileHelper.cs" />
@@ -105,6 +105,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataEntities\DataEntities.csproj">
+      <Project>{8b6f55a2-e803-42ef-8e59-bea600904c76}</Project>
+      <Name>DataEntities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{A4F9419F-48B6-42F0-AB2E-38409733E1D4}</Project>
       <Name>Models</Name>

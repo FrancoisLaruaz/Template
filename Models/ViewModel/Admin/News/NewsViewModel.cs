@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Models.BDDObject;
 
-namespace Models.ViewModels
+namespace Models.ViewModels.Admin.News
 {
     public class NewsViewModel 
     {
 
-        public List<News> NotPublishedNews { get; set; }
+        public List<Models.BDDObject.News> NotPublishedNews { get; set; }
 
 
         public NewsViewModel()
         {
-            NotPublishedNews = new List<News>();
+            NotPublishedNews = new List<Models.BDDObject.News>();
         }
     }
 }

@@ -9,6 +9,7 @@ using Models;
 using Models.Class;
 using Commons;
 using Models.BDDObject;
+using Models.Class.Email;
 
 namespace Commons
 {

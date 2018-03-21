@@ -13,11 +13,22 @@ using Models.Class;
 using System.Web.Script.Serialization;
 using System.Reflection;
 using CommonsConst;
+using Service.UserArea.Interface;
 
 namespace Website.Controllers
 {
     public class BaseController : Controller
     {
+
+        protected readonly IUserService _userService;
+
+        public BaseController(
+            IUserService userService
+            )
+        {
+            _userService = userService;
+        }
+
         public  string CurrentLangTag
         {
             get
@@ -68,7 +79,7 @@ namespace Website.Controllers
                     {
                         if (Session[CommonsConst.Const.UserSession] == null)
                         {
-                            UserSession ConnectedUser = UserService.GetUserSession(User.Identity.GetUserName());
+                            UserSession ConnectedUser = _userService.GetUserSession(User.Identity.GetUserName());
                             if(ConnectedUser==null)
                             {
                                 return null;

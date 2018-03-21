@@ -14,11 +14,23 @@ using Service.TaskClasses;
 using Quartz.Impl.Matchers;
 using Models.Class.TaskSchedule;
 using Website.Controllers;
+using Service.UserArea.Interface;
 
 namespace Website.Areas.Admin.Controllers
 {
     public class UsersController : BaseController
     {
+
+
+
+        public UsersController(
+            IUserService userService
+            ) : base(userService)
+        {
+
+        }
+
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -98,7 +110,7 @@ namespace Website.Areas.Admin.Controllers
             try
             {
 
-                _success = UserService.DeleteUserById(UserId);
+                _success = _userService.DeleteUserById(UserId);
             }
             catch (Exception e)
             {

@@ -208,7 +208,6 @@
     <Compile Include="Areas\Admin\Controllers\TasksController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ContentFileController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\AccountController.cs" />

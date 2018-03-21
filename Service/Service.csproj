@@ -51,8 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileUploadService.cs" />
+    <Compile Include="Service\Admin\FileUploadService.cs" />
+    <Compile Include="Service\Admin\Interface\IFileUploadService.cs" />
+    <Compile Include="Service\Admin\Interface\INewsService.cs" />
     <Compile Include="Service\Admin\Interface\ILogService.cs" />
+    <Compile Include="Service\User\Interface\IEMailService.cs" />
+    <Compile Include="Service\User\Interface\ICategoryService.cs" />
+    <Compile Include="Service\User\Interface\IASPNetUsersService.cs" />
+    <Compile Include="Service\User\Interface\IProvinceService.cs" />
+    <Compile Include="Service\User\Interface\ICountryService.cs" />
+    <Compile Include="Service\User\Interface\IUserService.cs" />
+    <Compile Include="Service\User\ASPNetUsersService.cs" />
     <Compile Include="SocialMediaConnectionService.cs" />
     <Compile Include="Task\OneShot\SendNews.cs" />
     <Compile Include="Task\Recurring\DeleteUploadedFiles.cs" />
@@ -62,15 +71,14 @@
     <Compile Include="Task\OneShot\SendEMailToUser.cs" />
     <Compile Include="ScheduledTaskService.cs" />
     <Compile Include="TaskLogService.cs" />
-    <Compile Include="ProvinceService.cs" />
-    <Compile Include="CountryService.cs" />
-    <Compile Include="EMailService.cs" />
-    <Compile Include="CategoryService.cs" />
-    <Compile Include="UserLoginsService.cs" />
+    <Compile Include="Service\User\ProvinceService.cs" />
+    <Compile Include="Service\User\CountryService.cs" />
+    <Compile Include="Service\User\EMailService.cs" />
+    <Compile Include="Service\User\CategoryService.cs" />
     <Compile Include="UserRolesService.cs" />
     <Compile Include="UserIdentityService.cs" />
-    <Compile Include="NewsService.cs" />
-    <Compile Include="UserService.cs" />
+    <Compile Include="Service\Admin\NewsService.cs" />
+    <Compile Include="Service\User\UserService.cs" />
     <Compile Include="Service\Admin\LogService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -99,8 +107,6 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Service\User\Interface\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

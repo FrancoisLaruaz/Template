@@ -7,7 +7,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
-using Models.BDDObject;
 using Models.ViewModels;
 using Models.Class;
 using i18n;
@@ -28,14 +27,34 @@ using Facebook;
 using CommonsConst;
 using System.Security.Claims;
 using Models.Class.FileUpload;
+using Service.UserArea.Interface;
+using Models.ViewModels.Account;
 
 namespace Website.Controllers
 {
     public class AccountController : BaseController
     {
 
-        public AccountController()
+        private IEMailService _emailService;
+        private IASPNetUsersService _aspNetUsersService;
+
+        public AccountController(
+            IUserService userService,
+            IEMailService emailService,
+            IASPNetUsersService aspNetUsersService
+            ) : base(userService)
         {
+            _emailService = emailService;
+            _aspNetUsersService = aspNetUsersService;
+        }
+
+
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IUserService userService, IEMailService emailService, IASPNetUsersService aspNetUsersService) : base(userService)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+           _emailService = emailService;
+            _aspNetUsersService = aspNetUsersService;
         }
 
         #region loginstuff
@@ -96,11 +115,7 @@ namespace Website.Controllers
             }
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
+
 
 
         protected IAuthenticationManager AuthenticationManager
@@ -248,7 +263,7 @@ namespace Website.Controllers
                     {
                         UserIdToCheck = userId;
                     }
-                    model = UserService.GetMyProfileTrustAndVerificationsViewModel(userId);
+                    model = _userService.GetMyProfileTrustAndVerificationsViewModel(userId);
                 }
                 else
                 {
@@ -304,10 +319,10 @@ namespace Website.Controllers
                                         if (PictureSrc != "KO")
                                         {
                                             string PictureThumbnailSrc = "";
-                                            _success = UserService.SaveMyProfilePhotos(UserId, PictureSrc, PictureThumbnailSrc);
+                                            _success = _userService.SaveMyProfilePhotos(UserId, PictureSrc, PictureThumbnailSrc);
                                             if(_success)
                                             {
-                                                _success= UserService.CreateThumbnailUserPicture(UserId);
+                                                _success= _userService.CreateThumbnailUserPicture(UserId);
                                             }
                                         }
                                         else
@@ -367,10 +382,10 @@ namespace Website.Controllers
                     {
                         if (model.UserId > 0 && (UserSession.UserId == model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
                         {
-                            _Result = UserService.SaveMyProfilePhotos(model.UserId, model.PictureSrc, model.PictureThumbnailSrc);
+                            _Result = _userService.SaveMyProfilePhotos(model.UserId, model.PictureSrc, model.PictureThumbnailSrc);
                             if (_Result)
                             {
-                                _Result = UserService.CreateThumbnailUserPicture(model.UserId);
+                                _Result = _userService.CreateThumbnailUserPicture(model.UserId);
                                 _PreviewPath = FileHelper.GetDecryptedFilePath(model.PictureSrc);
                             }
                         }
@@ -410,7 +425,7 @@ namespace Website.Controllers
                     {
                         UserIdToCheck = userId;
                     }
-                    model = UserService.GetMyProfilePhotosViewModel(userId);
+                    model = _userService.GetMyProfilePhotosViewModel(userId);
                 }
                 else
                 {
@@ -447,7 +462,7 @@ namespace Website.Controllers
                     {
                         if (model.UserId > 0 && (UserSession.UserId == model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
                         {
-                            _Result = UserService.SaveMyProfileAddress(model);
+                            _Result = _userService.SaveMyProfileAddress(model);
                         }
                         else
                         {
@@ -483,7 +498,7 @@ namespace Website.Controllers
                     {
                         UserIdToCheck = userId;
                     }
-                    model = UserService.GetMyProfileAddressViewModel(userId);
+                    model = _userService.GetMyProfileAddressViewModel(userId);
                 }
                 else
                 {
@@ -516,11 +531,11 @@ namespace Website.Controllers
                         {
 
 
-                            _Result = UserService.SaveMyProfileEdit(model);
+                            _Result = _userService.SaveMyProfileEdit(model);
                             if (_Result && UserSession.LanguageTag != CommonsConst.Languages.ToString(model.LanguageId) && UserSession.UserId == model.UserId)
                             {
                                 _LanguageRedirect = CommonsConst.Languages.ToString(model.LanguageId);
-                                UserSession = UserService.GetUserSession(User.Identity.Name);
+                                UserSession = _userService.GetUserSession(User.Identity.Name);
                             }
 
                         }
@@ -558,7 +573,7 @@ namespace Website.Controllers
                     {
                         UserIdToCheck = userId;
                     }
-                    model = UserService.GetMyProfileEditViewModel(userId);
+                    model = _userService.GetMyProfileEditViewModel(userId);
                 }
                 else
                 {
@@ -585,7 +600,7 @@ namespace Website.Controllers
             {
                 if (User.Identity.IsAuthenticated && UserId > 0 && (UserSession.UserId == UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
                 {
-                    _success = UserService.DeleteUserById(UserId);
+                    _success = _userService.DeleteUserById(UserId);
                     if (UserSession.UserId == UserId)
                     {
                         Session[CommonsConst.Const.UserSession] = null;
@@ -616,7 +631,7 @@ namespace Website.Controllers
                     {
                         UserIdToCheck = id.Value;
 
-                        if(!UserService.DoesUserExist(UserIdToCheck))
+                        if(!_userService.DoesUserExist(UserIdToCheck))
                         {
                             return RedirectToAction("Index", "Home");
                         }
@@ -683,10 +698,10 @@ namespace Website.Controllers
                     {
                         case SignInStatus.Success:
                             _Result = true;
-                            userSession = UserService.GetUserSession(User.Identity.GetUserName());
+                            userSession = _userService.GetUserSession(User.Identity.GetUserName());
                             if (userSession != null)
                             {
-                                UserIdentityService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
+                                _aspNetUsersService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
                                 _Language = userSession.LanguageTag;
                                 UserSession = userSession;
                             }
@@ -720,10 +735,10 @@ namespace Website.Controllers
 
                                 if (ExternalSignUpInformation.EmailPermission)
                                 {
-                                    if (UserService.IsUserRegistered(EncryptHelper.EncryptToString(ExternalSignUpInformation.Email)))
+                                    if (_aspNetUsersService.IsUserRegistered(EncryptHelper.EncryptToString(ExternalSignUpInformation.Email)))
                                     {
 
-                                        bool success = UserLoginsService.CreateExternalLogin(ExternalSignUpInformation);
+                                        bool success = _aspNetUsersService.CreateExternalLogin(ExternalSignUpInformation);
 
                                         if (success)
                                         {
@@ -732,10 +747,10 @@ namespace Website.Controllers
                                             {
                                                 case SignInStatus.Success:
                                                     _Result = true;
-                                                    userSession = UserService.GetUserSession(User.Identity.GetUserName());
+                                                    userSession = _userService.GetUserSession(User.Identity.GetUserName());
                                                     if (userSession != null)
                                                     {
-                                                        UserIdentityService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
+                                                        _aspNetUsersService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
                                                         SocialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
                                                         _Language = userSession.LanguageTag;
                                                         UserSession = userSession;
@@ -878,12 +893,12 @@ namespace Website.Controllers
                                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                                     if (!String.IsNullOrWhiteSpace(EncryptedUserName))
                                     {
-                                        UserSession userSession = UserService.GetUserSession(EncryptedUserName);
+                                        UserSession userSession = _userService.GetUserSession(EncryptedUserName);
                                         _Result = true;
                                         _Language = userSession.LanguageTag;
                                         SocialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
-                                        EMailService.SendEMailToUser(EncryptedUserName, CommonsConst.EmailTypes.UserWelcome);
-                                        _Result = UserService.CreateThumbnailUserPicture(userSession.UserId);
+                                        _emailService.SendEMailToUser(EncryptedUserName, CommonsConst.EmailTypes.UserWelcome);
+                                        _Result = _userService.CreateThumbnailUserPicture(userSession.UserId);
                                     }
                                     _Result = true;
 
@@ -996,15 +1011,15 @@ namespace Website.Controllers
                                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                                 if (!String.IsNullOrWhiteSpace(model.Email))
                                 {
-                                    UserSession = UserService.GetUserSession(model.Email);
+                                    UserSession = _userService.GetUserSession(model.Email);
                                     _Result = true;
                                     string UserName = model.Email;
-                                    EMailService.SendEMailToUser(UserName, CommonsConst.EmailTypes.UserWelcome);
+                                    _emailService.SendEMailToUser(UserName, CommonsConst.EmailTypes.UserWelcome);
                                 }
                             }
                             else
                             {
-                                if (UserService.IsUserRegistered(model.Email))
+                                if (_aspNetUsersService.IsUserRegistered(model.Email))
                                 {
                                     _Error = "[[[This email address is already used.]]]";
                                 }
@@ -1050,7 +1065,7 @@ namespace Website.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    User userLogged = UserService.GetUserByUserName(User.Identity.Name);
+                    var userLogged = _userService.GetUserByUserName(User.Identity.Name);
                     if (userLogged != null)
                     {
                         model.PictureSrc = userLogged.PictureSrc;
@@ -1081,10 +1096,10 @@ namespace Website.Controllers
                     int UserId = UserSession.UserId;
                     if (UserId > 0 && !String.IsNullOrWhiteSpace(model.PictureSrc))
                     {
-                        _Result = UserService.UpdateProfilePicture(UserId, model.PictureSrc);
+                        _Result = _userService.UpdateProfilePicture(UserId, model.PictureSrc);
                         if (_Result)
                         {
-                            UserSession = UserService.GetUserSession(UserSession.UserName);
+                            UserSession = _userService.GetUserSession(UserSession.UserName);
                         }
                     }
                 }
@@ -1137,11 +1152,11 @@ namespace Website.Controllers
                     {
                         case SignInStatus.Success:
                             _Result = true;
-                             UserSession userSession = UserService.GetUserSession(model.Email);
+                             UserSession userSession = _userService.GetUserSession(model.Email);
                             if (userSession != null)
                             {
                                 _UserFirstName = userSession.FirstNameDecrypt;
-                                UserIdentityService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
+                                _aspNetUsersService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
                                 model.LanguageTag = userSession.LanguageTag;
                                 _LangTag= userSession.LanguageTag; ;
                                 UserSession = userSession;
@@ -1154,13 +1169,13 @@ namespace Website.Controllers
                             _Error = "[[[Invalid login attempt.]]]";
                             break;
                         case SignInStatus.Failure:
-                            if (!UserService.IsUserRegistered(model.Email))
+                            if (!_aspNetUsersService.IsUserRegistered(model.Email))
                             {
                                 _Error = "[[[This user is not registered. Please sign-up.]]]";
                             }
                             else
                             {
-                                UserIdentityService.UpdateUserIdentityLoginFailure(model.Email);
+                                _aspNetUsersService.UpdateUserIdentityLoginFailure(model.Email);
                                 _Error = "[[[Incorrect password.]]]";
                             }
                             break;
@@ -1319,7 +1334,7 @@ namespace Website.Controllers
                             IdentityResult result = await UserManager.ChangePasswordAsync(UserSession.UserIdentityId, model.OldPassword, model.NewPassword);
                             if (result.Succeeded)
                             {
-                                _Result = EMailService.SendEMailToUser(UserSession.UserId, EmailTypes.ResetPassword);
+                                _Result = _emailService.SendEMailToUser(UserSession.UserId, EmailTypes.ResetPassword);
                             }
                             else
                             {
@@ -1390,7 +1405,7 @@ namespace Website.Controllers
                 model.UserId = UserId;
 
                 ViewBag.Title = "[[[Reset My Password]]]";
-                User user = UserService.GetUserById(model.UserId);
+                var user = _userService.GetUserById(model.UserId);
                 if (user == null || String.IsNullOrWhiteSpace(user.ResetPasswordToken) || Token != HashHelpers.HashEncode(user.ResetPasswordToken))
                 {
                     return View("InvalidToken");
@@ -1416,22 +1431,22 @@ namespace Website.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    User user = UserService.GetUserById(model.UserId);
+                    var user = _userService.GetUserById(model.UserId);
                     if (user != null)
                     {
-                        _Langtag = user.LanguageCode;
-                        var applicationUser = UserManager.FindByName(user.UserName);
-                        UserManager.RemovePassword(user.UserIdentityId);
-                        UserManager.AddPassword(user.UserIdentityId, model.Password);
-                        var result = await SignInManager.PasswordSignInAsync(user.UserName, model.Password, true, shouldLockout: false);
+                        _Langtag = user.Language?.Code??CommonsConst.Const.DefaultCulture;
+                        var applicationUser = UserManager.FindByName(user.AspNetUser.UserName);
+                        UserManager.RemovePassword(user.AspNetUser.Id);
+                        UserManager.AddPassword(user.AspNetUser.Id, model.Password);
+                        var result = await SignInManager.PasswordSignInAsync(user.AspNetUser.UserName, model.Password, true, shouldLockout: false);
                         switch (result)
                         {
                             case SignInStatus.Success:
                                 _Result = true;
-                                UserSession userSession = UserService.GetUserSession(user.UserName);
+                                UserSession userSession = _userService.GetUserSession(user.AspNetUser.UserName);
                                 if (userSession != null)
                                 {
-                                    UserIdentityService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
+                                    _aspNetUsersService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
                                     UserSession = userSession;
                                 }
                                 break;
@@ -1439,11 +1454,11 @@ namespace Website.Controllers
                                 _Error = "[[[Invalid login attempt.]]]";
                                 break;
                         }
-                        _Result = UserIdentityService.SetPasswordToken(user.UserIdentityId, null);
+                        _Result = _userService.SetPasswordToken(user.Id, null);
 
                         if (_Result)
                         {
-                            _Result = EMailService.SendEMailToUser(user.Id, EmailTypes.ResetPassword);
+                            _Result = _emailService.SendEMailToUser(user.Id, EmailTypes.ResetPassword);
                         }
                     }
                     else
@@ -1481,12 +1496,12 @@ namespace Website.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    User user = UserService.GetUserByUserName(EncryptHelper.EncryptToString(model.UserName.Trim().ToLower()));
+                    var user = _userService.GetUserByUserName(EncryptHelper.EncryptToString(model.UserName.Trim().ToLower()));
                     if (user != null)
                     {
                         if (String.IsNullOrWhiteSpace(user.ResetPasswordToken))
                         {
-                            _Result = UserIdentityService.SetPasswordToken(user.UserIdentityId, HashHelpers.RandomString(32));
+                            _Result = _userService.SetPasswordToken(user.Id, HashHelpers.RandomString(32));
                         }
                         else
                         {
@@ -1494,8 +1509,8 @@ namespace Website.Controllers
                         }
                         if (_Result)
                         {
-                            _Result = EMailService.SendEMailToUser(user.Id, EmailTypes.Forgotpassword);
-                            _UserMail = user.EMailDecrypt;
+                            _Result = _emailService.SendEMailToUser(user.Id, EmailTypes.Forgotpassword);
+                            _UserMail = EncryptHelper.DecryptString(user.AspNetUser.Email);
                         }
                     }
                     else

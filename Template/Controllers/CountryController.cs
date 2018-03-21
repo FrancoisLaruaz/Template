@@ -13,16 +13,20 @@ using i18n;
 using System.Configuration;
 using Models.Class;
 using System.Web.Hosting;
+using Service.UserArea.Interface;
 
 namespace Website.Controllers
 {
     public class CountryController : BaseController
     {
+        private readonly IProvinceService _provinceService;
 
-        public CountryController()
+        public CountryController(
+            IUserService userService, IProvinceService provinceService
+            ) : base(userService)
         {
+            _provinceService = provinceService;
         }
-
 
         public ActionResult GetProvinces(int? CountryId)
         {
@@ -30,7 +34,7 @@ namespace Website.Controllers
             List<SelectionListItem> list = new List<SelectionListItem>();
             try
             {
-                list = ProvinceService.GetProvinceList(CountryId);
+                list = _provinceService.GetProvinceList(CountryId);
             }
             catch(Exception e)
             {

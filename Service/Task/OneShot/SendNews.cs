@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Service.Admin;
 
 namespace Service.TaskClasses
 {
@@ -17,6 +18,13 @@ namespace Service.TaskClasses
     {
 
         public int NewsId { get; set; }
+
+        NewsService _newsService { get; set; }
+
+        public SendNews()
+        {
+            _newsService = new NewsService();
+        }
 
         public override void Execute(IJobExecutionContext context)
         {
@@ -27,7 +35,7 @@ namespace Service.TaskClasses
                 {
                     NewsId = Convert.ToInt32(context.MergedJobDataMap.Get("NewsId"));
 
-                    NewsService.SendNews(NewsId);
+                    _newsService.SendNews(NewsId);
                 }
             }
             catch (Exception e)

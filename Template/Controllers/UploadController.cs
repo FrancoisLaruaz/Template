@@ -13,11 +13,19 @@ using i18n;
 using System.IO;
 using Models.Class;
 using Models.Class.FileUpload;
+using Service.UserArea.Interface;
 
 namespace Website.Controllers
 {
     public class UploadController : BaseController
     {
+
+        public UploadController(
+            IUserService userService
+            ) : base(userService)
+        {
+
+        }
 
         /// <summary>
         ///  Get the picture
