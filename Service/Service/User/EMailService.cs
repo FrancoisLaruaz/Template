@@ -24,19 +24,61 @@ namespace Service.UserArea
 
         private  string WebsiteURL = ConfigurationManager.AppSettings["Website"];
 
+        private readonly IGenericRepository<ValidTopLevelDomain> _validTopLevelDomainRepository;
         private readonly IGenericRepository<DataEntities.Model.User> _userRepo;
 
-        public EMailService(IGenericRepository<DataEntities.Model.User> userRepo)
+        public EMailService(IGenericRepository<DataEntities.Model.User> userRepo,
+            IGenericRepository<ValidTopLevelDomain> validTopLevelDomainRepository)
         {
             _userRepo = userRepo;
+            _validTopLevelDomainRepository = validTopLevelDomainRepository;
         }
 
         public EMailService()
         {
             var context = new TemplateEntities();
             _userRepo = new GenericRepository<DataEntities.Model.User>(context);
+            _validTopLevelDomainRepository = new GenericRepository<DataEntities.Model.ValidTopLevelDomain>(context);
         }
 
+        public bool IsEmailAddressValid(string emailAddress)
+        {
+            bool result = false;
+            try
+            {
+                if (Utils.IsValidMail(emailAddress) && IsTopLevelDomainValid(emailAddress))
+                {
+                    result = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, " emailAddress = " + emailAddress);
+            }
+            return result;
+        }
+
+
+        public bool IsTopLevelDomainValid(string emailAddress)
+        {
+            bool result = false;
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(emailAddress))
+                {
+                    if (emailAddress.Split('.').Length > 1)
+                    {
+                        string domain = emailAddress.Split('.')[emailAddress.Split('.').Length - 1].ToLower();
+                        result = _validTopLevelDomainRepository.FindAllBy(v => v.Name == domain).Any();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, " emailAddress = " + emailAddress);
+            }
+            return result;
+        }
 
         /// <summary>
         /// Methode used to send an email

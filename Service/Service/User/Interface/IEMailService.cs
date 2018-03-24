@@ -22,6 +22,10 @@ namespace Service.UserArea.Interface
 
         void SendMailAsync(Email EMail);
 
+        bool IsEmailAddressValid(string emailAddress);
+
+        bool IsTopLevelDomainValid(string emailAddress);
+
         bool SendEMailToUser(string UserName, int EMailTypeId);
 
 

@@ -13,6 +13,7 @@ using DataEntities.Model;
 using DataEntities;
 using CommonsConst;
 using Models.ViewModels.Account;
+using Models.Class.SignUp;
 
 namespace Service.UserArea
 {
@@ -42,7 +43,44 @@ namespace Service.UserArea
             _aspNetUserRepo = new GenericRepository<AspNetUser>(context);
         }
 
+        public int CreateUser(UserSignUp model)
+        {
+            int InsertedId = -1;
+            try
+            {
 
+                AspNetUser aspNetUser = _aspNetUserRepo.FindAllBy(u => u.UserName == model.UserName).FirstOrDefault();
+
+                if (aspNetUser != null)
+                {
+                    User user = new User();
+                    user.PictureSrc = model.PictureSrc ?? CommonsConst.Const.DefaultImageUser;
+                    user.FirstName = EncryptHelper.EncryptToString(model.FirstName);
+                    user.LastName = EncryptHelper.EncryptToString(model.LastName);
+                    user.GenderId = model.GenderId;
+                    user.LanguageId = model.LanguageId==null? Languages.ToInt(CommonsConst.Const.DefaultCulture):  model.LanguageId.Value;
+                    user.EmailConfirmationToken = Commons.HashHelpers.RandomString(32);
+                    user.DateLastConnection = DateTime.UtcNow;
+                    user.CreationDate = DateTime.UtcNow;
+                    user.ModificationDate = DateTime.UtcNow;
+                    user.ReceiveNews = model.ReceiveNews;
+                    user.CreationDate = DateTime.UtcNow;
+                    user.AspNetUserId = aspNetUser.Id;
+
+                    _userRepo.Add(user);
+                    if (_userRepo.Save())
+                    {
+                        InsertedId = user.Id;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                InsertedId = -1;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + model.UserName);
+            }
+            return InsertedId;
+        }
 
         /// <summary>
         /// Indicate if the user exist or not

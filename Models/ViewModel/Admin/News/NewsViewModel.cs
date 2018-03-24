@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using Models.BDDObject;
+using DataEntities.Model;
 
 namespace Models.ViewModels.Admin.News
 {
     public class NewsViewModel 
     {
 
-        public List<Models.BDDObject.News> NotPublishedNews { get; set; }
+        public List<DataEntities.Model.News> NotPublishedNews { get; set; }
 
 
         public NewsViewModel()
         {
-            NotPublishedNews = new List<Models.BDDObject.News>();
+            NotPublishedNews = new List<DataEntities.Model.News>();
         }
     }
 }

@@ -172,3 +172,9 @@ D:\DEV\Template\DataAccess\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.dll
 D:\DEV\Template\DataAccess\obj\Debug\DataAccess.pdb
+D:\DEV\Template\DataAccess\bin\Debug\DataEntities.dll
+D:\DEV\Template\DataAccess\bin\Debug\EntityFramework.dll
+D:\DEV\Template\DataAccess\bin\Debug\Z.EntityFramework.Plus.EF6.dll
+D:\DEV\Template\DataAccess\bin\Debug\DataEntities.pdb
+D:\DEV\Template\DataAccess\bin\Debug\DataEntities.dll.config
+D:\DEV\Template\DataAccess\bin\Debug\EntityFramework.xml

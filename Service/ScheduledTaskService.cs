@@ -256,23 +256,7 @@ namespace Service
             return Result;
         }
 
-        /// <summary>
-        /// Remove the cancelled tasks of the database
-        /// </summary>
-        /// <returns></returns>
-        public static bool DeleteCancelledScheduledTasks()
-        {
-            bool Result = false;
-            try
-            {
-                Result = ScheduledTaskDAL.DeleteCancelledScheduledTasks();
-            }
-            catch (Exception e)
-            {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            }
-            return Result;
-        }
+
 
         /// <summary>
         /// Return the scheduled task

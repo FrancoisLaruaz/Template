@@ -15,7 +15,7 @@ namespace Service.Admin.Interface
 {
     public interface INewsService
     {
-         List<News> GetNewsList();
+
 
         List<News> GetPublishedNewsList();
         List<News> GetNotPublishedNewsList();
@@ -35,6 +35,7 @@ namespace Service.Admin.Interface
         DisplayPublishedNewsViewModel GetDisplayPublishedNewsViewModel(string Pattern, int StartAt, int PageSize);
 
         PreviewNewsMailViewModel GetPreviewNewsMailViewModel(string Title, string Description, UserSession user);
+
 
     }
 }

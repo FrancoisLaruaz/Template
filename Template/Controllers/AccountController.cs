@@ -29,6 +29,7 @@ using System.Security.Claims;
 using Models.Class.FileUpload;
 using Service.UserArea.Interface;
 using Models.ViewModels.Account;
+using Models.Class.SignUp;
 
 namespace Website.Controllers
 {
@@ -882,27 +883,42 @@ namespace Website.Controllers
                             }
                             var user = new ApplicationUser { UserName = EncryptedUserName, Email = EncryptedUserName };
 
-                            // , FirstName = ExternalSignUpInformation.FirstName, LastName = ExternalSignUpInformation.LastName, LanguageId = CurrentLanguageId, GenderId = ExternalSignUpInformation.GenderId, ReceiveNews = false, PictureSrc = _ImageSrc
-
                             var result = await UserManager.CreateAsync(user);
                             if (result != null && result.Succeeded)
                             {
-                                result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
-                                if (result.Succeeded)
+
+                                UserSignUp userSignUp = new UserSignUp();
+                                userSignUp.FirstName = ExternalSignUpInformation.FirstName;
+                                userSignUp.LastName = ExternalSignUpInformation.LastName;
+                                userSignUp.LanguageId = CurrentLanguageId;
+                                userSignUp.GenderId = ExternalSignUpInformation.GenderId;
+                                userSignUp.ReceiveNews =false;
+                                userSignUp.PictureSrc = _ImageSrc;
+                                userSignUp.UserName = EncryptedUserName;
+
+                                if (_userService.CreateUser(userSignUp) > 0)
                                 {
-                                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                                    if (!String.IsNullOrWhiteSpace(EncryptedUserName))
+                                    result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
+                                    if (result.Succeeded)
                                     {
-                                        UserSession userSession = _userService.GetUserSession(EncryptedUserName);
+                                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                        if (!String.IsNullOrWhiteSpace(EncryptedUserName))
+                                        {
+                                            UserSession userSession = _userService.GetUserSession(EncryptedUserName);
+                                            _Result = true;
+                                            _Language = userSession.LanguageTag;
+                                            SocialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
+                                            _emailService.SendEMailToUser(EncryptedUserName, CommonsConst.EmailTypes.UserWelcome);
+                                            _Result = _userService.CreateThumbnailUserPicture(userSession.UserId);
+                                        }
                                         _Result = true;
-                                        _Language = userSession.LanguageTag;
-                                        SocialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
-                                        _emailService.SendEMailToUser(EncryptedUserName, CommonsConst.EmailTypes.UserWelcome);
-                                        _Result = _userService.CreateThumbnailUserPicture(userSession.UserId);
+
+
                                     }
-                                    _Result = true;
-
-
+                                }
+                                else
+                                {
+                                    _Error = "[[[An error occured while creating the user.]]]";
                                 }
 
                             }
@@ -995,26 +1011,39 @@ namespace Website.Controllers
                     if (ModelState.IsValid)
                     {
                         model.Email = model.Email.Trim().ToLower();
-                        if (Utils.IsValidMail(model.Email))
+                        if (_emailService.IsEmailAddressValid(model.Email))
                         {
 
                             model.Email = Commons.EncryptHelper.EncryptToString(model.Email);
                             int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
                             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
 
-                            // , FirstName = model.FirstName, LastName = model.LastName, LanguageId = CurrentLanguageId, ReceiveNews = model.ReceiveNews
-
                             var result = await UserManager.CreateAsync(user, model.Password);
                             if (result != null && result.Succeeded)
                             {
-                                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                                if (!String.IsNullOrWhiteSpace(model.Email))
+                                UserSignUp userSignUp = new UserSignUp();
+                                userSignUp.FirstName = model.FirstName;
+                                userSignUp.LastName = model.LastName;
+                                userSignUp.LanguageId = CurrentLanguageId;
+                                userSignUp.ReceiveNews = model.ReceiveNews;
+                                userSignUp.UserName = model.Email;
+
+                                if (_userService.CreateUser(userSignUp)>0)
                                 {
-                                    UserSession = _userService.GetUserSession(model.Email);
-                                    _Result = true;
-                                    string UserName = model.Email;
-                                    _emailService.SendEMailToUser(UserName, CommonsConst.EmailTypes.UserWelcome);
+
+                                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                    if (!String.IsNullOrWhiteSpace(model.Email))
+                                    {
+                                        UserSession = _userService.GetUserSession(model.Email);
+                                        _Result = true;
+                                        string UserName = model.Email;
+                                        _emailService.SendEMailToUser(UserName, CommonsConst.EmailTypes.UserWelcome);
+                                    }
+                                }
+                                else
+                                {
+                                    _Error = "[[[Error while creating the user.]]]";
                                 }
                             }
                             else

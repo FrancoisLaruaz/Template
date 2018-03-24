@@ -155,33 +155,7 @@ namespace DataAccess
             return result;
         }
 
-        /// <summary>
-        /// Remove the cancelled tasks of the database 
-        /// </summary>
-        /// <returns></returns>
-        public static bool DeleteCancelledScheduledTasks()
-        {
-            bool result = false;
-            DBConnect db = null;
-            try
-            {
-                db = new DBConnect();
-                string Query = "delete from scheduledtask ";
-                Query += " where cancellationdate is not null ";
-                result = db.ExecuteQuery(Query);
 
-            }
-            catch (Exception e)
-            {
-                result = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            }
-            finally
-            {
-                db.Dispose();
-            }
-            return result;
-        }
 
         /// <summary>
         /// Get a list of scheduled tasks

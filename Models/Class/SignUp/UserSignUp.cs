@@ -12,21 +12,25 @@ namespace Models.Class.SignUp
     {
         public string UserName { get; set; }
 
-        public string UserNameDecrypt { get; set; }
-
         public string UserIdentityId { get; set; }
 
         public int UserId { get; set; }
 
-        public string FirsName { get; set; }
+        public string FirstName { get; set; }
 
        public string LastName { get; set; }
 
         public string LanguageTag { get; set; }
 
-        public string PictureThumbnailSrc { get; set; }
+        public string PictureSrc { get; set; }
 
+        public string EmailConfirmationToken { get; set; }
 
+        public int? GenderId { get; set; }
+
+        public int? LanguageId { get; set; }
+
+        public bool ReceiveNews { get; set; }
 
 
         public UserSignUp()

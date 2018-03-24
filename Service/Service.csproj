@@ -53,8 +53,10 @@
   <ItemGroup>
     <Compile Include="Service\Admin\FileUploadService.cs" />
     <Compile Include="Service\Admin\Interface\IFileUploadService.cs" />
+    <Compile Include="Service\Admin\Interface\IScheduledTaskService.cs" />
     <Compile Include="Service\Admin\Interface\INewsService.cs" />
     <Compile Include="Service\Admin\Interface\ILogService.cs" />
+    <Compile Include="Service\Admin\ScheduledTaskService.cs" />
     <Compile Include="Service\User\Interface\IEMailService.cs" />
     <Compile Include="Service\User\Interface\ICategoryService.cs" />
     <Compile Include="Service\User\Interface\IASPNetUsersService.cs" />

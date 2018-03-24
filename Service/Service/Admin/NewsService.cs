@@ -1,6 +1,5 @@
 ﻿using Commons;
 using DataAccess;
-using Models.BDDObject;
 using Models.Class;
 using System;
 using System.Collections.Generic;
@@ -15,18 +14,22 @@ using Service.UserArea.Interface;
 using Service.UserArea;
 using Models.ViewModels.Admin.News;
 using Models.Class.Email;
+using DataEntities.Model;
 
 namespace Service.Admin
 {
-    public  class NewsService
+    public  class NewsService : INewsService
     {
         private readonly IEMailService _emailService;
         private readonly ICategoryService _categoryService;
+        private readonly IGenericRepository<DataEntities.Model.News> _newsRepo;
 
-        public NewsService(IEMailService emailService, ICategoryService categoryService)
+        public NewsService(IEMailService emailService, ICategoryService categoryService,
+             IGenericRepository<DataEntities.Model.News> newsRepo)
         {
             _emailService = emailService;
             _categoryService = categoryService;
+            _newsRepo = newsRepo;
         }
 
         public NewsService()
@@ -34,24 +37,7 @@ namespace Service.Admin
             _emailService = new EMailService();
         }
 
-        /// <summary>
-        /// Return all the news 
-        /// </summary>
-        /// <returns></returns>
-        public  List<News> GetNewsList()
-        {
-            List<News> result = null;
-            try
-            {
-                result = NewsDAL.GetNewsList();
-            }
-            catch (Exception e)
-            {
-                result = null;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            }
-            return result;
-        }
+
 
         /// <summary>
         /// Return all the news not published
@@ -62,7 +48,7 @@ namespace Service.Admin
             List<News> result = null;
             try
             {
-                result = NewsDAL.GetNewsList(null, null, false);
+                result = _newsRepo.FindAllBy(n => n.PublishDate >= DateTime.UtcNow).ToList();
             }
             catch (Exception e)
             {
@@ -78,7 +64,7 @@ namespace Service.Admin
             List<News> result = null;
             try
             {
-                result = NewsDAL.GetNewsList(null, null, true);
+                result = _newsRepo.FindAllBy(n => n.PublishDate < DateTime.UtcNow).ToList();
             }
             catch (Exception e)
             {
@@ -98,18 +84,25 @@ namespace Service.Admin
             int InsertedId = -1;
             try
             {
-                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                Columns.Add("PublishDate", model.PublishDate);
-                Columns.Add("Title", model.NewsTitle);
-                Columns.Add("Description", model.NewsDescription);
-                Columns.Add("MailSubject", model.MailSubject);
-                Columns.Add("TypeId", model.TypeId);
-                Columns.Add("TypeUserMailingId", model.TypeUserMailingId);
-                Columns.Add("ModificationDate", DateTime.UtcNow);
-                Columns.Add("Active", model.Active);
-                Columns.Add("LastModificationUserId", model.LastModificationUserId);
-                Columns.Add("CreationDate", DateTime.UtcNow);
-                InsertedId = GenericDAL.InsertRow("news", Columns);
+
+                News news = new News();
+                news.PublishDate = model.PublishDate;
+                news.Title = model.NewsTitle;
+                news.Description = model.NewsDescription;
+                news.MailSubject = model.MailSubject;
+                news.TypeId = model.TypeId;
+                news.TypeUserMailingId = model.TypeUserMailingId;
+
+                news.ModificationDate = DateTime.UtcNow;
+                news.Active = model.Active;
+                news.LastModificationUserId = model.LastModificationUserId;
+                news.CreationDate = DateTime.UtcNow;
+
+                _newsRepo.Add(news);
+                if(_newsRepo.Save())
+                {
+                    InsertedId = news.Id;
+                }
             }
             catch (Exception e)
             {
@@ -130,17 +123,24 @@ namespace Service.Admin
             bool Result = false;
             try
             {
-                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                Columns.Add("PublishDate", model.PublishDate);
-                Columns.Add("Title", model.NewsTitle);
-                Columns.Add("Description", model.NewsDescription);
-                Columns.Add("MailSubject", model.MailSubject);
-                Columns.Add("TypeId", model.TypeId);
-                Columns.Add("LastModificationUserId", model.LastModificationUserId);
-                Columns.Add("Active", model.Active);
-                Columns.Add("TypeUserMailingId", model.TypeUserMailingId);
-                Columns.Add("ModificationDate", DateTime.UtcNow);
-                Result = GenericDAL.UpdateById("news", model.Id, Columns);
+                News news = _newsRepo.Get(model.Id);
+                if(news!=null)
+                {
+                    news.PublishDate = model.PublishDate;
+                    news.Title = model.NewsTitle;
+                    news.Description = model.NewsDescription;
+                    news.MailSubject = model.MailSubject;
+                    news.TypeId = model.TypeId;
+                    news.TypeUserMailingId = model.TypeUserMailingId;
+                    news.Active = model.Active;
+                    news.LastModificationUserId = model.LastModificationUserId;
+                    news.ModificationDate = DateTime.UtcNow;
+
+                    _newsRepo.Edit(news);
+                    Result = _newsRepo.Save();
+                
+                }
+
             }
             catch (Exception e)
             {
@@ -181,8 +181,8 @@ namespace Service.Admin
                         model.TypeId = RealNews.TypeId;
                         model.Active = RealNews.Active;
                         model.PublishDate = RealNews.PublishDate;
-                        model.ScheduledTaskId = RealNews.ScheduledTaskId;
-                        model.HasScheduledTaskBeenExecuted = RealNews.HasScheduledTaskBeenExecuted ?? false;
+                        model.ScheduledTaskId = RealNews.ScheduledTasks?.FirstOrDefault()?.Id;
+                        model.HasScheduledTaskBeenExecuted = RealNews.ScheduledTasks?.FirstOrDefault()?.ExecutionDate<DateTime.UtcNow?true: false;
                     }
                 }
 
@@ -224,10 +224,14 @@ namespace Service.Admin
                 News news = GetNewsById(NewsId);
                 if (news != null)
                 {
-                    if(news.ScheduledTaskId!=null)
-                         ScheduledTaskService.CancelTaskById(news.ScheduledTaskId.Value);
-                    result = NewsDAL.DeleteNewsById(NewsId);
+                    int? ScheduledTaskId = news.ScheduledTasks?.FirstOrDefault()?.Id;
+                    if (ScheduledTaskId != null)
+                         ScheduledTaskService.CancelTaskById(ScheduledTaskId.Value);
+                    List<Tuple<string, object>> Parameters = new List<Tuple<string, object>>();
+                    Parameters.Add(new Tuple<string, object>("@NewsId", NewsId));
+                    result = _newsRepo.ExecuteStoredProcedure("DeleteNewsById", Parameters);
                 }
+
             }
             catch (Exception e)
             {
@@ -265,7 +269,7 @@ namespace Service.Admin
 
                         Email.Subject = news.MailSubject;
                         Email.EmailContent = EmailContent;
-                        Email.RelatedScheduledTaskId = news.ScheduledTaskId;
+                        Email.RelatedScheduledTaskId = news.ScheduledTasks?.FirstOrDefault()?.Id;
 
                         result = _emailService.SendMail(Email);
 
@@ -377,16 +381,12 @@ namespace Service.Admin
         /// </summary>
         /// <param name="NewsId"></param>
         /// <returns></returns>
-        public static News GetNewsById(int NewsId)
+        public  News GetNewsById(int NewsId)
         {
             News result = null;
             try
             {
-                List<News> ListResult = NewsDAL.GetNewsList(NewsId);
-                if (ListResult != null && ListResult.Count > 0)
-                {
-                    result = ListResult[0];
-                }
+                result = _newsRepo.Get(NewsId);
             }
             catch (Exception e)
             {

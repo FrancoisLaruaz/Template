@@ -11,6 +11,7 @@ using DataEntities.Repositories;
 using DataEntities.Model;
 using Models.ViewModels.Account;
 using Models.ViewModels.Home;
+using Models.Class.SignUp;
 
 namespace Service.UserArea.Interface
 {
@@ -24,6 +25,8 @@ namespace Service.UserArea.Interface
         bool UpdateLanguageUser(string Language, string UserName);
 
         UserSession GetUserSession(string UserName);
+
+        int CreateUser(UserSignUp model);
 
         MyProfileAddressViewModel GetMyProfileAddressViewModel(int UserId);
 

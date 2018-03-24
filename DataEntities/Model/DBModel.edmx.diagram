@@ -43,6 +43,7 @@
         <AssociationConnector Association="TemplateModel.AspNetUserRoles" />
         <AssociationConnector Association="TemplateModel.FK_EmailTypeLanguage_Language" />
         <EntityTypeShape EntityType="TemplateModel.TaskLog" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TemplateModel.ValidTopLevelDomain" Width="1.5" PointX="10.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

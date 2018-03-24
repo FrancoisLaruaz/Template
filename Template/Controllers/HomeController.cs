@@ -90,7 +90,7 @@ namespace Website.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (Utils.IsValidMail(model.Email.Trim().ToLower()))
+                    if (_emailService.IsEmailAddressValid(model.Email.Trim().ToLower()))
                     {
 
                         Email email = new Email();
