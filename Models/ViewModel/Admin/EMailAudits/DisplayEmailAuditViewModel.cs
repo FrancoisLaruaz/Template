@@ -12,14 +12,14 @@ namespace Models.ViewModels
 {
     public class DisplayEmailAuditViewModel : BaseModelPager
     {
-        public List<EMailAudit> AuditsList { get; set; }
+        public List<EMailAuditItem> AuditsList { get; set; }
 
         public string Pattern { get; set; }
 
 
         public DisplayEmailAuditViewModel()
         {
-            AuditsList = new List<EMailAudit>();
+            AuditsList = new List<EMailAuditItem>();
         }
     }
 }

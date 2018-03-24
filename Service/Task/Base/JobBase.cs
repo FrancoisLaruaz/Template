@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Service.Admin.Interface;
+using Service.Admin;
 
 namespace Service.TaskClasses
 {
@@ -18,9 +20,12 @@ namespace Service.TaskClasses
 
         public Boolean NeedToBeExectuted { get; set; }
 
+        public IScheduledTaskService _scheduledTaskService { get; set; }
+
         public JobBase()
         {
             NeedToBeExectuted = false;
+            _scheduledTaskService = new ScheduledTaskService();
         }
 
 
@@ -30,10 +35,10 @@ namespace Service.TaskClasses
             try
             {
                 string CallBackId = context.JobDetail.Key.Name;
-                NeedToBeExectuted = ScheduledTaskService.IsScheduledTaskActive(CallBackId);
+                NeedToBeExectuted = _scheduledTaskService.IsScheduledTaskActive(CallBackId);
                 if (NeedToBeExectuted)
                 {
-                    ScheduledTaskService.SetTaskAsExecuted(CallBackId);
+                    _scheduledTaskService.SetTaskAsExecuted(CallBackId);
                 }
                 else
                 {

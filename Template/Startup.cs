@@ -5,6 +5,7 @@ using System;
 using Commons;
 using System.Threading.Tasks;
 using Service;
+using Service.Admin;
 
 [assembly: OwinStartupAttribute(typeof(Template.Startup))]
 namespace Template
@@ -13,9 +14,16 @@ namespace Template
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
-
-            Task.Factory.StartNew(() => ScheduledTaskService.SetTasks());
+            try
+            {
+                ConfigureAuth(app);
+                ScheduledTaskService _scheduledTaskService = new ScheduledTaskService();
+                Task.Factory.StartNew(() => _scheduledTaskService.SetTasks());
+            }
+            catch(Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
 
 
         }

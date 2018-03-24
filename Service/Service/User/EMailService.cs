@@ -1,6 +1,4 @@
 ﻿using Commons;
-using DataAccess;
-using Models.BDDObject;
 using Models.Class;
 using System;
 using System.Collections;
@@ -17,6 +15,7 @@ using DataEntities.Repositories;
 using DataEntities.Model;
 using Models.Class.Email;
 
+
 namespace Service.UserArea
 {
     public  class EMailService : IEMailService
@@ -24,21 +23,28 @@ namespace Service.UserArea
 
         private  string WebsiteURL = ConfigurationManager.AppSettings["Website"];
 
-        private readonly IGenericRepository<ValidTopLevelDomain> _validTopLevelDomainRepository;
+        private readonly IGenericRepository<ValidTopLevelDomain> _validTopLevelDomainRepo;
         private readonly IGenericRepository<DataEntities.Model.User> _userRepo;
+        private readonly IGenericRepository<EmailTypeLanguage> _emailTypeLanguageRepo;
+        private readonly IGenericRepository<EmailAudit> _emailAuditRepo;
 
         public EMailService(IGenericRepository<DataEntities.Model.User> userRepo,
-            IGenericRepository<ValidTopLevelDomain> validTopLevelDomainRepository)
+            IGenericRepository<ValidTopLevelDomain> validTopLevelDomainRepo,
+            IGenericRepository<EmailTypeLanguage> emailTypeLanguageRepo,
+            IGenericRepository<EmailAudit> emailAuditRepo)
         {
             _userRepo = userRepo;
-            _validTopLevelDomainRepository = validTopLevelDomainRepository;
+            _validTopLevelDomainRepo = validTopLevelDomainRepo;
+            _emailTypeLanguageRepo = emailTypeLanguageRepo;
+            _emailAuditRepo = emailAuditRepo;
         }
 
         public EMailService()
         {
             var context = new TemplateEntities();
             _userRepo = new GenericRepository<DataEntities.Model.User>(context);
-            _validTopLevelDomainRepository = new GenericRepository<DataEntities.Model.ValidTopLevelDomain>(context);
+            _validTopLevelDomainRepo = new GenericRepository<DataEntities.Model.ValidTopLevelDomain>(context);
+            _emailTypeLanguageRepo = new GenericRepository<DataEntities.Model.EmailTypeLanguage>(context);
         }
 
         public bool IsEmailAddressValid(string emailAddress)
@@ -69,7 +75,7 @@ namespace Service.UserArea
                     if (emailAddress.Split('.').Length > 1)
                     {
                         string domain = emailAddress.Split('.')[emailAddress.Split('.').Length - 1].ToLower();
-                        result = _validTopLevelDomainRepository.FindAllBy(v => v.Name == domain).Any();
+                        result = _validTopLevelDomainRepo.FindAllBy(v => v.Name == domain).Any();
                     }
                 }
             }
@@ -126,7 +132,7 @@ namespace Service.UserArea
                 Email.EmailContent.Add(new Tuple<string, string>("#WebSiteURL#", Utils.Website));
                 Email.LanguageId = LanguageId;
 
-                EMailTypeLanguage EMailTypeLanguage = GetEMailTypeLanguage(Email.EMailTypeId, Email.LanguageId);
+                EmailTypeLanguage EMailTypeLanguage = GetEMailTypeLanguage(Email.EMailTypeId, Email.LanguageId);
                 if (EMailTypeLanguage == null && Email.LanguageId != Languages.English)
                 {
                     EMailTypeLanguage = GetEMailTypeLanguage(Email.EMailTypeId, Languages.English);
@@ -147,7 +153,7 @@ namespace Service.UserArea
                     Email.EMailTypeLanguageId = EMailTypeLanguage.Id;
                     Email.EMailTemplate = EMailTypeLanguage.TemplateName;
                     Email.BasePathFile = Email.RootPathDefault+Const.BasePathTemplateEMails.Replace("~/", "\\");
-                    Email.EndMailTemplate = EMailTypeLanguage.EndEMailTemplateName;
+                    Email.EndMailTemplate = EMailTypeLanguage.TemplateName;
                     if (String.IsNullOrWhiteSpace(Email.Subject))
                         Email.Subject = EMailTypeLanguage.Subject;
                     if (String.IsNullOrWhiteSpace(Email.FromEmail))
@@ -296,18 +302,18 @@ namespace Service.UserArea
         /// <param name="EMailTypeId"></param>
         /// <param name="LanguageId"></param>
         /// <returns></returns>
-        public  EMailTypeLanguage GetEMailTypeLanguage(int EMailTypeId, int LanguageId)
+        public EmailTypeLanguage GetEMailTypeLanguage(int EMailTypeId, int LanguageId)
         {
-            EMailTypeLanguage retour = new EMailTypeLanguage();
+            EmailTypeLanguage result = null;
             try
             {
-                retour = EMailDAL.GetEMailTypeLanguage(EMailTypeId, LanguageId);
+                result = _emailTypeLanguageRepo.FindAllBy(e => e.EMailTypeId == EMailTypeId && LanguageId == e.LanguageId).FirstOrDefault();
             }
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "EMailTypeId = " + EMailTypeId.ToString() + " and LanguageId=" + LanguageId.ToString());
             }
-            return retour;
+            return result;
         }
 
         /// <summary>
@@ -322,7 +328,7 @@ namespace Service.UserArea
             bool result = false;
             try
             {
-                EMailAudit Audit = new EMailAudit();
+                EmailAudit Audit = new EmailAudit();
                 Audit.UserId = EMail.UserId;
                 Audit.EMailTypeLanguageId = EMail.EMailTypeLanguageId;
                 Audit.EMailFrom = EncryptHelper.EncryptToString(EMail.FromEmail);
@@ -332,7 +338,9 @@ namespace Service.UserArea
                 Audit.CCUsersNumber = CCUsersNumber;
                 Audit.ScheduledTaskId = EMail.RelatedScheduledTaskId;
                 Audit.Comment = EMail.Comment;
-                result = EMailDAL.InsertAudit(Audit);
+                _emailAuditRepo.Add(Audit);
+                result = _emailAuditRepo.Save();
+
             }
             catch (Exception e)
             {
@@ -347,7 +355,84 @@ namespace Service.UserArea
             DisplayEmailAuditViewModel model = new DisplayEmailAuditViewModel();
             try
             {
-                model = EMailDAL.GetEMailsAuditList(Pattern, StartAt, PageSize);
+                model.Pattern = Pattern;
+                model.PageSize = PageSize;
+                model.StartAt = StartAt;
+                if (Pattern == null)
+                    Pattern = "";
+                Pattern = Pattern.ToLower().Trim();
+
+                if (String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
+                {
+
+                }
+                else
+                {
+
+                }
+
+
+                db = new DBConnect();
+                string Query = "select a.Id, a.UserId, a.EMailFrom, a.EMailTo ,a.Date ";
+                Query = Query + ",a.AttachmentNumber,a.EMailTypeLanguageId,u.FirstName, u.LastName,c.Name, a.Comment ";
+                Query = Query + ",l.EMailTypeId, l.LanguageId,cl.Name as 'LanguageName'  ";
+                Query = Query + ",n.Id as NewsId, n.Title as Newstitle, a.ScheduledTaskId ";
+                Query = Query + "from emailaudit a ";
+                Query = Query + " inner join emailtypelanguage l on l.id=a.EMailTypeLanguageId ";
+                Query = Query + " left join user u on u.Id=a.UserId  ";
+                Query = Query + " left join category c on c.Id=l.EMailTypeId ";
+                Query = Query + " left join category cl on cl.Id=l.LanguageId ";
+                Query = Query + " left join scheduledtask st on st.Id=a.ScheduledTaskId ";
+                Query = Query + " left join news n on n.Id=st.newsid ";
+                Query = Query + "where 1=1 ";
+                Query = Query + "order by a.Id desc";
+                if (String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
+                {
+                    model.Count = db.GetData(Query).Rows.Count;
+                    Query = Query + " LIMIT " + PageSize.ToString() + " OFFSET " + StartAt.ToString();
+                }
+
+                DataTable data = db.GetData(Query);
+                for (int i = 0; i < data.Rows.Count; i++)
+                {
+                    DataRow dr = data.Rows[i];
+                    EMailAudit Audit = new EMailAudit();
+                    Audit.Id = MySQLHelper.GetIntFromMySQL(dr["Id"]).Value;
+                    Audit.UserId = MySQLHelper.GetIntFromMySQL(dr["UserId"]);
+                    Audit.LanguageName = Convert.ToString(dr["LanguageName"]);
+                    Audit.LanguageId = MySQLHelper.GetIntFromMySQL(dr["LanguageId"]).Value;
+                    Audit.EMailTypeId = MySQLHelper.GetIntFromMySQL(dr["EMailTypeId"]).Value;
+                    Audit.EMailTypeLanguageId = MySQLHelper.GetIntFromMySQL(dr["EMailTypeLanguageId"]).Value;
+                    Audit.EMailFrom = Convert.ToString(dr["EMailFrom"]);
+                    Audit.UserFirstName = Convert.ToString(dr["FirstName"]);
+                    Audit.EMailTo = Convert.ToString(dr["EMailTo"]);
+                    Audit.UserLastName = Convert.ToString(dr["LastName"]);
+                    Audit.Comment = Convert.ToString(dr["Comment"]);
+                    Audit.Date = MySQLHelper.GetDateFromMySQL(dr["Date"]).Value.ToLocalTime();
+                    Audit.EMailTypeName = Convert.ToString(dr["Name"]);
+                    Audit.AttachmentNumber = Convert.ToInt32(dr["AttachmentNumber"]);
+                    Audit.ScheduledTaskId = MySQLHelper.GetIntFromMySQL(dr["ScheduledTaskId"]);
+                    Audit.NewsId = MySQLHelper.GetIntFromMySQL(dr["NewsId"]);
+                    Audit.NewsTitle = MySQLHelper.GetStringFromMySQL(dr["NewsTitle"]);
+                    Audit.EMailFromDecrypt = EncryptHelper.DecryptString(Audit.EMailFrom)?.ToLower().Trim();
+                    Audit.EMailToDecrypt = EncryptHelper.DecryptString(Audit.EMailTo)?.ToLower().Trim();
+                    Audit.UserFirstNameDecrypt = EncryptHelper.DecryptString(Audit.UserFirstName)?.ToLower().Trim();
+                    Audit.UserLastNameDecrypt = EncryptHelper.DecryptString(Audit.UserLastName)?.ToLower().Trim();
+                    ListAudits.Add(Audit);
+                }
+
+                if (!String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
+                {
+                    IEnumerable<EMailAudit> resultIEnumerable = ListAudits as IEnumerable<EMailAudit>;
+                    resultIEnumerable = resultIEnumerable.Where(a => (a.EMailTypeName != null && a.EMailTypeName.ToLower().Contains(Pattern)) || (a.NewsTitle != null && a.NewsTitle.ToLower().Contains(Pattern)) || (a.UserFirstNameDecrypt != null && a.UserFirstNameDecrypt.ToLower().Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.EMailTypeName.Contains(Pattern) || (a.EMailToDecrypt != null && a.EMailToDecrypt.ToLower().Contains(Pattern)) || (a.EMailFromDecrypt != null && a.EMailFromDecrypt.ToLower().Contains(Pattern)) || (a.UserLastNameDecrypt != null && a.UserLastNameDecrypt.ToLower().Contains(Pattern)));
+                    model.Count = resultIEnumerable.ToList().Count;
+                    ListAudits = resultIEnumerable.Take(PageSize).Skip(StartAt).OrderByDescending(a => a.Id).ToList();
+                }
+
+                model.AuditsList = ListAudits;
+
+
+                // model = EMailDAL.GetEMailsAuditList(Pattern, StartAt, PageSize);
             }
             catch (Exception e)
             {

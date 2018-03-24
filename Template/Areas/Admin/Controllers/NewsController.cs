@@ -23,14 +23,17 @@ namespace Website.Areas.Admin.Controllers
     public class NewsController : BaseController
     {
         private INewsService _newsService;
+        private IScheduledTaskService _scheduledTaskService;
 
 
         public NewsController(
             IUserService userService,
-            INewsService newsService
+            INewsService newsService,
+            IScheduledTaskService scheduledTaskService
             ) : base(userService)
         {
             _newsService = newsService;
+            _scheduledTaskService = scheduledTaskService;
         }
 
 
@@ -136,7 +139,7 @@ namespace Website.Areas.Admin.Controllers
                     {
                         if (!Model.HasScheduledTaskBeenExecuted && Model.ScheduledTaskId.HasValue)
                         {
-                            _success = ScheduledTaskService.CancelTaskById(Model.ScheduledTaskId.Value);
+                            _success = _scheduledTaskService.CancelTaskById(Model.ScheduledTaskId.Value);
                         }
 
                         if (_success && !Model.HasScheduledTaskBeenExecuted && Model.TypeId != CommonsConst.NewsType.PublishOnly && Model.Active)
@@ -146,7 +149,7 @@ namespace Website.Areas.Admin.Controllers
                                 Model.PublishDate = DateTime.UtcNow.AddSeconds(5);
                             }
 
-                            _success = ScheduledTaskService.ScheduleNews(Model.Id, Model.PublishDate - DateTime.UtcNow);
+                            _success = _scheduledTaskService.ScheduleNews(Model.Id, Model.PublishDate - DateTime.UtcNow);
                         }
                     }
                 }

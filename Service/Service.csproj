@@ -71,14 +71,12 @@
     <Compile Include="Task\Base\JobBase.cs" />
     <Compile Include="Task\Recurring\DeleteLogs.cs" />
     <Compile Include="Task\OneShot\SendEMailToUser.cs" />
-    <Compile Include="ScheduledTaskService.cs" />
     <Compile Include="TaskLogService.cs" />
     <Compile Include="Service\User\ProvinceService.cs" />
     <Compile Include="Service\User\CountryService.cs" />
     <Compile Include="Service\User\EMailService.cs" />
     <Compile Include="Service\User\CategoryService.cs" />
     <Compile Include="UserRolesService.cs" />
-    <Compile Include="UserIdentityService.cs" />
     <Compile Include="Service\Admin\NewsService.cs" />
     <Compile Include="Service\User\UserService.cs" />
     <Compile Include="Service\Admin\LogService.cs" />

@@ -15,7 +15,7 @@ using Models.Class.Email;
 using DataEntities.Model;
 using Service.Admin.Interface;
 using DataEntities.Repositories;
-using DataAccess;
+
 
 namespace Service.Admin
 {
@@ -309,7 +309,14 @@ namespace Service.Admin
             {
                 if (!string.IsNullOrWhiteSpace(CallBackId))
                 {
-                    Result = ScheduledTaskDAL.SetTaskAsExecuted(CallBackId);
+                    ScheduledTask task = _scheduledTaskRepo.FindAllBy(s => s.CallbackId == CallBackId).FirstOrDefault();
+                    if (task != null)
+                    {
+                        task.ExecutionDate = DateTime.UtcNow;
+                        _scheduledTaskRepo.Edit(task);
+                        Result = _scheduledTaskRepo.Save();
+                    }
+                    Result = SetTaskAsExecuted(CallBackId);
                 }
             }
             catch (Exception e)
@@ -320,7 +327,26 @@ namespace Service.Admin
             return Result;
         }
 
-
+        public bool DeleteScheduledTaskById(int SchduledTaskId)
+        {
+            bool result = false;
+            try
+            {
+                var TaskToDelete = _scheduledTaskRepo.Get(SchduledTaskId);
+                if (TaskToDelete != null)
+                {
+                    List<Tuple<string, object>> Parameters = new List<Tuple<string, object>>();
+                    Parameters.Add(new Tuple<string, object>("@TaskToDelete", TaskToDelete));
+                    result = _scheduledTaskRepo.ExecuteStoredProcedure("DeleteScheduledTaskById", Parameters);
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "SchduledTaskId = " + SchduledTaskId);
+            }
+            return result;
+        }
 
 
         /// <summary>
@@ -341,13 +367,18 @@ namespace Service.Admin
                 {
                     if (CancelledByUser)
                     {
-                        Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                        Columns.Add("CancellationDate", DateTime.UtcNow);
-                        Result = GenericDAL.UpdateById("scheduledtask", Id, Columns);
+                        ScheduledTask task = _scheduledTaskRepo.Get(Id);
+                        if(task!=null)
+                        {
+                            task.CancellationDate=DateTime.UtcNow;
+                            _scheduledTaskRepo.Edit(task);
+                            Result=_scheduledTaskRepo.Save();
+                        }
+
                     }
                     else
                     {
-                        Result = ScheduledTaskDAL.DeleteScheduledTaskById(Id);
+                        Result = DeleteScheduledTaskById(Id);
                     }
                 }
 
@@ -396,17 +427,17 @@ namespace Service.Admin
             bool Result = false;
             try
             {
-
-
-                Dictionary<string, Object> Columns = new Dictionary<string, Object>();
-                Columns.Add("CallbackId", Task.CallbackId);
-                Columns.Add("GroupName", Task.GroupName);
-                Columns.Add("UserId", Task.UserId);
-                Columns.Add("ExpectedExecutionDate", Task.ExpectedExecutionDate);
-                Columns.Add("EmailTypeId", Task.EmailTypeId);
-                Columns.Add("CreationDate", Task.CreationDate);
-                Columns.Add("NewsId", Task.NewsId);
-                Result = GenericDAL.InsertRow("scheduledtask", Columns) > 0 ? true : false;
+                ScheduledTask task = new ScheduledTask();
+                task.CallbackId= Task.CallbackId;
+                task.GroupName = Task.GroupName;
+                task.UserId = Task.UserId;
+                task.ExpectedExecutionDate = Task.ExpectedExecutionDate;
+                task.EmailTypeId = Task.EmailTypeId;
+                task.CreationDate = Task.CreationDate;
+                task.NewsId = Task.NewsId;
+                _scheduledTaskRepo.Add(task);
+                Result = _scheduledTaskRepo.Save();
+                
             }
             catch (Exception e)
             {

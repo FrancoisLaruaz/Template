@@ -22,14 +22,17 @@ namespace Service.Admin
     {
         private readonly IEMailService _emailService;
         private readonly ICategoryService _categoryService;
+        private readonly IScheduledTaskService _scheduledTaskService;
         private readonly IGenericRepository<DataEntities.Model.News> _newsRepo;
 
         public NewsService(IEMailService emailService, ICategoryService categoryService,
-             IGenericRepository<DataEntities.Model.News> newsRepo)
+             IGenericRepository<DataEntities.Model.News> newsRepo,
+             IScheduledTaskService scheduledTaskService)
         {
             _emailService = emailService;
             _categoryService = categoryService;
             _newsRepo = newsRepo;
+            _scheduledTaskService = scheduledTaskService;
         }
 
         public NewsService()
@@ -226,7 +229,7 @@ namespace Service.Admin
                 {
                     int? ScheduledTaskId = news.ScheduledTasks?.FirstOrDefault()?.Id;
                     if (ScheduledTaskId != null)
-                         ScheduledTaskService.CancelTaskById(ScheduledTaskId.Value);
+                         _scheduledTaskService.CancelTaskById(ScheduledTaskId.Value);
                     List<Tuple<string, object>> Parameters = new List<Tuple<string, object>>();
                     Parameters.Add(new Tuple<string, object>("@NewsId", NewsId));
                     result = _newsRepo.ExecuteStoredProcedure("DeleteNewsById", Parameters);

@@ -11,7 +11,6 @@ using DataEntities.Repositories;
 using DataEntities.Model;
 using Models.ViewModels.Account;
 using Models.ViewModels.Home;
-using Models.BDDObject;
 using Models.Class.Email;
 
 namespace Service.UserArea.Interface
@@ -31,7 +30,7 @@ namespace Service.UserArea.Interface
 
         bool SendEMailToUser(int UserId, int EMailTypeId);
 
-        EMailTypeLanguage GetEMailTypeLanguage(int EMailTypeId, int LanguageId);
+        EmailTypeLanguage GetEMailTypeLanguage(int EMailTypeId, int LanguageId);
 
         bool InsertEMailAudit(Email EMail, int AttachmentNumber, int CCUsersNumber);
 

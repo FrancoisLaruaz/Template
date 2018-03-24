@@ -15,19 +15,21 @@ using Quartz.Impl.Matchers;
 using Models.Class.TaskSchedule;
 using Website.Controllers;
 using Service.UserArea.Interface;
+using Service.Admin.Interface;
 
 namespace Website.Areas.Admin.Controllers
 {
     public class TasksController : BaseController
     {
 
-
+        private IScheduledTaskService _scheduledTaskService;
 
         public TasksController(
-            IUserService userService
+            IUserService userService,
+            IScheduledTaskService scheduledTaskService
             ) : base(userService)
         {
-
+            _scheduledTaskService = scheduledTaskService;
         }
 
 
@@ -42,8 +44,8 @@ namespace Website.Areas.Admin.Controllers
                 //   ScheduledTaskService.ScheduleEMailUserTask(21, CommonsConst.EmailType.UserWelcome, TimeSpan.FromSeconds(300));
 
                 Model = TaskHelper.GetSchedulerInformation();
-                Model.ScheduledTasksNumberInDatabase = ScheduledTaskService.GetActiveScheduledTasksNumber();
-                Model.ScheduledTasksProblemsNumber = ScheduledTaskService.GetNotExecutedTasksNumber();
+                Model.ScheduledTasksNumberInDatabase = _scheduledTaskService.GetActiveScheduledTasksNumber();
+                Model.ScheduledTasksProblemsNumber = _scheduledTaskService.GetNotExecutedTasksNumber();
 
             }
             catch (Exception e)
@@ -81,7 +83,7 @@ namespace Website.Areas.Admin.Controllers
             bool _success = false;
             try
             {
-                _success = ScheduledTaskService.SetScheduledTasks();
+                _success = _scheduledTaskService.SetScheduledTasks();
             }
             catch (Exception e)
             {

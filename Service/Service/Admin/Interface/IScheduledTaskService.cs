@@ -20,6 +20,8 @@ namespace Service.Admin.Interface
 
         int GetNotExecutedTasksNumber();
 
+        int GetActiveScheduledTasksNumber();
+
         void SetRecurringScheduledTasks();
 
         bool SetScheduledTasks();

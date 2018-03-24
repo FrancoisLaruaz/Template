@@ -14,6 +14,7 @@ using DataEntities;
 using CommonsConst;
 using Models.ViewModels.Account;
 using Models.Class.SignUp;
+using Service.Admin.Interface;
 
 namespace Service.UserArea
 {
@@ -25,15 +26,17 @@ namespace Service.UserArea
         private readonly ICategoryService _categoryService;
         private readonly IProvinceService _provinceService;
         private readonly ICountryService _countryService;
+        private readonly IScheduledTaskService _scheduledTaskService;
 
         public UserService(IGenericRepository<DataEntities.Model.User> userRepo, IGenericRepository<DataEntities.Model.AspNetUser> aspNetUserRepo, ICategoryService categoryService,
-            IProvinceService provinceService, ICountryService countryService)
+            IProvinceService provinceService, ICountryService countryService, IScheduledTaskService scheduledTaskService)
         {
             _userRepo = userRepo;
             _aspNetUserRepo = aspNetUserRepo;
             _categoryService = categoryService;
             _provinceService = provinceService;
             _countryService = countryService;
+            _scheduledTaskService = scheduledTaskService;
         }
 
         public UserService()
@@ -162,8 +165,8 @@ namespace Service.UserArea
                     result.UserNameDecrypt = EncryptHelper.DecryptString(result.UserName);
                     result.UserIdentityId = user.AspNetUser.Id;
                     result.UserId = user.Id;
-                    result.LanguageTag = user.Language.Code;
-                    result.PictureThumbnailSrc = user.PictureThumbnailSrc;
+                    result.LanguageTag = user.Language?.Code??CommonsConst.Const.DefaultCulture;
+                    result.PictureThumbnailSrc = user.PictureThumbnailSrc ?? CommonsConst.Const.DefaultThumbnailUser;
                     result.EmailConfirmed = user.AspNetUser.EmailConfirmed == null ? false : user.AspNetUser.EmailConfirmed.Value;
                 }
 
@@ -338,7 +341,7 @@ namespace Service.UserArea
             MyProfileEditViewModel model = new MyProfileEditViewModel();
             try
             {
-                var user = _userRepo.Get(model.UserId);
+                var user = _userRepo.Get(UserId);
                 if (user != null)
                 {
                     model.UserId = user.Id;
@@ -374,7 +377,7 @@ namespace Service.UserArea
                 var UserToDelete = _userRepo.Get(UserId);
                 if (UserToDelete != null)
                 {
-                    ScheduledTaskService.CancelTaskByUserId(UserToDelete.Id);
+                    _scheduledTaskService.CancelTaskByUserId(UserToDelete.Id);
                     List<Tuple<string, object>> Parameters = new List<Tuple<string, object>>();
                     Parameters.Add(new Tuple<string, object>("@UserId", UserId));
                     result = _userRepo.ExecuteStoredProcedure("DeleteUserById", Parameters);
