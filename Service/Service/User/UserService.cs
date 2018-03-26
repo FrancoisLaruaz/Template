@@ -1,5 +1,4 @@
 ﻿using Commons;
-using DataAccess;
 using Models.Class;
 using Models.ViewModels;
 using System;
@@ -15,6 +14,7 @@ using CommonsConst;
 using Models.ViewModels.Account;
 using Models.Class.SignUp;
 using Service.Admin.Interface;
+using Models.ViewModels.Shared;
 
 namespace Service.UserArea
 {

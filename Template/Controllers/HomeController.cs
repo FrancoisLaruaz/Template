@@ -16,6 +16,7 @@ using System.Web.Hosting;
 using Service.UserArea.Interface;
 using Models.ViewModels.Home;
 using Models.Class.Email;
+using Models.ViewModels.Shared;
 
 
 namespace Website.Controllers

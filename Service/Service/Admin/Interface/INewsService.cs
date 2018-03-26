@@ -1,5 +1,5 @@
 ﻿using Commons;
-using DataAccess;
+
 using Models.Class;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using Models.ViewModels;
 using DataEntities.Repositories;
 using DataEntities.Model;
 using Models.ViewModels.Admin.News;
+using Models.Class.News;
 
 namespace Service.Admin.Interface
 {
@@ -17,8 +18,8 @@ namespace Service.Admin.Interface
     {
 
 
-        List<News> GetPublishedNewsList();
-        List<News> GetNotPublishedNewsList();
+        List<NewsItem> GetPublishedNewsList();
+        List<NewsItem> GetNotPublishedNewsList();
 
         int CreateNews(NewsEditViewModel model);
 

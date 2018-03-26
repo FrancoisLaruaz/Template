@@ -1,5 +1,5 @@
 ﻿using Commons;
-using DataAccess;
+
 using Models.Class;
 using System;
 using System.Collections.Generic;
@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 using Models.ViewModels;
 using DataEntities.Repositories;
 using DataEntities.Model;
+using Models.ViewModels.Admin.Logs;
 
 namespace Service.Admin.Interface
 {
     public interface ILogService
     {
-        LogsViewModel GetLogsViewModel();
 
         bool DeleteLogs();
 

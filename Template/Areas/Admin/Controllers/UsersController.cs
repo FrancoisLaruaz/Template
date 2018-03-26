@@ -15,12 +15,24 @@ using Quartz.Impl.Matchers;
 using Models.Class.TaskSchedule;
 using Website.Controllers;
 using Service.UserArea.Interface;
+using Service.Admin.Interface;
+using Models.ViewModels.Admin.Users;
+using Models.Class.UserRoles;
 
 namespace Website.Areas.Admin.Controllers
 {
     public class UsersController : BaseController
     {
+        private IUserRolesService _userRoleService;
 
+
+        public UsersController(
+            IUserService userService,
+            IUserRolesService userRoleService
+            ) : base(userService)
+        {
+            _userRoleService = userRoleService;
+        }
 
 
         public UsersController(
@@ -34,7 +46,7 @@ namespace Website.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            UsersViewModel Model = new UsersViewModel();
+
             try
             {
                 ViewBag.Title = "[[[Users]]]";
@@ -43,7 +55,7 @@ namespace Website.Areas.Admin.Controllers
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
-            return View(Model);
+            return View();
         }
 
         [HttpPost]
@@ -51,7 +63,7 @@ namespace Website.Areas.Admin.Controllers
         {
             try
             {
-                Model = UserRolesService.GetDisplayUsersViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
+                Model = _userRoleService.GetDisplayUsersViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
             }
             catch (Exception e)
             {
@@ -71,7 +83,7 @@ namespace Website.Areas.Admin.Controllers
             {
                 if (!String.IsNullOrWhiteSpace(roleid) && !String.IsNullOrWhiteSpace(userid))
                 {
-                    _success = UserRolesService.AddUserRole(userid, roleid);
+                    _success = _userRoleService.AddUserRole(userid, roleid);
                 }
             }
             catch (Exception e)
@@ -91,7 +103,7 @@ namespace Website.Areas.Admin.Controllers
             {
                 if (!String.IsNullOrWhiteSpace(roleid) && !String.IsNullOrWhiteSpace(userid))
                 {
-                    _success = UserRolesService.DeleteUserRoleByUserIdAndRoleId(userid, roleid);
+                    _success = _userRoleService.DeleteUserRoleByUserIdAndRoleId(userid, roleid);
                 }
             }
             catch (Exception e)
@@ -128,7 +140,7 @@ namespace Website.Areas.Admin.Controllers
             try
             {
                 Model.UseridentityId = UserIdentityId;
-                Model = UserRolesService.GetUserRolesByUseridentityId(UserIdentityId);
+                Model = _userRoleService.GetUserRolesByUseridentityId(UserIdentityId);
             }
             catch (Exception e)
             {

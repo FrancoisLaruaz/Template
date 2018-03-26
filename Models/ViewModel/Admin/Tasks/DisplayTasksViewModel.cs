@@ -4,21 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using Models.BDDObject;
 using Models.Class;
 
-namespace Models.ViewModels
+namespace Models.ViewModels.Admin.Tasks
 {
     public class DisplayTasksViewModel : BaseModelPager
     {
-        public List<TaskLog> TaskList { get; set; }
+        public List<DataEntities.Model.TaskLog> TaskList { get; set; }
 
         public string Pattern { get; set; }
 
 
         public DisplayTasksViewModel()
         {
-            TaskList = new List<TaskLog>();
+            TaskList = new List<DataEntities.Model.TaskLog>();
         }
     }
 }

@@ -44,29 +44,61 @@ namespace DataEntities.Repositories
             }
             catch (Exception e)
             {
-                 Logger.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType,null);
+                Logger.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, null);
             }
             return new List<T>();
         }
 
         public virtual T Add(T entity)
         {
-            return _dbset.Add(entity);
+            try
+            {
+                return _dbset.Add(entity);
+            }
+            catch (Exception e)
+            {
+                Logger.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, null);
+            }
+            return null;
         }
 
         public virtual T Delete(T entity)
         {
-            return _dbset.Remove(entity);
+            try
+            {
+                return _dbset.Remove(entity);
+            }
+            catch (Exception e)
+            {
+                Logger.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, null);
+            }
+            return null;
         }
 
         public virtual T Delete(int id)
         {
-            return _dbset.Remove(_dbset.Find(id));
+            try
+            {
+                return _dbset.Remove(_dbset.Find(id));
+            }
+            catch (Exception e)
+            {
+                Logger.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "id ="+ id);
+            }
+            return null;
         }
 
         public virtual T Delete(Guid id)
         {
-            return _dbset.Remove(_dbset.Find(id));
+            try
+            {
+                return _dbset.Remove(_dbset.Find(id));
+            }
+            catch (Exception e)
+            {
+                Logger.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "id = "+ id);
+            }
+            return null;
         }
 
         public virtual T Edit(T entity)
@@ -124,6 +156,10 @@ namespace DataEntities.Repositories
                         Logger.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "State=" + eve.Entry.State + " | Type=" + eve.Entry.Entity.GetType().Name + "| PropertyName = " + ve.PropertyName + " | ErrorMessage =" + ve.ErrorMessage);
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Logger.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, null);
             }
             return result;
         }

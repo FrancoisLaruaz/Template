@@ -120,8 +120,8 @@ namespace Service.Admin
         {
             try
             {
-                TaskHelper.ScheduleRecurringTask(JobBuilder.Create<DeleteLogs>(), TaskHelper.GetDailyCronSchedule("03", "20"));
-                TaskHelper.ScheduleRecurringTask(JobBuilder.Create<DeleteUploadedFile>(), TaskHelper.GetDailyCronSchedule("8", "46"));
+                TaskHelper.ScheduleRecurringTask(JobBuilder.Create<DeleteLogs>(), TaskHelper.GetDailyCronSchedule("03", "33"));
+                TaskHelper.ScheduleRecurringTask(JobBuilder.Create<DeleteUploadedFile>(), TaskHelper.GetDailyCronSchedule("03", "34"));
             }
             catch (Exception e)
             {
@@ -309,7 +309,7 @@ namespace Service.Admin
             {
                 if (!string.IsNullOrWhiteSpace(CallBackId))
                 {
-                    ScheduledTask task = _scheduledTaskRepo.FindAllBy(s => s.CallbackId == CallBackId).FirstOrDefault();
+                    ScheduledTask task = _scheduledTaskRepo.FindAllBy(s => s.CallbackId.Trim().ToLower() == CallBackId.Trim().ToLower()).FirstOrDefault();
                     if (task != null)
                     {
                         task.ExecutionDate = DateTime.UtcNow;
@@ -336,7 +336,7 @@ namespace Service.Admin
                 if (TaskToDelete != null)
                 {
                     List<Tuple<string, object>> Parameters = new List<Tuple<string, object>>();
-                    Parameters.Add(new Tuple<string, object>("@TaskToDelete", TaskToDelete));
+                    Parameters.Add(new Tuple<string, object>("@ScheduledTaskId", TaskToDelete.Id));
                     result = _scheduledTaskRepo.ExecuteStoredProcedure("DeleteScheduledTaskById", Parameters);
                 }
             }

@@ -1,5 +1,5 @@
 ﻿using Commons;
-using DataAccess;
+
 using Models.Class;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using Models.ViewModels;
 using DataEntities.Repositories;
 using DataEntities.Model;
 using Service.Admin.Interface;
+using Models.ViewModels.Admin.Logs;
 
 namespace Service.Admin
 {
@@ -28,23 +29,6 @@ namespace Service.Admin
             _logRepo = new GenericRepository<Log4Net>(context);
         }
 
-        public  LogsViewModel GetLogsViewModel()
-        {
-            LogsViewModel model = new LogsViewModel();
-            try
-            {
-                using (DBConnect db = new DBConnect())
-                {
-                    model.InfoConnectionBBD = db.CheckConnection();
-                }
-
-            }
-            catch(Exception e)
-            {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            }
-            return model;
-        }
 
 
         /// <summary>
@@ -79,7 +63,32 @@ namespace Service.Admin
             DisplayLogsViewModel model = new DisplayLogsViewModel();
             try
             {
-                model = LogDAL.GetLogsList(Pattern, StartAt, PageSize);
+                model.Pattern = Pattern;
+                model.PageSize = PageSize;
+                model.StartAt = StartAt;
+                if (Pattern == null)
+                    Pattern = "";
+                Pattern = Pattern.ToLower().Trim();
+
+
+                if (String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
+                {
+                    var FullLogsList = _logRepo.List().ToList();
+                    model.Count = FullLogsList.Count;
+                    model.LogsList = FullLogsList.OrderByDescending(e => e.Id).Skip(StartAt).Take(PageSize).ToList();
+                }
+                else
+                {
+                    model.LogsList = _logRepo.List().OrderByDescending(e => e.Id).ToList();
+                }
+
+                if (!String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
+                {
+                    IEnumerable<Log4Net> resultIEnumerable = model.LogsList as IEnumerable<Log4Net>;
+                    resultIEnumerable = resultIEnumerable.Where(a => (a.UserLogin != null && a.UserLogin!="" && Commons.EncryptHelper.DecryptString(a.UserLogin).ToLower().Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.Level.ToLower().Contains(Pattern) || (a.Exception != null && a.Exception.ToLower().Contains(Pattern)) || (a.Logger != null && a.Logger.ToLower().Contains(Pattern)) || (a.Message != null && a.Message.ToLower().Contains(Pattern) || (a.Thread != null && a.Message.Contains(Pattern))));
+                    model.Count = resultIEnumerable.ToList().Count;
+                    model.LogsList = resultIEnumerable.OrderByDescending(a => a.Id).Skip(StartAt).Take(PageSize).ToList();
+                }
             }
             catch (Exception e)
             {

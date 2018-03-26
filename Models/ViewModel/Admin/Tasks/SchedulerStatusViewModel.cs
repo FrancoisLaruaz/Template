@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using Models.BDDObject;
 using Models.Class.TaskSchedule;
 
 
-namespace Models.ViewModels
+namespace Models.ViewModels.Admin.Tasks
 {
     public class SchedulerStatusViewModel 
     {

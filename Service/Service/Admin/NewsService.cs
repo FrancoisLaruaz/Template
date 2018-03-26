@@ -1,5 +1,4 @@
 ﻿using Commons;
-using DataAccess;
 using Models.Class;
 using System;
 using System.Collections.Generic;
@@ -15,24 +14,28 @@ using Service.UserArea;
 using Models.ViewModels.Admin.News;
 using Models.Class.Email;
 using DataEntities.Model;
+using Models.Class.News;
 
 namespace Service.Admin
 {
-    public  class NewsService : INewsService
+    public class NewsService : INewsService
     {
         private readonly IEMailService _emailService;
         private readonly ICategoryService _categoryService;
         private readonly IScheduledTaskService _scheduledTaskService;
         private readonly IGenericRepository<DataEntities.Model.News> _newsRepo;
+        private readonly IGenericRepository<DataEntities.Model.User> _userRepo;
 
         public NewsService(IEMailService emailService, ICategoryService categoryService,
              IGenericRepository<DataEntities.Model.News> newsRepo,
+             IGenericRepository<DataEntities.Model.User> userRepo,
              IScheduledTaskService scheduledTaskService)
         {
             _emailService = emailService;
             _categoryService = categoryService;
             _newsRepo = newsRepo;
             _scheduledTaskService = scheduledTaskService;
+            _userRepo = userRepo;
         }
 
         public NewsService()
@@ -46,12 +49,20 @@ namespace Service.Admin
         /// Return all the news not published
         /// </summary>
         /// <returns></returns>
-        public  List<News> GetNotPublishedNewsList()
+        public List<NewsItem> GetNotPublishedNewsList()
         {
-            List<News> result = null;
+            List<NewsItem> result = new List<NewsItem>();
             try
             {
-                result = _newsRepo.FindAllBy(n => n.PublishDate >= DateTime.UtcNow).ToList();
+                var NewsList = _newsRepo.FindAllBy(n => n.PublishDate >= DateTime.UtcNow).ToList();
+                foreach (var news in NewsList)
+                {
+                    NewsItem newsItem = TransformNewsIntoNewsItem(news);
+                    if (news != null)
+                    {
+                        result.Add(newsItem);
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -62,12 +73,20 @@ namespace Service.Admin
         }
 
 
-        public  List<News> GetPublishedNewsList()
+        public List<NewsItem> GetPublishedNewsList()
         {
-            List<News> result = null;
+            List<NewsItem> result = new List<NewsItem>();
             try
             {
-                result = _newsRepo.FindAllBy(n => n.PublishDate < DateTime.UtcNow).ToList();
+                var NewsList = _newsRepo.FindAllBy(n => n.PublishDate <DateTime.UtcNow).ToList();
+                foreach (var news in NewsList)
+                {
+                    NewsItem newsItem = TransformNewsIntoNewsItem(news);
+                    if (news != null)
+                    {
+                        result.Add(newsItem);
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -82,7 +101,7 @@ namespace Service.Admin
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public  int CreateNews(NewsEditViewModel model)
+        public int CreateNews(NewsEditViewModel model)
         {
             int InsertedId = -1;
             try
@@ -102,7 +121,7 @@ namespace Service.Admin
                 news.CreationDate = DateTime.UtcNow;
 
                 _newsRepo.Add(news);
-                if(_newsRepo.Save())
+                if (_newsRepo.Save())
                 {
                     InsertedId = news.Id;
                 }
@@ -121,13 +140,13 @@ namespace Service.Admin
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public  bool EditNews(NewsEditViewModel model)
+        public bool EditNews(NewsEditViewModel model)
         {
             bool Result = false;
             try
             {
                 News news = _newsRepo.Get(model.Id);
-                if(news!=null)
+                if (news != null)
                 {
                     news.PublishDate = model.PublishDate;
                     news.Title = model.NewsTitle;
@@ -141,7 +160,7 @@ namespace Service.Admin
 
                     _newsRepo.Edit(news);
                     Result = _newsRepo.Save();
-                
+
                 }
 
             }
@@ -158,7 +177,7 @@ namespace Service.Admin
         /// </summary>
         /// <param name="NewsId"></param>
         /// <returns></returns>
-        public  NewsEditViewModel GetNewsEditViewModel(int? NewsId)
+        public NewsEditViewModel GetNewsEditViewModel(int? NewsId)
         {
             NewsEditViewModel model = new NewsEditViewModel();
             try
@@ -183,9 +202,10 @@ namespace Service.Admin
                         model.TypeUserMailingId = RealNews.TypeUserMailingId;
                         model.TypeId = RealNews.TypeId;
                         model.Active = RealNews.Active;
-                        model.PublishDate = RealNews.PublishDate;
+                        model.Id = RealNews.Id;
+                        model.PublishDate = RealNews.PublishDate.ToLocalTime();
                         model.ScheduledTaskId = RealNews.ScheduledTasks?.FirstOrDefault()?.Id;
-                        model.HasScheduledTaskBeenExecuted = RealNews.ScheduledTasks?.FirstOrDefault()?.ExecutionDate<DateTime.UtcNow?true: false;
+                        model.HasScheduledTaskBeenExecuted = RealNews.ScheduledTasks?.FirstOrDefault()?.ExecutionDate < DateTime.UtcNow ? true : false;
                     }
                 }
 
@@ -200,7 +220,7 @@ namespace Service.Admin
             return model;
         }
 
-        public  NewsViewModel GetNewsViewModel()
+        public NewsViewModel GetNewsViewModel()
         {
             NewsViewModel model = new NewsViewModel();
             try
@@ -219,17 +239,17 @@ namespace Service.Admin
         /// </summary>
         /// <param name="NewsId"></param>
         /// <returns></returns>
-        public  bool DeleteNews(int NewsId)
+        public bool DeleteNews(int NewsId)
         {
             bool result = false;
             try
             {
                 News news = GetNewsById(NewsId);
-                if (news != null)
+                if (news != null && news.Id>0)
                 {
                     int? ScheduledTaskId = news.ScheduledTasks?.FirstOrDefault()?.Id;
                     if (ScheduledTaskId != null)
-                         _scheduledTaskService.CancelTaskById(ScheduledTaskId.Value);
+                        _scheduledTaskService.CancelTaskById(ScheduledTaskId.Value);
                     List<Tuple<string, object>> Parameters = new List<Tuple<string, object>>();
                     Parameters.Add(new Tuple<string, object>("@NewsId", NewsId));
                     result = _newsRepo.ExecuteStoredProcedure("DeleteNewsById", Parameters);
@@ -249,13 +269,13 @@ namespace Service.Admin
         /// </summary>
         /// <param name="NewsId"></param>
         /// <returns></returns>
-        public  bool SendNews(int NewsId)
+        public bool SendNews(int NewsId)
         {
             bool result = false;
             try
             {
                 News news = GetNewsById(NewsId);
-                if (news != null )
+                if (news != null)
                 {
                     List<int> MailingList = GetNewsMailList(news.TypeUserMailingId.Value);
 
@@ -287,7 +307,7 @@ namespace Service.Admin
             return result;
         }
 
-        public  PreviewNewsMailViewModel GetPreviewNewsMailViewModel(string Title, string Description, UserSession user)
+        public PreviewNewsMailViewModel GetPreviewNewsMailViewModel(string Title, string Description, UserSession user)
         {
             PreviewNewsMailViewModel model = new PreviewNewsMailViewModel();
             try
@@ -303,7 +323,7 @@ namespace Service.Admin
                 GenericEmailContent.Add(new Tuple<string, string>("#RealUserEMail#", ""));
                 GenericEmailContent.Add(new Tuple<string, string>("#WebSiteURL#", Utils.Website));
 
-                string BasePathFile = FileHelper.GetRootPathDefault() + @"\"+  Const.BasePathTemplateEMails.Replace("~/", "\\");
+                string BasePathFile = FileHelper.GetRootPathDefault() + @"\" + Const.BasePathTemplateEMails.Replace("~/", "\\");
                 string PathHeaderOnServer = BasePathFile + "\\_HeaderMail.html";
                 string PathFooterOnServer = BasePathFile + "\\_FooterMail.html";
                 string PathEndMailOnServer = BasePathFile + "\\_EndMail_en.html";
@@ -329,12 +349,100 @@ namespace Service.Admin
             return model;
         }
 
-        public  DisplayPublishedNewsViewModel GetDisplayPublishedNewsViewModel(string Pattern, int StartAt, int PageSize)
+
+        public NewsItem TransformNewsIntoNewsItem(News news)
+        {
+            NewsItem model = new NewsItem();
+            try
+            {
+                if (news != null)
+                {
+
+                    model.Id = news.Id;
+                    ScheduledTask task = news.ScheduledTasks?.FirstOrDefault();
+                    model.HasScheduledTaskBeenExecuted= news.ScheduledTasks.Any() ? (news.ScheduledTasks.FirstOrDefault().ExecutionDate == null ? false : true) : false;
+                    model.LastModificationUserFullNameDecrypt = EncryptHelper.DecryptString(news.User.FirstName) + " " + EncryptHelper.DecryptString(news.User.LastName);
+                    model.LastModificationUserId = news.User.Id;
+                    model.Active = news.Active;
+                    model.CreationDate = news.CreationDate.ToLocalTime();
+                    model.Description = news.Description;
+                    model.Title = news.Title;
+                    model.MailSubject = news.MailSubject;
+                    model.ModificationDate = news.ModificationDate.ToLocalTime();
+                    model.PublishDate = news.PublishDate.ToLocalTime();
+                    model.Title = news.Title;
+                    model.TypeId = news.TypeId;
+                    model.TypeName = news.Type?.Name;
+                    model.TypeUserMailingId = news.TypeUserMailingId;
+                    model.TypeUserMailingName = news.TypeUserMailing?.Name;
+
+                    if (task!=null)
+                    {
+                        model.HasScheduledTaskBeenExecuted = task.ExecutionDate == null ? false : true;
+                        model.MailSentNumber = task.EmailAudits.Count();
+                        model.ScheduledTaskId = task.Id;
+                    }
+                    else
+                    {
+                        model.MailSentNumber = 0;
+                    }
+
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "news.Id = " + news.Id);
+            }
+            return model;
+        }
+
+
+        public DisplayPublishedNewsViewModel GetDisplayPublishedNewsViewModel(string Pattern, int StartAt, int PageSize)
         {
             DisplayPublishedNewsViewModel model = new DisplayPublishedNewsViewModel();
             try
             {
-                model = NewsDAL.GetPublishedNewsList(Pattern, StartAt, PageSize);
+                model.Pattern = Pattern;
+                model.PageSize = PageSize;
+                model.StartAt = StartAt;
+                if (Pattern == null)
+                    Pattern = "";
+                Pattern = Pattern.ToLower();
+
+                var News = new List<News>();
+                if (String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
+                {
+                    var FulNewsList = _newsRepo.FindAllBy(n => n.PublishDate<=DateTime.UtcNow).ToList();
+                    model.Count = FulNewsList.Count;
+                    News = FulNewsList.OrderByDescending(e => e.Id).Skip(StartAt).Take(PageSize).ToList();
+                }
+                else
+                {
+                    News = _newsRepo.FindAllBy(n => n.PublishDate <= DateTime.UtcNow).OrderByDescending(e => e.Id).ToList();
+                }
+
+                foreach (var news in News)
+                {
+                    NewsItem newsItem = TransformNewsIntoNewsItem(news);
+                    if (news != null)
+                    {
+                        model.NewsList.Add(newsItem);
+                    }
+                }
+
+                if (!String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
+                {
+                    IEnumerable<NewsItem> resultIEnumerable = model.NewsList as IEnumerable<NewsItem>;
+                    resultIEnumerable = resultIEnumerable.Where(a => (a.Title != null && a.Title.Contains(Pattern)) || (a.MailSubject != null && a.MailSubject.Contains(Pattern)) || (a.Description != null && a.Description.Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.TypeName.Contains(Pattern) || (a.TypeUserMailingName != null && a.TypeUserMailingName.Contains(Pattern)) || (a.PublishDate != null && a.PublishDate.ToString().Contains(Pattern)));
+                    model.Count = resultIEnumerable.ToList().Count;
+                    model.NewsList = resultIEnumerable.OrderByDescending(a => a.Id).Skip(StartAt).Take(PageSize).ToList();
+                }
+
+
             }
             catch (Exception e)
             {
@@ -348,29 +456,24 @@ namespace Service.Admin
         /// </summary>
         /// <param name="TypeUserMailingId"></param>
         /// <returns></returns>
-        public static List<int> GetNewsMailList(int TypeUserMailingId)
+        public  List<int> GetNewsMailList(int TypeUserMailingId)
         {
             List<int> result = new List<int>();
             try
             {
-                /*
-                List<User> UserList = _user.GeListUsers();
-                foreach (var User in UserList)
+
+
+                switch (TypeUserMailingId)
                 {
-                    switch (TypeUserMailingId)
-                    {
-                        case CommonsConst.TypeUserMailing.AllUsers:
-                            result.Add(User.Id);
-                            break;
-                        case CommonsConst.TypeUserMailing.ConfirmedUsers:
-                            if (User.EmailConfirmed)
-                                {
-                                result.Add(User.Id);
-                                }
-                            break;
-                    }
+                    case CommonsConst.TypeUserMailing.AllUsers:
+                        result = _userRepo.List().Select(u => u.Id).ToList();
+                        break;
+                    case CommonsConst.TypeUserMailing.ConfirmedUsers:
+                        result = _userRepo.FindAllBy(u => u.AspNetUser.EmailConfirmed.HasValue && u.AspNetUser.EmailConfirmed.Value).Select(u => u.Id).ToList();
+                        break;
                 }
-                */
+
+
             }
             catch (Exception e)
             {
@@ -384,7 +487,7 @@ namespace Service.Admin
         /// </summary>
         /// <param name="NewsId"></param>
         /// <returns></returns>
-        public  News GetNewsById(int NewsId)
+        public News GetNewsById(int NewsId)
         {
             News result = null;
             try

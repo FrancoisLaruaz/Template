@@ -1,5 +1,5 @@
 ﻿using Commons;
-using DataAccess;
+
 using Models.Class;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using DataEntities.Model;
 using Models.ViewModels.Account;
 using Models.ViewModels.Home;
 using Models.Class.Email;
+using Models.ViewModels.Admin.Email;
 
 namespace Service.UserArea.Interface
 {

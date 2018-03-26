@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using Models.BDDObject;
 using Models.Class;
+using Models.Class.Email;
 
-
-namespace Models.ViewModels
+namespace Models.ViewModels.Admin.Email
 {
     public class DisplayEmailAuditViewModel : BaseModelPager
     {

@@ -1,4 +1,4 @@
-﻿@model Models.ViewModels.DisplayLogsViewModel
+﻿@model Models.ViewModels.Admin.Logs.DisplayLogsViewModel
 
 
 
@@ -26,8 +26,8 @@
             {
                 <tr style="color:blue">
                     <td>@item.Id</td>
-                    <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(@item.Date)</td>
-                    <td>@item.UserName</td>
+                    <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(item.Date)</td>
+                    <td>@Commons.EncryptHelper.DecryptString(item.UserLogin)</td>
                     <td>@item.Logger</td>
                     <td>@Html.Raw(@item.Message)</td>
                     <td>@item.Exception</td>
@@ -37,8 +37,8 @@
             {
                 <tr style="color:red">
                     <td>@item.Id</td>
-                    <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(@item.Date)</td>
-                    <td>@item.UserName</td>
+                    <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(item.Date)</td>
+                    <td>@Commons.EncryptHelper.DecryptString(item.UserLogin)</td>
                     <td>@item.Logger</td>
                     <td>@Html.Raw(@item.Message)</td>
                     <td>@item.Exception</td>
@@ -48,8 +48,8 @@
             {
                 <tr style="color:green">
                     <td>@item.Id</td>
-                    <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(@item.Date)</td>
-                    <td>@item.UserName</td>
+                    <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(item.Date)</td>
+                    <td>@Commons.EncryptHelper.DecryptString(item.UserLogin)</td>
                     <td>@item.Logger</td>
                     <td>@Html.Raw(@item.Message)</td>
                     <td>@item.Exception</td>
@@ -59,8 +59,8 @@
             {
                 <tr style="color:saddlebrown">
                     <td>@item.Id</td>
-                    <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(@item.Date)</td>
-                    <td>@item.UserName</td>
+                    <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(item.Date)</td>
+                    <td>@Commons.EncryptHelper.DecryptString(item.UserLogin)</td>
                     <td>@item.Logger</td>
                     <td>@Html.Raw(@item.Message)</td>
                     <td>@item.Exception</td>

@@ -4,22 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using Models.BDDObject;
 using Models.Class;
 using Models.ViewModels;
+using DataEntities.Model;
+using Models.Class.News;
 
 namespace Models.ViewModels.Admin.News
 {
     public class DisplayPublishedNewsViewModel : BaseModelPager
     {
-        public List<Models.BDDObject.News> NewsList { get; set; }
+        public List<NewsItem> NewsList { get; set; }
 
         public string Pattern { get; set; }
 
 
         public DisplayPublishedNewsViewModel()
         {
-            NewsList = new List<Models.BDDObject.News>();
+            NewsList = new List<NewsItem>();
         }
     }
 }

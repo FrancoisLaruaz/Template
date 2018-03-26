@@ -16,6 +16,8 @@ using Models.Class.TaskSchedule;
 using Website.Controllers;
 using Service.UserArea.Interface;
 using Service.Admin.Interface;
+using Models.ViewModels.Admin.Logs;
+using Models.ViewModels.Admin.Tasks;
 
 namespace Website.Areas.Admin.Controllers
 {
@@ -23,13 +25,17 @@ namespace Website.Areas.Admin.Controllers
     {
 
         private IScheduledTaskService _scheduledTaskService;
+        private ITaskLogService _taskLogService;
+
 
         public TasksController(
             IUserService userService,
-            IScheduledTaskService scheduledTaskService
+            IScheduledTaskService scheduledTaskService,
+             ITaskLogService taskLogService
             ) : base(userService)
         {
             _scheduledTaskService = scheduledTaskService;
+            _taskLogService=  taskLogService;
         }
 
 
@@ -62,7 +68,7 @@ namespace Website.Areas.Admin.Controllers
         {
             try
             {
-                Model = TaskLogService.GetDisplayTasksViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
+                Model = _taskLogService.GetDisplayTasksViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
             }
             catch (Exception e)
             {

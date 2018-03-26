@@ -1,4 +1,4 @@
-﻿@model Models.ViewModels.DisplayTasksViewModel
+﻿@model Models.ViewModels.Admin.Tasks.DisplayTasksViewModel
 
 
 
@@ -25,8 +25,8 @@
 
             <tr>
                 <td>@item.Id</td>
-                <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(@item.StartDate)</td>
-                <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(@item.EndDate==null? @item.EndDate: @item.EndDate.Value)</td>
+                <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(@item.StartDate.ToLocalTime())</td>
+                <td>@Commons.FormaterHelper.GetFormatStringForDateDisplay(@item.EndDate==null? @item.EndDate: @item.EndDate.Value.ToLocalTime())</td>
                 <td><span title="@item.CallbackId">@item.GroupName</span></td>
                 @if (item.Result == null)
                 {

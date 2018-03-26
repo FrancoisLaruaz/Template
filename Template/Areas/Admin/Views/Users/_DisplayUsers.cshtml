@@ -1,4 +1,4 @@
-﻿@model Models.ViewModels.DisplayUsersViewModel
+﻿@model Models.ViewModels.Admin.Users.DisplayUsersViewModel
 
 
 
@@ -31,7 +31,7 @@
                     </div>
                 </td>
                 <td style="width:17% !important;text-align:center">
-                    @item.DateLastConnection.ToString("MMM dd, yyyy hh:mm tt")
+                    @Commons.FormaterHelper.GetFormatStringForDateDisplay(item.DateLastConnection)
                 </td>
                 <td  style="width:8% !important;text-align:center">
                     <span title="[[[Delete the user]]]" class="glyphicon glyphicon-remove" style="color:red;text-align:center;cursor:pointer;" onclick="AskConfirmationToDeleteUser(@item.UserId)"></span>

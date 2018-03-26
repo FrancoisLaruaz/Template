@@ -3,8 +3,7 @@ using System;
 using System.Net;
 using System.Net.Mail;
 using Commons;
-using DataAccess;
-using Models.BDDObject;
+
 using Models.Class;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +12,7 @@ using System.Threading.Tasks;
 using Models.Class.FileUpload;
 using Service.Admin.Interface;
 using Service.Admin;
+using DataEntities.Model;
 
 namespace Service.TaskClasses
 {
@@ -34,16 +34,15 @@ namespace Service.TaskClasses
                 FileUploadDeleteResult ObjectResult = _fileUploadServiceService.DeleteUploadFiles();
                 TaskLog Log = new TaskLog();
                 Log.Id = LogId;
+                string Comment = "N/A";
+                bool Result = false;
                 if (ObjectResult != null)
                 {
-                    Log.Result = ObjectResult.Result;
-                    Log.Comment = ObjectResult.FilesAnalyzedNumber + " files analyzed : </br> - " + ObjectResult.FilesDeletedNumber + " files deleted </br> - " + ObjectResult.FilesErrorsNumber + " errors";
+                    Result = ObjectResult.Result;
+                    Comment = ObjectResult.FilesAnalyzedNumber + " files analyzed : </br> - " + ObjectResult.FilesDeletedNumber + " files deleted </br> - " + ObjectResult.FilesErrorsNumber + " errors";
                 }
-                else
-                {
-                    Log.Result = false;
-                }
-                TaskLogService.UpdateTaskLog(Log);
+
+                _taskLogService.UpdateTaskLog(LogId,Result,Comment);
             }
             catch (Exception e)
             {

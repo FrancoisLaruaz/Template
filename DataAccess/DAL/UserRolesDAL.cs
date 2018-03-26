@@ -8,6 +8,8 @@ using System.Collections;
 using System.Linq;
 using Models.ViewModels;
 using Models.Class;
+using Models.Class.UserRoles;
+using Models.ViewModels.Admin.Users;
 
 namespace DataAccess
 {
@@ -182,8 +184,7 @@ namespace DataAccess
                     Item.UserFirstNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["FirstName"]))?.ToLower().Trim();
                     Item.UserLastNameDecrypt = EncryptHelper.DecryptString(Convert.ToString(dr["LastName"]))?.ToLower().Trim();
 
-                    Item.UserRolesList = GetUserRolesListByUserIdentityId(Item.UseridentityId);
-
+           
 
                     List<UserRoles> UserNotInRoleList = new List<UserRoles>();
                     foreach (Roles role in AllRoles)
@@ -198,7 +199,7 @@ namespace DataAccess
                             UserNotInRoleList.Add(userRole);
                         }
                     }
-                    Item.UserNotInRoleList = UserNotInRoleList;
+               
 
 
 
@@ -210,7 +211,7 @@ namespace DataAccess
                     IEnumerable<UserRoleItem> resultIEnumerable = ListUserRoles as IEnumerable<UserRoleItem>;
                     resultIEnumerable = resultIEnumerable.Where(a => a.DateLastConnection.ToString("MMM dd, yyyy hh:mm tt").ToLower().Contains(Pattern) || (a.UserRolesList.ToList().Where(r => r.RoleName.ToLower().Contains(Pattern.ToLower())).Any()) || (a.UserFirstNameDecrypt != null && a.UserFirstNameDecrypt.Contains(Pattern)) || a.UserLastNameDecrypt.Contains(Pattern) || (a.UserNameDecrypt != null && a.UserNameDecrypt.Contains(Pattern)));
                     model.Count = resultIEnumerable.ToList().Count;
-                    ListUserRoles = resultIEnumerable.Take(PageSize).Skip(StartAt).OrderByDescending(a => a.UserFirstNameDecrypt).OrderByDescending(a => a.UserLastNameDecrypt).ToList();
+                    ListUserRoles = resultIEnumerable.Skip(StartAt).Take(PageSize).OrderByDescending(a => a.UserFirstNameDecrypt).OrderByDescending(a => a.UserLastNameDecrypt).ToList();
                 }
 
                 model.UserRolesList = ListUserRoles;

@@ -70,9 +70,9 @@ namespace Commons
         /// Get the information from Quartz
         /// </summary>
         /// <returns></returns>
-        public static Models.ViewModels.SchedulerStatusViewModel GetSchedulerInformation()
+        public static Models.ViewModels.Admin.Tasks.SchedulerStatusViewModel GetSchedulerInformation()
         {
-            Models.ViewModels.SchedulerStatusViewModel Result = new Models.ViewModels.SchedulerStatusViewModel();
+            Models.ViewModels.Admin.Tasks.SchedulerStatusViewModel Result = new Models.ViewModels.Admin.Tasks.SchedulerStatusViewModel();
             
             try
             {

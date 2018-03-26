@@ -15,7 +15,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Template.DependencyResolution {
+namespace Template.DependencyResolution
+{
     using System;
     using System.Web.Mvc;
 
@@ -24,12 +25,22 @@ namespace Template.DependencyResolution {
     using StructureMap.Pipeline;
     using StructureMap.TypeRules;
 
-    public class ControllerConvention : IRegistrationConvention {
+    public class ControllerConvention : IRegistrationConvention
+    {
         #region Public Methods and Operators
 
-        public void Process(Type type, Registry registry) {
-            if (type.CanBeCastTo<Controller>() && !type.IsAbstract) {
-                registry.For(type).LifecycleIs(new UniquePerRequestLifecycle());
+        public void Process(Type type, Registry registry)
+        {
+            try
+            {
+                if (type.CanBeCastTo<Controller>() && !type.IsAbstract)
+                {
+                    registry.For(type).LifecycleIs(new UniquePerRequestLifecycle());
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "type = "+ type);
             }
         }
 

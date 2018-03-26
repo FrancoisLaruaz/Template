@@ -43,45 +43,53 @@ namespace Identity
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
-            // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+            try
             {
-                AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = false
-            };
 
-            // Configure validation logic for passwords
-            manager.PasswordValidator = new PasswordValidator
-            {
-                RequiredLength = 8,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
-            };
+                // Configure validation logic for usernames
+                manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+                {
+                    AllowOnlyAlphanumericUserNames = false,
+                    RequireUniqueEmail = false
+                };
 
-            // Configure user lockout defaults
-            manager.UserLockoutEnabledByDefault = false;
-            manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            manager.MaxFailedAccessAttemptsBeforeLockout = 99999;
+                // Configure validation logic for passwords
+                manager.PasswordValidator = new PasswordValidator
+                {
+                    RequiredLength = 8,
+                    RequireDigit = true,
+                    RequireLowercase = true,
+                    RequireUppercase = true,
+                };
 
-            // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
-            // You can write your own provider and plug it in here.
-            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
+                // Configure user lockout defaults
+                manager.UserLockoutEnabledByDefault = false;
+                manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                manager.MaxFailedAccessAttemptsBeforeLockout = 99999;
+
+                // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
+                // You can write your own provider and plug it in here.
+                manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
+                {
+                    MessageFormat = "Your security code is {0}"
+                });
+                manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
+                {
+                    Subject = "Security Code",
+                    BodyFormat = "Your security code is {0}"
+                });
+                manager.EmailService = new EmailService();
+                manager.SmsService = new SmsService();
+                var dataProtectionProvider = options.DataProtectionProvider;
+                if (dataProtectionProvider != null)
+                {
+                    manager.UserTokenProvider =
+                        new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                }
+            }
+            catch (Exception e)
             {
-                MessageFormat = "Your security code is {0}"
-            });
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
-            {
-                Subject = "Security Code",
-                BodyFormat = "Your security code is {0}"
-            });
-            manager.EmailService = new EmailService();
-            manager.SmsService = new SmsService();
-            var dataProtectionProvider = options.DataProtectionProvider;
-            if (dataProtectionProvider != null)
-            {
-                manager.UserTokenProvider =
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
             return manager;
         }

@@ -52,31 +52,34 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Service\Admin\FileUploadService.cs" />
+    <Compile Include="Service\Admin\Interface\IUserRolesService.cs" />
+    <Compile Include="Service\Admin\Interface\ITaskLogService.cs" />
     <Compile Include="Service\Admin\Interface\IFileUploadService.cs" />
     <Compile Include="Service\Admin\Interface\IScheduledTaskService.cs" />
     <Compile Include="Service\Admin\Interface\INewsService.cs" />
     <Compile Include="Service\Admin\Interface\ILogService.cs" />
     <Compile Include="Service\Admin\ScheduledTaskService.cs" />
+    <Compile Include="Service\Admin\TaskLogService.cs" />
     <Compile Include="Service\User\Interface\IEMailService.cs" />
     <Compile Include="Service\User\Interface\ICategoryService.cs" />
     <Compile Include="Service\User\Interface\IASPNetUsersService.cs" />
+    <Compile Include="Service\User\Interface\ISocialMediaConnectionService.cs" />
     <Compile Include="Service\User\Interface\IProvinceService.cs" />
     <Compile Include="Service\User\Interface\ICountryService.cs" />
     <Compile Include="Service\User\Interface\IUserService.cs" />
     <Compile Include="Service\User\ASPNetUsersService.cs" />
-    <Compile Include="SocialMediaConnectionService.cs" />
+    <Compile Include="Service\User\SocialMediaConnectionService.cs" />
     <Compile Include="Task\OneShot\SendNews.cs" />
     <Compile Include="Task\Recurring\DeleteUploadedFiles.cs" />
     <Compile Include="Task\Base\RecurringJobBase.cs" />
     <Compile Include="Task\Base\JobBase.cs" />
     <Compile Include="Task\Recurring\DeleteLogs.cs" />
     <Compile Include="Task\OneShot\SendEMailToUser.cs" />
-    <Compile Include="TaskLogService.cs" />
     <Compile Include="Service\User\ProvinceService.cs" />
     <Compile Include="Service\User\CountryService.cs" />
     <Compile Include="Service\User\EMailService.cs" />
     <Compile Include="Service\User\CategoryService.cs" />
-    <Compile Include="UserRolesService.cs" />
+    <Compile Include="Service\Admin\UserRolesService.cs" />
     <Compile Include="Service\Admin\NewsService.cs" />
     <Compile Include="Service\User\UserService.cs" />
     <Compile Include="Service\Admin\LogService.cs" />
@@ -86,10 +89,6 @@
     <ProjectReference Include="..\Commons\Commons.csproj">
       <Project>{78fb161b-939b-44b6-90ff-d8c764ac100a}</Project>
       <Name>Commons</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
-      <Project>{6845749b-9e08-43ec-a594-1c5e56b54fc3}</Project>
-      <Name>DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataEntities\DataEntities.csproj">
       <Project>{8b6f55a2-e803-42ef-8e59-bea600904c76}</Project>

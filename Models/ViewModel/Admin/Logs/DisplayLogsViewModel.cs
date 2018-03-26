@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using Models.BDDObject;
 using Models.Class;
+using  DataEntities.Model;
 
-namespace Models.ViewModels
+namespace Models.ViewModels.Admin.Logs
 {
     public class DisplayLogsViewModel : BaseModelPager
     {

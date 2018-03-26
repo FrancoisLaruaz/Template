@@ -16,6 +16,7 @@ using Models.Class.TaskSchedule;
 using Website.Controllers;
 using Service.Admin.Interface;
 using Service.UserArea.Interface;
+using Models.ViewModels.Admin.Logs;
 
 namespace Website.Areas.Admin.Controllers
 {
@@ -37,18 +38,15 @@ namespace Website.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            LogsViewModel Model = new LogsViewModel();
-
             try
             {
                 ViewBag.Title = "Logs";
-                Model = _logService.GetLogsViewModel();
             }
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
-            return View(Model);
+            return View();
         }
 
         [HttpPost]

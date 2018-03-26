@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-using Models.BDDObject;
 using Models.Class;
 
-namespace Models.Class
+namespace Models.Class.UserRoles
 {
     public  class UserRoleItem
     {
@@ -17,14 +16,14 @@ namespace Models.Class
         public string UseridentityId { get; set; }
         public DateTime DateLastConnection { get; set; }
 
-        public List<UserRoles> UserRolesList { get; set; }
+        public List<RoleItem> UserRolesList { get; set; }
 
-        public List<UserRoles> UserNotInRoleList { get; set; }
+        public List<RoleItem> UserNotInRoleList { get; set; }
 
         public UserRoleItem()
         {
-            UserRolesList = new List<UserRoles>();
-            UserNotInRoleList = new List<UserRoles>();
+            UserRolesList = new List<RoleItem>();
+            UserNotInRoleList = new List<RoleItem>();
         }
     }
 }

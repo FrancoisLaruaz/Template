@@ -19,7 +19,7 @@ namespace Commons
 
             if (date != null)
             {
-                result = date.Value.ToString("dd/MM/yyyy HH:mm:ss");
+                result = date.Value.ToString("dd/MM/yyyy HH:mm:ss tt");
             }
             return result;
         }

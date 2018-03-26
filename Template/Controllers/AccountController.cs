@@ -38,24 +38,28 @@ namespace Website.Controllers
 
         private IEMailService _emailService;
         private IASPNetUsersService _aspNetUsersService;
+        private ISocialMediaConnectionService _socialMediaConnectionService;
 
         public AccountController(
             IUserService userService,
             IEMailService emailService,
-            IASPNetUsersService aspNetUsersService
+            IASPNetUsersService aspNetUsersService,
+            ISocialMediaConnectionService socialMediaConnectionService
             ) : base(userService)
         {
             _emailService = emailService;
             _aspNetUsersService = aspNetUsersService;
+            _socialMediaConnectionService = socialMediaConnectionService;
         }
 
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IUserService userService, IEMailService emailService, IASPNetUsersService aspNetUsersService) : base(userService)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IUserService userService, IEMailService emailService, IASPNetUsersService aspNetUsersService, ISocialMediaConnectionService socialMediaConnectionService) : base(userService)
         {
             UserManager = userManager;
             SignInManager = signInManager;
            _emailService = emailService;
             _aspNetUsersService = aspNetUsersService;
+            _socialMediaConnectionService = socialMediaConnectionService;
         }
 
         #region loginstuff
@@ -752,7 +756,7 @@ namespace Website.Controllers
                                                     if (userSession != null)
                                                     {
                                                         _aspNetUsersService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
-                                                        SocialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
+                                                        _socialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
                                                         _Language = userSession.LanguageTag;
                                                         UserSession = userSession;
                                                     }
@@ -907,7 +911,7 @@ namespace Website.Controllers
                                             UserSession userSession = _userService.GetUserSession(EncryptedUserName);
                                             _Result = true;
                                             _Language = userSession.LanguageTag;
-                                            SocialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
+                                           _socialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
                                             _emailService.SendEMailToUser(EncryptedUserName, CommonsConst.EmailTypes.UserWelcome);
                                             _Result = _userService.CreateThumbnailUserPicture(userSession.UserId);
                                         }

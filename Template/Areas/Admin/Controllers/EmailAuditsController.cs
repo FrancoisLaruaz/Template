@@ -15,6 +15,7 @@ using Quartz.Impl.Matchers;
 using Models.Class.TaskSchedule;
 using Website.Controllers;
 using Service.UserArea.Interface;
+using Models.ViewModels.Admin.Email;
 
 namespace Website.Areas.Admin.Controllers
 {

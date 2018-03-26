@@ -3,14 +3,14 @@ using System;
 using System.Net;
 using System.Net.Mail;
 using Commons;
-using DataAccess;
-using Models.BDDObject;
+
 using Models.Class;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Service.Admin;
+using DataEntities.Model;
 
 namespace Service.TaskClasses
 {
@@ -20,7 +20,7 @@ namespace Service.TaskClasses
 
         public DeleteLogs()
         {
-             _LogService = new LogService();
+            _LogService = new LogService();
         }
 
         public override void Execute(IJobExecutionContext context)
@@ -28,12 +28,10 @@ namespace Service.TaskClasses
             try
             {
                 base.Execute(context);
-                bool Result= _LogService.DeleteLogs();
-                TaskLog Log = new TaskLog();
-                Log.Id = LogId;
-                Log.Result = Result;
-                Log.Comment="N/A";
-                TaskLogService.UpdateTaskLog(Log);
+                bool Result = _LogService.DeleteLogs();
+
+                _taskLogService.UpdateTaskLog(LogId, Result, "N/A");
+
             }
             catch (Exception e)
             {
