@@ -87,7 +87,6 @@ D:\DEV\Template\Service\bin\Debug\Service.pdb
 D:\DEV\Template\Service\bin\Debug\Common.Logging.Core.dll
 D:\DEV\Template\Service\bin\Debug\Common.Logging.dll
 D:\DEV\Template\Service\bin\Debug\Commons.dll
-D:\DEV\Template\Service\bin\Debug\DataAccess.dll
 D:\DEV\Template\Service\bin\Debug\DataEntities.dll
 D:\DEV\Template\Service\bin\Debug\Models.dll
 D:\DEV\Template\Service\bin\Debug\Quartz.dll
@@ -95,7 +94,6 @@ D:\DEV\Template\Service\bin\Debug\Ghostscript.NET.dll
 D:\DEV\Template\Service\bin\Debug\Facebook.dll
 D:\DEV\Template\Service\bin\Debug\log4net.dll
 D:\DEV\Template\Service\bin\Debug\Newtonsoft.Json.dll
-D:\DEV\Template\Service\bin\Debug\MySql.Data.dll
 D:\DEV\Template\Service\bin\Debug\EntityFramework.dll
 D:\DEV\Template\Service\bin\Debug\Z.EntityFramework.Plus.EF6.dll
 D:\DEV\Template\Service\bin\Debug\System.Web.Mvc.dll
@@ -105,8 +103,6 @@ D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.dll
 D:\DEV\Template\Service\bin\Debug\Microsoft.Web.Infrastructure.dll
 D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.Deployment.dll
 D:\DEV\Template\Service\bin\Debug\Commons.pdb
-D:\DEV\Template\Service\bin\Debug\DataAccess.pdb
-D:\DEV\Template\Service\bin\Debug\DataAccess.dll.config
 D:\DEV\Template\Service\bin\Debug\DataEntities.pdb
 D:\DEV\Template\Service\bin\Debug\DataEntities.dll.config
 D:\DEV\Template\Service\bin\Debug\Models.pdb

@@ -41,7 +41,8 @@ namespace Service.UserArea
             bool result = false;
             try
             {
-                AspNetUser aspNetUser = _aspNetUserRepo.FindAllBy(a => a.UserName == EncryptHelper.EncryptToString(Info.Email)).FirstOrDefault();
+                string EncryptedEmail = EncryptHelper.EncryptToString(Info.Email);
+                AspNetUser aspNetUser = _aspNetUserRepo.FindAllBy(a => a.UserName == EncryptedEmail).FirstOrDefault();
                 if (aspNetUser != null)
                 {
                     AspNetUserLogin login = new AspNetUserLogin();

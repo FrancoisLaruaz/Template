@@ -309,7 +309,7 @@ namespace Service.Admin
             {
                 if (!string.IsNullOrWhiteSpace(CallBackId))
                 {
-                    ScheduledTask task = _scheduledTaskRepo.FindAllBy(s => s.CallbackId.Trim().ToLower() == CallBackId.Trim().ToLower()).FirstOrDefault();
+                    ScheduledTask task = _scheduledTaskRepo.FindAllBy(s => s.CallbackId == CallBackId).FirstOrDefault();
                     if (task != null)
                     {
                         task.ExecutionDate = DateTime.UtcNow;
