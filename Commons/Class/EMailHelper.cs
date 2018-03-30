@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Models;
 using Models.Class;
 using Commons;
-using Models.BDDObject;
+
 using Models.Class.Email;
 
 namespace Commons
@@ -76,7 +76,7 @@ namespace Commons
                 string fromPassword = EncryptHelper.DecryptString(PasswordMailAdress);
 
                 if (String.IsNullOrWhiteSpace(Email.EndMailTemplate))
-                    Email.EndMailTemplate = "_EndMail_en";
+                    Email.EndMailTemplate = "_EndMail_"+CommonsConst.Languages.ToString(Email.LanguageId);
 
                 if (!String.IsNullOrWhiteSpace(Email.EMailTemplate) && !String.IsNullOrWhiteSpace(Email.ToEmail))
                 {

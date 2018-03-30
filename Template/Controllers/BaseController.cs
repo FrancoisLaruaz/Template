@@ -8,7 +8,7 @@ using i18n;
 using Commons;
 using Service;
 using Microsoft.AspNet.Identity;
-using Models.BDDObject;
+
 using Models.Class;
 using System.Web.Script.Serialization;
 using System.Reflection;

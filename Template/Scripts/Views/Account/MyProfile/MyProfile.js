@@ -25,7 +25,7 @@ function SetNavActions()
                 data: { UserId: _UserId },
                 success: function (data) {
                     if (data == "ERROR" || data==null) {
-                        NotificationKO("[[[Unknown retrieval error]]]");
+                        NotificationKO(Constants.ErrorMessages.UnknownError);
                     }
                     else if (data == "NotLoggedIn") {
                         NotificationKO("[[[Please log in to access your profile.]]]");

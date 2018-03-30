@@ -56,7 +56,7 @@ function DeleteNews(elementId, isPast) {
             },
             error: function (xhr, error) {
                 console.log(" : error" + error);
-                NotificationKO("[[[Error occured, please try again later.]]]");
+                NotificationKO(Constants.ErrorMessages.UnknownError);
             }
         });
         //END ajax delete

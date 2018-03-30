@@ -11,9 +11,9 @@ namespace CommonsConst
 
         public const string DefaultCulture = "en";
         public const string WebsiteTitle = "Website Title";
-        public const  string GoogleAnalyticsID = "";
-        public const  string FacebookPixelID = "110600362985483";
-        public const  string EMailDev = "francois.laruaz@gmail.com";
+        public const string GoogleAnalyticsID = "";
+        public const string FacebookPixelID = "110600362985483";
+        public const string EMailDev = "francois.laruaz@gmail.com";
 
         // Define if the application need  login/logout features
         public const bool UserManagement = true;
@@ -64,6 +64,48 @@ namespace CommonsConst
 
     }
 
+
+    public static class PartialViewResults
+    {
+        public static string NotAuthorized = "NotAuthorized";
+        public static string UnknownError = "UnknownError";
+    }
+
+
+    public static class FileSize
+    {
+        public const int LightPicture = 300000;
+        public const int HeavyPicture = 1000000;
+        public const int Document = 10000000;
+
+        public static string ToString(int sizeInByte)
+        {
+            switch (sizeInByte)
+            {
+                case LightPicture:
+                    return "[[[300 KB]]]";
+                case HeavyPicture:
+                    return "[[[1 MB]]]";
+                case Document:
+                    return "[[[10 MB]]]";
+                default:
+                    return string.Format("{0} bytes", sizeInByte);
+            }
+        }
+    }
+
+    public static class ErrorMessages
+    {
+        public static string NotAuthorized = "[[[You are not authorized to perform this action.]]]";
+        public static string UnknownError = "[[[Unknown retrieval error.]]]";
+        public static string UploadError = "[[[Error while uploading the file.]]]";
+    }
+
+    public static class SuccessMessages
+    {
+        public static string Success = "[[[The action has been successfully performed.]]]";
+    }
+
     public static class EmailTypes
     {
         public const int Forgotpassword = 1001;
@@ -104,8 +146,8 @@ namespace CommonsConst
 
     public static class Languages
     {
-        public const  int English = 3001;
-        public const  int French = 3002;
+        public const int English = 3001;
+        public const int French = 3002;
 
         public static string ToString(int value)
         {

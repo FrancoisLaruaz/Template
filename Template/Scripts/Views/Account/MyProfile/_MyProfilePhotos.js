@@ -61,11 +61,11 @@ function SetInputFile() {
                             NotificationKO(data.Error);
                         }
                         else {
-                            NotificationKO("[[[Error while uploading the file.]]]");
+                            NotificationKO(Constants.ErrorMessages.UploadError);
                         }
                     },
                     error: function (response) {
-                        NotificationKO("[[[Error while uploading the file.]]]");
+                        NotificationKO(Constants.ErrorMessages.UploadError);
                     }
                 });
 

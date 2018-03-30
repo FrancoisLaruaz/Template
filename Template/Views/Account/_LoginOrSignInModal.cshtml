@@ -1,11 +1,7 @@
 ﻿
-@if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
-{
-    <li class="dropdown marginLeftHeader"><a href="" id="LogInHeader" class="loginSignUpHeader">[[[Log In]]]</a></li>
-    <li class="dropdown"><a href="" id="SignUpHeader"  class="loginSignUpHeader">[[[Sign Up]]]</a></li>
-}
 
-<link href="~/Content/Views/Shared/_LoginModal.less?@CommonsConst.StaticFileVersion.StaticFileVersionString" rel="stylesheet">
+
+<link href="~/Content/Views/Shared/_LoginModal.less?@ContentFileHelpers.AssemlyVersion" rel="stylesheet">
 
 <div class="modal fade" id="loginOrSignInModal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="vertical-alignment-helper">

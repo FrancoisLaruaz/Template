@@ -316,7 +316,6 @@ namespace Service.Admin
                         _scheduledTaskRepo.Edit(task);
                         Result = _scheduledTaskRepo.Save();
                     }
-                    Result = SetTaskAsExecuted(CallBackId);
                 }
             }
             catch (Exception e)

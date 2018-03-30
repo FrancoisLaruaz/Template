@@ -26,7 +26,7 @@ namespace Service.UserArea
         private readonly IGenericRepository<ValidTopLevelDomain> _validTopLevelDomainRepo;
         private readonly IGenericRepository<DataEntities.Model.User> _userRepo;
         private readonly IGenericRepository<EmailTypeLanguage> _emailTypeLanguageRepo;
-        private readonly IGenericRepository<EmailAudit> _emailAuditRepo;
+        private  IGenericRepository<EmailAudit> _emailAuditRepo;
 
         public EMailService(IGenericRepository<DataEntities.Model.User> userRepo,
             IGenericRepository<ValidTopLevelDomain> validTopLevelDomainRepo,
@@ -154,7 +154,7 @@ namespace Service.UserArea
                     Email.EMailTypeLanguageId = EMailTypeLanguage.Id;
                     Email.EMailTemplate = EMailTypeLanguage.TemplateName;
                     Email.BasePathFile = Email.RootPathDefault+Const.BasePathTemplateEMails.Replace("~/", "\\");
-                    Email.EndMailTemplate = EMailTypeLanguage.TemplateName;
+
                     if (String.IsNullOrWhiteSpace(Email.Subject))
                         Email.Subject = EMailTypeLanguage.Subject;
                     if (String.IsNullOrWhiteSpace(Email.FromEmail))
@@ -329,6 +329,9 @@ namespace Service.UserArea
             bool result = false;
             try
             {
+                var context = new TemplateEntities();
+                _emailAuditRepo =new  GenericRepository<DataEntities.Model.EmailAudit>(context);
+
                 EmailAudit Audit = new EmailAudit();
                 Audit.UserId = EMail.UserId;
                 Audit.EMailTypeLanguageId = EMail.EMailTypeLanguageId;
@@ -387,15 +390,15 @@ namespace Service.UserArea
                     emailAuditItem.EMailTypeId = audit.EmailTypeLanguage.EMailTypeId;
                     emailAuditItem.EMailTypeLanguageId = audit.EMailTypeLanguageId;
                     emailAuditItem.Date = audit.Date.ToLocalTime();
-                    emailAuditItem.UserFirstNameDecrypt = EncryptHelper.DecryptString(audit.User.FirstName);
-                    emailAuditItem.UserLastNameDecrypt = EncryptHelper.DecryptString(audit.User.LastName);
+                    emailAuditItem.UserFirstNameDecrypt = EncryptHelper.DecryptString(audit.User?.FirstName);
+                    emailAuditItem.UserLastNameDecrypt = EncryptHelper.DecryptString(audit.User?.LastName);
                     emailAuditItem.EMailFromDecrypt = EncryptHelper.DecryptString(audit.EMailFrom);
                     emailAuditItem.EMailToDecrypt = EncryptHelper.DecryptString(audit.EMailTo);
                     emailAuditItem.CCUsersNumber = audit.CCUsersNumber;
                     emailAuditItem.AttachmentNumber = audit.AttachmentNumber??0;
                     emailAuditItem.NewsTitle = audit.ScheduledTask?.News?.Title;
                     emailAuditItem.Comment = audit.Comment;
-                    emailAuditItem.EMailTypeName = audit.EmailTypeLanguage.EmailType.Name;
+                    emailAuditItem.EMailTypeName = audit.EmailTypeLanguage?.EmailType?.Name;
 
                     model.AuditsList.Add(emailAuditItem);
                 }
@@ -403,7 +406,7 @@ namespace Service.UserArea
                 if (!String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
                 {
                     IEnumerable<EMailAuditItem> resultIEnumerable = model.AuditsList as IEnumerable<EMailAuditItem>;
-                    resultIEnumerable = resultIEnumerable.Where(a => (a.EMailTypeName != null && a.EMailTypeName.ToLower().Contains(Pattern)) || (a.NewsTitle != null && a.NewsTitle.ToLower().Contains(Pattern)) || (a.UserFirstNameDecrypt != null && a.UserFirstNameDecrypt.ToLower().Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.EMailTypeName.Contains(Pattern) || (a.EMailToDecrypt != null && a.EMailToDecrypt.ToLower().Contains(Pattern)) || (a.EMailFromDecrypt != null && a.EMailFromDecrypt.ToLower().Contains(Pattern)) || (a.UserLastNameDecrypt != null && a.UserLastNameDecrypt.ToLower().Contains(Pattern)));
+                    resultIEnumerable = resultIEnumerable.Where(a => (a.Comment != null && a.Comment.ToLower().Contains(Pattern)) || (a.EMailTypeName != null && a.EMailTypeName.ToLower().Contains(Pattern)) || (a.NewsTitle != null && a.NewsTitle.ToLower().Contains(Pattern)) || (a.UserFirstNameDecrypt != null && a.UserFirstNameDecrypt.ToLower().Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.EMailTypeName.Contains(Pattern) || (a.EMailToDecrypt != null && a.EMailToDecrypt.ToLower().Contains(Pattern)) || (a.EMailFromDecrypt != null && a.EMailFromDecrypt.ToLower().Contains(Pattern)) || (a.UserLastNameDecrypt != null && a.UserLastNameDecrypt.ToLower().Contains(Pattern)));
                     model.Count = resultIEnumerable.ToList().Count;
                     model.AuditsList = resultIEnumerable.Skip(StartAt).Take(PageSize).OrderByDescending(a => a.Id).ToList();
                 }

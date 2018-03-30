@@ -68,7 +68,7 @@ function  PreviewMailOnClick() {
         data: { Title: _Title, Description: _Description},
         success: function (data) {
             if (data == null || data.trim() == "") {
-                NotificationKO("[[[Unknown retrieval error]]]");
+                NotificationKO(Constants.ErrorMessages.UnknownError);
             }
             else {
                 $("#_PreviewMailModalDiv").html(data);

@@ -36,7 +36,7 @@ function DisplaySignUpPictureForm(ElementToHide)
         success: function (data) {
             if (data == null) {
            
-                notificationKO("[[[Unknown retrieval error]]]]");
+                notificationKO(Constants.ErrorMessages.UnknownError);
             }
             else {
                 $("#" + ElementToHide).fadeOut(500, function () {
@@ -46,7 +46,7 @@ function DisplaySignUpPictureForm(ElementToHide)
             }
         },
         error: function (xhr, error) {
-            notificationKO("[[[Error occured]]]");
+            NotificationKO(Constants.ErrorMessages.UnknownError);
         }
     });
 }

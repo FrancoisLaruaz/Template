@@ -40,10 +40,10 @@
                         {
                             <li class="dropdown marginLeftHeader">
                                 <a href="/MyProFile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <div id="UserPic" class="circular UserPic" for="Pic" style="background-image:  url(@Model.PictureThumbnailSrc.Replace("~",""))">
+                                    <div id="UserPic" class="circular UserPic" for="Pic" style="background-image:  url(@Model.PictureThumbnailSrc.Replace("~", ""))">
                                     </div>
-                                    @Model.UserFirstName
-                                </a>
+                                    <span id="UserFirstName">@Model.UserFirstName</span>
+</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="/MyProfile">[[[My Profile]]]</a></li>
                                     @using (Ajax.BeginForm("LogOff", "Account", new { }, new AjaxOptions() { HttpMethod = "POST", OnBegin = "LogOffBegin", OnSuccess = "LogOffSuccess", OnFailure = "LogOffFailure" }, new { @id = "logoutForm", @class = "navbar-right" }))
@@ -57,8 +57,11 @@
                         }
                         else
                         {
-                            @Html.Partial("~/Views/Account/_LoginOrSignInModal.cshtml")
-                            //reason: only when the page is NOT the old login/sign up pages, then we render v2 login modal. Otherwise, the login page and the login modal partial will use AccountController and AccountV2Controller, BOTH  of which depend on UserManager. The AccountController disposes of the UserManager object before AccountV2Controller could use it. Error msg is like `...use of a disposed object...`
+                            if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
+                            {
+                            <li class="dropdown marginLeftHeader"><a href="" id="LogInHeader" class="loginSignUpHeader">[[[Log In]]]</a></li>
+                            <li class="dropdown"><a href="" id="SignUpHeader" class="loginSignUpHeader">[[[Sign Up]]]</a></li>
+                            }
                         }
                     }
                 </ul>

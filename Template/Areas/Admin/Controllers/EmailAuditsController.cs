@@ -30,7 +30,7 @@ namespace Website.Areas.Admin.Controllers
              IEMailService emailService
             ) : base(userService)
         {
-            emailService = _emailService;
+            _emailService = emailService;
         }
 
         [HttpGet]

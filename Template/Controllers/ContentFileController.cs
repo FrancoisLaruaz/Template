@@ -53,7 +53,7 @@ namespace Website.Controllers
                     }
                     hash = contentUrl.Replace("~", "").Replace("~/", "").Replace("/", "_").Replace("\\", "_").Split('?')[0];
 
-                    string FileVersion = CommonsConst.StaticFileVersion.StaticFileVersionString;
+                    string FileVersion = ContentFileHelpers.GetAssemblyFileVersion();
                     if (Utils.IsLocalhost())
                     {
                         FileVersion = DateTime.UtcNow.ToString("yyyyMMddhhmmssffftt");

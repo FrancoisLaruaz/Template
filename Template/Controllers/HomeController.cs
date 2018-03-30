@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Models;
 using Models.ViewModels;
-using Models.BDDObject;
+
 using Service;
 using Commons;
 using i18n;

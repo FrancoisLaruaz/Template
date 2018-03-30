@@ -5,7 +5,7 @@ function NotificationOK(message) {
     try {
 
         if (message === undefined || message == null || message.trim() == "") {
-            message = "[[[The action has been successfully performed.]]]"
+            message = Constants.SuccessMessages.Success;
         }
 
         SetUpToastrOK();
@@ -21,7 +21,7 @@ function NotificationOK(message) {
 function NotificationKO(message) {
     try {
         if (message === undefined || message == null || message.trim() == "") {
-            message = "[[[An unexpected error occured.]]]"
+            message = Constants.ErrorMessages.UnknownError;
         }
         SetUpToastr();
 

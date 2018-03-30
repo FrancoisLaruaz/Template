@@ -122,12 +122,12 @@ function SetDragAndDropPicture(idElementZone, Purpose, idImageSrc,idImagePreview
                         NotificationKO(data.Error);
                     }
                     else {
-                        NotificationKO("[[[Error while uploading the picture.]]]");
+                        NotificationKO(Constants.ErrorMessages.UploadError);
                     }
                     HideSpinner();
                 },
                 error: function (response) {
-                    NotificationKO("[[[Error while uploading the picture.]]]");
+                    NotificationKO(Constants.ErrorMessages.UploadError);
                     HideSpinner();
                 }
             });
@@ -182,12 +182,12 @@ function SetDragAndDropDocument(idElementZone, Purpose, OnUploadSuccessFunction,
                         NotificationKO(data.Error);
                     }
                     else {
-                        NotificationKO("[[[Error while uploading the document.]]]");
+                        NotificationKO(Constants.ErrorMessages.UploadError);
                     }
                     HideSpinner();
                 },
                 error: function (response) {
-                    NotificationKO("[[[Error while uploading the document.]]]");
+                    NotificationKO(Constants.ErrorMessages.UploadError);
                     HideSpinner();
                 }
             });

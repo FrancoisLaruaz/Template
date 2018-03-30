@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Models;
 using Models.ViewModels;
-using Models.BDDObject;
 using Service;
 using Commons;
 using i18n;
@@ -152,7 +151,7 @@ namespace Website.Controllers
         /// <param name="EncryptFile"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult UploadPicture(string Purpose, bool EncryptFile = false)
+        public ActionResult UploadPicture(string Purpose, bool EncryptFile = false, int? SizeLimit = CommonsConst.FileSize.LightPicture)
         {
             bool _success = false;
             string _Error = "";
@@ -160,12 +159,17 @@ namespace Website.Controllers
             string _PathFilePreview = "";
             try
             {
+                if(SizeLimit==null)
+                {
+                    SizeLimit = CommonsConst.FileSize.LightPicture;
+                }
+
 
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
                     var file = Request.Files[i];
 
-                    if (file.ContentLength <= CommonsConst.Const.MaxImageLength) // 10 MB
+                    if (file.ContentLength <= SizeLimit) 
                     {
 
                         var fileName = Path.GetFileName(file.FileName);
@@ -214,7 +218,7 @@ namespace Website.Controllers
                     }
                     else
                     {
-                        _Error = "[[[The image must be smaller than 10 MB.]]]";
+                        _Error = "[[[File must be smaller than ]]]" + CommonsConst.FileSize.ToString(SizeLimit.Value);
                     }
 
                 }

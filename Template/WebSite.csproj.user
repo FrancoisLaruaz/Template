@@ -30,7 +30,7 @@
           <SQLDebugging>False</SQLDebugging>
           <ExternalProgram>
           </ExternalProgram>
-          <StartExternalURL>http://localhost:54808/Admin/Tasks</StartExternalURL>
+          <StartExternalURL>http://localhost:54808/Admin/EmailAudits</StartExternalURL>
           <StartCmdLineArguments>
           </StartCmdLineArguments>
           <StartWorkingDirectory>

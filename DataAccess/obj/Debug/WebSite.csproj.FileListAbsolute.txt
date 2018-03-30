@@ -1,2 +1,0 @@
-/Users/francoislaruaz/Projects/Template/DataAccess/obj/Debug/WebSite.csprojResolveAssemblyReference.cache
-/Users/francoislaruaz/Projects/Template/DataAccess/obj/Debug/WebSite.csproj.CoreCompileInputs.cache

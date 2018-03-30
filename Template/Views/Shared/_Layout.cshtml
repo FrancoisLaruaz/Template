@@ -37,6 +37,11 @@
         @RenderBody()
     </div>
 
+    @if (CommonsConst.Const.UserManagement && !Request.IsAuthenticated)
+    {
+        @Html.Partial("~/Views/Account/_LoginOrSignInModal.cshtml")
+    }
+
     @Scripts.Render("~/Scripts/Scripts")
     @Html.Partial("~/Views/Shared/Layout/_Footer.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_PartialBackToTop.cshtml")

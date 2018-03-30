@@ -41,6 +41,9 @@ namespace Service.Admin
         public NewsService()
         {
             _emailService = new EMailService();
+            var context = new TemplateEntities();
+            _userRepo = new GenericRepository<User>(context);
+            _newsRepo = new GenericRepository<News>(context);
         }
 
 

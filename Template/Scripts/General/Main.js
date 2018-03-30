@@ -6,23 +6,14 @@ var LoggedUserName = "";
 $(document).ready(function () {
     DisplayBrowserBanner();
 
-
     var LoggedUserName = $("#HiddenLoggedUserName").val();
 
-    $('.formSpinnerLoad').each(function (index, value) {
-        $(this).submit(function () {
-            if ($(this).valid()) {
-                ShowSpinner();
-            }
-        });
-    });
+    SetSpinner();
 
     $(".BackToHomePageButton_js").unbind("click");
     $(".BackToHomePageButton_js").on("click", function (e) { e.preventDefault(); GoBackToHomePage(); });
 
     
-
-
 
     //Reset the validation forms of the page
     $('form').each(function (index, value) {
@@ -55,3 +46,17 @@ $(document).ready(function () {
 });
 
 
+function SetSpinner() {
+    $('.formSpinnerLoad').each(function (index, value) {
+        $(this).submit(function () {
+            if ($(this).valid()) {
+                ShowSpinner();
+            }
+        });
+    });
+
+
+    $("a.showSpinnerBeforeRedirect_js").on("click", function (e) {
+        ShowSpinner();
+    });
+}

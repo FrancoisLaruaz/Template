@@ -93,9 +93,11 @@
     width: 40px;
     height: 40px;
     cursor: pointer;
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
     margin: 0px 15px 5px 0px;
-    float:left;
+    float: left;
 }
 
 
@@ -118,7 +120,7 @@
 }
 
 .sub-nav .navbar {
-    z-index: 500;
+    /* MODAL PB  z-index: 500; */
 }
 
 @media (max-width: 1070px) {
@@ -284,7 +286,7 @@
     height: 60px;
     top: 0px;
     left: 0px;
-    z-index: 100;
+    z-index: 101;
     margin: 0;
 }
 
@@ -319,8 +321,9 @@
     line-height: 40px;
 }
 
-.home-nav .navbar-default .navbar-nav > li > a {
+.home-nav .navbar-default .navbar-nav > li > a, .brand-logoNav {
     color: #fff;
+    z-index: 500;
 }
 
     .home-nav .navbar-default .navbar-nav > li > a:hover {
