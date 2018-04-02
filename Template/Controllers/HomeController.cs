@@ -58,8 +58,8 @@ namespace Website.Controllers
 
                 if (User.Identity.IsAuthenticated)
                 {
-                    model.UserFirstName = UserSession.FirstNameDecrypt;
-                    model.UserNameDecrypt = UserSession.UserNameDecrypt;
+                    model.UserFirstName = UserSession.FirstName;
+                    model.UserNameDecrypt = UserSession.UserName;
                     model.PictureThumbnailSrc = FileHelper.GetDecryptedFilePath(UserSession.PictureThumbnailSrc, true, true);
                     model.PictureThumbnailSrc = model.PictureThumbnailSrc.Replace("~", "");
                 }

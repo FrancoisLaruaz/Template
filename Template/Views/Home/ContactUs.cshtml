@@ -49,9 +49,9 @@
                 </div>
 
                 <div class="col-md-8 col-md-offset-2 col-xs-12">
-                    @Html.LabelFor(model => model.Question, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.Question, htmlAttributes: new { @class = "labelTextArea" })
                     <div>
-                        @Html.TextAreaFor(m => Model.Question, new { @class = "form-control", @rows = "10" })
+                        @Html.TextAreaFor(m => Model.Question, new { @class = "SexyTextArea", @rows = "10" })
                         @Html.ValidationMessageFor(m => m.Question)
                     </div>
                 </div>

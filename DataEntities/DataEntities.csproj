@@ -114,6 +114,12 @@
     <Compile Include="Model\ScheduledTask.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Search.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SearchResult.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\SocialMediaConnection.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>

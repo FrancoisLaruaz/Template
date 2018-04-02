@@ -44,6 +44,10 @@
         <AssociationConnector Association="TemplateModel.FK_EmailTypeLanguage_Language" />
         <EntityTypeShape EntityType="TemplateModel.TaskLog" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="TemplateModel.ValidTopLevelDomain" Width="1.5" PointX="10.375" PointY="10.75" />
+        <EntityTypeShape EntityType="TemplateModel.Search" Width="1.5" PointX="10.5" PointY="13.125" />
+        <EntityTypeShape EntityType="TemplateModel.SearchResult" Width="1.5" PointX="12.75" PointY="13.25" />
+        <AssociationConnector Association="TemplateModel.FK_SearchResult_Search" />
+        <AssociationConnector Association="TemplateModel.FK_Search_UserId1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

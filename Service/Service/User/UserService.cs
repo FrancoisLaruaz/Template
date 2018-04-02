@@ -58,8 +58,8 @@ namespace Service.UserArea
                 {
                     User user = new User();
                     user.PictureSrc = model.PictureSrc ?? CommonsConst.Const.DefaultImageUser;
-                    user.FirstName = EncryptHelper.EncryptToString(model.FirstName);
-                    user.LastName = EncryptHelper.EncryptToString(model.LastName);
+                    user.FirstName =model.FirstName;
+                    user.LastName = model.LastName;
                     user.GenderId = model.GenderId;
                     user.LanguageId = model.LanguageId==null? Languages.ToInt(CommonsConst.Const.DefaultCulture):  model.LanguageId.Value;
                     user.EmailConfirmationToken = Commons.HashHelpers.RandomString(32);
@@ -159,10 +159,9 @@ namespace Service.UserArea
                 var user = GetUserByUserName(UserName);
                 if (user != null)
                 {
-                    result.FirstNameDecrypt = EncryptHelper.DecryptString(user.FirstName);
-                    result.LastNameDecrypt = EncryptHelper.DecryptString(user.LastName);
+                    result.FirstName = user.FirstName;
+                    result.LastName = user.LastName;
                     result.UserName = user.AspNetUser.UserName;
-                    result.UserNameDecrypt = EncryptHelper.DecryptString(result.UserName);
                     result.UserIdentityId = user.AspNetUser.Id;
                     result.UserId = user.Id;
                     result.LanguageTag = user.Language?.Code??CommonsConst.Const.DefaultCulture;
@@ -220,7 +219,7 @@ namespace Service.UserArea
                 {
                     model.UserId = user.Id;
                     model.EmailConfirmed = user.AspNetUser.EmailConfirmed == null ? false : user.AspNetUser.EmailConfirmed.Value;
-                    model.Email = EncryptHelper.DecryptString(user.AspNetUser.Email);
+                    model.Email = user.AspNetUser.Email;
                 }
 
             }
@@ -316,8 +315,8 @@ namespace Service.UserArea
                 var user = _userRepo.Get(model.UserId);
                 if (user != null)
                 {
-                    user.FirstName = EncryptHelper.EncryptToString(model.FirstName);
-                    user.LastName = EncryptHelper.EncryptToString(model.LastName);
+                    user.FirstName = model.FirstName;
+                    user.LastName =model.LastName;
                     user.DateOfBirth = model.DateOfBirth;
                     user.Description = model.Description;
                     user.GenderId = model.GenderId;
@@ -345,9 +344,9 @@ namespace Service.UserArea
                 if (user != null)
                 {
                     model.UserId = user.Id;
-                    model.UserName = EncryptHelper.DecryptString(user.AspNetUser.UserName);
-                    model.FirstName = EncryptHelper.DecryptString(user.FirstName);
-                    model.LastName = EncryptHelper.DecryptString(user.LastName);
+                    model.UserName = user.AspNetUser.UserName;
+                    model.FirstName =user.FirstName;
+                    model.LastName = user.LastName;
                     model.ReceiveNews = user.ReceiveNews;
                     model.LanguageId = user.LanguageId;
                     model.Description = user.Description;

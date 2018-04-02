@@ -85,7 +85,7 @@ namespace Service.Admin
                 if (!String.IsNullOrWhiteSpace(Pattern) && StartAt >= 0 && PageSize >= 0)
                 {
                     IEnumerable<Log4Net> resultIEnumerable = model.LogsList as IEnumerable<Log4Net>;
-                    resultIEnumerable = resultIEnumerable.Where(a => (a.UserLogin != null && a.UserLogin!="" && Commons.EncryptHelper.DecryptString(a.UserLogin).ToLower().Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.Level.ToLower().Contains(Pattern) || (a.Exception != null && a.Exception.ToLower().Contains(Pattern)) || (a.Logger != null && a.Logger.ToLower().Contains(Pattern)) || (a.Message != null && a.Message.ToLower().Contains(Pattern) || (a.Thread != null && a.Message.Contains(Pattern))));
+                    resultIEnumerable = resultIEnumerable.Where(a => (a.UserLogin != null && a.UserLogin!="" && a.UserLogin.ToLower().Contains(Pattern)) || a.Id.ToString().Contains(Pattern) || a.Level.ToLower().Contains(Pattern) || (a.Exception != null && a.Exception.ToLower().Contains(Pattern)) || (a.Logger != null && a.Logger.ToLower().Contains(Pattern)) || (a.Message != null && a.Message.ToLower().Contains(Pattern) || (a.Thread != null && a.Message.Contains(Pattern))));
                     model.Count = resultIEnumerable.ToList().Count;
                     model.LogsList = resultIEnumerable.OrderByDescending(a => a.Id).Skip(StartAt).Take(PageSize).ToList();
                 }

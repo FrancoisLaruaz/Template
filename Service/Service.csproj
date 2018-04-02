@@ -63,11 +63,13 @@
     <Compile Include="Service\User\Interface\IEMailService.cs" />
     <Compile Include="Service\User\Interface\ICategoryService.cs" />
     <Compile Include="Service\User\Interface\IASPNetUsersService.cs" />
+    <Compile Include="Service\User\Interface\ISearchService.cs" />
     <Compile Include="Service\User\Interface\ISocialMediaConnectionService.cs" />
     <Compile Include="Service\User\Interface\IProvinceService.cs" />
     <Compile Include="Service\User\Interface\ICountryService.cs" />
     <Compile Include="Service\User\Interface\IUserService.cs" />
     <Compile Include="Service\User\ASPNetUsersService.cs" />
+    <Compile Include="Service\User\SearchService.cs" />
     <Compile Include="Service\User\SocialMediaConnectionService.cs" />
     <Compile Include="Task\OneShot\SendNews.cs" />
     <Compile Include="Task\Recurring\DeleteUploadedFiles.cs" />

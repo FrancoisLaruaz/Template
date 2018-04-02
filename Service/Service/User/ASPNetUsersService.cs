@@ -41,8 +41,8 @@ namespace Service.UserArea
             bool result = false;
             try
             {
-                string EncryptedEmail = EncryptHelper.EncryptToString(Info.Email);
-                AspNetUser aspNetUser = _aspNetUserRepo.FindAllBy(a => a.UserName == EncryptedEmail).FirstOrDefault();
+
+                AspNetUser aspNetUser = _aspNetUserRepo.FindAllBy(a => a.UserName == Info.Email).FirstOrDefault();
                 if (aspNetUser != null)
                 {
                     AspNetUserLogin login = new AspNetUserLogin();
@@ -162,7 +162,7 @@ namespace Service.UserArea
                 if (user != null)
                 {
                     var aspnetuser = user.AspNetUser;
-                    aspnetuser.Email = EncryptHelper.EncryptToString(Email);
+                    aspnetuser.Email =Email;
                     aspnetuser.EmailConfirmed = false;
                     _aspNetUserRepo.Edit(aspnetuser);
                     result = _aspNetUserRepo.Save();

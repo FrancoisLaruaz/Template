@@ -740,7 +740,7 @@ namespace Website.Controllers
 
                                 if (ExternalSignUpInformation.EmailPermission)
                                 {
-                                    if (_aspNetUsersService.IsUserRegistered(EncryptHelper.EncryptToString(ExternalSignUpInformation.Email)))
+                                    if (_aspNetUsersService.IsUserRegistered(ExternalSignUpInformation.Email))
                                     {
 
                                         bool success = _aspNetUsersService.CreateExternalLogin(ExternalSignUpInformation);
@@ -877,7 +877,6 @@ namespace Website.Controllers
 
                         if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.Email))
                         {
-                            string EncryptedUserName = EncryptHelper.EncryptToString(ExternalSignUpInformation.Email);
 
                             int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
                             if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.ImageSrc))
@@ -885,7 +884,7 @@ namespace Website.Controllers
                                 ExternalSignUpInformation.ImageSrc = FileHelper.SaveAndEncryptFileFromWeb(ExternalSignUpInformation.ImageSrc, "user", ".jpg");
                                 _ImageSrc = ExternalSignUpInformation.ImageSrc;
                             }
-                            var user = new ApplicationUser { UserName = EncryptedUserName, Email = EncryptedUserName };
+                            var user = new ApplicationUser { UserName = ExternalSignUpInformation.Email, Email = ExternalSignUpInformation.Email };
 
                             var result = await UserManager.CreateAsync(user);
                             if (result != null && result.Succeeded)
@@ -898,7 +897,7 @@ namespace Website.Controllers
                                 userSignUp.GenderId = ExternalSignUpInformation.GenderId;
                                 userSignUp.ReceiveNews =false;
                                 userSignUp.PictureSrc = _ImageSrc;
-                                userSignUp.UserName = EncryptedUserName;
+                                userSignUp.UserName = ExternalSignUpInformation.Email;
 
                                 if (_userService.CreateUser(userSignUp) > 0)
                                 {
@@ -906,13 +905,13 @@ namespace Website.Controllers
                                     if (result.Succeeded)
                                     {
                                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                                        if (!String.IsNullOrWhiteSpace(EncryptedUserName))
+                                        if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.Email))
                                         {
-                                            UserSession userSession = _userService.GetUserSession(EncryptedUserName);
+                                            UserSession userSession = _userService.GetUserSession(ExternalSignUpInformation.Email);
                                             _Result = true;
                                             _Language = userSession.LanguageTag;
                                            _socialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
-                                            _emailService.SendEMailToUser(EncryptedUserName, CommonsConst.EmailTypes.UserWelcome);
+                                            _emailService.SendEMailToUser(ExternalSignUpInformation.Email, CommonsConst.EmailTypes.UserWelcome);
                                             _Result = _userService.CreateThumbnailUserPicture(userSession.UserId);
                                         }
                                         _Result = true;
@@ -1018,7 +1017,6 @@ namespace Website.Controllers
                         if (_emailService.IsEmailAddressValid(model.Email))
                         {
 
-                            model.Email = Commons.EncryptHelper.EncryptToString(model.Email);
                             int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
                             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
 
@@ -1179,7 +1177,6 @@ namespace Website.Controllers
                 if (ModelState.IsValid)
                 {
                     model.Email = model.Email.Trim().ToLower();
-                    model.Email = Commons.EncryptHelper.EncryptToString(model.Email);
                     var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
                     switch (result)
                     {
@@ -1188,7 +1185,7 @@ namespace Website.Controllers
                              UserSession userSession = _userService.GetUserSession(model.Email);
                             if (userSession != null)
                             {
-                                _UserFirstName = userSession.FirstNameDecrypt;
+                                _UserFirstName = userSession.FirstName;
                                 _aspNetUsersService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
                                 model.LanguageTag = userSession.LanguageTag;
                                 _LangTag= userSession.LanguageTag; ;
@@ -1479,7 +1476,7 @@ namespace Website.Controllers
                                 UserSession userSession = _userService.GetUserSession(user.AspNetUser.UserName);
                                 if (userSession != null)
                                 {
-                                    _aspNetUsersService.UpdateUserIdentityLoginSuccess(UserSession.UserIdentityId);
+                                    _aspNetUsersService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
                                     UserSession = userSession;
                                 }
                                 break;
@@ -1529,7 +1526,7 @@ namespace Website.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = _userService.GetUserByUserName(EncryptHelper.EncryptToString(model.UserName.Trim().ToLower()));
+                    var user = _userService.GetUserByUserName(model.UserName.Trim().ToLower());
                     if (user != null)
                     {
                         if (String.IsNullOrWhiteSpace(user.ResetPasswordToken))
@@ -1543,7 +1540,7 @@ namespace Website.Controllers
                         if (_Result)
                         {
                             _Result = _emailService.SendEMailToUser(user.Id, EmailTypes.Forgotpassword);
-                            _UserMail = EncryptHelper.DecryptString(user.AspNetUser.Email);
+                            _UserMail = user.AspNetUser.Email;
                         }
                     }
                     else

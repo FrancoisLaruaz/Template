@@ -120,10 +120,10 @@ namespace Service.UserArea
                     LanguageId = User.LanguageId;
                     if (String.IsNullOrWhiteSpace(Email.ToEmail))
                     {
-                        Email.ToEmail = EncryptHelper.DecryptString(User.AspNetUser.Email); 
+                        Email.ToEmail = User.AspNetUser.Email; 
                     }
-                    Email.EmailContent.Add(new Tuple<string, string>("#UserFirstName#", EncryptHelper.DecryptString(User.FirstName)));
-                    Email.EmailContent.Add(new Tuple<string, string>("#UserFullName#", EncryptHelper.DecryptString(User.LastName)));
+                    Email.EmailContent.Add(new Tuple<string, string>("#UserFirstName#", User.FirstName));
+                    Email.EmailContent.Add(new Tuple<string, string>("#UserFullName#", User.LastName));
                 }
                 else
                 {
@@ -335,8 +335,8 @@ namespace Service.UserArea
                 EmailAudit Audit = new EmailAudit();
                 Audit.UserId = EMail.UserId;
                 Audit.EMailTypeLanguageId = EMail.EMailTypeLanguageId;
-                Audit.EMailFrom = EncryptHelper.EncryptToString(EMail.FromEmail);
-                Audit.EMailTo = EncryptHelper.EncryptToString(EMail.ToEmail);
+                Audit.EMailFrom = EMail.FromEmail;
+                Audit.EMailTo = EMail.ToEmail;
                 Audit.Date = DateTime.UtcNow;
                 Audit.AttachmentNumber = AttachmentNumber;
                 Audit.CCUsersNumber = CCUsersNumber;
@@ -390,10 +390,10 @@ namespace Service.UserArea
                     emailAuditItem.EMailTypeId = audit.EmailTypeLanguage.EMailTypeId;
                     emailAuditItem.EMailTypeLanguageId = audit.EMailTypeLanguageId;
                     emailAuditItem.Date = audit.Date.ToLocalTime();
-                    emailAuditItem.UserFirstNameDecrypt = EncryptHelper.DecryptString(audit.User?.FirstName);
-                    emailAuditItem.UserLastNameDecrypt = EncryptHelper.DecryptString(audit.User?.LastName);
-                    emailAuditItem.EMailFromDecrypt = EncryptHelper.DecryptString(audit.EMailFrom);
-                    emailAuditItem.EMailToDecrypt = EncryptHelper.DecryptString(audit.EMailTo);
+                    emailAuditItem.UserFirstNameDecrypt = audit.User?.FirstName;
+                    emailAuditItem.UserLastNameDecrypt = audit.User?.LastName;
+                    emailAuditItem.EMailFromDecrypt = audit.EMailFrom;
+                    emailAuditItem.EMailToDecrypt = audit.EMailTo;
                     emailAuditItem.CCUsersNumber = audit.CCUsersNumber;
                     emailAuditItem.AttachmentNumber = audit.AttachmentNumber??0;
                     emailAuditItem.NewsTitle = audit.ScheduledTask?.News?.Title;

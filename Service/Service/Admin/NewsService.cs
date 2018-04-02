@@ -321,8 +321,8 @@ namespace Service.Admin
                     Description = "";
 
                 List<Tuple<string, string>> GenericEmailContent = EMailHelper.GetGenericEmailContent();
-                GenericEmailContent.Add(new Tuple<string, string>("#UserFirstName#", user.FirstNameDecrypt));
-                GenericEmailContent.Add(new Tuple<string, string>("#UserFullName#", user.UserFullNameDecrypt));
+                GenericEmailContent.Add(new Tuple<string, string>("#UserFirstName#", user.FirstName));
+                GenericEmailContent.Add(new Tuple<string, string>("#UserFullName#", user.UserFullName));
                 GenericEmailContent.Add(new Tuple<string, string>("#RealUserEMail#", ""));
                 GenericEmailContent.Add(new Tuple<string, string>("#WebSiteURL#", Utils.Website));
 
@@ -364,8 +364,8 @@ namespace Service.Admin
                     model.Id = news.Id;
                     ScheduledTask task = news.ScheduledTasks?.FirstOrDefault();
                     model.HasScheduledTaskBeenExecuted= news.ScheduledTasks.Any() ? (news.ScheduledTasks.FirstOrDefault().ExecutionDate == null ? false : true) : false;
-                    model.LastModificationUserFullNameDecrypt = EncryptHelper.DecryptString(news.User.FirstName) + " " + EncryptHelper.DecryptString(news.User.LastName);
-                    model.LastModificationUserId = news.User.Id;
+                    model.LastModificationUserFullNameDecrypt = news.User?.FirstName + " " +news.User?.LastName;
+                    model.LastModificationUserId = news.User?.Id;
                     model.Active = news.Active;
                     model.CreationDate = news.CreationDate.ToLocalTime();
                     model.Description = news.Description;

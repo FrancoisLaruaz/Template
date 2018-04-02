@@ -16,7 +16,6 @@ http://msdn2.microsoft.com/en-us/library/b5ysx397.aspx
   <connectionStrings>
     <add name="DefaultConnection" connectionString="data source=.; initial catalog=Template; persist security info=True; Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
     <add name="TemplateEntities" connectionString="metadata=res://*/Model.DBModel.csdl|res://*/Model.DBModel.ssdl|res://*/Model.DBModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=.;initial catalog=Template;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
-    <add name="MySQLDefaultConnection" connectionString="SERVER=127.0.0.1; DATABASE=Template; UID=TemplateUser; PASSWORD=TemplateUser53;Allow User Variables=True" providerName="MySql.Data.MySqlClient" />
   </connectionStrings>
   <appSettings>
     <add key="owin:appStartup" value="Template.Startup" />

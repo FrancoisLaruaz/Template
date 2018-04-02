@@ -206,6 +206,7 @@
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TasksController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\ContentFileController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -266,6 +267,7 @@
     <Content Include="Content\General\jtsage-datebox.min.css" />
     <Content Include="Content\General\_Spinner.css" />
     <Content Include="Content\Views\Account\_PasswordPolicy.css" />
+    <Content Include="Content\Views\Search\Index.css" />
     <Content Include="Content\Views\Shared\_LanguageSelector.css" />
     <Content Include="Content\Views\Shared\_Footer.css" />
     <Content Include="Content\Views\Home\_VideoHomePage.css" />
@@ -276,17 +278,6 @@
     <None Include="Content\Views\Shared\_LoginModal.less" />
     <Content Include="Content\Views\Shared\_Header.css" />
     <Content Include="Content\Views\Shared\_PageTitle.css" />
-    <Content Include="docs\MySqlCommand.xml" />
-    <Content Include="docs\MySqlCommandBuilder.xml" />
-    <Content Include="docs\MySqlConnection.xml" />
-    <Content Include="docs\MySqlConnectionStringBuilder.xml" />
-    <Content Include="docs\MySqlDataAdapter.xml" />
-    <Content Include="docs\MySqlDataReader.xml" />
-    <Content Include="docs\MySqlException.xml" />
-    <Content Include="docs\MySqlHelper.xml" />
-    <Content Include="docs\MySqlParameter.xml" />
-    <Content Include="docs\MySqlParameterCollection.xml" />
-    <Content Include="docs\MySqlTransaction.xml" />
     <Content Include="ExternalLib\EPPlus.dll" />
     <Content Include="ExternalLib\i18n.PostBuild.exe" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -482,6 +473,7 @@
     <Content Include="Areas\Admin\Scripts\Views\Logs\Index.js" />
     <Content Include="Scripts\Views\Account\_Login.js" />
     <Content Include="Scripts\Views\Experiment\Index.js" />
+    <Content Include="Scripts\Views\Search\Index.js" />
     <Content Include="Scripts\Views\Home\ContactUs.js" />
     <Content Include="Scripts\Views\Home\_VideoHomePage.js" />
     <Content Include="Scripts\Views\Home\Index.js" />
@@ -568,6 +560,8 @@
     <Content Include="Views\Account\MyProfile\_MyProfileTrustAndVerifications.cshtml" />
     <Content Include="Views\Shared\Layout\_TawkTo.cshtml" />
     <Content Include="Views\Account\MyProfile\_MyProfileAddress.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\Search\_DisplaySearch.cshtml" />
     <None Include="Web.config.perso">
       <SubType>Designer</SubType>
     </None>

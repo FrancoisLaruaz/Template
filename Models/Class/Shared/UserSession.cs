@@ -12,15 +12,14 @@ namespace Models.Class
     {
         public string UserName { get; set; }
 
-        public string UserNameDecrypt { get; set; }
 
         public string UserIdentityId { get; set; }
 
         public int UserId { get; set; }
 
-        public string FirstNameDecrypt { get; set; }
+        public string FirstName { get; set; }
 
-       public string LastNameDecrypt { get; set; }
+       public string LastName { get; set; }
 
         public string LanguageTag { get; set; }
 
@@ -28,7 +27,7 @@ namespace Models.Class
 
         public bool EmailConfirmed { get; set; }
 
-        public string UserFullNameDecrypt { get { return (FirstNameDecrypt + " " + LastNameDecrypt).Trim(); } }
+        public string UserFullName { get { return (FirstName + " " + LastName).Trim(); } }
 
         public UserSession()
         {

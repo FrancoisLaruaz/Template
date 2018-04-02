@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Models;
 using Models.Class;
 using Commons;
+using Commons.Encrypt;
 
 using Models.Class.Email;
 

@@ -1,7 +1,7 @@
 @WebsiteColor1: rgba(45,191,183, 0.8);
 @WebsiteColor2: rgba(45,191,183, 1);
 @selectWidth: 100%;
-@bodyColor: #f3f3f3;
+@bodyColor: white;
 
 .main-content {
     margin: 30px 0 0px 0 !important;
@@ -79,7 +79,7 @@
 
 .website-btn:hover {
     background: transparent;
-    color: @WebsiteColor1;
+    color: @WebsiteColor2;
     cursor: pointer;
     margin: 10px 0 10px 0;
     text-align: center;
@@ -105,13 +105,13 @@
     font-weight: inherit;
     font-size: 2.0rem;
     padding: 15px 30px;
-    border: 3px @WebsiteColor1 solid;
+    border: 3px @WebsiteColor2 solid;
     box-shadow: 0 1px 4px rgba(0,0,0,.15)
 }
 
 
 .website-btn {
-    background: none repeat scroll 0 0 @WebsiteColor1;
+    background: none repeat scroll 0 0 @WebsiteColor2;
     color: #ffffff;
     margin: 10px 0 10px 0;
     text-align: center;
@@ -127,12 +127,12 @@
     -webkit-transition: all .2s ease;
     -moz-transition: all .2s ease;
     -ms-transition: all .2s ease;
-    border: 3px @WebsiteColor1 solid;
+    border: 3px @WebsiteColor2 solid;
     -o-transition: all .2s ease;
     transition: all .2s ease;
     line-height: 22px;
     cursor: pointer;
-    box-shadow: 0 2px 0 @WebsiteColor1;
+    box-shadow: 0 2px 0 @WebsiteColor2;
     width: 100%;
     font-family: inherit;
     font-weight: inherit;
@@ -894,16 +894,17 @@ a {
 
 
 .bodyMainclass .li_hover .dropdown-toggle {
-    color: @WebsiteColor1 !important;
+    color: #555 !important;
 }
 
 .bodyMainclass .dropdown-menu a:hover {
     color: @WebsiteColor1;
+    background-color:white !important;
 }
 
 
 .bodyMainclass .navbar-nav li:hover .dropdown-menu {
-    border-top: 4px solid @WebsiteColor1;
+  
 }
 
 .modal-backdrop {
@@ -1016,5 +1017,5 @@ a {
 .labelTextArea {
     font-size: 1.3rem;
     font-weight: normal;
-    color: @WebsiteColor1;
+    color: @WebsiteColor2;
 }

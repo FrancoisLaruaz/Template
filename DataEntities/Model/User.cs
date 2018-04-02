@@ -20,6 +20,7 @@ namespace DataEntities.Model
             this.EmailAudits = new HashSet<EmailAudit>();
             this.News = new HashSet<News>();
             this.ScheduledTasks = new HashSet<ScheduledTask>();
+            this.Searches = new HashSet<Search>();
         }
     
         public int Id { get; set; }
@@ -55,5 +56,7 @@ namespace DataEntities.Model
         public virtual Province Province { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScheduledTask> ScheduledTasks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Search> Searches { get; set; }
     }
 }

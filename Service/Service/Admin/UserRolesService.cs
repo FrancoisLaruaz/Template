@@ -130,9 +130,9 @@ namespace Service.Admin
                     model.DateLastConnection = user.DateLastConnection.ToLocalTime();
                     model.UserId = user.Id;
                     model.UseridentityId = aspnetUser.Id;
-                    model.UserFirstNameDecrypt = EncryptHelper.DecryptString(user.FirstName);
-                    model.UserLastNameDecrypt = EncryptHelper.DecryptString(user.LastName);
-                    model.UserNameDecrypt = EncryptHelper.DecryptString(user.AspNetUser.UserName);
+                    model.UserFirstNameDecrypt = user.FirstName;
+                    model.UserLastNameDecrypt =user.LastName;
+                    model.UserNameDecrypt =user.AspNetUser.UserName;
 
                     model.UserRolesList = aspnetUser.AspNetRoles.ToList().Select(a => new RoleItem { RoleId = a.Id, RoleName = a.Name }).ToList(); 
 

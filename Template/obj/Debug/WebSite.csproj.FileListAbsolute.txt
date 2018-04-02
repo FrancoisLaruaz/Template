@@ -303,8 +303,6 @@ D:\DEV\Template\Template\bin\log4net.xml
 D:\DEV\Template\Template\bin\Ghostscript.NET.xml
 D:\DEV\Template\Template\obj\Debug\WebSite.dll
 D:\DEV\Template\Template\obj\Debug\WebSite.pdb
-C:\DEV\Template\Template\obj\Debug\WebSite.csprojResolveAssemblyReference.cache
-C:\DEV\Template\Template\obj\Debug\WebSite.csproj.CoreCompileInputs.cache
 C:\DEV\Template\Template\bin\WebSite.dll.config
 C:\DEV\Template\Template\bin\WebSite.dll
 C:\DEV\Template\Template\bin\WebSite.pdb
@@ -409,5 +407,7 @@ C:\DEV\Template\Template\bin\System.Web.Mvc.xml
 C:\DEV\Template\Template\bin\Newtonsoft.Json.xml
 C:\DEV\Template\Template\bin\log4net.xml
 C:\DEV\Template\Template\bin\Ghostscript.NET.xml
+C:\DEV\Template\Template\obj\Debug\WebSite.csprojResolveAssemblyReference.cache
+C:\DEV\Template\Template\obj\Debug\WebSite.csproj.CoreCompileInputs.cache
 C:\DEV\Template\Template\obj\Debug\WebSite.dll
 C:\DEV\Template\Template\obj\Debug\WebSite.pdb

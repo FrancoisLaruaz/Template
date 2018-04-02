@@ -45,6 +45,8 @@ namespace DataEntities.Model
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<TaskLog> TaskLogs { get; set; }
         public virtual DbSet<ValidTopLevelDomain> ValidTopLevelDomains { get; set; }
+        public virtual DbSet<Search> Searches { get; set; }
+        public virtual DbSet<SearchResult> SearchResults { get; set; }
     
         public virtual int DeleteNewsById(Nullable<int> newsId)
         {

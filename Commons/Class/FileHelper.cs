@@ -499,7 +499,11 @@ namespace Commons
         {
             try
             {
-                string decryptedPath = GetDecryptedFilePath(pathFile);
+                string decryptedPath = pathFile;
+                if (pathFile.Contains(CommonsConst.Const.BasePathUploadEncrypted))
+                {
+                    decryptedPath= GetDecryptedFilePath(pathFile);
+                }
                 Image image = GetImageFrom64Base(decryptedPath);
                 float ratio = image.Width / width;
                 int height = (int)((float)image.Height / ratio);

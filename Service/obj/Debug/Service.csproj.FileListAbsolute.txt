@@ -125,7 +125,6 @@ D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\DEV\Template\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
 D:\DEV\Template\Service\obj\Debug\Service.dll
 D:\DEV\Template\Service\obj\Debug\Service.pdb
-C:\DEV\Template\Service\obj\Debug\Service.csproj.CoreCompileInputs.cache
 C:\DEV\Template\Service\bin\Debug\Service.dll.config
 C:\DEV\Template\Service\bin\Debug\Service.dll
 C:\DEV\Template\Service\bin\Debug\Service.pdb
@@ -168,5 +167,6 @@ C:\DEV\Template\Service\bin\Debug\System.Web.WebPages.Razor.xml
 C:\DEV\Template\Service\bin\Debug\System.Web.WebPages.xml
 C:\DEV\Template\Service\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\DEV\Template\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
+C:\DEV\Template\Service\obj\Debug\Service.csproj.CoreCompileInputs.cache
 C:\DEV\Template\Service\obj\Debug\Service.dll
 C:\DEV\Template\Service\obj\Debug\Service.pdb
