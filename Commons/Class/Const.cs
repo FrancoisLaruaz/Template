@@ -101,6 +101,12 @@ namespace CommonsConst
         public static string UploadError = "[[[Error while uploading the file.]]]";
     }
 
+    public static class SearchTypes
+    {
+        public static string User = "[[[User]]]";
+        public static string Page = "[[[Page]]]";
+    }
+
     public static class SuccessMessages
     {
         public static string Success = "[[[The action has been successfully performed.]]]";

@@ -46,7 +46,7 @@ function DisplaySignUpPictureForm(ElementToHide)
             }
         },
         error: function (xhr, error) {
-            NotificationKO(Constants.ErrorMessages.UnknownError);
+            notificationKO(Constants.ErrorMessages.UnknownError);
         }
     });
 }

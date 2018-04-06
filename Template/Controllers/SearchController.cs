@@ -56,11 +56,11 @@ namespace Website.Controllers
 
 
         [HttpPost]
-        public ActionResult _DisplayUsers(DisplayUsersViewModel Model)
+        public ActionResult _DisplaySearch(DisplaySearchViewModel Model)
         {
             try
             {
-                Model = _userRoleService.GetDisplayUsersViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
+                Model = new DisplaySearchViewModel();// _userRoleService.GetDisplayUsersViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
             }
             catch (Exception e)
             {

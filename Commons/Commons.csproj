@@ -89,6 +89,7 @@
     <Compile Include="Class\MySQLHelper.cs" />
     <Compile Include="Class\HashHelpers.cs" />
     <Compile Include="Class\SocialMediaHelper.cs" />
+    <Compile Include="Class\ModelStateHelper.cs" />
     <Compile Include="Class\Utils.cs" />
     <Compile Include="Class\LoggerHelper.cs" />
     <Compile Include="Extensions\Generic\DateTimeExtension.cs" />

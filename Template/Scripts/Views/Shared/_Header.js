@@ -4,7 +4,7 @@ $(document).ready(function () {
         e.preventDefault();
         var pattern = $('#SearchTbx').val();
         if (pattern.length < 2) {
-            NotificationInfo('[[[Please enter 2 characters minimum to start the search.]]]');
+            notificationInfo('[[[Please enter 2 characters minimum to start the search.]]]');
         }
         else {
         
@@ -97,7 +97,7 @@ function LogOffBegin() {
 
 function LogOffSuccess() {
 
-    NotificationOK("[[[See you soon !]]]");
+    notificationOK("[[[See you soon !]]]");
     HideSpinner();
     window.location.href = GetHomePageUrl();
 }

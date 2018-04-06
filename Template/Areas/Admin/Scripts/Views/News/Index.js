@@ -30,7 +30,7 @@ $(document).ready(function () {
 
 function DeleteNews(elementId, isPast) {
     console.log("elementId to del->", elementId);
-    SweetConfirmation("[[[Are you sure about deleting this news ?]]]", null, function () {
+    sweetConfirmation("[[[Are you sure about deleting this news ?]]]", null, function () {
         $("#spinner").fadeIn();
         //BEGIN ajax delete
         $.ajax({
@@ -39,7 +39,7 @@ function DeleteNews(elementId, isPast) {
             data: { id: elementId },
             success: function (data) {
                 if (data.Success) {
-                    NotificationOK("[[[The news has been successfully deleted.]]]");
+                    notificationOK("[[[The news has been successfully deleted.]]]");
                     var divIdToRemove = "#elementWrap_" + data.Id;
                     $(divIdToRemove).fadeOut(function () {
                         $(this).remove();
@@ -50,13 +50,13 @@ function DeleteNews(elementId, isPast) {
                         $("#numPastRowCount").html(NewCount);
                     }
                 } else {
-                    NotificationKO(data.Err);
+                    notificationKO(data.Err);
 
                 }
             },
             error: function (xhr, error) {
                 console.log(" : error" + error);
-                NotificationKO(Constants.ErrorMessages.UnknownError);
+                notificationKO(Constants.ErrorMessages.UnknownError);
             }
         });
         //END ajax delete

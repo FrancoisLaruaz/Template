@@ -58,20 +58,20 @@ function SetInputFile() {
                             RefreshHeader();
                         }
                         else if (data.Error != null && data.Error.trim() != "") {
-                            NotificationKO(data.Error);
+                            notificationKO(data.Error);
                         }
                         else {
-                            NotificationKO(Constants.ErrorMessages.UploadError);
+                            notificationKO(Constants.ErrorMessages.UploadError);
                         }
                     },
                     error: function (response) {
-                        NotificationKO(Constants.ErrorMessages.UploadError);
+                        notificationKO(Constants.ErrorMessages.UploadError);
                     }
                 });
 
             }
             else {
-                NotificationKO('[[[Your file size exceeds 500 KB. Please upload another picture.]]]');
+                notificationKO('[[[Your file size exceeds 500 KB. Please upload another picture.]]]');
                 $('#HiddenPic').val('');
             }
         }
@@ -98,7 +98,7 @@ function MyProfilePhotosSuccess(data) {
 
         RefreshHeader();
         $("#PictureDiv" ).css('backgroundImage', 'url(' + data.PreviewPath + ')');
-        NotificationOK('[[[Your picture has been successfully saved.]]]');
+        notificationOK('[[[Your picture has been successfully saved.]]]');
         $("#CloseModalPhotoX").click();
     }
     else if (data.Error != null && data.Error.trim() != '') {

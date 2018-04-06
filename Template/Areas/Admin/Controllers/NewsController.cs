@@ -108,54 +108,63 @@ namespace Website.Areas.Admin.Controllers
             bool _isCreation = false;
             try
             {
-                if (ModelState.IsValid && User.Identity.IsAuthenticated)
+                if (User.Identity.IsAuthenticated)
                 {
-
-
-                    Model.PublishDate = Model.PublishDate.ToUniversalTime();
-                    Model.LastModificationUserId = UserSession.UserId;
-                    if (Model.TypeId == CommonsConst.NewsType.PublishOnly)
-                    {
-                        Model.MailSubject = null;
-                        Model.TypeUserMailingId = null;
-                    }
-
-                    if (Model.Id <= 0)
+                    if (ModelState.IsValid)
                     {
 
-                        _isCreation = true;
-                        int NewsId = _newsService.CreateNews(Model);
-                        Model.Id = NewsId;
-                        if (NewsId > 0)
-                            _success = true;
+                        Model.PublishDate = Model.PublishDate.ToUniversalTime();
+                        Model.LastModificationUserId = UserSession.UserId;
+                        if (Model.TypeId == CommonsConst.NewsType.PublishOnly)
+                        {
+                            Model.MailSubject = null;
+                            Model.TypeUserMailingId = null;
+                        }
+
+                        if (Model.Id <= 0)
+                        {
+
+                            _isCreation = true;
+                            int NewsId = _newsService.CreateNews(Model);
+                            Model.Id = NewsId;
+                            if (NewsId > 0)
+                                _success = true;
+                        }
+                        else
+                        {
+                            _success = _newsService.EditNews(Model);
+                        }
+
+                        // Scehdule
+                        if (_success)
+                        {
+                            if (!Model.HasScheduledTaskBeenExecuted && Model.ScheduledTaskId.HasValue)
+                            {
+                                _success = _scheduledTaskService.CancelTaskById(Model.ScheduledTaskId.Value);
+                            }
+
+                            if (_success && !Model.HasScheduledTaskBeenExecuted && Model.TypeId != CommonsConst.NewsType.PublishOnly && Model.Active)
+                            {
+                                if (Model.PublishDate < DateTime.UtcNow)
+                                {
+                                    Model.PublishDate = DateTime.UtcNow.AddSeconds(5);
+                                }
+
+                                _success = _scheduledTaskService.ScheduleNews(Model.Id, Model.PublishDate - DateTime.UtcNow);
+                            }
+                        }
                     }
                     else
                     {
-                        _success = _newsService.EditNews(Model);
-                    }
-
-                    // Scehdule
-                    if (_success)
-                    {
-                        if (!Model.HasScheduledTaskBeenExecuted && Model.ScheduledTaskId.HasValue)
-                        {
-                            _success = _scheduledTaskService.CancelTaskById(Model.ScheduledTaskId.Value);
-                        }
-
-                        if (_success && !Model.HasScheduledTaskBeenExecuted && Model.TypeId != CommonsConst.NewsType.PublishOnly && Model.Active)
-                        {
-                            if (Model.PublishDate < DateTime.UtcNow)
-                            {
-                                Model.PublishDate = DateTime.UtcNow.AddSeconds(5);
-                            }
-
-                            _success = _scheduledTaskService.ScheduleNews(Model.Id, Model.PublishDate - DateTime.UtcNow);
-                        }
+                        _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                     }
                 }
+                else
+                {
+                    _Error = "[[[You are not logged in.]]]";
+                }
 
-
-                if (!_success)
+                if (!_success && String.IsNullOrWhiteSpace(_Error))
                 {
                     _Error = "[[[Error while saving the update.]]]";
                 }

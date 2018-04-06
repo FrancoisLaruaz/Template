@@ -33,8 +33,8 @@ function LogJsError(_errorMsg, _url, _lineNumber, _col, _error, _custom) {
                 HideSpinner(); 
                 if (IsTestEnvironment()) {
 
-                    if (typeof NotificationKOErrorDev !== "undefined") {
-                        NotificationKOErrorDev("[ERROR] You have just generated a js error : <br><br> " + _errorMsg + "<br><br> Please check the full <a style='text-decoration: underline;' onclick='OpenLogPage()'>LOG </a> ");
+                    if (typeof notificationKOErrorDev !== "undefined") {
+                        notificationKOErrorDev("[ERROR] You have just generated a js error : <br><br> " + _errorMsg + "<br><br> Please check the full <a style='text-decoration: underline;' onclick='OpenLogPage()'>LOG </a> ");
                     }
                     else {
                         alert("[ERROR] You have just generated a js error : <br><br> " + _errorMsg + "<br><br> Please check the full <a style='text-decoration: underline;' onclick='OpenLogPage()'>LOG </a> ");
@@ -72,7 +72,7 @@ function JSCaughtException(err)
             message = err.toString();
         }
 
-        NotificationKO(message);
+        notificationKO(message);
     }
 }
 

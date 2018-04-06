@@ -14,7 +14,7 @@ $(document).ready(function () {
 });
 
 function AskConfirmationToResetTasks() {
-    SweetConfirmation("[[[Are you sure you want to reset the tasks?]]]", null, ResetTasks, null);
+    sweetConfirmation("[[[Are you sure you want to reset the tasks?]]]", null, ResetTasks, null);
 }
 
 var ResetTasks=function ResetTasks()

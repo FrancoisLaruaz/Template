@@ -21,7 +21,7 @@ function SetDeleteLinkAction() {
 }
 
 function AskConfirmationToDeleteProfile(UserId) {
-    SweetConfirmation("[[[Are you sure you want to delete your profile ?]]]", null, DeleteProfile, [UserId]);
+    sweetConfirmation("[[[Are you sure you want to delete your profile ?]]]", null, DeleteProfile, [UserId]);
 }
 
 var DeleteProfile = function DeleteProfile(UserId) {
@@ -64,7 +64,7 @@ function MyProfileEditSuccess(data) {
         }
         else {
             RefreshHeader();
-            NotificationOK('[[[Your profile has been successfully saved.]]]');
+            notificationOK('[[[Your profile has been successfully saved.]]]');
         }
     }
     else if (data.Error != null && data.Error.trim() != '') {

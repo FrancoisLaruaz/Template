@@ -65,7 +65,7 @@ function HideSpinner() {
 }
 
 function ErrorActions() {
-    NotificationKO();
+    notificationKO(Constants.ErrorMessages.UnknownError);
     HideSpinner();
 }
 

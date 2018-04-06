@@ -40,8 +40,11 @@ namespace Service.Admin
             try
             {
                 int intDate;
-                DirectoryInfo InfoUploadFolder = new DirectoryInfo(FileHelper.GetStorageRoot(CommonsConst.Const.BasePathUploadEncrypted));//Assuming Test is your Folder
-                FileInfo[] Files = InfoUploadFolder.GetFiles(); //Getting Text files
+                DirectoryInfo InfoUploadFolderEncrypted = new DirectoryInfo(FileHelper.GetStorageRoot(CommonsConst.Const.BasePathUploadEncrypted));//Assuming Test is your Folder
+                DirectoryInfo InfoUploadFolderDecrypted = new DirectoryInfo(FileHelper.GetStorageRoot(CommonsConst.Const.BasePathUploadDecrypted));//Assuming Test is your Folder
+                List<FileInfo> Files = InfoUploadFolderEncrypted.GetFiles().ToList(); //Getting Text 
+                List<FileInfo> FilesDecrypted = InfoUploadFolderDecrypted.GetFiles().Where(f => !f.Name.Contains("news")).ToList(); //Getting Text files
+                Files.AddRange(FilesDecrypted);
                 string FileName = "";
                 DateTime DateToCompare = DateTime.UtcNow.AddDays(-2);
 
@@ -57,6 +60,7 @@ namespace Service.Admin
                     {
                         result.FilesAnalyzedNumber++;
                         FileName = file.Name;
+              
                         try
                         {
                             if (FileName.Length < 8 && int.TryParse(FileName.Substring(0, 8).ToString(), out intDate))
@@ -67,6 +71,13 @@ namespace Service.Admin
                             {
                                 DateTime DateFile = new DateTime(Convert.ToInt32(FileName.Substring(0, 4)), Convert.ToInt32(FileName.Substring(4, 2)), Convert.ToInt32(FileName.Substring(6, 2)));
                                 string FullPathFile = CommonsConst.Const.BasePathUploadEncrypted + "/" + FileName;
+
+                                if(FullPathFile.Contains("Decrypted"))
+                                {
+                                    FullPathFile = CommonsConst.Const.BasePathUploadDecrypted + "/" + FileName;
+                                }
+            
+
                                 if (DateFile < DateToCompare && !ListUsedFiles.Contains(FullPathFile))
                                 {
                                     bool resultDelete = FileHelper.DeleteDocument(FullPathFile);

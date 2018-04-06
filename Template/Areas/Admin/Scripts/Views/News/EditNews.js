@@ -44,7 +44,7 @@ function EditNewsSuccess(data) {
             window.location.href = GetHomePageUrl() + '/Admin/News';
         }
         else {
-            NotificationOK('[[[The news has been successfully saved.]]]');
+            notificationOK('[[[The news has been successfully saved.]]]');
             BackToTop();
             HideSpinner();
         }
@@ -68,7 +68,7 @@ function  PreviewMailOnClick() {
         data: { Title: _Title, Description: _Description},
         success: function (data) {
             if (data == null || data.trim() == "") {
-                NotificationKO(Constants.ErrorMessages.UnknownError);
+                notificationKO(Constants.ErrorMessages.UnknownError);
             }
             else {
                 $("#_PreviewMailModalDiv").html(data);

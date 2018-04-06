@@ -1,6 +1,6 @@
 
 // Message à l'utilisateur lorsqu'une action est correctement réalisée
-function NotificationOK(message) {
+function notificationOK(message) {
 
     try {
 
@@ -18,7 +18,7 @@ function NotificationOK(message) {
 }
 
 // Message à l'utilisateur lorsqu'une action n'est pas correctement réalisée
-function NotificationKO(message) {
+function notificationKO(message) {
     try {
         if (message === undefined || message == null || message.trim() == "") {
             message = Constants.ErrorMessages.UnknownError;
@@ -32,7 +32,7 @@ function NotificationKO(message) {
     }
 }
 
-function NotificationKOErrorDev(message) {
+function notificationKOErrorDev(message) {
     try {
         SetUpToastrErrorDev();
 
@@ -43,7 +43,7 @@ function NotificationKOErrorDev(message) {
     }
 }
 
-function NotificationWarning(message) {
+function notificationWarning(message) {
     try {
         SetUpToastr();
 
@@ -54,7 +54,7 @@ function NotificationWarning(message) {
     }
 }
 
-function NotificationInfo(message) {
+function notificationInfo(message) {
     try {
         SetUpToastr();
 

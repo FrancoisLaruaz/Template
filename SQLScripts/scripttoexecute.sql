@@ -1,9 +1,9 @@
-CREATE TABLE [dbo].[Search](
+CREATE TABLE [dbo].[UserFollow](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Pattern] [nvarchar](255) NULL,
-	[Date] Datetime not null,
-	[UserId] [int] NOT NULL
- CONSTRAINT [PK_Search_Id] PRIMARY KEY CLUSTERED 
+	[UserId] [int] NOT NULL,
+	[FollowedUserId] [int] NOT NULL,
+	[CreationDate] [datetime] NOT NULL
+ CONSTRAINT [PK_UserFollow] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -11,41 +11,28 @@ CREATE TABLE [dbo].[Search](
 
 GO
 
-ALTER TABLE [dbo].[Search]  WITH CHECK ADD  CONSTRAINT [FK_Search_UserId] FOREIGN KEY([UserId])
+ALTER TABLE [dbo].[UserFollow]  WITH CHECK ADD  CONSTRAINT [FK_UserFollow_FollowedUserId] FOREIGN KEY([FollowedUserId])
 REFERENCES [dbo].[User] ([Id])
 GO
 
-ALTER TABLE [dbo].[Search] CHECK CONSTRAINT [FK_Search_UserId]
+ALTER TABLE [dbo].[UserFollow] CHECK CONSTRAINT [FK_UserFollow_FollowedUserId]
+GO
+
+ALTER TABLE [dbo].[UserFollow]  WITH CHECK ADD  CONSTRAINT [FK_UserFollow_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+
+ALTER TABLE [dbo].[UserFollow] CHECK CONSTRAINT [FK_UserFollow_User]
 GO
 
 
-CREATE TABLE [dbo].[SearchResult](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Url] [nvarchar](255) NULL,
-	[Date] Datetime not null,
-	[SearchId] [int] NOT NULL
- CONSTRAINT [PK_SearchResult_Id] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
+USE [Template]
 GO
-
-ALTER TABLE [dbo].[SearchResult]  WITH CHECK ADD  CONSTRAINT [FK_SearchResult_Search] FOREIGN KEY([SearchId])
-REFERENCES [dbo].[Search] ([Id])
+/****** Object:  StoredProcedure [dbo].[DeleteUserById]    Script Date: 4/3/2018 1:13:32 PM ******/
+SET ANSI_NULLS ON
 GO
-
-ALTER TABLE [dbo].[SearchResult] CHECK CONSTRAINT [FK_SearchResult_Search]
+SET QUOTED_IDENTIFIER ON
 GO
-
-alter table dbo.Search
-add ResultsNumber int not null
-
-alter table dbo.search
-alter column UserId int null
-
-
 
 
 ALTER procedure  [dbo].[DeleteUserById]
@@ -65,6 +52,7 @@ ALTER procedure  [dbo].[DeleteUserById]
 				set @UserName=(select top 1 UserName from dbo.AspNetUsers where id= (select top 1 AspNetUserId from dbo.[user] where id=@UserId))
 				set @AspNetUserId=(select top 1 AspNetUserId from dbo.[user] where id=@UserId)
 
+				delete from dbo.UserFollow where [UserId]=@userid  or [FollowedUserId]=@UserId
 				delete from dbo.scheduledtask where UserId=@UserId;
 				update dbo.log4net set UserLogin=null where UserLogin=@UserName
 				update dbo.news set LastModificationUserId=null where LastModificationUserId=@UserId;
@@ -107,6 +95,4 @@ ALTER procedure  [dbo].[DeleteUserById]
 		   return 0
     end catch
 end
-
-
 

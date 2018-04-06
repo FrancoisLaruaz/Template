@@ -62,6 +62,7 @@
     <Compile Include="Class\ExternalAuthentification\FacebookOauthResponse.cs" />
     <Compile Include="Class\ExternalAuthentification\ExternalAuthentificationResult.cs" />
     <Compile Include="Class\News\NewsItem.cs" />
+    <Compile Include="Class\Search\SearchItem.cs" />
     <Compile Include="Class\SignUp\UserSignUp.cs" />
     <Compile Include="Class\TaskSchedule\SchedulerInformation.cs" />
     <Compile Include="Class\TaskSchedule\CronInfo.cs" />
@@ -96,7 +97,8 @@
     <Compile Include="ViewModel\Admin\Logs\DisplayLogsViewModel.cs" />
     <Compile Include="ViewModel\Admin\News\NewsViewModel.cs" />
     <Compile Include="ViewModel\Admin\Tasks\SchedulerStatusViewModel.cs" />
-    <Compile Include="ViewModel\Search\HomeViewModel.cs" />
+    <Compile Include="ViewModel\Search\DisplaySearchViewModel.cs" />
+    <Compile Include="ViewModel\Search\SearchViewModel.cs" />
     <Compile Include="ViewModel\Home\ContactUsViewModel.cs" />
     <Compile Include="ViewModel\Home\HomeViewModel.cs" />
     <Compile Include="ViewModel\Shared\HeaderViewModel.cs" />

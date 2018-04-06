@@ -53,10 +53,10 @@ function AddUserRole(roleid, userid) {
         success: function (data) {
             if (data != null && data.Result) {
                 RefreshUserRoles(userid)
-                NotificationOK("[[[The role has been successfully added to the user.]]]");
+                notificationOK("[[[The role has been successfully added to the user.]]]");
             }
             else if (data != null && data.Error != null) {
-                NotificationKO(data.Error);
+                notificationKO(data.Error);
                 HideSpinner();
             }
             else {
@@ -80,10 +80,10 @@ function DeleteUserRole(roleid, userid) {
             success: function (data) {
                 if (data != null && data.Result) {
                     RefreshUserRoles(userid)
-                    NotificationOK("[[[The role has been successfully deleted.]]]");
+                    notificationOK("[[[The role has been successfully deleted.]]]");
                 }
                 else if (data != null && data.Error != null) {
-                    NotificationKO(data.Error);
+                    notificationKO(data.Error);
                     HideSpinner();
                 }
                 else {
@@ -130,7 +130,7 @@ function RefreshUserRoles(UserIdentityId) {
 
 function AskConfirmationToDeleteUser(UserId) {
     if (UserId > 0) {
-        SweetConfirmation("[[[Are you sure you want to delete this user ?]]]", null, DeleteUser, [UserId]);
+        sweetConfirmation("[[[Are you sure you want to delete this user ?]]]", null, DeleteUser, [UserId]);
     }
 }
 
@@ -145,7 +145,7 @@ var DeleteUser = function DeleteUser(UserId) {
                 ErrorActions();
             }
             else {
-                NotificationOK("[[[The user has been successfully deleted.]]]");
+                notificationOK("[[[The user has been successfully deleted.]]]");
                 var divIdToRemove = "#UserTr_" + UserId;
                 $(divIdToRemove).fadeOut(function () {
                     $(this).remove();

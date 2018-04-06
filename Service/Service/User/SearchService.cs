@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 using Service.UserArea.Interface;
 using DataEntities.Repositories;
 using DataEntities.Model;
-
+using Models.ViewModels.Search;
+using Models.Class.Search;
 
 namespace Service.UserArea
 {
@@ -71,6 +72,39 @@ namespace Service.UserArea
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "SearchId = " + SearchId);
             }
             return result;
+        }
+
+
+        public DisplaySearchViewModel GetDisplaySearchViewModel(string Pattern, int StartAt, int PageSize)
+        {
+            DisplaySearchViewModel model = new DisplaySearchViewModel();
+            try
+            {
+
+                model.Pattern = Pattern;
+                model.PageSize = PageSize;
+                model.StartAt = StartAt;
+                if (Pattern == null)
+                    Pattern = "";
+                Pattern = Pattern.ToLower();
+                var Users = new List<SearchItem>();
+
+
+                var Pages = new List<SearchItem>();
+
+
+
+                model.SearchList.AddRange(Users);
+                model.SearchList.AddRange(Pages);
+
+                model.Count = model.SearchList.Count;
+                model.SearchList = model.SearchList.OrderByDescending(a => a.Name).Skip(StartAt).Take(PageSize).ToList();
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Pattern = " + Pattern);
+            }
+            return model;
         }
 
     }

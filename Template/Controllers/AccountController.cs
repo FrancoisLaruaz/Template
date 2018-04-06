@@ -246,7 +246,7 @@ namespace Website.Controllers
                 }
                 else
                 {
-                    _Error = "[[[An error occured while saving yhe profile. Please try again .]]]";
+                    _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                 }
             }
             catch (Exception e)
@@ -316,7 +316,7 @@ namespace Website.Controllers
                                         File = portraitInputFile,
                                         UploadName = fileName,
                                         IsImage = true,
-                                        EncryptFile = true
+                                        EncryptFile = false
                                     };
                                     if (FileHelper.IsValidImage(portraitInputFile))
                                     {
@@ -406,7 +406,7 @@ namespace Website.Controllers
                 }
                 else
                 {
-                    _Error = "[[[An error occured while saving yhe profile. Please try again .]]]";
+                    _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                 }
             }
             catch (Exception e)
@@ -481,7 +481,7 @@ namespace Website.Controllers
                 }
                 else
                 {
-                    _Error = "[[[An error occured while saving yhe profile. Please try again .]]]";
+                    _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                 }
             }
             catch (Exception e)
@@ -556,7 +556,7 @@ namespace Website.Controllers
                 }
                 else
                 {
-                    _Error = "[[[An error occured while saving yhe profile. Please try again .]]]";
+                    _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                 }
             }
             catch (Exception e)
@@ -881,7 +881,7 @@ namespace Website.Controllers
                             int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
                             if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.ImageSrc))
                             {
-                                ExternalSignUpInformation.ImageSrc = FileHelper.SaveAndEncryptFileFromWeb(ExternalSignUpInformation.ImageSrc, "user", ".jpg");
+                                ExternalSignUpInformation.ImageSrc = FileHelper.SaveFileFromWeb(ExternalSignUpInformation.ImageSrc, "user", ".jpg");
                                 _ImageSrc = ExternalSignUpInformation.ImageSrc;
                             }
                             var user = new ApplicationUser { UserName = ExternalSignUpInformation.Email, Email = ExternalSignUpInformation.Email };
@@ -1067,7 +1067,7 @@ namespace Website.Controllers
                     }
                     else
                     {
-                        _Error = "[[[Please complete the form.]]]";
+                        _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                     }
 
 
@@ -1122,17 +1122,28 @@ namespace Website.Controllers
             string _Error = "";
             try
             {
-                if (User.Identity.IsAuthenticated)
+                if (ModelState.IsValid)
                 {
-                    int UserId = UserSession.UserId;
-                    if (UserId > 0 && !String.IsNullOrWhiteSpace(model.PictureSrc))
+                    if (User.Identity.IsAuthenticated)
                     {
-                        _Result = _userService.UpdateProfilePicture(UserId, model.PictureSrc);
-                        if (_Result)
+                        int UserId = UserSession.UserId;
+                        if (UserId > 0 && !String.IsNullOrWhiteSpace(model.PictureSrc))
                         {
-                            UserSession = _userService.GetUserSession(UserSession.UserName);
+                            _Result = _userService.UpdateProfilePicture(UserId, model.PictureSrc);
+                            if (_Result)
+                            {
+                                UserSession = _userService.GetUserSession(UserSession.UserName);
+                            }
                         }
                     }
+                    else
+                    {
+                        _Error ="[[[You are not logged in.]]]";
+                    }
+                }
+                else
+                {
+                    _Error= ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                 }
             }
             catch (Exception e)
@@ -1213,6 +1224,10 @@ namespace Website.Controllers
                             _Error = "[[[Invalid login attempt.]]]";
                             break;
                     }
+                }
+                else
+                {
+                    _Error= ModelStateHelper.GetModelErrorsToDisplay(ModelState); 
                 }
 
             }
@@ -1387,7 +1402,7 @@ namespace Website.Controllers
                     }
                     else
                     {
-                        _Error = "[[[The form contains errors..]]]";
+                        _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                     }
                 }
                 else
@@ -1496,6 +1511,10 @@ namespace Website.Controllers
                         _Error = "[[[Sorry, the user has not been found.]]]";
                     }
                 }
+                else
+                {
+                    _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
+                }
             }
             catch (Exception e)
             {
@@ -1547,6 +1566,10 @@ namespace Website.Controllers
                     {
                         _Error = "[[[Sorry, this user has not been found.]]]";
                     }
+                }
+                else
+                {
+                    _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                 }
             }
             catch (Exception e)

@@ -86,7 +86,7 @@ function SetDragAndDropPicture(idElementZone, Purpose, idImageSrc,idImagePreview
             ShowSpinner();
             var model = new FormData();
             model.append("Purpose", Purpose);
-            model.append("EncryptFile", true);
+            model.append("EncryptFile", false);
          
             model.append(file.nativeFile.name, file.nativeFile);
      
@@ -119,15 +119,15 @@ function SetDragAndDropPicture(idElementZone, Purpose, idImageSrc,idImagePreview
                         }
                     }
                     else if (data.Error != null && data.Error.trim() != "") {
-                        NotificationKO(data.Error);
+                        notificationKO(data.Error);
                     }
                     else {
-                        NotificationKO(Constants.ErrorMessages.UploadError);
+                        notificationKO(Constants.ErrorMessages.UploadError);
                     }
                     HideSpinner();
                 },
                 error: function (response) {
-                    NotificationKO(Constants.ErrorMessages.UploadError);
+                    notificationKO(Constants.ErrorMessages.UploadError);
                     HideSpinner();
                 }
             });
@@ -175,19 +175,19 @@ function SetDragAndDropDocument(idElementZone, Purpose, OnUploadSuccessFunction,
                             if (typeof (OnUploadSuccessFunction) === "function") {
                                 OnUploadSuccessFunction.apply(this, [data.PathFile]);
                             }
-                            NotificationOK("[[[The document has been successfully uploaded.]]]");
+                            notificationOK("[[[The document has been successfully uploaded.]]]");
                         }
                     }
                     else if (data.Error != null && data.Error.trim() != "") {
-                        NotificationKO(data.Error);
+                        notificationKO(data.Error);
                     }
                     else {
-                        NotificationKO(Constants.ErrorMessages.UploadError);
+                        notificationKO(Constants.ErrorMessages.UploadError);
                     }
                     HideSpinner();
                 },
                 error: function (response) {
-                    NotificationKO(Constants.ErrorMessages.UploadError);
+                    notificationKO(Constants.ErrorMessages.UploadError);
                     HideSpinner();
                 }
             });

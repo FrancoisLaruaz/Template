@@ -94,7 +94,32 @@ namespace Commons
         }
 
 
+        /// <summary>
+        /// Save and ecrypt a given file from an url
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="Purpose"></param>
+        /// <param name="Extension"></param>
+        /// <returns></returns>
+        public static string SaveFileFromWeb(string url, string Purpose, string Extension)
+        {
+            string result = null;
+            try
+            {
+                WebClient myWebClient = new WebClient();
+                byte[] data = myWebClient.DownloadData(url);
 
+                string FileName = GetFileName(Purpose, Extension);
+                string DiskPath = GetStorageRoot(Const.BasePathUploadDecrypted) + "\\" + FileName;
+                File.WriteAllBytes(DiskPath, data);
+                result = Const.BasePathUploadDecrypted + "/" + FileName;
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "url = " + url+ " and Purpose = "+ Purpose);
+            }
+            return result;
+        }
 
 
         /// <summary>
@@ -123,7 +148,7 @@ namespace Commons
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "url = " + url);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "url = " + url + " and Purpose = " + Purpose);
             }
             return result;
         }
@@ -287,9 +312,9 @@ namespace Commons
                 {
                     string ext = ".jpeg";
                     string fileName = GetFileName(Purpose, ext);
-                    var path = FileHelper.GetStorageRoot(Const.BasePathUploadEncrypted) + "/" + fileName;
-                    if (EncryptWriteBytes(path, Commons.FileHelper.String_To_Bytes2(dump)))
-                        returnPath = Const.BasePathUploadEncrypted + "/" + fileName;
+                    var path = FileHelper.GetStorageRoot(Const.BasePathUploadDecrypted) + "/" + fileName;
+                    File.WriteAllBytes(path, Commons.FileHelper.String_To_Bytes2(dump));
+                   returnPath = Const.BasePathUploadDecrypted + "/" + fileName;
                 }
             }
             catch (Exception e)
@@ -495,29 +520,33 @@ namespace Commons
             return null;
         }
 
-        public static string CreateEncryptThumbnail(string pathFile, int width)
+        public static string CreateThumbnail(string pathFile, int width)
         {
             try
             {
                 string decryptedPath = pathFile;
-                if (pathFile.Contains(CommonsConst.Const.BasePathUploadEncrypted))
+                if (pathFile.Contains(CommonsConst.Const.BasePathUploadDecrypted))
                 {
-                    decryptedPath= GetDecryptedFilePath(pathFile);
+                    decryptedPath = GetDecryptedFilePath(pathFile);
+
+                    Image image = GetImageFrom64Base(decryptedPath);
+                    float ratio = image.Width / width;
+                    int height = (int)((float)image.Height / ratio);
+                    Image thumb = image.GetThumbnailImage(width, height, () => false, IntPtr.Zero);
+
+                    if (thumb != null)
+                    {
+                        string ext = ".png";
+                        string fileName = GetFileName("UserThumbnail", ext);
+                        var path = FileHelper.GetStorageRoot(Const.BasePathUploadDecrypted) + "/" + fileName;
+                        File.WriteAllBytes(path, ConvertImageToBytesArray(thumb));
+
+                        return Const.BasePathUploadDecrypted + "/" + fileName;
+                    }
                 }
-                Image image = GetImageFrom64Base(decryptedPath);
-                float ratio = image.Width / width;
-                int height = (int)((float)image.Height / ratio);
-                Image thumb = image.GetThumbnailImage(width, height, () => false, IntPtr.Zero);
-
-                if (thumb != null)
+                else
                 {
-                    string ext = ".png";
-                    string fileName = GetFileName("UserThumbnail", ext);
-                    var path = FileHelper.GetStorageRoot(Const.BasePathUploadEncrypted) + "/" + fileName;
-
-                    EncryptWriteBytes(path, ConvertImageToBytesArray(thumb));
-
-                    return Const.BasePathUploadEncrypted + "/" + fileName;
+                    return Const.DefaultThumbnailUser;
                 }
             }
             catch (Exception e)

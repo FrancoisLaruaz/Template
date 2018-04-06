@@ -14,7 +14,7 @@ function MyProfileAddressSuccess(data) {
 
     if (data != null && data.Result) {
 
-        NotificationOK('[[[Your address has been successfully saved.]]]');
+        notificationOK('[[[Your address has been successfully saved.]]]');
     }
     else if (data.Error != null && data.Error.trim() != '') {
         $("#ErrorMyProfileAddressForm").html(data.Error);

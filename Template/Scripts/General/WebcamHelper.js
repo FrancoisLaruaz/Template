@@ -66,11 +66,11 @@ function SetCamera(Purpose, IdCamera, IdFileToSave, IdPicturePreview, showWithWe
                 }
             },
             noCameraFound: function () {
-                NotificationKO('[[[Web camera is not available]]]');
+                notificationKO('[[[Web camera is not available]]]');
                 HideSpinner();
             },
             error: function (e) {
-                NotificationKO('[[[Internal camera plugin error]]]');
+                notificationKO('[[[Internal camera plugin error]]]');
                 HideSpinner();
             },
             onCapture: function () {

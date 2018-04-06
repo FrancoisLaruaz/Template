@@ -1,5 +1,5 @@
 ﻿
-function SweetConfirmation(text, title, ConfirmFunction, ConfirmFunctionParams , RejectFunction , RejectFunctionParams) {
+function sweetConfirmation(text, title, ConfirmFunction, ConfirmFunctionParams , RejectFunction , RejectFunctionParams) {
 
     if (ConfirmFunctionParams === undefined) {
         ConfirmFunctionParams = null;

@@ -25,10 +25,10 @@ function SetNavActions()
                 data: { UserId: _UserId },
                 success: function (data) {
                     if (data == "ERROR" || data==null) {
-                        NotificationKO(Constants.ErrorMessages.UnknownError);
+                        notificationKO(Constants.ErrorMessages.UnknownError);
                     }
                     else if (data == "NotLoggedIn") {
-                        NotificationKO("[[[Please log in to access your profile.]]]");
+                        notificationKO("[[[Please log in to access your profile.]]]");
                     }
                     else {
                         $(".navVerticalItem").removeClass('navActive');
