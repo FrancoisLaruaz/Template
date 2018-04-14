@@ -121,7 +121,7 @@ namespace Service.Admin
             try
             {
                 TaskHelper.ScheduleRecurringTask(JobBuilder.Create<DeleteLogs>(), TaskHelper.GetDailyCronSchedule("03", "33"));
-                TaskHelper.ScheduleRecurringTask(JobBuilder.Create<DeleteUploadedFile>(), TaskHelper.GetDailyCronSchedule("03", "34"));
+                TaskHelper.ScheduleRecurringTask(JobBuilder.Create<DeleteUploadedFile>(), TaskHelper.GetDailyCronSchedule("15", "33"));
             }
             catch (Exception e)
             {

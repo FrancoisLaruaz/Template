@@ -11,6 +11,9 @@ CREATE TABLE [dbo].[UserFollow](
 
 GO
 
+		alter table [dbo].[User]
+		add UserNameModification nvarchar(256)
+
 ALTER TABLE [dbo].[UserFollow]  WITH CHECK ADD  CONSTRAINT [FK_UserFollow_FollowedUserId] FOREIGN KEY([FollowedUserId])
 REFERENCES [dbo].[User] ([Id])
 GO

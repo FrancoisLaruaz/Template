@@ -61,6 +61,7 @@ function SetSignUpForm()
 
 function SetSignUpSubmitForm()
 {
+    SetPassword();
     $('#SubmitButtonSignUp').show();
     $('#SubmitButtonSignUp').val("[[[Create]]]");
     $('#SubmitButtonSignUp').removeAttr('disabled');
@@ -76,3 +77,11 @@ function SetSignUpFormLinks() {
         ShowLogInForm(true);
     });
 }
+
+var correctCaptcha = function (response) {
+    if (response != null) {
+        $("#SubmitButtonSignUp").toggleClass("disabled", false);
+        $("#SubmitButtonSignUp").removeAttr('disabled');
+    }
+};
+

@@ -29,12 +29,7 @@ namespace Template
 
             #region Account
 
-            routes.MapRoute(
-                "ChangePassword",
-                "ChangePassword",
-                new { controller = "Account", action = "ChangePassword" },
-                namespaces: new[] { "Website.Controllers" }
-            );
+
 
             routes.MapRoute(
                 "PasswordChanged",

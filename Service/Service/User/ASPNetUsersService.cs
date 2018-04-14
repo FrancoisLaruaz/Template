@@ -162,10 +162,13 @@ namespace Service.UserArea
                 if (user != null)
                 {
                     var aspnetuser = user.AspNetUser;
-                    aspnetuser.Email =Email;
                     aspnetuser.EmailConfirmed = false;
                     _aspNetUserRepo.Edit(aspnetuser);
                     result = _aspNetUserRepo.Save();
+
+                    user.UserNameModification = Email;
+                    _userRepo.Edit(user);
+                    result = result && _userRepo.Save();
                 }
             }
             catch (Exception e)
@@ -189,14 +192,19 @@ namespace Service.UserArea
                 AspNetUser aspNetuser = _aspNetUserRepo.FindAllBy(a => a.Id == Id).FirstOrDefault();
                 if (aspNetuser != null)
                 {
-                    aspNetuser.Users.FirstOrDefault().EmailConfirmationToken = null;
+                    var user = aspNetuser.Users.FirstOrDefault();
+                    string newUserName = user.UserNameModification ?? aspNetuser.UserName;
+                    user.EmailConfirmationToken = null;
+
+                    aspNetuser.Email = newUserName;
+                    aspNetuser.UserName = newUserName;
                     aspNetuser.EmailConfirmed = true;
                     _aspNetUserRepo.Edit(aspNetuser);
                     result = _aspNetUserRepo.Save();
 
                     if (result)
                     {
-                        _userRepo.Edit(aspNetuser.Users.FirstOrDefault());
+                        _userRepo.Edit(user);
                         result = _userRepo.Save();
                     }
                 }

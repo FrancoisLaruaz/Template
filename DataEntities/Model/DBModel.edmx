@@ -172,8 +172,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Pattern" Type="nvarchar" MaxLength="255" />
           <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="ResultsNumber" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" />
+          <Property Name="ResultsNumber" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SearchResult">
           <Key>
@@ -240,6 +240,16 @@
           <Property Name="ModificationDate" Type="datetime" Nullable="false" />
           <Property Name="CreationDate" Type="datetime" Nullable="false" />
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserNameModification" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="UserFollow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="FollowedUserId" Type="int" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="ValidTopLevelDomain">
           <Key>
@@ -544,8 +554,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserFollow_FollowedUserId">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserFollow" Type="Self.UserFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFollow">
+              <PropertyRef Name="FollowedUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFollow_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserFollow" Type="Self.UserFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFollow">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="DeleteNewsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="NewsId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteScheduledTaskById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ScheduledTaskId" Type="int" Mode="In" />
         </Function>
         <Function Name="DeleteUserById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserId" Type="int" Mode="In" />
@@ -602,6 +639,7 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskLog" EntityType="Self.TaskLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserFollow" EntityType="Self.UserFollow" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ValidTopLevelDomain" EntityType="Self.ValidTopLevelDomain" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Category_CategoryTypeId" Association="Self.FK_Category_CategoryTypeId">
             <End Role="CategoryType" EntitySet="CategoryType" />
@@ -698,6 +736,14 @@
           <AssociationSet Name="FK_User_Province" Association="Self.FK_User_Province">
             <End Role="Province" EntitySet="Province" />
             <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFollow_FollowedUserId" Association="Self.FK_UserFollow_FollowedUserId">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserFollow" EntitySet="UserFollow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFollow_User" Association="Self.FK_UserFollow_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserFollow" EntitySet="UserFollow" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -866,6 +912,18 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Search" EntitySet="Searches" />
           </AssociationSet>
+          <EntitySet Name="UserFollows" EntityType="TemplateModel.UserFollow" />
+          <AssociationSet Name="FK_UserFollow_FollowedUserId" Association="TemplateModel.FK_UserFollow_FollowedUserId">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserFollow" EntitySet="UserFollows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFollow_User" Association="TemplateModel.FK_UserFollow_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserFollow" EntitySet="UserFollows" />
+          </AssociationSet>
+          <FunctionImport Name="DeleteScheduledTaskById">
+            <Parameter Name="ScheduledTaskId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -1093,6 +1151,9 @@
           <NavigationProperty Name="Province" Relationship="TemplateModel.FK_User_Province" FromRole="User" ToRole="Province" />
           <NavigationProperty Name="ScheduledTasks" Relationship="TemplateModel.FK_ScheduledTask_User" FromRole="User" ToRole="ScheduledTask" />
           <NavigationProperty Name="Searches" Relationship="TemplateModel.FK_Search_UserId1" FromRole="User" ToRole="Search" />
+          <Property Name="UserNameModification" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserFollows" Relationship="TemplateModel.FK_UserFollow_FollowedUserId" FromRole="User" ToRole="UserFollow" />
+          <NavigationProperty Name="UserFollows1" Relationship="TemplateModel.FK_UserFollow_User" FromRole="User" ToRole="UserFollow" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id">
           <End Type="TemplateModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -1418,6 +1479,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserFollow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="FollowedUserId" Type="Int32" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="TemplateModel.FK_UserFollow_FollowedUserId" FromRole="UserFollow" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="TemplateModel.FK_UserFollow_User" FromRole="UserFollow" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserFollow_FollowedUserId">
+          <End Type="TemplateModel.User" Role="User" Multiplicity="1" />
+          <End Type="TemplateModel.UserFollow" Role="UserFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFollow">
+              <PropertyRef Name="FollowedUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFollow_User">
+          <End Type="TemplateModel.User" Role="User" Multiplicity="1" />
+          <End Type="TemplateModel.UserFollow" Role="UserFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserFollow">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1611,6 +1707,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="TemplateModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserNameModification" ColumnName="UserNameModification" />
                 <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
                 <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
@@ -1711,6 +1808,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserFollows">
+            <EntityTypeMapping TypeName="TemplateModel.UserFollow">
+              <MappingFragment StoreEntitySet="UserFollow">
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="FollowedUserId" ColumnName="FollowedUserId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteScheduledTaskById" FunctionName="TemplateModel.Store.DeleteScheduledTaskById" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

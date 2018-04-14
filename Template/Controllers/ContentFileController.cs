@@ -79,7 +79,14 @@ namespace Website.Controllers
                     }
                 }
 
-                return urlHelper.Action("Get", "ContentFile", new { hash=hash, area="" });
+                if (!String.IsNullOrWhiteSpace(hash))
+                {
+                    return urlHelper.Action("Get", "ContentFile", new { hash = hash, area = "" });
+                }
+                else
+                {
+                    Logger.GenerateInfo("ContentFileController error => Hash null for " + contentUrl);
+                }
             }
             catch (Exception e)
             {

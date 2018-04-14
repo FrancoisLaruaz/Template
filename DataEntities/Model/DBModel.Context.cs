@@ -47,6 +47,7 @@ namespace DataEntities.Model
         public virtual DbSet<ValidTopLevelDomain> ValidTopLevelDomains { get; set; }
         public virtual DbSet<Search> Searches { get; set; }
         public virtual DbSet<SearchResult> SearchResults { get; set; }
+        public virtual DbSet<UserFollow> UserFollows { get; set; }
     
         public virtual int DeleteNewsById(Nullable<int> newsId)
         {
@@ -167,6 +168,15 @@ namespace DataEntities.Model
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual int DeleteScheduledTaskById(Nullable<int> scheduledTaskId)
+        {
+            var scheduledTaskIdParameter = scheduledTaskId.HasValue ?
+                new ObjectParameter("ScheduledTaskId", scheduledTaskId) :
+                new ObjectParameter("ScheduledTaskId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteScheduledTaskById", scheduledTaskIdParameter);
         }
     }
 }

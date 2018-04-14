@@ -194,6 +194,7 @@ namespace Website.Controllers
                 if (!string.IsNullOrEmpty(returnUrl))
                 {
                     returnUrl = LocalizedApplication.Current.UrlLocalizerForApp.SetLangTagInUrlPath(HttpContext, returnUrl, UriKind.RelativeOrAbsolute, lt == null ? null : lt.ToString()).ToString();
+                    returnUrl = returnUrl.Replace(lt.ToString() + "?", lt.ToString() + "/Home?");
                 }
                 // Redirect user agent as approp.
             }

@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+    /*
     $('#SearchBtn').on('click', function (e) {
         e.preventDefault();
         var pattern = $('#SearchTbx').val();
@@ -29,7 +30,7 @@ $(document).ready(function () {
             ShowSpinner();
         }
     });
-
+    */
 
     $('#LogInHeader').on('click', function (e) {
         e.preventDefault();

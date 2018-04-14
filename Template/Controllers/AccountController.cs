@@ -57,7 +57,7 @@ namespace Website.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
-           _emailService = emailService;
+            _emailService = emailService;
             _aspNetUsersService = aspNetUsersService;
             _socialMediaConnectionService = socialMediaConnectionService;
         }
@@ -325,9 +325,9 @@ namespace Website.Controllers
                                         {
                                             string PictureThumbnailSrc = "";
                                             _success = _userService.SaveMyProfilePhotos(UserId, PictureSrc, PictureThumbnailSrc);
-                                            if(_success)
+                                            if (_success)
                                             {
-                                                _success= _userService.CreateThumbnailUserPicture(UserId);
+                                                _success = _userService.CreateThumbnailUserPicture(UserId);
                                             }
                                         }
                                         else
@@ -365,7 +365,7 @@ namespace Website.Controllers
             catch (Exception e)
             {
                 _success = false;
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = "+ UserId);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId);
             }
             return Json(new { Result = _success, PathFile = _PathFile, Error = _Error });
         }
@@ -442,7 +442,7 @@ namespace Website.Controllers
                 Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + userId);
                 return Content("ERROR");
             }
-            
+
             return PartialView("~/Views/Account/MyProfile/_MyProfilePhotos.cshtml", model);
         }
 
@@ -456,7 +456,7 @@ namespace Website.Controllers
             string _Error = "";
             try
             {
-                if(model.ProvinceId==0)
+                if (model.ProvinceId == 0)
                 {
                     model.ProvinceId = null;
                 }
@@ -532,7 +532,7 @@ namespace Website.Controllers
                 {
                     if (User.Identity.IsAuthenticated)
                     {
-                        if (model.UserId > 0 && (UserSession.UserId==model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
+                        if (model.UserId > 0 && (UserSession.UserId == model.UserId || User.IsInRole(CommonsConst.UserRoles.Admin)))
                         {
 
 
@@ -585,7 +585,7 @@ namespace Website.Controllers
                     return Content("NotLoggedIn");
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + userId);
                 return Content("ERROR");
@@ -627,16 +627,16 @@ namespace Website.Controllers
         {
             try
             {
-                if(User.Identity.IsAuthenticated)
+                if (User.Identity.IsAuthenticated)
                 {
                     ViewBag.Title = "[[[My Profile]]]";
                     MyProfileViewModel model = new MyProfileViewModel();
                     int UserIdToCheck = UserSession.UserId;
-                    if(id != null && User.IsInRole(CommonsConst.UserRoles.Admin))
+                    if (id != null && User.IsInRole(CommonsConst.UserRoles.Admin))
                     {
                         UserIdToCheck = id.Value;
 
-                        if(!_userService.DoesUserExist(UserIdToCheck))
+                        if (!_userService.DoesUserExist(UserIdToCheck))
                         {
                             return RedirectToAction("Index", "Home");
                         }
@@ -647,9 +647,9 @@ namespace Website.Controllers
                     return View(model);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Logger.GenerateError(e,  System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + id);
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userId = " + id);
             }
             return RedirectToAction("Login", "Account", new { returnUrl = Request.Url.AbsoluteUri.ToString() });
         }
@@ -688,7 +688,7 @@ namespace Website.Controllers
             try
             {
                 var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-
+                ExternalSignUpInformation ExternalSignUpInformation = null;
                 if (loginInfo == null)
                 {
                     _Error = "[[[No login information have been provided.]]]";
@@ -710,16 +710,8 @@ namespace Website.Controllers
                                 _Language = userSession.LanguageTag;
                                 UserSession = userSession;
                             }
-                            break;
-                        case SignInStatus.LockedOut:
-                            _Error = "[[[The user is currently locked out.]]]";
-                            break;
-                        case SignInStatus.RequiresVerification:
-                            _Error = "[[[A user verification is required.]]]";
-                            break;
-                        case SignInStatus.Failure:
-                        default:
-                            ExternalSignUpInformation ExternalSignUpInformation = null;
+
+
                             if (loginInfo.Login.LoginProvider == LoginProviders.Facebook && !String.IsNullOrWhiteSpace(FacebookAccessToken))
                             {
                                 ExternalSignUpInformation = SocialMediaHelper.GetFacebookInformation(FacebookAccessToken);
@@ -737,7 +729,37 @@ namespace Website.Controllers
 
                             if (ExternalSignUpInformation != null)
                             {
+                                _socialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
+                            }
 
+                            break;
+                        case SignInStatus.LockedOut:
+                            _Error = "[[[The user is currently locked out.]]]";
+                            break;
+                        case SignInStatus.RequiresVerification:
+                            _Error = "[[[A user verification is required.]]]";
+                            break;
+                        case SignInStatus.Failure:
+                        default:
+
+                            if (loginInfo.Login.LoginProvider == LoginProviders.Facebook && !String.IsNullOrWhiteSpace(FacebookAccessToken))
+                            {
+                                ExternalSignUpInformation = SocialMediaHelper.GetFacebookInformation(FacebookAccessToken);
+
+                            }
+                            else if (loginInfo.Login.LoginProvider == LoginProviders.Google)
+                            {
+                                var GoogleAccessToken = loginInfo.ExternalIdentity.Claims.Where(c => c.Type.Equals("urn:google:accesstoken")).Select(c => c.Value).FirstOrDefault();
+
+                                if (!String.IsNullOrWhiteSpace(GoogleAccessToken))
+                                {
+                                    ExternalSignUpInformation = SocialMediaHelper.GetGoogleInformation(GoogleAccessToken);
+                                }
+                            }
+
+                            if (ExternalSignUpInformation != null)
+                            {
+                                _socialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
                                 if (ExternalSignUpInformation.EmailPermission)
                                 {
                                     if (_aspNetUsersService.IsUserRegistered(ExternalSignUpInformation.Email))
@@ -877,70 +899,77 @@ namespace Website.Controllers
 
                         if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.Email))
                         {
-
-                            int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
-                            if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.ImageSrc))
-                            {
-                                ExternalSignUpInformation.ImageSrc = FileHelper.SaveFileFromWeb(ExternalSignUpInformation.ImageSrc, "user", ".jpg");
-                                _ImageSrc = ExternalSignUpInformation.ImageSrc;
-                            }
-                            var user = new ApplicationUser { UserName = ExternalSignUpInformation.Email, Email = ExternalSignUpInformation.Email };
-
-                            var result = await UserManager.CreateAsync(user);
-                            if (result != null && result.Succeeded)
+                            if (!_userService.IsEmailWaitingForConfirmation(ExternalSignUpInformation.Email))
                             {
 
-                                UserSignUp userSignUp = new UserSignUp();
-                                userSignUp.FirstName = ExternalSignUpInformation.FirstName;
-                                userSignUp.LastName = ExternalSignUpInformation.LastName;
-                                userSignUp.LanguageId = CurrentLanguageId;
-                                userSignUp.GenderId = ExternalSignUpInformation.GenderId;
-                                userSignUp.ReceiveNews =false;
-                                userSignUp.PictureSrc = _ImageSrc;
-                                userSignUp.UserName = ExternalSignUpInformation.Email;
-
-                                if (_userService.CreateUser(userSignUp) > 0)
+                                int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
+                                if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.ImageSrc))
                                 {
-                                    result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
-                                    if (result.Succeeded)
+                                    ExternalSignUpInformation.ImageSrc = FileHelper.SaveFileFromWeb(ExternalSignUpInformation.ImageSrc, "user", ".jpg");
+                                    _ImageSrc = ExternalSignUpInformation.ImageSrc;
+                                }
+                                var user = new ApplicationUser { UserName = ExternalSignUpInformation.Email, Email = ExternalSignUpInformation.Email };
+
+                                var result = await UserManager.CreateAsync(user);
+                                if (result != null && result.Succeeded)
+                                {
+
+                                    UserSignUp userSignUp = new UserSignUp();
+                                    userSignUp.FirstName = ExternalSignUpInformation.FirstName;
+                                    userSignUp.LastName = ExternalSignUpInformation.LastName;
+                                    userSignUp.LanguageId = CurrentLanguageId;
+                                    userSignUp.GenderId = ExternalSignUpInformation.GenderId;
+                                    userSignUp.ReceiveNews = false;
+                                    userSignUp.PictureSrc = _ImageSrc;
+                                    userSignUp.UserName = ExternalSignUpInformation.Email;
+
+                                    if (_userService.CreateUser(userSignUp) > 0)
                                     {
-                                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                                        if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.Email))
+                                        result = await UserManager.AddLoginAsync(user.Id, loginInfo.Login);
+                                        if (result.Succeeded)
                                         {
-                                            UserSession userSession = _userService.GetUserSession(ExternalSignUpInformation.Email);
+                                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                            if (!String.IsNullOrWhiteSpace(ExternalSignUpInformation.Email))
+                                            {
+                                                UserSession userSession = _userService.GetUserSession(ExternalSignUpInformation.Email);
+                                                _Result = true;
+                                                _Language = userSession.LanguageTag;
+                                                _socialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
+                                                _emailService.SendEMailToUser(ExternalSignUpInformation.Email, CommonsConst.EmailTypes.UserWelcome);
+                                                _Result = _userService.CreateThumbnailUserPicture(userSession.UserId);
+                                            }
                                             _Result = true;
-                                            _Language = userSession.LanguageTag;
-                                           _socialMediaConnectionService.InsertSocialMediaConnections(ExternalSignUpInformation.FriendsList, ExternalSignUpInformation.ProviderKey, ExternalSignUpInformation.LoginProvider);
-                                            _emailService.SendEMailToUser(ExternalSignUpInformation.Email, CommonsConst.EmailTypes.UserWelcome);
-                                            _Result = _userService.CreateThumbnailUserPicture(userSession.UserId);
+
+
                                         }
-                                        _Result = true;
+                                    }
+                                    else
+                                    {
+                                        _Error = "[[[An error occured while creating the user.]]]";
+                                    }
 
-
+                                }
+                                else if (result != null)
+                                {
+                                    foreach (var error in result.Errors)
+                                    {
+                                        string message = error;
+                                        _Error = _Error + " " + message;
+                                    }
+                                    if (_Error.Contains("is already taken"))
+                                    {
+                                        _Error = ExternalSignUpInformation.Email + "[[[ is already registered on ]]]" + CommonsConst.Const.WebsiteTitle + ". [[[Please log in. ]]]";
+                                        _Redirection = ExternalAuthentificationRedirection.RedirectToLogin;
                                     }
                                 }
                                 else
                                 {
                                     _Error = "[[[An error occured while creating the user.]]]";
                                 }
-
-                            }
-                            else if (result != null)
-                            {
-                                foreach (var error in result.Errors)
-                                {
-                                    string message = error;
-                                    _Error = _Error + " " + message;
-                                }
-                                if (_Error.Contains("is already taken"))
-                                {
-                                    _Error = ExternalSignUpInformation.Email + "[[[ is already registered on ]]]" + CommonsConst.Const.WebsiteTitle + ". [[[Please log in. ]]]";
-                                    _Redirection = ExternalAuthentificationRedirection.RedirectToLogin;
-                                }
                             }
                             else
                             {
-                                _Error = "[[[An error occured while creating the user.]]]";
+                                _Error = "[[[This email address is already used.]]]";
                             }
                         }
                         else
@@ -1008,73 +1037,88 @@ namespace Website.Controllers
 
             try
             {
-                if (!User.Identity.IsAuthenticated)
+                if (CaptchaHelper.CheckCaptcha(Request["g-recaptcha-response"]))
                 {
-
-                    if (ModelState.IsValid)
+                    if (!User.Identity.IsAuthenticated)
                     {
-                        model.Email = model.Email.Trim().ToLower();
-                        if (_emailService.IsEmailAddressValid(model.Email))
+
+                        if (ModelState.IsValid)
                         {
-
-                            int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
-                            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-
-                            var result = await UserManager.CreateAsync(user, model.Password);
-                            if (result != null && result.Succeeded)
+                            model.Email = model.Email.Trim().ToLower();
+                            if (_emailService.IsEmailAddressValid(model.Email))
                             {
-                                UserSignUp userSignUp = new UserSignUp();
-                                userSignUp.FirstName = model.FirstName;
-                                userSignUp.LastName = model.LastName;
-                                userSignUp.LanguageId = CurrentLanguageId;
-                                userSignUp.ReceiveNews = model.ReceiveNews;
-                                userSignUp.UserName = model.Email;
-
-                                if (_userService.CreateUser(userSignUp)>0)
+                                if (!_userService.IsEmailWaitingForConfirmation(model.Email))
                                 {
 
-                                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                                    if (!String.IsNullOrWhiteSpace(model.Email))
+                                    int CurrentLanguageId = CommonsConst.Languages.ToInt(CurrentLangTag);
+                                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                                    var result = await UserManager.CreateAsync(user, model.Password);
+                                    if (result != null && result.Succeeded)
                                     {
-                                        UserSession = _userService.GetUserSession(model.Email);
-                                        _Result = true;
-                                        string UserName = model.Email;
-                                        _emailService.SendEMailToUser(UserName, CommonsConst.EmailTypes.UserWelcome);
+                                        UserSignUp userSignUp = new UserSignUp();
+                                        userSignUp.FirstName = model.FirstName;
+                                        userSignUp.LastName = model.LastName;
+                                        userSignUp.LanguageId = CurrentLanguageId;
+                                        userSignUp.ReceiveNews = model.ReceiveNews;
+                                        userSignUp.UserName = model.Email;
+
+                                        if (_userService.CreateUser(userSignUp) > 0)
+                                        {
+
+                                            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                            if (!String.IsNullOrWhiteSpace(model.Email))
+                                            {
+                                                UserSession = _userService.GetUserSession(model.Email);
+                                                _Result = true;
+                                                string UserName = model.Email;
+                                                _emailService.SendEMailToUser(UserName, CommonsConst.EmailTypes.UserWelcome);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            _Error = "[[[Error while creating the user.]]]";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (_aspNetUsersService.IsUserRegistered(model.Email))
+                                        {
+                                            _Error = "[[[This email address is already used.]]]";
+                                        }
+                                        else
+                                        {
+                                            _Error = "[[[Error while creating the user.]]]";
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    _Error = "[[[Error while creating the user.]]]";
+                                    _Error = "[[[This email address is already used.]]]";
                                 }
                             }
                             else
                             {
-                                if (_aspNetUsersService.IsUserRegistered(model.Email))
-                                {
-                                    _Error = "[[[This email address is already used.]]]";
-                                }
-                                else
-                                {
-                                    _Error = "[[[Error while creating the user.]]]";
-                                }
+                                _Error = "[[[Please enter a valid email address.]]]";
                             }
                         }
                         else
                         {
-                            _Error = "[[[Please enter a valid email address.]]]";
+                            _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                         }
+
+
                     }
                     else
                     {
-                        _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
+                        _Error = "[[[You are already logged in.]]]";
+                        _Result = false;
                     }
-
-
                 }
                 else
                 {
-                    _Error = "[[[You are already logged in.]]]";
+                    _Error = "[[[Please prove that you are not a robot by clicking on the captcha.]]]";
                     _Result = false;
                 }
             }
@@ -1138,12 +1182,12 @@ namespace Website.Controllers
                     }
                     else
                     {
-                        _Error ="[[[You are not logged in.]]]";
+                        _Error = "[[[You are not logged in.]]]";
                     }
                 }
                 else
                 {
-                    _Error= ModelStateHelper.GetModelErrorsToDisplay(ModelState);
+                    _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                 }
             }
             catch (Exception e)
@@ -1193,13 +1237,13 @@ namespace Website.Controllers
                     {
                         case SignInStatus.Success:
                             _Result = true;
-                             UserSession userSession = _userService.GetUserSession(model.Email);
+                            UserSession userSession = _userService.GetUserSession(model.Email);
                             if (userSession != null)
                             {
                                 _UserFirstName = userSession.FirstName;
                                 _aspNetUsersService.UpdateUserIdentityLoginSuccess(userSession.UserIdentityId);
                                 model.LanguageTag = userSession.LanguageTag;
-                                _LangTag= userSession.LanguageTag; ;
+                                _LangTag = userSession.LanguageTag; ;
                                 UserSession = userSession;
                             }
                             break;
@@ -1227,7 +1271,7 @@ namespace Website.Controllers
                 }
                 else
                 {
-                    _Error= ModelStateHelper.GetModelErrorsToDisplay(ModelState); 
+                    _Error = ModelStateHelper.GetModelErrorsToDisplay(ModelState);
                 }
 
             }
@@ -1237,7 +1281,7 @@ namespace Website.Controllers
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Email = " + model.Email);
             }
 
-            return Json(new { Result = _Result, Error = _Error, UserFirstName = _UserFirstName, URLRedirect = model.URLRedirect, LangTag= _LangTag });
+            return Json(new { Result = _Result, Error = _Error, UserFirstName = _UserFirstName, URLRedirect = model.URLRedirect, LangTag = _LangTag });
         }
         #endregion
 
@@ -1256,8 +1300,17 @@ namespace Website.Controllers
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType,null);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, null);
             }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult AutomaticLogOff()
+        {
+            Session.Clear();
+            Session.Abandon();
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
 
@@ -1386,7 +1439,7 @@ namespace Website.Controllers
                                 foreach (var error in result.Errors)
                                 {
                                     string displayedError = error;
-                                    if(error== "Incorrect password.")
+                                    if (error == "Incorrect password.")
                                     {
                                         displayedError = "[[[The old password is incorrect.]]]";
                                     }
@@ -1479,7 +1532,7 @@ namespace Website.Controllers
                     var user = _userService.GetUserById(model.UserId);
                     if (user != null)
                     {
-                        _Langtag = user.Language?.Code??CommonsConst.Const.DefaultCulture;
+                        _Langtag = user.Language?.Code ?? CommonsConst.Const.DefaultCulture;
                         var applicationUser = UserManager.FindByName(user.AspNetUser.UserName);
                         UserManager.RemovePassword(user.AspNetUser.Id);
                         UserManager.AddPassword(user.AspNetUser.Id, model.Password);
@@ -1520,7 +1573,7 @@ namespace Website.Controllers
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + model.UserId);
             }
-            return Json(new { Result = _Result, Error = _Error, Langtag= _Langtag });
+            return Json(new { Result = _Result, Error = _Error, Langtag = _Langtag });
         }
 
         #endregion

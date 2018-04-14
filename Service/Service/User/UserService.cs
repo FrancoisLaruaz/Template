@@ -427,7 +427,7 @@ namespace Service.UserArea
                 var user = _userRepo.Get(UserId);
                 if (user != null)
                 {
-                    string PictureThumbnailSrc = FileHelper.CreateEncryptThumbnail(user.PictureSrc, 40);
+                    string PictureThumbnailSrc = FileHelper.CreateThumbnail(user.PictureSrc, 40);
                     if (!String.IsNullOrWhiteSpace(PictureThumbnailSrc))
                     {
                         user.PictureThumbnailSrc = PictureThumbnailSrc;
@@ -477,6 +477,54 @@ namespace Service.UserArea
             return result;
         }
 
+        public bool IsEmailWaitingForConfirmation(string UserName)
+        {
+            bool result = true;
+            try
+            {
+                if (String.IsNullOrWhiteSpace(UserName))
+                {
+                    result = false;
+                }
+                else
+                {
+                    UserName = UserName.ToLower().Trim();
+                    result = _userRepo.FindAllBy(u => u.UserNameModification.ToLower().Trim() == UserName).Any();
+                }
+
+            }
+            catch (Exception e)
+            {
+                result = true;
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + UserName);
+            }
+            return result;
+        }
+
+
+        public bool IsEmailAvailable(string UserName)
+        {
+            bool result = true;
+            try
+            {
+                if (String.IsNullOrWhiteSpace(UserName))
+                {
+                    result = false;
+                }
+                else
+                {
+                    UserName = UserName.ToLower().Trim();
+                    result = !_userRepo.FindAllBy(u => u.AspNetUser.UserName.ToLower().Trim() == UserName || u.UserNameModification.ToLower().Trim() == UserName).Any();
+                }
+
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + UserName);
+            }
+            return result;
+        }
 
         /// <summary>
         /// Return the specified user

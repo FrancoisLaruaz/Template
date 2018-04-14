@@ -72,7 +72,7 @@ namespace Service.Admin
                                 DateTime DateFile = new DateTime(Convert.ToInt32(FileName.Substring(0, 4)), Convert.ToInt32(FileName.Substring(4, 2)), Convert.ToInt32(FileName.Substring(6, 2)));
                                 string FullPathFile = CommonsConst.Const.BasePathUploadEncrypted + "/" + FileName;
 
-                                if(FullPathFile.Contains("Decrypted"))
+                                if(file.FullName.Contains("Decrypted"))
                                 {
                                     FullPathFile = CommonsConst.Const.BasePathUploadDecrypted + "/" + FileName;
                                 }

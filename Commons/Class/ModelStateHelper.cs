@@ -9,12 +9,28 @@ using System.Linq;
 using System.Reflection;
 using System.Collections;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace Commons
 {
 
     public static class ModelStateHelper
     {
+
+        public static string GetModelErrorsToDisplay(IdentityResult IdentityResult)
+        {
+            string result = "";
+            try
+            {
+                result = string.Join("<br>", IdentityResult.Errors
+                   .Select(e => "• [[[" + (e) + "]]]"));
+            }
+            catch (Exception e)
+            {
+                Logger.GenerateError(e, typeof(ModelStateHelper));
+            }
+            return result;
+        }
         public static string GetModelErrorsToDisplay(ModelStateDictionary modelState)
         {
             string result = "";

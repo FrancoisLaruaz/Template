@@ -53,7 +53,9 @@ namespace Template
                 "~/Scripts/General/FileDrop.js",
                 "~/Scripts/General/FileDropHelper.js",
                  "~/Scripts/General/FlashVersion.js",
-                "~/Scripts/General/WebcamHelper.js"
+                "~/Scripts/General/WebcamHelper.js",
+                 "~/Scripts/General/PopUp.js",
+                "~/Scripts/Views/Account/_PasswordPolicy.js"
               // "~/Scripts/General/Highcharts.js",
               //  "~/Scripts/General/HighchartsExporting.js",
               //  "~/Scripts/General/HighchartsHelper.js"
@@ -88,11 +90,13 @@ namespace Template
                     "~/Content/General/DragAndDrop.css",
                     "~/Content/font-awesome.min.css",
                     "~/Content/General/sweetalert.css",
+                    "~/Content/General/PopUp.css",
                      "~/Content/General/fakeSocialMediaStyle.css",
                     "~/Content/General/toastr.csss",
                    "~/Content/General/webcam.css",
                     "~/Content/General/jtsage-datebox.min.css",
-                    "~/Content/General/jtsage-syntax.css"
+                    "~/Content/General/jtsage-syntax.css",
+                    "~/Content/Views/Account/_PasswordPolicy.css"
                 ));
 
                 bundles.Add(new LessBundle("~/bundles/less").Include("~/Content/General/main.less"));

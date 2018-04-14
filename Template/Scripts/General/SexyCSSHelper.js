@@ -8,6 +8,45 @@ function SetSexyCSS() {
     SetSexyLabelsForTB();
     SetSexyTB();
     SetSexySelect();
+    SetToggleMessages();
+}
+
+function SetToggleMessages() {
+    $('.switch').each(function (index, value) {
+        var spanMessage = $(this).find('.sliderMessage');
+        displayToggleMessage(spanMessage);
+    });
+}
+
+
+function ToggleCheckbox(switchElement) {
+
+    var spanMessage = $(switchElement).find('.sliderMessage');
+    var checkBox = $(spanMessage).parent().parent().find('.toggleSwitch');
+    if ($(checkBox).length > 0) {
+        if (!$(checkBox).is(':checked')) {
+            $(spanMessage).addClass('sliderON').removeClass('sliderOFF');
+            $(spanMessage).html('ON');
+        }
+        else {
+            $(spanMessage).addClass('sliderOFF').removeClass('sliderON');
+            $(spanMessage).html('OFF');
+        }
+    }
+}
+function displayToggleMessage(spanMessage) {
+    var checkBox = $(spanMessage).parent().parent().find('.toggleSwitch');
+
+    if ($(checkBox).length > 0) {
+        if ($(checkBox).is(':checked')) {
+            $(spanMessage).addClass('sliderON').removeClass('sliderOFF');
+            $(spanMessage).html('ON');
+        }
+        else {
+            $(spanMessage).addClass('sliderOFF').removeClass('sliderON');
+            $(spanMessage).html('OFF');
+        }
+    }
 }
 
 function DeleteSexyCSSElements() {

@@ -17,7 +17,10 @@ namespace Service.UserArea.Interface
 {
     public interface IUserService
     {
-      
+        bool IsEmailAvailable(string UserName);
+
+        bool IsEmailWaitingForConfirmation(string UserName);
+
         bool DoesUserExist(int UserId);
 
         DataEntities.Model.User GetUserByUserName(string UserName);

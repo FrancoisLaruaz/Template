@@ -170,3 +170,6 @@ C:\DEV\Template\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
 C:\DEV\Template\Service\obj\Debug\Service.csproj.CoreCompileInputs.cache
 C:\DEV\Template\Service\obj\Debug\Service.dll
 C:\DEV\Template\Service\obj\Debug\Service.pdb
+D:\DEV\Template\Service\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\DEV\Template\Service\bin\Debug\Commons.dll.config
+D:\DEV\Template\Service\bin\Debug\Microsoft.AspNet.Identity.Core.xml

@@ -279,7 +279,7 @@ namespace Service.UserArea
                             EmailContent.Add(new Tuple<string, string>("#ConfirmEmailUrl#", ConfirmEmailUrl));
                             break;
                         case CommonsConst.EmailTypes.ResetPassword:
-                            string ChangePasswordUrl = WebsiteURL + "/ResetPassword";
+                            string ChangePasswordUrl = WebsiteURL + "/MyProfile/password";
                             EmailContent.Add(new Tuple<string, string>("#ChangePasswordUrl#", ChangePasswordUrl));
                             break;
                     }

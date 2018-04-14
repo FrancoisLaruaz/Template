@@ -1,7 +1,8 @@
 $(function () {
+    SetPassword();
+});
 
-
-
+function SetPassword() {
     setTimeout(function () {
         $('.PasswordToCheck').each(function (index, value) {
             SetPasswordForm(this);
@@ -12,15 +13,13 @@ $(function () {
         SetPasswordForm(this);
         $(this).unbind("propertychange change keyup paste input keypress change keydown");
         $(this).on("propertychange change keyup paste input keypress change keydown", function (e) {
-         //   e.preventDefault();
+            //   e.preventDefault();
             SetPasswordForm(this);
         });
     });
 
 
-});
-
-
+}
 
 
 
@@ -32,7 +31,7 @@ function SetPasswordForm(passwordElement) {
     var form = $(passwordElement).closest("form");
     //alert('SetPasswordForm : :'+$(form).attr('id'));
     var passWordButton = $(form).find(".PasswordButton");
-   // alert('passWordButton : :' + $(passWordButton).attr('id'));
+    // alert('passWordButton : :' + $(passWordButton).attr('id'));
     $(passWordButton).show();
 
     if ($(passwordElement).length > 0 && $(form).length > 0) {
@@ -42,7 +41,7 @@ function SetPasswordForm(passwordElement) {
         var upperCase = new RegExp('[A-Z]');
         var lowerCase = new RegExp('[a-z]');
         var numbers = new RegExp('[0-9]');
-   
+
         var PasswordStrengthScore = 0;
 
         if (Password == null || typeof Password == "undefined" || Password.trim().length < 8) {
@@ -128,22 +127,22 @@ function SetPasswordStrengthScore(Score, form) {
 
 function SetIconOK(Element, FormId) {
 
-    var IconElement = $("#" + FormId +" .Icon" + Element);
+    var IconElement = $("#" + FormId + " .Icon" + Element);
     if (IconElement) {
         $(IconElement).removeClass("red").removeClass("glyphicon-remove").addClass("glyphicon-ok").addClass("green");
     }
-    var TextElement = $("#" + FormId +" .text" + Element);
+    var TextElement = $("#" + FormId + " .text" + Element);
     if (TextElement) {
         $(TextElement).removeClass("red").addClass("green");
     }
 }
 
 function SetIconKO(Element, FormId) {
-    var IconElement = $("#"+FormId+" .Icon" + Element);
+    var IconElement = $("#" + FormId + " .Icon" + Element);
     if (IconElement) {
         $(IconElement).removeClass("glyphicon-ok").removeClass("green").addClass("red").addClass("glyphicon-remove");
     }
-    var TextElement = $("#" + FormId +" .text" + Element);
+    var TextElement = $("#" + FormId + " .text" + Element);
     if (TextElement) {
         $(TextElement).removeClass("green").addClass("red");
     }

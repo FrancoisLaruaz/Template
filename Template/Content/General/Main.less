@@ -230,7 +230,7 @@
     left: 50%;
     margin-left: -35px;
     margin-top: -11px;
-    z-index: 9;
+    z-index: 2;
     color: @bodyColor;
 }
 
@@ -983,3 +983,106 @@ a {
     font-weight: normal;
     color: @WebsiteColor2;
 }
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 70px;
+    height: 28px;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.sliderMessage {
+    color: white;
+    font-size: 14px;
+}
+
+.sliderON {
+    margin-left: 14px;
+}
+
+.sliderOFF {
+    margin-left: 32px;
+}
+
+
+.toggleSwitch:checked + .slider {
+    background-color: @WebsiteColor2;
+}
+
+.toggleSwitch:focus + .slider {
+    box-shadow: 0 0 1px @WebsiteColor2;
+}
+
+.toggleSwitch:checked + .slider:before {
+    -webkit-transform: translateX(42px);
+    -ms-transform: translateX(42px);
+    transform: translateX(42px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 28px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+.mainDivContent {
+    margin: auto;
+    max-width: 550px;
+    display: table;
+    text-align:left;
+}
+
+.divMaxLengthWrap {
+    text-align: center;
+    max-width: 200000px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+
+
+.alignLeft
+{
+    text-align:left;
+}
+
+.btn-maxWidth
+{
+    margin:auto !important;
+    max-width:280px;
+}
+

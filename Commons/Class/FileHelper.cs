@@ -116,7 +116,7 @@ namespace Commons
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "url = " + url+ " and Purpose = "+ Purpose);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "url = " + url + " and Purpose = " + Purpose);
             }
             return result;
         }
@@ -314,7 +314,7 @@ namespace Commons
                     string fileName = GetFileName(Purpose, ext);
                     var path = FileHelper.GetStorageRoot(Const.BasePathUploadDecrypted) + "/" + fileName;
                     File.WriteAllBytes(path, Commons.FileHelper.String_To_Bytes2(dump));
-                   returnPath = Const.BasePathUploadDecrypted + "/" + fileName;
+                    returnPath = Const.BasePathUploadDecrypted + "/" + fileName;
                 }
             }
             catch (Exception e)
@@ -525,35 +525,38 @@ namespace Commons
             try
             {
                 string decryptedPath = pathFile;
-                if (pathFile.Contains(CommonsConst.Const.BasePathUploadDecrypted))
+                Image image = null;
+                if (pathFile.Contains(CommonsConst.Const.BasePathUploadEncrypted))
                 {
                     decryptedPath = GetDecryptedFilePath(pathFile);
-
-                    Image image = GetImageFrom64Base(decryptedPath);
-                    float ratio = image.Width / width;
-                    int height = (int)((float)image.Height / ratio);
-                    Image thumb = image.GetThumbnailImage(width, height, () => false, IntPtr.Zero);
-
-                    if (thumb != null)
-                    {
-                        string ext = ".png";
-                        string fileName = GetFileName("UserThumbnail", ext);
-                        var path = FileHelper.GetStorageRoot(Const.BasePathUploadDecrypted) + "/" + fileName;
-                        File.WriteAllBytes(path, ConvertImageToBytesArray(thumb));
-
-                        return Const.BasePathUploadDecrypted + "/" + fileName;
-                    }
+                    image = GetImageFrom64Base(decryptedPath);
                 }
                 else
                 {
-                    return Const.DefaultThumbnailUser;
+                    image = Image.FromFile(FileHelper.GetStorageRoot(decryptedPath));
                 }
+
+                float ratio = image.Width / width;
+                int height = (int)((float)image.Height / ratio);
+                Image thumb = image.GetThumbnailImage(width, height, () => false, IntPtr.Zero);
+
+                if (thumb != null)
+                {
+                    string ext = ".png";
+                    string fileName = GetFileName("UserThumbnail", ext);
+                    var path = FileHelper.GetStorageRoot(Const.BasePathUploadDecrypted) + "/" + fileName;
+                    File.WriteAllBytes(path, ConvertImageToBytesArray(thumb));
+
+                    return Const.BasePathUploadDecrypted + "/" + fileName;
+                }
+
+
             }
             catch (Exception e)
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.BaseType);
             }
-            return null;
+            return Const.DefaultThumbnailUser;
         }
 
         /// <summary>

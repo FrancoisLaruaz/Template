@@ -138,6 +138,9 @@
     <Compile Include="Model\User.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\UserFollow.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\ValidTopLevelDomain.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>

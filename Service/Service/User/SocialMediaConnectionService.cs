@@ -34,6 +34,11 @@ namespace Service.UserArea
             bool Result = true;
             try
             {
+                var SocialMediaConnections = _socialMediaRepo.FindAllBy(s => s.ProviderKeyUserSignedUp == ProviderKey).ToList();
+                foreach (var connection in SocialMediaConnections)
+                {
+                    _socialMediaRepo.Delete(connection);
+                }
 
                 if (FriendsList != null && FriendsList.Count > 0)
                 {

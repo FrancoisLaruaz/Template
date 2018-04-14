@@ -48,6 +48,9 @@
         <EntityTypeShape EntityType="TemplateModel.SearchResult" Width="1.5" PointX="12.75" PointY="13.25" />
         <AssociationConnector Association="TemplateModel.FK_SearchResult_Search" />
         <AssociationConnector Association="TemplateModel.FK_Search_UserId1" />
+        <EntityTypeShape EntityType="TemplateModel.UserFollow" Width="1.5" PointX="10.5" PointY="16.5" />
+        <AssociationConnector Association="TemplateModel.FK_UserFollow_FollowedUserId" />
+        <AssociationConnector Association="TemplateModel.FK_UserFollow_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
