@@ -24,23 +24,29 @@ namespace Website.ContentFileHelper
         {
             try
             {
-                var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => (x.FullName.StartsWith("Service") || x.FullName.StartsWith("Models") || x.FullName.StartsWith("DataEntities") || x.FullName.StartsWith("DataAccess") || x.FullName.StartsWith("Commons")) && !x.FullName.Contains("EntityFramework")).ToList();
-                assemblies.Add(System.Reflection.Assembly.GetExecutingAssembly());
-
-                string versionFullName = "";
-
-                foreach (var projectAssembly in assemblies)
+                if (Utils.IsLocalhost())
                 {
-                    FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(projectAssembly.Location);
-                    string version = fvi?.FileVersion;
-                    if (!String.IsNullOrWhiteSpace(version))
-                    {
-                        versionFullName = versionFullName + version.Split('.')[version.Split('.').Length - 1];
-                    }
+                    return DateTime.UtcNow.ToString("yyyyMMddhhmmss");
                 }
+                else
+                {
+                    var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => (x.FullName.StartsWith("Service") || x.FullName.StartsWith("Models") || x.FullName.StartsWith("DataEntities") || x.FullName.StartsWith("DataAccess") || x.FullName.StartsWith("Commons")) && !x.FullName.Contains("EntityFramework")).ToList();
+                    assemblies.Add(System.Reflection.Assembly.GetExecutingAssembly());
 
-                return versionFullName + CommonsConst.StaticFileVersion.StaticFileVersionString;
+                    string versionFullName = "";
 
+                    foreach (var projectAssembly in assemblies)
+                    {
+                        FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(projectAssembly.Location);
+                        string version = fvi?.FileVersion;
+                        if (!String.IsNullOrWhiteSpace(version))
+                        {
+                            versionFullName = versionFullName + version.Split('.')[version.Split('.').Length - 1];
+                        }
+                    }
+
+                    return versionFullName + CommonsConst.StaticFileVersion.StaticFileVersionString;
+                }
             }
             catch (Exception e)
             {

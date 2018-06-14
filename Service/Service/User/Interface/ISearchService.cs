@@ -10,15 +10,18 @@ using DataEntities.Repositories;
 using DataEntities.Model;
 using Models.ViewModels.Account;
 using Models.ViewModels.Home;
+using Models.Class.Search;
+using Models.ViewModels.Search;
 
 namespace Service.UserArea.Interface
 {
     public interface ISearchService
     {
+        List<SearchItem> GetSearch(SearchFilter filter, int UserId);
 
-        int CreateSearch(string Pattern, int? UserId, int ResultsNumber = 0);
+        bool SetUrlClickedForSearch(int SearchId, string Url);
 
-        DataEntities.Model.Search GetSearchById(int SearchId);
+        SearchIndexResultViewModel GetSearchIndexResultViewModel(SearchFilter filter, int UserId);
 
     }
 }

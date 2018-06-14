@@ -51,16 +51,30 @@ namespace Website.Controllers
                             contentHash = hashAlgorithm.ComputeHash(fileStream);
                         urlHash = hashAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(contentPath));
                     }
-                    hash = contentUrl.Replace("~", "").Replace("~/", "").Replace("/", "_").Replace("\\", "_").Split('?')[0];
+                    hash = contentUrl.Replace("~", "").Replace("~/", "").Replace("/", "*").Replace("\\", "*").Split('?')[0];
 
                     string FileVersion = ContentFileHelpers.GetAssemblyFileVersion();
-                    if (Utils.IsLocalhost())
-                    {
-                        FileVersion = DateTime.UtcNow.ToString("yyyyMMddhhmmssffftt");
-                    }
+
+
                     if (hash.Split('.').Length > 1)
                     {
-                        hash = hash.Split('.')[0] + "_" + FileVersion + "." + hash.Split('.')[1];
+                        string baseHash = "";
+                        if (hash.Split('.').Length == 2)
+                        {
+                            baseHash = hash.Split('.')[0];
+                        }
+                        else
+                        {
+                            int n = hash.Split('.').Length - 1;
+                            for (int i = 0; i < n; i++)
+                            {
+                                baseHash = baseHash + hash.Split('.')[i] + "#";
+                            }
+                            baseHash = baseHash.Remove(baseHash.Length - 1);
+                        }
+
+
+                        hash = baseHash + "@" + FileVersion + "." + hash.Split('.')[hash.Split('.').Length - 1];
                     }
                     else
                     {
@@ -159,21 +173,57 @@ namespace Website.Controllers
         {
             try
             {
-                _lock.EnterReadLock();
-                // set a very long expiry time
-                Response.Cache.SetExpires(DateTime.Now.AddYears(1));
-                Response.Cache.SetCacheability(HttpCacheability.Public);
-
-                // look up the resource that this hash applies to and serve it
-                ContentData data;
-
-                if (_dataByHash.TryGetValue(hash, out data))
+                if (!String.IsNullOrWhiteSpace(hash))
                 {
-                    return new FilePathResult(data.ContentUrl, data.ContentType);
+
+                    _lock.EnterReadLock();
+                    // set a very long expiry time
+                    Response.Cache.SetExpires(DateTime.Now.AddYears(1));
+                    Response.Cache.SetCacheability(HttpCacheability.Public);
+
+                    // look up the resource that this hash applies to and serve it
+                    ContentData data;
+
+                    if ( _dataByHash.TryGetValue(hash, out data))
+                    {
+                        return new FilePathResult(data.ContentUrl, data.ContentType);
+                    }
+                    else
+                    {
+
+                        var tabUrl = hash.Split('@');
+                        if (tabUrl.Length > 1)
+                        {
+                            string extension = "." + hash.Split('.')[hash.Split('.').Length - 1];
+                            string originalUrl = tabUrl[0].Replace("*", "/").Replace("//", "~/").Replace("#", ".") + extension;
+                            if (System.IO.File.Exists(Server.MapPath(originalUrl)))
+                            {
+                                string contentType = "";
+                                if (extension == ".js")
+                                {
+                                    contentType = "text/javascript";
+                                }
+                                else if (extension == ".css")
+                                {
+                                    contentType = "text/css";
+                                }
+
+                                return new FilePathResult(originalUrl, contentType);
+                            }
+                            else
+                            {
+                                Logger.GenerateInfo("Resource not found : " + hash);
+                            }
+                        }
+                        else
+                        {
+                            Logger.GenerateInfo("Resource not found : " + hash);
+                        }
+                    }
                 }
                 else
                 {
-                    Logger.GenerateInfo("Resource not found : " + hash);
+                    Logger.GenerateInfo("Hash null in ContentFileController");
                 }
 
             }

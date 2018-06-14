@@ -13,34 +13,37 @@
                 <div class="mobileSearchBar">
                     @Html.Partial("~/Views/Search/_SearchBar.cshtml")
                 </div>
-                <button type="button" class="navbar-toggle collapsed burger" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <button type="button" class="navbar-toggle collapsed burger" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" style="margin-top:13px;">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/" id="Logo">
+                <a class="navbar-brand formSpinnerLoad" href="/" id="Logo">
                     <img class="brand-logoNav" src="~/Ressources/Files/Images/Logo.png" />
                 </a>
             </div>
             <div class="collapse navbar-collapse navigationLink" id="bs-example-navbar-collapse-1" style="padding-right:25px;">
+                <ul class="nav navbar-nav navbar-left" id="ulForHomeControlLeft">
+                    @if (Request.IsAuthenticated && User.IsInRole(CommonsConst.UserRoles.Admin))
+                    {
+                        <li class="dropdown signHupLinkNavBar">
+                            <a class="dropdown-toggle navMenuItem" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[[[Admin]]]</a>
+                            <ul class="dropdown-menu noPaddingVertical">
+                                <li><a class="NavMenuItemDDL formSpinnerLoad" href="/Admin/Logs">[[[Logs]]]</a></li>
+                                <li><a class="NavMenuItemDDL formSpinnerLoad" href="/Admin/EmailAudits">[[[Email Audits]]]</a></li>
+                                <li><a class="NavMenuItemDDL formSpinnerLoad" href="/Admin/News">[[[News]]]</a></li>
+                                <li><a class="NavMenuItemDDL formSpinnerLoad" href="/Admin/Tasks">[[[Tasks]]]</a></li>
+                                <li><a class="NavMenuItemDDL formSpinnerLoad" href="/Admin/Users">[[[Users]]]</a></li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
                 <ul class="nav navbar-nav navbar-right" id="ulForHomeControl">
                     <li class="dropdown bigscreenSearchBar">
                         @Html.Partial("~/Views/Search/_SearchBar.cshtml")
                     </li>
-                    @if (Request.IsAuthenticated && User.IsInRole(CommonsConst.UserRoles.Admin))
-                    {
-                        <li class="dropdown">
-                            <a class="dropdown-toggle navMenuItem" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[[[Admin]]]</a>
-                            <ul class="dropdown-menu noPaddingVertical">
-                                <li><a class="NavMenuItemDDL" href="/Admin/Logs">[[[Logs]]]</a></li>
-                                <li><a class="NavMenuItemDDL" href="/Admin/EmailAudits">[[[Email Audits]]]</a></li>
-                                <li><a class="NavMenuItemDDL" href="/Admin/News">[[[News]]]</a></li>
-                                <li><a class="NavMenuItemDDL" href="/Admin/Tasks">[[[Tasks]]]</a></li>
-                                <li><a class="NavMenuItemDDL" href="/Admin/Users">[[[Users]]]</a></li>
-                            </ul>
-                        </li>
-                    }
+
 
                     @if (CommonsConst.Const.UserManagement)
                     {
@@ -53,13 +56,13 @@
                                     <span id="UserFirstName">@Model.UserFirstName</span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/MyProfile">[[[My Profile]]]</a></li>
+                                    <li><a href="/MyProfile" class="formSpinnerLoad">[[[My Profile]]]</a></li>
                                     @using (Ajax.BeginForm("LogOff", "Account", new { }, new AjaxOptions() { HttpMethod = "POST", OnBegin = "LogOffBegin", OnSuccess = "LogOffSuccess", OnFailure = "LogOffFailure" }, new { @id = "logoutForm", @class = "navbar-right" }))
                                     {
                                         @Html.AntiForgeryToken()
                                     }
-                                    <li><a href="/ChangePassword">[[[Change Password]]]</a></li>
-                                    <li><a id="LinkLogOff">[[[Log Off]]]</a></li>
+                                    <li><a href="/ChangePassword" class="formSpinnerLoad">[[[Change Password]]]</a></li>
+                                    <li><a id="LinkLogOff" class="formSpinnerLoad">[[[Log Off]]]</a></li>
                                 </ul>
                             </li>
                         }
@@ -68,7 +71,7 @@
                             if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
                             {
                                 <li class="dropdown marginLeftHeader"><a href="" id="LogInHeader" class="loginSignUpHeader">[[[Log In]]]</a></li>
-                                <li class="dropdown"><a href="" id="SignUpHeader" class="loginSignUpHeader">[[[Sign Up]]]</a></li>
+                                <li class="dropdown signHupLinkNavBar"><a href="" id="SignUpHeader" class="loginSignUpHeader">[[[Sign Up]]]</a></li>
                             }
                         }
                     }

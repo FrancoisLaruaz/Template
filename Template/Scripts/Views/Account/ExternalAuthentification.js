@@ -1,6 +1,16 @@
-function externalAuthentificationCallback(success, returnUrl, error, media, isSignUp, imageSrc, language, Redirection, firstName, lastName) {
+function externalAuthentificationCallback(success, returnUrl, error, media, isSignUp, imageSrc, language, Redirection, firstName, lastName, isAlreadyLoggedIn) {
     ResetErrors();
-    if (Redirection == Constants.ExternalAuthentificationRedirection.RedirectToEmailSignUp) {
+
+
+    if (!HasValue(Redirection))
+    {
+        Redirection = "";
+    }
+
+    if (typeof IsAlreadyLoggedIn != "undefined" && IsAlreadyLoggedIn!=null && IsAlreadyLoggedIn == 'true') {
+        window.location.href = window.location.href;
+    }
+    else if (Redirection == Constants.ExternalAuthentificationRedirection.RedirectToEmailSignUp) {
 
         $("#SignUpChoice").fadeOut(500, function () {
             $("#SignUpFormDiv").fadeIn(500);
@@ -23,7 +33,7 @@ function externalAuthentificationCallback(success, returnUrl, error, media, isSi
         $("#LoginNowLink").click();
     }
     else {
-
+   
         if (isSignUp == 'true') {
 
             
@@ -41,10 +51,10 @@ function externalAuthentificationCallback(success, returnUrl, error, media, isSi
         else {
             ShowSpinner();
 
-   
+         
             if (success == 'true') {
                 var URLRedirect = $('#URLRedirect').val();
-
+          
                 var CentralGoToUrl = $('#CentralGoToUrl').val();
 
                 var toGo = '';

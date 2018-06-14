@@ -20,6 +20,7 @@
         var firstName = Model.FirstName == null ? "" : Model.FirstName;
         var redirection = Model.Redirection == null ? "" : Model.Redirection;
         var lastName = Model.LastName == null ? "" : Model.LastName;
+        var isAlreadyLoggedIn = Model.IsAlreadyLoggedIn ? "true" : "false";
     }
 
 
@@ -27,8 +28,12 @@
 
     <script type="text/javascript" charset="utf-8">
 
-        if (window.opener && window.opener.externalAuthentificationCallback) {
-            window.opener.externalAuthentificationCallback('@success', '@returnUrl', '@error','@media','@isSignUp','@imageSrc','@language','@redirection','@firstName','@lastName');
+        if (@isAlreadyLoggedIn=='true' && window.opener)
+        {
+            window.opener.location.reload();
+        }
+        else if (window.opener && window.opener.externalAuthentificationCallback) {
+            window.opener.externalAuthentificationCallback('@success', '@returnUrl', '@error','@media','@isSignUp','@imageSrc','@language','@redirection','@firstName','@lastName','@isAlreadyLoggedIn');
         }
         window.close();
     </script>

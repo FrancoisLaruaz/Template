@@ -19,13 +19,16 @@ namespace Service.Admin
     {
         private readonly IGenericRepository<DataEntities.Model.AspNetUser> _aspNetUserRepo;
         private readonly IGenericRepository<DataEntities.Model.AspNetRole> _aspNetRoleRepo;
+        private readonly IGenericRepository<DataEntities.Model.User> _userRepo;
 
 
         public UserRolesService(IGenericRepository<DataEntities.Model.AspNetRole> aspNetRoleRepo,
-            IGenericRepository<DataEntities.Model.AspNetUser> aspNetUserRepo)
+            IGenericRepository<DataEntities.Model.AspNetUser> aspNetUserRepo,
+            IGenericRepository<DataEntities.Model.User> userRepo)
         {
             _aspNetRoleRepo = aspNetRoleRepo;
             _aspNetUserRepo = aspNetUserRepo;
+            _userRepo = userRepo;
         }
 
         public UserRolesService()
@@ -33,6 +36,7 @@ namespace Service.Admin
             var context = new TemplateEntities();
             _aspNetRoleRepo = new GenericRepository<AspNetRole>(context);
             _aspNetUserRepo = new GenericRepository<AspNetUser>(context);
+            _userRepo = new GenericRepository<User>(context);
         }
 
 
@@ -91,6 +95,27 @@ namespace Service.Admin
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Pattern = " + Pattern);
             }
             return model;
+        }
+
+
+
+        public bool IsInRole(int UserId, string roleName)
+        {
+            try
+            {
+                var role = _aspNetRoleRepo.FindAllBy(x => x.Name == roleName).FirstOrDefault();
+                var user = _userRepo.Get(UserId);
+                if (user != null && user.AspNetUser!=null)
+                {
+                    if (role != null && role.AspNetUsers.Any(x => x.UserName == user.AspNetUser?.UserName)) return true;
+
+                }
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserId = " + UserId + " and roleName = " + roleName);
+            }
+            return false;
         }
 
         /// <summary>

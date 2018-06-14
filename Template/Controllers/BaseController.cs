@@ -50,7 +50,7 @@ namespace Website.Controllers
             {
                 if (Session[CommonsConst.Const.JsonConstantsSession] == null)
                 {
-                    var constants = Commons.Utils.GetJSonConstants();
+                    var constants = CommonsConst.ConstantsHelper.GetJSonConstants();
                     Session[CommonsConst.Const.JsonConstantsSession] = new JavaScriptSerializer().Serialize(constants);
                 }
                 return Session[CommonsConst.Const.JsonConstantsSession].ToString();
@@ -59,6 +59,56 @@ namespace Website.Controllers
             set
             {
                 Session[CommonsConst.Const.JsonConstantsSession] = value;
+            }
+        }
+
+
+        public void setLastConnectionDate(string userName, ActionExecutingContext filterContext)
+        {
+            try
+            {
+
+                if (!String.IsNullOrWhiteSpace(userName) && LastConnectionDate != null && LastConnectionDate.AddHours(1) < DateTime.UtcNow)
+                {
+                    if (_userService.SetUserLastConnectionDate(userName))
+                    {
+                        LastConnectionDate = DateTime.UtcNow;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Commons.Logger.GenerateError(ex, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "userName = "+ userName);
+            }
+        }
+
+        protected DateTime LastConnectionDate
+        {
+            get
+            {
+                if (Session[CommonsConst.Const.LastConnectionDate] == null)
+                {
+                    UserSession ConnectedUser = UserSession;
+                }
+                try
+                {
+                    if (Session[CommonsConst.Const.LastConnectionDate] == null) return DateTime.UtcNow;
+
+                    string _lastConnectionDate = Session[CommonsConst.Const.LastConnectionDate].ToString();
+                    if (string.IsNullOrWhiteSpace(_lastConnectionDate)) return DateTime.UtcNow;
+
+                    return DateTime.Parse(_lastConnectionDate);
+                }
+                catch (Exception ex)
+                {
+                    Commons.Logger.GenerateError(ex, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                    return DateTime.UtcNow;
+                }
+            }
+
+            set
+            {
+                Session[CommonsConst.Const.LastConnectionDate] = value;
             }
         }
 
@@ -87,12 +137,15 @@ namespace Website.Controllers
                             else
                             {
                                 Session[CommonsConst.Const.UserSession] = ConnectedUser;
+                                LastConnectionDate = ConnectedUser.DateLastConnection;
                                 return ConnectedUser;
                             }
                         }
                         else
                         {
-                            return Session[CommonsConst.Const.UserSession] as UserSession;
+                            UserSession ConnectedUser = Session[CommonsConst.Const.UserSession] as UserSession;
+                            LastConnectionDate = ConnectedUser.DateLastConnection;
+                            return ConnectedUser;
                         }
                     }
 

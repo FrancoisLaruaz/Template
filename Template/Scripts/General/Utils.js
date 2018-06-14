@@ -18,6 +18,18 @@ function BackToTop() {
     }, 1000);
 }
 
+
+function HasValue(element)
+{
+    var result = true;
+    if (element == null || element == '' || typeof element == "undefined")
+    {
+        result = false;
+    }
+    return result;
+}
+
+
 function GetHomePageUrl() {
     var result = null;
     try {
@@ -166,10 +178,12 @@ jQuery.exists = function (selector) { return ($(selector).length > 0); }
 
 function SetValidationForm(IdForm) {
     var Form = $("#" + IdForm);
+
     if ($(Form).length > 0) {
         $(Form).removeData("validator");
         $(Form).removeData("unobtrusiveValidation");
         $.validator.unobtrusive.parse("#" + IdForm);
+       // $(Form).data("validator").settings.ignore = ":hidden:not(.alwaysValidate_js), .ignorejqueryvalidation_js";
     }
 }
 
@@ -219,10 +233,10 @@ function SetGenericAjaxForm(FormId, OnSuccess, Onfailure, OnBegin) {
     $("#" + FormId).unbind("submit");
     $("#" + FormId).on("submit", function (e) {
         e.preventDefault();
-
         var Form = $(this);
         var Model = $(Form).serialize();
         var url = $(Form).attr('action');
+
         if ($(this).valid()) {
 
             if (typeof (OnBegin) === "function") {
@@ -251,12 +265,31 @@ function SetGenericAjaxForm(FormId, OnSuccess, Onfailure, OnBegin) {
                     }
                 }
             });
-
         } else {
-            ScrollToErrorOrFirstInput(FormId);
+
+            var formname = FormId;
+            var FieldToFocus = $('#' + formname + ' .input-validation-error:first').get(0);
+            if (FieldToFocus == null) {
+                var FieldToFocus = $('#' + formname + ' :input:not(input[type=button],input[type=submit],button):visible:first').get(0);
+            }
+
+            if (FieldToFocus != null) {
+                $('html, body').animate({
+                    scrollTop: $(FieldToFocus).offset().top - 120
+                }, 1000);
+
+                $(FieldToFocus).focus();
+            }
+            else {
+                BackToTop();
+            }
         }
     });
     SetValidationForm(FormId);
+}
+
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 

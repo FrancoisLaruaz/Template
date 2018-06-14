@@ -20,6 +20,8 @@ namespace Models.Class.SignUp
 
        public string LastName { get; set; }
 
+        public string FacebookLink { get; set; }
+
         public string LanguageTag { get; set; }
 
         public string PictureSrc { get; set; }

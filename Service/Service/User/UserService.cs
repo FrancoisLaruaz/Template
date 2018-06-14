@@ -69,6 +69,7 @@ namespace Service.UserArea
                     user.ReceiveNews = model.ReceiveNews;
                     user.CreationDate = DateTime.UtcNow;
                     user.AspNetUserId = aspNetUser.Id;
+                    user.FacebookLink = model.FacebookLink;
 
                     _userRepo.Add(user);
                     if (_userRepo.Save())
@@ -164,6 +165,7 @@ namespace Service.UserArea
                     result.UserName = user.AspNetUser.UserName;
                     result.UserIdentityId = user.AspNetUser.Id;
                     result.UserId = user.Id;
+                    result.DateLastConnection = user.DateLastConnection;
                     result.LanguageTag = user.Language?.Code??CommonsConst.Const.DefaultCulture;
                     result.PictureThumbnailSrc = user.PictureThumbnailSrc ?? CommonsConst.Const.DefaultThumbnailUser;
                     result.EmailConfirmed = user.AspNetUser.EmailConfirmed == null ? false : user.AspNetUser.EmailConfirmed.Value;
@@ -178,7 +180,32 @@ namespace Service.UserArea
             return result;
         }
 
-
+        public bool SetUserLastConnectionDate(string UserName)
+        {
+            bool result = false;
+            try
+            {
+                if (String.IsNullOrWhiteSpace(UserName))
+                {
+                    result = false;
+                }
+                else
+                {
+                    User User = _userRepo.FindAllBy(u => u.AspNetUser!=null && u.AspNetUser.UserName.ToLower().Trim() == UserName.ToLower().Trim()).FirstOrDefault();
+                    if (User != null)
+                    {
+                        User.DateLastConnection = DateTime.UtcNow;
+                        result = _userRepo.Save();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "UserName = " + UserName);
+            }
+            return result;
+        }
 
 
         public MyProfileAddressViewModel GetMyProfileAddressViewModel(int UserId)

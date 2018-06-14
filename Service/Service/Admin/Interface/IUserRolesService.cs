@@ -20,6 +20,8 @@ namespace Service.Admin.Interface
 
         UserRoleItem GetUserRolesByUseridentityId(string UserIdentity);
 
+        bool IsInRole(int UserId, string roleName);
+
         bool AddUserRole(string UserId, string RoleId);
 
         bool DeleteUserRoleByUserIdAndRoleId(string UserId, string RoleId);

@@ -14,6 +14,7 @@ using Service.TaskClasses;
 using System.Threading.Tasks;
 using Service.UserArea.Interface;
 using Service.UserArea;
+using System.Configuration;
 
 namespace Template
 {
@@ -206,7 +207,7 @@ namespace Template
             try
             {
                 var ex = HttpContext.Current.Server.GetLastError();
-
+                bool NeedToLogError = true;
                 string messageErreur = "";
                 string messagePageErreur = "";
                 if (ex == null)
@@ -220,10 +221,37 @@ namespace Template
                     messageErreur = ex.ToString();
                     messagePageErreur = ex.Message;
                 }
-
-                Commons.Logger.GenerateError(ex, typeof(HttpApplication));
-
                 string redirection = String.Format("~/Error/{0}/?Message={1}", "DisplayError", messagePageErreur.Replace("\r", "").Replace("\n", ""));
+                if (ex != null )
+                {
+                    string Url = HttpContext.Current?.Request?.Url?.AbsoluteUri;
+                    string UrlReferrer = HttpContext.Current?.Request?.UrlReferrer?.AbsoluteUri;
+
+                    string WebsiteURL = ConfigurationManager.AppSettings["WebsiteURL"];
+
+                    if (ex.Message!=null && ex.Message.Contains("A potentially dangerous Request.Path value was detected from the client (&)") && Url != null && Url.Substring(Url.Length - 1) == "&")
+                    {
+                        redirection=Url.Substring(0, Url.Length - 1);
+                        NeedToLogError = false;
+                    }
+                    else if (Url != null && Url.Contains("mailto:"))
+                    {
+                        NeedToLogError = false;
+                        if (String.IsNullOrWhiteSpace(UrlReferrer))
+                        {
+                            Response.Redirect(WebsiteURL);
+                        }
+                        else
+                        {
+                            Response.Redirect(UrlReferrer);
+                        }
+                    }
+
+                }
+
+                if (NeedToLogError)
+                    Commons.Logger.GenerateError(ex, typeof(HttpApplication));
+
                 Response.Redirect(redirection);
             }
             catch (Exception e2)

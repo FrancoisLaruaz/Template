@@ -16,14 +16,14 @@ else
                 @Html.HiddenFor(m => m.URLRedirect)
 
 
-                <div class="sexyTBgroup col-md-10 col-xs-10 col-xs-offset-1 col-md-offset-1 websiteFormGroup">
+                <div class="sexyTBgroup col-md-10 col-xs-12 col-xs-offset-0 col-md-offset-1 websiteFormGroup">
                     @Html.TextBoxFor(model => model.Email, new { @class = "sexyTB" })
                     <label class="labelSexyTb">@Html.DisplayNameFor(m => m.Email)</label>
                     <i class="fa fa-envelope SexyField-iconsSmall" aria-hidden="true"></i>
                     @Html.ValidationMessageFor(m => m.Email)
                 </div>
 
-                <div class="sexyTBgroup col-md-10 col-xs-10 col-xs-offset-1 col-md-offset-1 websiteFormGroup">
+                <div class="sexyTBgroup col-md-10 col-xs-12 col-xs-offset-0 col-md-offset-1 websiteFormGroup">
                     @Html.PasswordFor(model => model.Password, new { @class = "sexyTB" })
                     <label class="labelSexyTb">@Html.DisplayNameFor(m => m.Password)</label>
                     <i class="fa fa-lock SexyField-icons" aria-hidden="true"></i>
@@ -31,7 +31,7 @@ else
                     <div id="ErrorLoginForm" class="text-danger"></div>
                 </div>
 
-                <div class="col-md-10 col-md-offset-1 col-xs-offset-1 col-xs-10">
+                <div class="col-md-10 col-md-offset-1 col-xs-offset-0 col-xs-12">
                     <div class="col-md-12 col-xs-12">
                         @Html.CheckBoxFor(m => m.RememberMe, new { @class = "styled-checkbox" })
                         <label for="RememberMe" class="LabelStyled-checkbox" style="font-weight:normal;font-size:1.55rem;">@Html.DisplayNameFor(m => m.RememberMe)</label>
@@ -43,7 +43,7 @@ else
 
 
 
-                <div class="col-md-10 col-xs-10 col-xs-offset-1 col-md-offset-1">
+                <div class="col-md-10 col-xs-12 col-xs-offset-0 col-md-offset-1">
                     <div class="col-md-12 col-xs-12">
                         <input type="submit" value="[[[Log In]]]" class="btn website-btn" id="SubmitButtonLogin" />
                     </div>

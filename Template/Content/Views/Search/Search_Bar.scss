@@ -3,6 +3,12 @@ $blue-1: #cccccc;
 $purple-1: #9261DF;
 $purple-2: #6434A2;
 
+
+
+.btn-extended {
+    padding-right: 35px !important;
+}
+
 .stage {
     transition: all 0.3s ease-in-out;
 
@@ -12,11 +18,11 @@ $purple-2: #6434A2;
 
 
 .searchBarIcon {
-    color: #fff;
+    color: #777
 }
 
 .searchBarIcon:hover {
-    color: #555;
+    color: #f36f23;
 }
 
 
@@ -38,37 +44,77 @@ $purple-2: #6434A2;
     }
 }
 
+.searchbar {
+    display: none;
+}
 
 .searchbar {
 
     &.clicked {
 
         .btn-search {
-            margin-left: -35px;
+            margin-left: -80px;
         }
+
+        @media (min-width: 478px) {
+            .btn-search {
+                margin-left: -20px;
+            }
+        }
+
+        @media (min-width: 1070px) {
+            .btn-search {
+                margin-left: 25px;
+            }
+        }
+
 
         .searchBarIcon {
             color: #777 !important;
         }
 
         .btn-extended {
-            margin-left: -203px;
+            margin-left: -250px;
             width: 200px;
             padding: 4px 15px;
             opacity: 1;
             border-radius: 40px;
         }
 
+
+        @media (min-width: 478px) {
+            .btn-extended {
+                margin-left: -160px;
+                width: 170px;
+                padding: 4px 15px;
+                opacity: 1;
+                border-radius: 40px;
+            }
+        }
+
         @media (min-width: 1070px) {
             .btn-extended {
-                margin-left: -233px;
-                width: 230px;
+                margin-left: -155px;
+                width: 210px;
+                padding: 4px 15px;
+                opacity: 1;
+                border-radius: 40px;
+            }
+        }
+
+        @media (min-width: 1250px) {
+            .btn-extended {
+                margin-left: -195px;
+                width: 250px;
                 padding: 4px 15px;
                 opacity: 1;
                 border-radius: 40px;
             }
         }
     }
+
+
+
 
     .btn-search {
         position: absolute;
@@ -77,14 +123,19 @@ $purple-2: #6434A2;
         width: 40px;
         height: 40px;
         left: 85%;
-        margin-left: -35px;
+        margin-left: -20px;
         top: 0%;
-        margin-top: 17px;
+        margin-top: 18px;
         border-radius: 40px;
         cursor: pointer;
         transition: all 0.4s ease-in-out;
     }
 
+    @media (min-width: 1070px) {
+        .btn-search {
+            margin-left: 25px;
+        }
+    }
 
     .btn-extended {
         position: absolute;
@@ -113,7 +164,7 @@ $purple-2: #6434A2;
             width: 40px;
             height: 40px;
             left: 50%;
-            margin-left: -35px;
+            margin-left: 25px;
             top: 50%;
             margin-top: 18px;
             border-radius: 40px;
@@ -126,7 +177,7 @@ $purple-2: #6434A2;
             width: 0px;
             height: 30px;
             left: 50%;
-            margin-left: 35px;
+            margin-left: -25px;
             margin-top: 16px;
             padding: 0;
             font-size: inherit;
@@ -145,4 +196,106 @@ $purple-2: #6434A2;
 
 .mobileSearchBar {
     padding-top: -150px;
+}
+
+.ui-helper-hidden-accessible {
+    display: none !important;
+}
+
+.searchImage {
+    height: 40px !important;
+    width: 60px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+
+.ui-menu-item .ui-menu-item-wrapper {
+    border: none !important;
+    color: black;
+}
+
+.focusAutocomplete {
+    color: #f4793d !important;
+}
+
+.ui-menu-item .ui-menu-item-wrapper:hover span {
+    color: #f4793d !important;
+}
+
+.ui-menu-item .ui-menu-item-wrapper:hover {
+    border: none !important;
+    color: #f4793d !important;
+}
+
+.ui-autocomplete {
+    z-index: 999 !important;
+    border-radius: 10px !important;
+    margin-left: -200px !important;
+}
+
+.searchBarLink {
+}
+
+.ui-menu .ui-menu-item a.ui-state-focus, .ui-menu .ui-menu-item a.ui-state-active {
+    margin: 0px !important;
+}
+
+.searchElement {
+    opacity: 0.6;
+    font-size: 13px !important;
+    position: absolute;
+    top: 24px;
+    left: 76px;
+}
+
+.searchBarName {
+    vertical-align: top;
+}
+
+.searchBarSuggestion {
+    height: 37px;
+    position: relative;
+    top: 5px;
+    text-align: center;
+}
+
+
+.searchBarSuggestionLink {
+    text-align: center;
+    color: rgba(45,191,183, 1) !important;
+    font-size: 16px;
+    margin-top: 6px;
+    cursor: pointer;
+}
+
+.searchBarSuggestionLinkFocus {
+    text-align: center;
+    color: #f4793d !important;
+    font-size: 16px;
+    margin-top: 6px;
+    cursor: pointer;
+}
+
+.iconSearchBar {
+    margin-left: 8px;
+}
+
+.roundedDiv {
+    border-radius: 50%;
+}
+
+.searchBarImageRounded {
+    margin-left: 10px;
+    height: 40px !important;
+    width: 40px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 20px;
+    display: inline-block;
+    border-radius: 50%;
 }

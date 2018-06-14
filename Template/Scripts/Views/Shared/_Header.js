@@ -1,36 +1,7 @@
 $(document).ready(function () {
 
-    /*
-    $('#SearchBtn').on('click', function (e) {
-        e.preventDefault();
-        var pattern = $('#SearchTbx').val();
-        if (pattern.length < 2) {
-            notificationInfo('[[[Please enter 2 characters minimum to start the search.]]]');
-        }
-        else {
-        
-            $.ajax({
-                url: "/Search/CreateSearch",
-                type: "POST",
-                data: { Pattern: pattern },
-                success: function (data) {
-                    if (data != null && data.SearchId > 0) {
-                        ShowSpinner();
-                        var url = GetHomePageUrl() + '/Search/Index/' + data.SearchId;
-                        window.location.href = url;
-                    }
-                    else {
-                        ErrorActions();
-                    }
-                },
-                error: function (xhr, error) {
-                    ErrorActions();
-                }
-            });
-            ShowSpinner();
-        }
-    });
-    */
+
+
 
     $('#LogInHeader').on('click', function (e) {
         e.preventDefault();
@@ -43,7 +14,10 @@ $(document).ready(function () {
         ShowSignUpFormNow(true);
     });
 
-    $('#LinkLogOff').on('click', function () {
+    $("#LinkLogOff").unbind("click");
+    $('#LinkLogOff').on('click', function (e) {
+        e.preventDefault();
+        ShowSpinner();
         document.getElementById('logoutForm').submit();
     });
 
@@ -98,7 +72,7 @@ function LogOffBegin() {
 
 function LogOffSuccess() {
 
-    notificationOK("[[[See you soon !]]]");
+    NotificationOK("[[[See you soon !]]]");
     HideSpinner();
     window.location.href = GetHomePageUrl();
 }

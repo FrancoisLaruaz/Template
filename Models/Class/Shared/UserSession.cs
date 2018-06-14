@@ -25,6 +25,8 @@ namespace Models.Class
 
         public string PictureThumbnailSrc { get; set; }
 
+        public DateTime DateLastConnection { get; set; }
+
         public bool EmailConfirmed { get; set; }
 
         public string UserFullName { get { return (FirstName + " " + LastName).Trim(); } }

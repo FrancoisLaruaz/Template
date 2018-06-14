@@ -9,16 +9,21 @@ using Models.Class.Search;
 
 namespace Models.ViewModels.Search
 {
-    public class DisplaySearchViewModel : BaseModelPager
+    public class SearchIndexViewModel
     {
-        public List<SearchItem> SearchList { get; set; }
+        public SearchIndexViewModel()
+        {
+
+        }
+
+        public bool ShowUsers { get; set; }
+
+
+        public bool ShowPages { get; set; }
+
 
         public string Pattern { get; set; }
 
 
-        public DisplaySearchViewModel()
-        {
-            SearchList = new List<SearchItem>();
-        }
     }
 }

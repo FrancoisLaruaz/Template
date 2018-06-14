@@ -15,10 +15,13 @@ namespace DataEntities.Model
     public partial class SearchResult
     {
         public int Id { get; set; }
-        public string Url { get; set; }
-        public System.DateTime Date { get; set; }
-        public int SearchId { get; set; }
+        public System.DateTime CreationDate { get; set; }
+        public string Term { get; set; }
+        public Nullable<int> UserId { get; set; }
+        public int SearchResultsCount { get; set; }
+        public string ClickedUrl { get; set; }
+        public bool IsSearchBar { get; set; }
     
-        public virtual Search Search { get; set; }
+        public virtual User User { get; set; }
     }
 }

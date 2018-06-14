@@ -276,6 +276,10 @@
     <Content Include="Content\Views\Search\Search_Bar.min.css">
       <DependentUpon>Search_Bar.css</DependentUpon>
     </Content>
+    <Content Include="Content\jquery-ui-min.css" />
+    <Content Include="Content\Views\Shared\FollowUserBtn.css" />
+    <Content Include="Content\Views\Shared\SquaredCheckBox.css" />
+    <Content Include="Ressources\Files\Images\Search\noresult.png" />
     <Content Include="Scripts\General\PopUp.js" />
     <Content Include="Scripts\Views\Search\SearchBar.js" />
     <Content Include="Content\Views\Shared\_LanguageSelector.css" />
@@ -493,6 +497,8 @@
     <Content Include="Scripts\Views\Home\_VideoHomePage.js" />
     <Content Include="Scripts\Views\Home\Index.js" />
     <Content Include="Scripts\Views\Shared\_Header.js" />
+    <Content Include="Scripts\Views\Shared\Index.js" />
+    <Content Include="Scripts\Views\Shared\FollowUserBtn.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -576,8 +582,10 @@
     <Content Include="Views\Shared\Layout\_TawkTo.cshtml" />
     <Content Include="Views\Account\MyProfile\_MyProfileAddress.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
-    <Content Include="Views\Search\_DisplaySearch.cshtml" />
+    <Content Include="Views\Search\_IndexSearchResultItem.cshtml" />
     <Content Include="Views\Search\_SearchBar.cshtml" />
+    <Content Include="Views\Search\_IndexSearchResult.cshtml" />
+    <Content Include="Views\Search\_IndexSearchResultType.cshtml" />
     <None Include="Web.config.perso">
       <SubType>Designer</SubType>
     </None>

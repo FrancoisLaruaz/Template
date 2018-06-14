@@ -24,7 +24,7 @@ $(document).ready(function () {
 
     SetDateTimeFields();
 
-    $(document)
+    $(document).not(".noAjaxSpinner_js")
         .ajaxStart(function () {
             ShowSpinner();
         })

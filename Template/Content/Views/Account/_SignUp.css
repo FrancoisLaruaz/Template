@@ -11,8 +11,18 @@
     margin-right:15px !important;
 }
 
+
+
 .captcha {
     text-align: center;
-    margin-left: 80px;
+    margin-left: -25px;
     margin-top: 8px;
+}
+
+@media (min-width: 600px) {
+    .captcha {
+        text-align: center;
+        margin-left: 100px;
+        margin-top: 8px;
+    }
 }

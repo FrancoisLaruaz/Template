@@ -30,51 +30,48 @@ function handleLoginBegin() {
 }
 
 function LoginSuccess(Data) {
-   
-    if (Data) {
-        $('#ErrorLoginForm').html(Data.Error);
-
-        if (Data.Result) {
-            if ($('#loginOrSignInModal').length > 0) {
-                $('#loginOrSignInModal').click();
-            }
-            var language = Data.LangTag;
-            var CentralGoToUrl = $('#CentralGoToUrl').val();
-
-            var toGo = '';
-            if (Data.URLRedirect != null && Data.URLRedirect != "") {
-                toGo = Data.URLRedirect;
-            }
-            else if (CentralGoToUrl != null && CentralGoToUrl != "") {
-                toGo = CentralGoToUrl;
-            }
-
-            if (toGo.length > 0 && toGo.trim() != "/") {
 
 
-                if (toGo.indexOf("http") == -1 && toGo.indexOf("www.") == -1) {
+    $('#ErrorLoginForm').html(Data.Error);
 
-                    if (language != null && language != "") {
-                        toGo = "/" + language + toGo;
-                    }
-                    var Base = GetHomePageUrl();
+    if (typeof Data === "undefined" || Data.Result || Data.IsUserAlreadyLoggedIn || typeof Data.IsUserAlreadyLoggedIn === "undefined") {
+        if ($('#loginOrSignInModal').length > 0) {
+            $('#loginOrSignInModal').click();
+        }
+        var language = Data.LangTag;
+        var CentralGoToUrl = $('#CentralGoToUrl').val();
 
-                    toGo = Base + toGo;
+        var toGo = '';
+        if (Data.URLRedirect != null && Data.URLRedirect != "") {
+            toGo = Data.URLRedirect;
+        }
+        else if (CentralGoToUrl != null && CentralGoToUrl != "") {
+            toGo = CentralGoToUrl;
+        }
+
+        if (toGo.length > 0 && toGo.trim() != "/") {
+
+
+            if (toGo.indexOf("http") == -1 && toGo.indexOf("www.") == -1) {
+
+                if (language != null && language != "") {
+                    toGo = "/" + language + toGo;
                 }
+                var Base = GetHomePageUrl();
 
-                window.location.href = toGo;
-            } else {
-                location.reload();
+                toGo = Base + toGo;
             }
 
+            window.location.href = toGo;
+        } else {
+            location.reload();
         }
-        else {
-            SetLoginSubmitForm();
-        }
+
     }
     else {
         SetLoginSubmitForm();
     }
+
 }
 
 
@@ -88,7 +85,7 @@ function SetLoginForm() {
 }
 
 function SetLoginSubmitForm() {
- 
+
     $('#SubmitButtonLogin').show();
     $('#SubmitButtonLogin').val("[[[Log In]]]");
     $('#SubmitButtonLogin').removeAttr('disabled');

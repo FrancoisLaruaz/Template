@@ -9,7 +9,7 @@ namespace Models.Class.ExternalAuthentification
 {
     public class ExternalAuthentificationResult
     {
-        public ExternalAuthentificationResult(bool success, string returnUrl, string error, string media, string imageSrc, bool isSignUp, string language, string redirection = null, string firstName = null, string lastName = null)
+        public ExternalAuthentificationResult(bool success, string returnUrl, string error, string media, string imageSrc, bool isSignUp, string language,  bool _IsAlreadyLoggedIn, string redirection = null, string firstName = null, string lastName = null)
         {
             Success = success;
             ReturnUrl = returnUrl;
@@ -21,8 +21,10 @@ namespace Models.Class.ExternalAuthentification
             Redirection = redirection;
             FirstName = firstName;
             LastName = lastName;
+            IsAlreadyLoggedIn = _IsAlreadyLoggedIn;
         }
 
+        public bool IsAlreadyLoggedIn { get; set; }
         public bool Success { get; set; }
         public string ReturnUrl { get; set; }
 

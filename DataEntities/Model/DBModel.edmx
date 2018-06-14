@@ -165,24 +165,17 @@
           <Property Name="CreationDate" Type="datetime" Nullable="false" />
           <Property Name="NewsId" Type="int" />
         </EntityType>
-        <EntityType Name="Search">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Pattern" Type="nvarchar" MaxLength="255" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="UserId" Type="int" />
-          <Property Name="ResultsNumber" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="SearchResult">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Url" Type="nvarchar" MaxLength="255" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="SearchId" Type="int" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="Term" Type="varchar" MaxLength="256" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="SearchResultsCount" Type="int" Nullable="false" />
+          <Property Name="ClickedUrl" Type="varchar" MaxLength="256" />
+          <Property Name="IsSearchBar" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SocialMediaConnection">
           <Key>
@@ -241,6 +234,8 @@
           <Property Name="CreationDate" Type="datetime" Nullable="false" />
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="UserNameModification" Type="nvarchar" MaxLength="256" />
+          <Property Name="PublicProfile" Type="bit" Nullable="false" />
+          <Property Name="FacebookLink" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="UserFollow">
           <Key>
@@ -470,27 +465,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Search_UserId">
+        <Association Name="FK_SearchResult_User">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
-          <End Role="Search" Type="Self.Search" Multiplicity="*" />
+          <End Role="SearchResult" Type="Self.SearchResult" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Search">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SearchResult_Search">
-          <End Role="Search" Type="Self.Search" Multiplicity="1" />
-          <End Role="SearchResult" Type="Self.SearchResult" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Search">
-              <PropertyRef Name="Id" />
-            </Principal>
             <Dependent Role="SearchResult">
-              <PropertyRef Name="SearchId" />
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -633,7 +616,6 @@
           <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScheduledTask" EntityType="Self.ScheduledTask" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Search" EntityType="Self.Search" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SearchResult" EntityType="Self.SearchResult" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SocialMediaConnection" EntityType="Self.SocialMediaConnection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -709,12 +691,8 @@
             <End Role="User" EntitySet="User" />
             <End Role="ScheduledTask" EntitySet="ScheduledTask" />
           </AssociationSet>
-          <AssociationSet Name="FK_Search_UserId" Association="Self.FK_Search_UserId">
+          <AssociationSet Name="FK_SearchResult_User" Association="Self.FK_SearchResult_User">
             <End Role="User" EntitySet="User" />
-            <End Role="Search" EntitySet="Search" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SearchResult_Search" Association="Self.FK_SearchResult_Search">
-            <End Role="Search" EntitySet="Search" />
             <End Role="SearchResult" EntitySet="SearchResult" />
           </AssociationSet>
           <AssociationSet Name="FK_User_AspNetUser" Association="Self.FK_User_AspNetUser">
@@ -902,16 +880,7 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <EntitySet Name="Searches" EntityType="TemplateModel.Search" />
           <EntitySet Name="SearchResults" EntityType="TemplateModel.SearchResult" />
-          <AssociationSet Name="FK_SearchResult_Search" Association="TemplateModel.FK_SearchResult_Search">
-            <End Role="Search" EntitySet="Searches" />
-            <End Role="SearchResult" EntitySet="SearchResults" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Search_UserId1" Association="TemplateModel.FK_Search_UserId1">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Search" EntitySet="Searches" />
-          </AssociationSet>
           <EntitySet Name="UserFollows" EntityType="TemplateModel.UserFollow" />
           <AssociationSet Name="FK_UserFollow_FollowedUserId" Association="TemplateModel.FK_UserFollow_FollowedUserId">
             <End Role="User" EntitySet="Users" />
@@ -922,8 +891,12 @@
             <End Role="UserFollow" EntitySet="UserFollows" />
           </AssociationSet>
           <FunctionImport Name="DeleteScheduledTaskById">
-            <Parameter Name="ScheduledTaskId" Mode="In" Type="Int32" />
+          <Parameter Name="ScheduledTaskId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_SearchResult_User" Association="TemplateModel.FK_SearchResult_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="SearchResult" EntitySet="SearchResults" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -1150,10 +1123,12 @@
           <NavigationProperty Name="News" Relationship="TemplateModel.FK_News_LastModificationUserId" FromRole="User" ToRole="News" />
           <NavigationProperty Name="Province" Relationship="TemplateModel.FK_User_Province" FromRole="User" ToRole="Province" />
           <NavigationProperty Name="ScheduledTasks" Relationship="TemplateModel.FK_ScheduledTask_User" FromRole="User" ToRole="ScheduledTask" />
-          <NavigationProperty Name="Searches" Relationship="TemplateModel.FK_Search_UserId1" FromRole="User" ToRole="Search" />
           <Property Name="UserNameModification" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserFollows" Relationship="TemplateModel.FK_UserFollow_FollowedUserId" FromRole="User" ToRole="UserFollow" />
           <NavigationProperty Name="UserFollows1" Relationship="TemplateModel.FK_UserFollow_User" FromRole="User" ToRole="UserFollow" />
+          <NavigationProperty Name="SearchResults" Relationship="TemplateModel.FK_SearchResult_User" FromRole="User" ToRole="SearchResult" />
+          <Property Name="PublicProfile" Type="Boolean" Nullable="false" />
+          <Property Name="FacebookLink" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id">
           <End Type="TemplateModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -1433,52 +1408,19 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <EntityType Name="Search">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Pattern" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ResultsNumber" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="SearchResults" Relationship="TemplateModel.FK_SearchResult_Search" FromRole="Search" ToRole="SearchResult" />
-          <Property Name="UserId" Type="Int32" />
-          <NavigationProperty Name="User" Relationship="TemplateModel.FK_Search_UserId1" FromRole="Search" ToRole="User" />
-        </EntityType>
         <EntityType Name="SearchResult">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Url" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="SearchId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Search" Relationship="TemplateModel.FK_SearchResult_Search" FromRole="SearchResult" ToRole="Search" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Term" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="SearchResultsCount" Type="Int32" Nullable="false" />
+          <Property Name="ClickedUrl" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="IsSearchBar" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="TemplateModel.FK_SearchResult_User" FromRole="SearchResult" ToRole="User" />
         </EntityType>
-        <Association Name="FK_SearchResult_Search">
-          <End Type="TemplateModel.Search" Role="Search" Multiplicity="1" />
-          <End Type="TemplateModel.SearchResult" Role="SearchResult" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Search">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SearchResult">
-              <PropertyRef Name="SearchId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Search_UserId1">
-          <End Type="TemplateModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="TemplateModel.Search" Role="Search" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Search">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="UserFollow">
           <Key>
             <PropertyRef Name="Id" />
@@ -1510,6 +1452,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="UserFollow">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SearchResult_User">
+          <End Type="TemplateModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="TemplateModel.SearchResult" Role="SearchResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SearchResult">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1707,6 +1661,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="TemplateModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="FacebookLink" ColumnName="FacebookLink" />
+                <ScalarProperty Name="PublicProfile" ColumnName="PublicProfile" />
                 <ScalarProperty Name="UserNameModification" ColumnName="UserNameModification" />
                 <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
@@ -1787,23 +1743,15 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="TemplateModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="TemplateModel.Store.sp_upgraddiagrams" />
-          <EntitySetMapping Name="Searches">
-            <EntityTypeMapping TypeName="TemplateModel.Search">
-              <MappingFragment StoreEntitySet="Search">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ResultsNumber" ColumnName="ResultsNumber" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Pattern" ColumnName="Pattern" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SearchResults">
             <EntityTypeMapping TypeName="TemplateModel.SearchResult">
               <MappingFragment StoreEntitySet="SearchResult">
-                <ScalarProperty Name="SearchId" ColumnName="SearchId" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="IsSearchBar" ColumnName="IsSearchBar" />
+                <ScalarProperty Name="ClickedUrl" ColumnName="ClickedUrl" />
+                <ScalarProperty Name="SearchResultsCount" ColumnName="SearchResultsCount" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -34,6 +34,20 @@ namespace Website.Controllers
     }
 
 
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            try
+            {
+                base.OnActionExecuting(filterContext);
+                setLastConnectionDate(User?.Identity?.Name, filterContext);
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
+        }
+
         public ActionResult RefreshHeader()
         {
             try

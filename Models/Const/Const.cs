@@ -32,10 +32,12 @@ namespace CommonsConst
         public const string DefaultImageUser = BasePathImages + "/DefaultUser.jpg";
         public const string DefaultThumbnailUser = BasePathImages + "/DefaultThumbnailUser.jpg";
 
+        public const string BaseMetaKeyWords = "";
 
         public const string i18nlangtag = "i18n.langtag";
 
         public const string UserSession = "UserSession";
+        public const string LastConnectionDate = "LastConnectionDate";
         public const string WebcamCaptureSession = "WebcamCaptureSession";
         public const string JsonConstantsSession = "JsonConstantsSession";
 
@@ -64,6 +66,23 @@ namespace CommonsConst
 
     }
 
+    public static class SearchParameters
+    {
+        public const int MaxDisplayedItems = 10;
+    }
+
+
+    public static class DefaultImage
+    {
+        public const string Page = "/Ressources/Files/Images/Logo.png";
+
+    }
+    public static class SearchItemType
+    {
+        public const string User = "[[[User]]]";
+        public const string Page = "[[[Page]]]";
+        public const string SearchAll = "[[[SearchAll]]]";
+    }
 
     public static class PartialViewResults
     {

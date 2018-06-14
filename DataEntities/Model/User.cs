@@ -20,9 +20,9 @@ namespace DataEntities.Model
             this.EmailAudits = new HashSet<EmailAudit>();
             this.News = new HashSet<News>();
             this.ScheduledTasks = new HashSet<ScheduledTask>();
-            this.Searches = new HashSet<Search>();
             this.UserFollows = new HashSet<UserFollow>();
             this.UserFollows1 = new HashSet<UserFollow>();
+            this.SearchResults = new HashSet<SearchResult>();
         }
     
         public int Id { get; set; }
@@ -47,6 +47,8 @@ namespace DataEntities.Model
         public System.DateTime CreationDate { get; set; }
         public string AspNetUserId { get; set; }
         public string UserNameModification { get; set; }
+        public bool PublicProfile { get; set; }
+        public string FacebookLink { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Category Gender { get; set; }
@@ -60,10 +62,10 @@ namespace DataEntities.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScheduledTask> ScheduledTasks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Search> Searches { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserFollow> UserFollows { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserFollow> UserFollows1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SearchResult> SearchResults { get; set; }
     }
 }

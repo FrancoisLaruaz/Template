@@ -27,6 +27,8 @@ namespace Models.ViewModels.Account
 
         public string LanguageTag { get; set; }
 
+        public bool IsUserAlreadyLoggedIn { get; set; }
+
         public LoginViewModel()
         {
             RememberMe = true;

@@ -207,6 +207,11 @@ namespace Commons
                 {
                     Message = "N/A";
                 }
+                string url = HttpContext.Current?.Request?.Url?.AbsoluteUri;
+                if (!String.IsNullOrWhiteSpace(url))
+                {
+                    Message = "- Url => " + url + " </br></br>" + Message;
+                }
                 logger.Info(Message);
             }
             catch(Exception e)

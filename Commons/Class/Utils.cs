@@ -203,32 +203,7 @@ namespace Commons
         }
 
 
-        /// <summary>
-        /// Get all the constants for javascript
-        /// </summary>
-        /// <returns></returns>
-        public static Dictionary<string, Dictionary<string, object>> GetJSonConstants()
-        {
-            Dictionary<string, Dictionary<string, object>> result = new Dictionary<string, Dictionary<string, object>>();
-            try
-            {
 
-                var ClassesList = from t in Assembly.GetExecutingAssembly().GetTypes().
-                        Where(t => t.FullName.Contains("CommonsConst") && t.BaseType.Name.ToLower() != "enum")
-                                  select t;
-                foreach (var elem in ClassesList.ToList())
-                {
-                    string name = elem.Name;
-                    var constants = elem.GetFields().ToDictionary(x => x.Name, x => x.GetValue(null) );
-                    result.Add(name, constants);
-                }
-            }
-            catch (Exception e)
-            {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            }
-            return result;
-        }
 
     }
 }

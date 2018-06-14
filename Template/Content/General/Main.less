@@ -665,7 +665,7 @@ a {
 }
 
 .sexyTB {
-    padding: 7px 10px 7px 0;
+    padding: 7px 30px 7px 0;
     display: block;
     width: 100%;
     border: none;
@@ -898,13 +898,15 @@ a {
 }
 
 .bodyMainclass .dropdown-menu a:hover {
-    color: @WebsiteColor1;
-    background-color:white !important;
+    color: @WebsiteColor1 !important;
 }
 
+.bodyMainclass .navbar-default .navbar-nav > li > a:hover {
+  
+}
 
 .bodyMainclass .navbar-nav li:hover .dropdown-menu {
-  
+    color: @WebsiteColor1 !important;
 }
 
 .modal-backdrop {
@@ -1086,3 +1088,12 @@ a {
     max-width:280px;
 }
 
+.centerIfMobile {
+    text-align: center;
+}
+
+@media (min-width: 992px) {
+    .centerIfMobile {
+        text-align: left;
+    }
+}

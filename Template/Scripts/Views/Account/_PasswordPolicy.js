@@ -86,12 +86,21 @@ function SetPasswordForm(passwordElement) {
         else {
             PasswordStrengthScore = 11;
         }
-
+        
 
         SetPasswordStrengthScore(PasswordStrengthScore, form);
-        $(passWordButton).toggleClass("disabled", disabledSubmitButton);
-        if (!disabledSubmitButton)
-            $(passWordButton).removeAttr('disabled');
+        if (FormId !='SignUpForm')
+        {
+            $(passWordButton).toggleClass("disabled", disabledSubmitButton);
+            if (!disabledSubmitButton) {
+                $(passWordButton).removeAttr('disabled');
+            }
+        }
+        else {
+            var PasswordSetSignUpForm = !disabledSubmitButton;
+            $("#HiddenPasswordSetSignUpForm").val(PasswordSetSignUpForm);
+            SetCreateAccountBtn();
+        }
     }
 
 }

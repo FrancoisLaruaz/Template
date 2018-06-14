@@ -10,7 +10,7 @@
     
     <form id="ExternalSignUpForm" action="@Url.Action("ExternalSignUp", "Account")" method="POST" target="ExternalSignUpPopUp" onsubmit="invokeExternalAuthentification('ExternalSignUpPopUp');">
         @Html.AntiForgeryToken()
-        <div id="socialLoginList" class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1" style="padding-left:-5px;text-align:right;">
+        <div id="socialLoginList" class="col-md-10 col-xs-12 col-md-offset-1 col-xs-offset-0" style="padding-left:-5px;text-align:right;">
 
             @foreach (AuthenticationDescription p in loginProviders)
             {
@@ -20,7 +20,7 @@
 
         </div>
     </form>
-    <div style="padding-top:8px;padding-bottom:8px;" class="col-md-10 col-xs-12 col-md-offset-1">
+    <div style="padding-top:8px;padding-bottom:8px;" class="col-md-10 col-xs-12 col-md-offset-1 col-xs-offset-0">
         <span id="GeneralExternalSignUpError" class="text-danger resultExternalAuthentification" style="min-height:20px;"></span>
     </div>
 </div>

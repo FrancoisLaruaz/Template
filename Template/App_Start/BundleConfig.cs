@@ -91,6 +91,7 @@ namespace Template
                     "~/Content/font-awesome.min.css",
                     "~/Content/General/sweetalert.css",
                     "~/Content/General/PopUp.css",
+                    "~/Content/jquery-ui-min.css",
                      "~/Content/General/fakeSocialMediaStyle.css",
                     "~/Content/General/toastr.csss",
                    "~/Content/General/webcam.css",

@@ -17,6 +17,8 @@ namespace Service.UserArea.Interface
 {
     public interface IUserService
     {
+
+        bool SetUserLastConnectionDate(string UserName);
         bool IsEmailAvailable(string UserName);
 
         bool IsEmailWaitingForConfirmation(string UserName);

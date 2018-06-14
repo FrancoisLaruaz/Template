@@ -4,7 +4,7 @@
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
 }
 @Html.Partial("_OrContinueWith")
-<div class="col-md-10 col-xs-10 loginPart col-md-offset-1 col-xs-offset-1" >
+<div class="col-md-10 col-xs-12 loginPart col-md-offset-1 col-xs-offset-0" >
     
     <form id="ExternalSignUpForm" action="@Url.Action("ExternalLogIn", "Account")" method="POST" target="ExternalLogInPopUp" onsubmit="invokeExternalAuthentification('ExternalLogInPopUp');">
         @Html.AntiForgeryToken()

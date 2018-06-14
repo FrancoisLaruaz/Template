@@ -61,6 +61,7 @@ ALTER procedure  [dbo].[DeleteUserById]
 				update dbo.news set LastModificationUserId=null where LastModificationUserId=@UserId;
 				update dbo.Search set UserId=null where UserId=@UserId	
 				delete from dbo.emailaudit where UserId=@UserId		
+				update dbo.SearchResult set UserId=null where UserId=@userid
 				delete from dbo.[user] where Id=@UserId;	
 				delete from dbo.AspNetUserClaims where UserId=@AspNetUserId;
 				delete from dbo.AspNetUserRoles where UserId=@AspNetUserId;
@@ -99,3 +100,38 @@ ALTER procedure  [dbo].[DeleteUserById]
     end catch
 end
 
+
+drop table [dbo].[SearchResult]
+
+CREATE TABLE [dbo].[SearchResult](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CreationDate] [datetime] NOT NULL,
+	[Term] varchar(256) null,
+	[UserId] [int] NULL,
+	[SearchResultsCount] [int] not NULL,
+	[ClickedUrl] varchar(256) null,
+ CONSTRAINT [PK_SearchResult] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[SearchResult]  WITH CHECK ADD  CONSTRAINT [FK_SearchResult_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+
+ALTER TABLE [dbo].[SearchResult] CHECK CONSTRAINT [FK_SearchResult_User]
+GO
+
+alter table [dbo].[SearchResult]
+add IsSearchBar bit not null
+
+
+alter table dbo.[User]
+add [PublicProfile] bit not null default 1
+
+
+alter table [dbo].[User]
+Add FacebookLink nvarchar(500) null

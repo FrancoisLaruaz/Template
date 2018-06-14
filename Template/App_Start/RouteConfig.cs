@@ -16,6 +16,36 @@ namespace Template
             new { hash = @"^[0-9a-zA-Z]+$" } // constraint
             );
 
+
+
+            #region Search
+
+
+
+            routes.MapRoute(
+                name: "SearchAutocomplete",
+                url: "Search/GetSearchAutocomplete/{term}",
+                defaults: new { controller = "Search", action = "GetSearchAutocomplete", term = UrlParameter.Optional },
+                namespaces: new[] { "Website.Controllers" }
+                );
+
+            routes.MapRoute(
+                name: "Search",
+                url: "SearchItems/{pattern}",
+                defaults: new { controller = "Search", action = "Index", pattern = UrlParameter.Optional },
+                namespaces: new[] { "Website.Controllers" }
+                );
+
+            routes.MapRoute(
+                name: "SearchUsers",
+                url: "SearchUsers",
+                defaults: new { controller = "Search", action = "SearchUsers" },
+                namespaces: new[] { "Website.Controllers" }
+                );
+
+
+            #endregion 
+
             #region Home
 
             routes.MapRoute(

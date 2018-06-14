@@ -16,6 +16,8 @@ using System.Web.Hosting;
 using Service.UserArea.Interface;
 using Models.ViewModels.Search;
 using DataEntities.Model;
+using Models.Class.Search;
+using CommonsConst;
 
 namespace Website.Controllers
 {
@@ -30,68 +32,144 @@ namespace Website.Controllers
             _searchService = searchService;
         }
 
-        public ActionResult Index(int? id=null)
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var model = new SearchViewModel();
+            try
+            {
+                base.OnActionExecuting(filterContext);
+                setLastConnectionDate(User?.Identity?.Name, filterContext);
+
+            }
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+
+        }
+
+        [HttpPost]
+        public JsonResult GetSearchAutocomplete(string term)
+        {
+
+            try
+            {
+                int LoggedUserId = 0;
+                if (User != null && User.Identity.IsAuthenticated)
+                {
+                    LoggedUserId = UserSession.UserId;
+                }
+                SearchFilter filter = new SearchFilter(term);
+                var searchList = _searchService.GetSearch(filter, LoggedUserId);
+
+                return Json(searchList, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "term = " + term);
+            }
+
+            return null;
+        }
+
+
+
+
+        [HttpPost]
+        public ActionResult SearchItemClicked(int SearchId, string Url)
+        {
+            bool _success = false;
+            string _Error = "";
+            try
+            {
+
+                _success = _searchService.SetUrlClickedForSearch(SearchId, Url);
+            }
+            catch (Exception e)
+            {
+                _success = false;
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "SearchId = " + SearchId + " and Url = " + Url);
+            }
+            return Json(new { Result = _success, Error = _Error });
+        }
+
+
+        [HttpGet]
+        public ActionResult Index(string pattern = "")
+        {
+            SearchIndexViewModel model = new SearchIndexViewModel();
             try
             {
                 ViewBag.Title = "[[[Search]]]";
-                model.SearchId = id;
-                if (id != null)
-                {
-                    Search search = _searchService.GetSearchById(id.Value);
-                    if (search != null)
-                    {
-                        model.Pattern = search.Pattern;
-                    }
-                }
+                model.Pattern = pattern;
+                model.ShowUsers = true;
+                model.ShowPages = true;
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "id = "+ id);
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "pattern = " + pattern);
             }
-
             return View(model);
+
         }
 
-
-        [HttpPost]
-        public ActionResult _DisplaySearch(DisplaySearchViewModel Model)
+        [HttpGet]
+        public ActionResult SearchPages()
         {
+            SearchIndexViewModel model = new SearchIndexViewModel();
             try
             {
-                Model = new DisplaySearchViewModel();// _userRoleService.GetDisplayUsersViewModel(Model.Pattern, Model.StartAt, Model.PageSize);
+                model.Pattern = "";
+                model.ShowPages = true;
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Pattern = " + Model.Pattern);
-                return Content("ERROR");
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
-            return PartialView(Model);
+            return View("~/Views/Search/Index.cshtml", model);
+
         }
 
-
-        [HttpPost]
-        public ActionResult CreateSearch(string Pattern)
+        [HttpGet]
+        public ActionResult SearchUsers()
         {
-            int searchId = -1;
+            SearchIndexViewModel model = new SearchIndexViewModel();
             try
             {
+                model.Pattern = "";
+                model.ShowUsers = true;
+            }
+            catch (Exception e)
+            {
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            }
+            return View("~/Views/Search/Index.cshtml", model);
 
-                int? UserId=null;
+        }
 
-                if (UserSession != null && UserSession.UserId > 0)
+        [HttpGet]
+        public ActionResult _IndexSearchResult(SearchFilter filter)
+        {
+            try
+            {
+                SearchIndexResultViewModel model = new SearchIndexResultViewModel();
+                int LoggedUserId = 0;
+                if (User != null && User.Identity.IsAuthenticated)
                 {
-                    UserId = UserSession.UserId;
+                    LoggedUserId = UserSession.UserId;
                 }
+                model = _searchService.GetSearchIndexResultViewModel(filter, LoggedUserId);
 
-                searchId = _searchService.CreateSearch(Pattern, UserId);
+                return PartialView(model);
+
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "Pattern = " + Pattern);
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "pattern = " + filter.Pattern);
             }
-            return Json(new {SearchId= searchId });
+            return Content(PartialViewResults.UnknownError);
         }
+
+
     }
 }
