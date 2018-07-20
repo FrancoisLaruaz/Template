@@ -34,7 +34,7 @@ namespace Website.Controllers
         }
 
 
-        public JsonResult LogJavascriptError(string errorMsg, string url, string lineNumber, string col, string error, string browser, bool custom)
+        public JsonResult LogJavascriptError(string errorMsg="", string url = "", string lineNumber = "", string col = "", string error = "", string browser = "", bool custom=false)
         {
             bool _success = true;
 

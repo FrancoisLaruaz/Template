@@ -91,6 +91,8 @@ D:\DEV\Template\Models\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\DEV\Template\Models\bin\Debug\System.Web.WebPages.Razor.xml
 D:\DEV\Template\Models\bin\Debug\EntityFramework.xml
 D:\DEV\Template\Models\bin\Debug\log4net.xml
-D:\DEV\Template\Models\obj\Debug\Models.csprojResolveAssemblyReference.cache
+D:\DEV\Template\Models\obj\Debug\Models.csprojAssemblyReference.cache
+D:\DEV\Template\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
+D:\DEV\Template\Models\obj\Debug\Models.csproj.CopyComplete
 D:\DEV\Template\Models\obj\Debug\Models.dll
 D:\DEV\Template\Models\obj\Debug\Models.pdb

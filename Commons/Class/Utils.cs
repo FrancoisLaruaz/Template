@@ -8,6 +8,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Collections;
+using System.Device.Location;
+using Models.Class.Localization;
 
 namespace Commons
 {
@@ -192,14 +194,22 @@ namespace Commons
         /// <returns></returns>
         public static string CreateRandomPassword(int length=10)
         {
-            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            StringBuilder res = new StringBuilder();
-            Random rnd = new Random();
-            while (0 < length--)
+            try
             {
-                res.Append(valid[rnd.Next(valid.Length)]);
+                const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+                StringBuilder res = new StringBuilder();
+                Random rnd = new Random();
+                while (0 < length--)
+                {
+                    res.Append(valid[rnd.Next(valid.Length)]);
+                }
+                return res.ToString();
             }
-            return res.ToString();
+            catch (Exception e)
+            {
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "length = " + length);
+            }
+            return "wewr454rwEEe5r";
         }
 
 

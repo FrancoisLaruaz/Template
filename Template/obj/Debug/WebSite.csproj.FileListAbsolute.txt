@@ -409,6 +409,8 @@ D:\DEV\Template\Template\bin\System.Web.Mvc.xml
 D:\DEV\Template\Template\bin\Newtonsoft.Json.xml
 D:\DEV\Template\Template\bin\log4net.xml
 D:\DEV\Template\Template\bin\Ghostscript.NET.xml
-D:\DEV\Template\Template\obj\Debug\WebSite.csprojResolveAssemblyReference.cache
+D:\DEV\Template\Template\obj\Debug\WebSite.csprojAssemblyReference.cache
+D:\DEV\Template\Template\obj\Debug\WebSite.csproj.CoreCompileInputs.cache
+D:\DEV\Template\Template\obj\Debug\WebSite.csproj.CopyComplete
 D:\DEV\Template\Template\obj\Debug\WebSite.dll
 D:\DEV\Template\Template\obj\Debug\WebSite.pdb

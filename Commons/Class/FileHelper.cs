@@ -10,6 +10,7 @@ using Models.Class.FileUpload;
 using System.Net;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Web.Hosting;
 
 namespace Commons
 {
@@ -430,7 +431,7 @@ namespace Commons
         /// <returns></returns>
         public static string GetDecryptedFilePath(string path, bool IsUserPicture = false, bool IsThumbnail = false)
         {
-            string fileSrc = Const.DefaultImage;
+            string fileSrc = CommonsConst.DefaultImage.Default;
             try
             {
                 if (!String.IsNullOrWhiteSpace(path))
@@ -454,19 +455,19 @@ namespace Commons
             }
             catch (Exception e)
             {
-                fileSrc = Const.DefaultImage.Replace("~", "");
+                fileSrc = CommonsConst.DefaultImage.Default.Replace("~", "");
                 Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "path = " + path + " and IsUserPicture = " + IsUserPicture);
             }
 
-            if (IsUserPicture && fileSrc == Const.DefaultImage.Replace("~", ""))
+            if (IsUserPicture && fileSrc == CommonsConst.DefaultImage.Default.Replace("~", ""))
             {
                 if (IsThumbnail)
                 {
-                    fileSrc = Const.DefaultThumbnailUser.Replace("~", "");
+                    fileSrc = CommonsConst.DefaultImage.DefaultThumbnailUser.Replace("~", "");
                 }
                 else
                 {
-                    fileSrc = Const.DefaultImageUser.Replace("~", "");
+                    fileSrc = CommonsConst.DefaultImage.DefaultImageUser.Replace("~", "");
                 }
             }
 
@@ -556,8 +557,30 @@ namespace Commons
             {
                 Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.BaseType);
             }
-            return Const.DefaultThumbnailUser;
+            return CommonsConst.DefaultImage.DefaultThumbnailUser;
         }
+
+
+        public static string UploadDecryptedFile(HttpPostedFileBase file, string filename)
+        {
+            string retour = "";
+            try
+            {
+                string uploadPath = CommonsConst.Const.BasePathUploadDecrypted+"/";
+                string path = HostingEnvironment.MapPath("~" + uploadPath + filename);
+                file.SaveAs(path);
+
+                retour = uploadPath + filename;
+            }
+            catch (Exception e)
+            {
+                retour = "KO";
+                Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "filename = " + filename);
+            }
+
+            return retour;
+        }
+
 
         /// <summary>
         ///  Upload a file on the server

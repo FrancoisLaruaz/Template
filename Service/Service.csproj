@@ -61,6 +61,10 @@
     <Compile Include="Service\Admin\Interface\ILogService.cs" />
     <Compile Include="Service\Admin\ScheduledTaskService.cs" />
     <Compile Include="Service\Admin\TaskLogService.cs" />
+    <Compile Include="Service\User\Interface\IProductService.cs" />
+    <Compile Include="Service\User\Interface\IUserFollowService.cs" />
+    <Compile Include="Service\User\ProductService.cs" />
+    <Compile Include="Service\User\UserFollowService.cs" />
     <Compile Include="Service\User\Interface\IEMailService.cs" />
     <Compile Include="Service\User\Interface\ICategoryService.cs" />
     <Compile Include="Service\User\Interface\IASPNetUsersService.cs" />

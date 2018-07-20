@@ -20,7 +20,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand formSpinnerLoad" href="/" id="Logo">
-                    <img class="brand-logoNav" src="~/Ressources/Files/Images/Logo.png" />
+                    <img class="brand-logoNav" src="@CommonsConst.Const.Logo.Replace("~","")" />
                 </a>
             </div>
             <div class="collapse navbar-collapse navigationLink" id="bs-example-navbar-collapse-1" style="padding-right:25px;">
@@ -61,7 +61,6 @@
                                     {
                                         @Html.AntiForgeryToken()
                                     }
-                                    <li><a href="/ChangePassword" class="formSpinnerLoad">[[[Change Password]]]</a></li>
                                     <li><a id="LinkLogOff" class="formSpinnerLoad">[[[Log Off]]]</a></li>
                                 </ul>
                             </li>

@@ -60,6 +60,9 @@
   <ItemGroup>
     <Compile Include="DataClass\TemplateEntities.cs" />
     <Compile Include="Logger\LoggerHelper.cs" />
+    <Compile Include="Model\Address.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\AspNetRole.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
@@ -108,6 +111,15 @@
     <Compile Include="Model\News.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Product.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ProductSubType.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ProductType.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Province.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
@@ -124,6 +136,9 @@
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\sp_helpdiagrams_Result.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SubProvince.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\sysdiagram.cs">

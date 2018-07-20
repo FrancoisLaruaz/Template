@@ -147,18 +147,19 @@ namespace Website.Controllers
             var model = new HomeViewModel();
             try
             {
-                ViewBag.ShowVideo = true;
+                ViewBag.ShowVideo = false;
                 model.SignUp = SignUp;
                 model.PromptLogin = PromptLogin;
                 model.RedirectTo = RedirectTo;
             }
             catch (Exception e)
             {
-                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                Commons.Logger.GenerateError(e, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, "SignUp = "+ SignUp+ " and PromptLogin = "+ PromptLogin+ " and RedirectTo = "+ RedirectTo);
             }
 
             return View(model);
         }
+
 
         /// <summary>
         /// Action executed to change the language of the website
@@ -175,6 +176,7 @@ namespace Website.Controllers
                 i18n.LanguageTag lt = i18n.LanguageTag.GetCachedInstance(langtag);
                 if (lt.IsValid())
                 {
+                    WebsiteLanguage = langtag;
                     // Set persistent cookie in the client to remember the language choice.
                     Response.Cookies.Add(new HttpCookie(CommonsConst.Const.i18nlangtag)
                     {

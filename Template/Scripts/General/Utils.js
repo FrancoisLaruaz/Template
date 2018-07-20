@@ -29,6 +29,19 @@ function HasValue(element)
     return result;
 }
 
+function getLanguageWebsite() {
+    var result = Constants.Const.DefaultCulture;
+    var LanguageSelector = $('#LanguageSelector');
+    if (LanguageSelector.length > 0) {
+        var language = LanguageSelector.find(":selected").text();
+        if (HasValue(language)) {
+            result = language.substr(0, 2).toLowerCase();
+        }
+    }
+    return result;
+}
+
+
 
 function GetHomePageUrl() {
     var result = null;
@@ -36,10 +49,10 @@ function GetHomePageUrl() {
         var OldURL = window.location.href.toLowerCase();
         var newURL = OldURL;
         var prefix = "";
-        if (OldURL.includes("https")) {
+        if (OldURL.indexOf("https") > -1) {
             prefix = "https://";
         }
-        else if (OldURL.includes("http")) {
+        else if (OldURL.indexOf("http") > -1) {
             prefix = "http://";
         }
         var tabURL = window.location.href.replace(prefix, "").split('/');
@@ -56,7 +69,8 @@ function GetHomePageUrl() {
 
     }
     catch (err) {
-        result = null;
+        result = window.location.href;
+        LogJsError('GetHomePageUrl error  ', window.location.href, null, null, err.message, true)
     }
     return result;
 }

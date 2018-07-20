@@ -31,6 +31,8 @@ namespace Template
 
                 bundles.Add(new ScriptBundle("~/Scripts/Scripts").Include(
                 "~/Scripts/jquery.webcam.js",
+                "~/Scripts/General/CarouselHelper.js",
+                "~/Scripts/General/CaptchaHelper.js",
                 "~/Scripts/General/Responsive.js",
                  "~/Scripts/moment.min.js",
                  "~/Scripts/bootstrap-datetimepicker.min.js",
@@ -55,7 +57,8 @@ namespace Template
                  "~/Scripts/General/FlashVersion.js",
                 "~/Scripts/General/WebcamHelper.js",
                  "~/Scripts/General/PopUp.js",
-                "~/Scripts/Views/Account/_PasswordPolicy.js"
+                "~/Scripts/Views/Account/_PasswordPolicy.js",
+                "~/Scripts/General/lightbox.min.js"
               // "~/Scripts/General/Highcharts.js",
               //  "~/Scripts/General/HighchartsExporting.js",
               //  "~/Scripts/General/HighchartsHelper.js"
@@ -87,6 +90,8 @@ namespace Template
                 bundles.Add(new StyleBundle("~/bundles/Style").Include(
                     "~/Content/General/animate.css",
                     "~/Content/General/_Spinner.css",
+                    "~/Content/General/Carousel.css",
+                     "~/Content/General/lightbox.min.css",
                     "~/Content/General/DragAndDrop.css",
                     "~/Content/font-awesome.min.css",
                     "~/Content/General/sweetalert.css",
@@ -95,6 +100,7 @@ namespace Template
                      "~/Content/General/fakeSocialMediaStyle.css",
                     "~/Content/General/toastr.csss",
                    "~/Content/General/webcam.css",
+                   "~/Content/General/googleMap.css",
                     "~/Content/General/jtsage-datebox.min.css",
                     "~/Content/General/jtsage-syntax.css",
                     "~/Content/Views/Account/_PasswordPolicy.css"

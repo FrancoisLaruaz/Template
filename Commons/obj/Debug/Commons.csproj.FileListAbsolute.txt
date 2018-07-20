@@ -133,6 +133,7 @@ D:\DEV\Template\Commons\bin\Debug\Common.Logging.Core.dll
 D:\DEV\Template\Commons\bin\Debug\Common.Logging.dll
 D:\DEV\Template\Commons\bin\Debug\DataEntities.dll
 D:\DEV\Template\Commons\bin\Debug\Facebook.dll
+D:\DEV\Template\Commons\bin\Debug\FreeGeoIp.dll
 D:\DEV\Template\Commons\bin\Debug\Ghostscript.NET.dll
 D:\DEV\Template\Commons\bin\Debug\log4net.dll
 D:\DEV\Template\Commons\bin\Debug\Microsoft.AspNet.Identity.Core.dll
@@ -162,6 +163,7 @@ D:\DEV\Template\Commons\bin\Debug\Common.Logging.xml
 D:\DEV\Template\Commons\bin\Debug\Common.Logging.Core.pdb
 D:\DEV\Template\Commons\bin\Debug\Common.Logging.Core.xml
 D:\DEV\Template\Commons\bin\Debug\Facebook.xml
+D:\DEV\Template\Commons\bin\Debug\FreeGeoIp.xml
 D:\DEV\Template\Commons\bin\Debug\Ghostscript.NET.xml
 D:\DEV\Template\Commons\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 D:\DEV\Template\Commons\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
@@ -180,6 +182,8 @@ D:\DEV\Template\Commons\bin\Debug\System.Web.WebPages.xml
 D:\DEV\Template\Commons\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\DEV\Template\Commons\bin\Debug\System.Web.WebPages.Razor.xml
 D:\DEV\Template\Commons\bin\Debug\EntityFramework.xml
-D:\DEV\Template\Commons\obj\Debug\Commons.csprojResolveAssemblyReference.cache
+D:\DEV\Template\Commons\obj\Debug\Commons.csprojAssemblyReference.cache
+D:\DEV\Template\Commons\obj\Debug\Commons.csproj.CoreCompileInputs.cache
+D:\DEV\Template\Commons\obj\Debug\Commons.csproj.CopyComplete
 D:\DEV\Template\Commons\obj\Debug\Commons.dll
 D:\DEV\Template\Commons\obj\Debug\Commons.pdb

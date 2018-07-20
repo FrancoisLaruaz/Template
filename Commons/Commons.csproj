@@ -37,6 +37,9 @@
     <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
       <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
     </Reference>
+    <Reference Include="FreeGeoIp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeGeoIp.1.0.0\lib\net451\FreeGeoIp.dll</HintPath>
+    </Reference>
     <Reference Include="Ghostscript.NET, Version=1.2.0.0, Culture=neutral, PublicKeyToken=f85051de34525b59, processorArchitecture=MSIL">
       <HintPath>..\packages\Ghostscript.NET.1.2.0\lib\net40\Ghostscript.NET.dll</HintPath>
     </Reference>
@@ -75,6 +78,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Device" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
@@ -104,6 +108,7 @@
   <ItemGroup>
     <Compile Include="Attributes\AntiForgeryExceptionAttribute.cs" />
     <Compile Include="Attributes\AntiForgeryExceptionAttributeExternalAuthentification.cs" />
+    <Compile Include="Class\GeoLocalizationHelper.cs" />
     <Compile Include="Class\EMailHelper.cs" />
     <Compile Include="Class\EncryptHelper.cs" />
     <Compile Include="Class\CaptchaHelper.cs" />
