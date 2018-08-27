@@ -143,7 +143,6 @@ D:\DEV\Template\Service\bin\Debug\log4net.dll
 D:\DEV\Template\Service\bin\Debug\Newtonsoft.Json.dll
 D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.dll
 D:\DEV\Template\Service\bin\Debug\EntityFramework.dll
-D:\DEV\Template\Service\bin\Debug\Z.EntityFramework.Plus.EF6.dll
 D:\DEV\Template\Service\bin\Debug\System.Web.Razor.dll
 D:\DEV\Template\Service\bin\Debug\System.Web.WebPages.Razor.dll
 D:\DEV\Template\Service\bin\Debug\Microsoft.Web.Infrastructure.dll

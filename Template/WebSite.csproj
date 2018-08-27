@@ -242,6 +242,12 @@
     <Content Include="Areas\Admin\Content\News\Edit.css" />
     <Content Include="Areas\Admin\Scripts\Views\Tasks\Index.js" />
     <Content Include="Areas\Admin\Scripts\Views\Users\Index.js" />
+    <Content Include="Content\General\CookieConsent.css">
+      <DependentUpon>CookieConsent.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\General\CookieConsent.min.css">
+      <DependentUpon>CookieConsent.css</DependentUpon>
+    </Content>
     <Content Include="Content\General\PopUp.css" />
     <Content Include="Content\General\fakeSocialMediaStyle.css" />
     <Content Include="Content\General\googleMap.css" />
@@ -287,12 +293,20 @@
     <Content Include="Content\Views\Shared\FollowUserBtn.css" />
     <Content Include="Content\Views\Shared\Carousel.css" />
     <Content Include="Content\Views\Shared\SquaredCheckBox.css" />
+    <Content Include="Content\Views\Shared\_CookieConsent.css" />
     <Content Include="Ressources\Files\Images\Background.jpg" />
-    <Content Include="Ressources\Files\Images\background_homepage.jpg" />
+    <Content Include="Ressources\Files\Images\Error\404.gif" />
+    <Content Include="Ressources\Files\Images\HomePage\slider_homepage1.jpg" />
     <Content Include="Ressources\Files\Images\GoogleMap\close_marker.png" />
+    <Content Include="Ressources\Files\Images\HomePage\slider_homepage2.jpg" />
+    <Content Include="Ressources\Files\Images\HomePage\slider_homepage3.jpg" />
+    <Content Include="Ressources\Files\Images\HomePage\slider_homepage4.jpg" />
     <Content Include="Ressources\Files\Images\ProductIcon\bike.png" />
     <Content Include="Ressources\Files\Images\ProductIcon\drinks.png" />
     <Content Include="Ressources\Files\Images\Search\noresult.png" />
+    <Content Include="Ressources\Files\Images\titlebackground.jpg" />
+    <Content Include="Scripts\General\FormaterHelper.js" />
+    <Content Include="Scripts\General\DateHelper.js" />
     <Content Include="Scripts\General\CarouselHelper.js" />
     <Content Include="Scripts\General\GoogleMapHelper.js" />
     <Content Include="Scripts\General\CaptchaHelper.js" />
@@ -317,6 +331,7 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <Content Include="Content\Views\Search\Search_Bar.scss" />
+    <Content Include="Content\General\CookieConsent.scss" />
     <None Include="Content\Views\Shared\_LoginModal.less" />
     <Content Include="Content\Views\Shared\_Header.css" />
     <Content Include="Content\Views\Shared\_PageTitle.css" />
@@ -519,6 +534,8 @@
     <Content Include="Scripts\Views\Home\ContactUs.js" />
     <Content Include="Scripts\Views\Home\_VideoHomePage.js" />
     <Content Include="Scripts\Views\Home\Index.js" />
+    <Content Include="Scripts\Views\Shared\_TawkToHelper.js" />
+    <Content Include="Scripts\Views\Shared\_CookieConsent.js" />
     <Content Include="Scripts\Views\Shared\_Header.js" />
     <Content Include="Scripts\Views\Shared\Index.js" />
     <Content Include="Scripts\Views\Shared\FollowUserBtn.js" />
@@ -602,7 +619,6 @@
     <Content Include="Views\Account\MyProfile\_MyProfileEdit.cshtml" />
     <Content Include="Views\Account\MyProfile\_MyProfilePhotos.cshtml" />
     <Content Include="Views\Account\MyProfile\_MyProfileTrustAndVerifications.cshtml" />
-    <Content Include="Views\Shared\Layout\_TawkTo.cshtml" />
     <Content Include="Views\Account\MyProfile\_MyProfileAddress.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Search\_IndexSearchResultItem.cshtml" />
@@ -614,6 +630,9 @@
     <Content Include="Views\Profile\Profile\_GeneralInformation.cshtml" />
     <Content Include="Views\Profile\Profile\_EditGeneralInformation.cshtml" />
     <Content Include="Views\Browse\Index.cshtml" />
+    <Content Include="Views\Home\FAQ.cshtml" />
+    <Content Include="Views\Shared\Layout\_CookieConsent.cshtml" />
+    <Content Include="Views\Error\Error404.cshtml" />
     <None Include="Web.config.perso">
       <SubType>Designer</SubType>
     </None>

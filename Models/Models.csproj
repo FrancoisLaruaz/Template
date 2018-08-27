@@ -105,6 +105,7 @@
     <Compile Include="ViewModel\Admin\Logs\DisplayLogsViewModel.cs" />
     <Compile Include="ViewModel\Admin\News\NewsViewModel.cs" />
     <Compile Include="ViewModel\Admin\Tasks\SchedulerStatusViewModel.cs" />
+    <Compile Include="ViewModel\Home\FAQViewModel.cs" />
     <Compile Include="ViewModel\Profile\Profile\EditProfileGeneralInformationViewModel.cs" />
     <Compile Include="ViewModel\Profile\Profile\GeneralInformationViewModel.cs" />
     <Compile Include="ViewModel\Profile\Profile\FollowersViewModel.cs" />

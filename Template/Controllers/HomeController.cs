@@ -17,7 +17,7 @@ using Service.UserArea.Interface;
 using Models.ViewModels.Home;
 using Models.Class.Email;
 using Models.ViewModels.Shared;
-
+using Newtonsoft.Json;
 
 namespace Website.Controllers
 {
@@ -85,6 +85,17 @@ namespace Website.Controllers
             return PartialView("~/Views/Shared/Layout/_Header.cshtml", model);
         }
 
+        #region FAQ
+
+        [HttpGet]
+        public ActionResult FAQ()
+        {
+            ViewBag.Title = "[[[FAQ]]]";
+            return View(new FAQViewModel());
+        }
+
+        #endregion
+
         #region contactUs
         [HttpGet]
         public ActionResult ContactUs()
@@ -151,6 +162,7 @@ namespace Website.Controllers
                 model.SignUp = SignUp;
                 model.PromptLogin = PromptLogin;
                 model.RedirectTo = RedirectTo;
+                model.SliderHomePageJson = JsonConvert.SerializeObject(Utils.GetPropertiesList(typeof(CommonsConst.SliderHomePage)));
             }
             catch (Exception e)
             {

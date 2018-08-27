@@ -11,12 +11,12 @@
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
     @Styles.Render("~/bundles/Bootstrap")
     @Styles.Render("~/bundles/Style?" + ContentFileHelpers.AssemlyVersion)
+    @Styles.Render("~/Content/font-awesome.min.css")
     @Styles.Render("~/bundles/less?" + ContentFileHelpers.AssemlyVersion)
     @Scripts.Render("~/Scripts/JQuery")
     @Scripts.Render("~/Scripts/JQueryVal")
     <script type="text/javascript" src="/Base/Constants"></script>
     @Scripts.Render("~/Scripts/ScriptsErrors")
-    @Html.Partial("~/Views/Shared/Layout/_TawkTo.cshtml")
 
 </head>
 <body class="bodyMainclass">
@@ -43,6 +43,7 @@
     @Html.Partial("~/Views/Shared/Layout/_Footer.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_PartialBackToTop.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_Spinner.cshtml")
+    @Html.Partial("~/Views/Shared/Layout/_CookieConsent.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_GoogleAnalytics.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_FacebookPixel.cshtml")
     @Html.Partial("~/Views/Shared/Layout/_Audio.cshtml")

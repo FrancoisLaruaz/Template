@@ -52,6 +52,7 @@ namespace DataEntities.Model
         public virtual DbSet<ProductType> ProductTypes { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<SubProvince> SubProvinces { get; set; }
+        public virtual DbSet<Currency> Currencies { get; set; }
     
         public virtual int DeleteNewsById(Nullable<int> newsId)
         {

@@ -28,9 +28,9 @@ namespace CommonsConst
         public const string BasePathFiles = BasePathRessources + "/Files";
         public const string BasePathTemplateEMails = BasePathRessources + "\\EMails";
         public const string BasePathImages = BasePathFiles + "/Images";
+        public const string BasePathHomePage = BasePathImages + "/HomePage";
 
         public const string Logo =BasePathImages + "/Logo.png";
-        public const string BackgroundHomePage = BasePathImages + "/background_homepage.jpg";
 
         public const string BaseMetaKeyWords = "";
 
@@ -47,6 +47,8 @@ namespace CommonsConst
         public const string ColorWebsiteHexa = "#2DBFB7";
 
         public const string DefaultSelect = "--- [[[Select]]] ---";
+
+        public const string DefaultCurrency = "EUR";
 
         public const decimal DefaultGoogleMapSearchDistance =5;
     }
@@ -78,9 +80,22 @@ namespace CommonsConst
         public const string Settings = "Settings";
     }
 
+    public static class SliderHomePage
+    {
+        public const string Image1 = Const.BasePathHomePage+ "/slider_homepage1.jpg";
+        public const string Image2 = Const.BasePathHomePage + "/slider_homepage2.jpg";
+        public const string Image3 = Const.BasePathHomePage + "/slider_homepage3.jpg";
+        public const string Image4 = Const.BasePathHomePage + "/slider_homepage4.jpg";
+    }
+
     public static class SearchParameters
     {
         public const int MaxDisplayedItems = 10;
+    }
+
+    public static class JavascriptCookies
+    {
+        public const string ComplianceAccepted = "is_cookie_compliance_accepted";
     }
 
     public static class BaseMetaData
@@ -262,6 +277,7 @@ namespace CommonsConst
     {
         public const string DeleteLogs = "DeleteLogs";
         public const string DeleteUploadedFile = "DeleteUploadedFile";
+        public const string ConvertCurrency = "ConvertCurrency";
     }
 
     public static class TypeUserMailing

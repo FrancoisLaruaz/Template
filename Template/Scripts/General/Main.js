@@ -3,7 +3,7 @@ $(document).ready(function () {
     SetSpinner();
 
 
-    $(document).on("click", "a.BackToHomePageButton_js", function (e) {
+    $(document).on("click", ".BackToHomePageButton_js", function (e) {
         e.preventDefault();
         GoBackToHomePage();
     });

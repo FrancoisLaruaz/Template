@@ -80,7 +80,6 @@ D:\DEV\Template\Models\bin\Debug\System.Web.WebPages.dll
 D:\DEV\Template\Models\bin\Debug\System.Web.WebPages.Razor.dll
 D:\DEV\Template\Models\bin\Debug\EntityFramework.dll
 D:\DEV\Template\Models\bin\Debug\log4net.dll
-D:\DEV\Template\Models\bin\Debug\Z.EntityFramework.Plus.EF6.dll
 D:\DEV\Template\Models\bin\Debug\DataEntities.pdb
 D:\DEV\Template\Models\bin\Debug\DataEntities.dll.config
 D:\DEV\Template\Models\bin\Debug\System.Web.Helpers.xml

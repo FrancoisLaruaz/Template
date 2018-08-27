@@ -208,6 +208,7 @@ namespace Template
             string redirection = null;
             try
             {
+                string WebsiteURL = ConfigurationManager.AppSettings["WebsiteURL"];
                 bool ClearHeaders = true;
                 var ex = HttpContext.Current.Server.GetLastError();
                 bool NeedToLogError = true;
@@ -230,7 +231,6 @@ namespace Template
                     string Url = HttpContext.Current?.Request?.Url?.AbsoluteUri;
                     string UrlReferrer = HttpContext.Current?.Request?.UrlReferrer?.AbsoluteUri;
 
-                    string WebsiteURL = ConfigurationManager.AppSettings["WebsiteURL"];
 
                     if (ex.Message!=null && ex.Message.Contains("A potentially dangerous Request.Path value was detected from the client (&)") && Url != null && Url.Substring(Url.Length - 1) == "&")
                     {
@@ -258,6 +258,28 @@ namespace Template
                 if (ex.Message.Contains("or its master was not found or no view engine supports the searched locations"))
                 {
                     ClearHeaders = false;
+                }
+
+                if (ex != null)
+                {
+                    HttpException httpException = ex as HttpException;
+                    if (httpException != null)
+                    {
+
+                        switch (httpException.GetHttpCode())
+                        {
+                            case 404:
+                                redirection = WebsiteURL+"/Error404";
+                                ClearHeaders = false;
+                                break;
+                            case 500:
+                                //  action = "Http500";
+                                break;
+                            default:
+        
+                                break;
+                        }
+                    }
                 }
 
                 if (!String.IsNullOrWhiteSpace(redirection))
